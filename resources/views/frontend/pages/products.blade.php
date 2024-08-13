@@ -7,29 +7,45 @@
         <div class="container">
 
             <div class="row mb-5">
-                <div class="col-md-9 order-2">
+                <div class="col-md-12 order-2">
 
                     <div class="row">
                         <div class="col-md-12 mb-5">
                             <div class="float-md-left mb-4">
-                                <h2 class="text-black h5">Shop All</h2>
+                                <h2 class="text-black h5">NOS PRODUITS</h2>
                             </div>
                             <div class="d-flex">
-                                <div class="dropdown mr-1 ml-md-auto">
-
-                                </div>
+                                <div class="dropdown mr-1 ml-md-auto"></div>
                                 <div class="btn-group">
                                     <select class="form-control" id="orderList">
-                                        <option class="dropdown-item" value="">Reference</option>
-                                        <option class="dropdown-item" value="id-asc">Name, A to Z
+                                        <option class="dropdown-item" value="id-asc">Catégorie
                                         </option>
-                                        <option class="dropdown-item" value="id-desc">Name, Z to A
+                                        <option class="dropdown-item" value="id-desc">Produit
                                         </option>
                                         <div class="dropdown-divider"></div>
-                                        <option class="dropdown-item" value="price-asc">Price,
-                                            low to high</option>
-                                        <option class="dropdown-item" value="price-desc">Price,
-                                            high to low</option>
+                                        <option class="dropdown-item" value="price-asc">Prix</option>
+                                    </select>
+                                </div>
+                                <div class="dropdown mr-1 ml-md-auto"></div>
+                                <div class="btn-group">
+                                    <select class="form-control" id="orderList">
+                                        <option class="dropdown-item" value="id-asc">Produit
+                                        </option>
+                                        <option class="dropdown-item" value="id-desc">Catégorie
+                                        </option>
+                                        <div class="dropdown-divider"></div>
+                                        <option class="dropdown-item" value="price-asc">Prix</option>
+                                    </select>
+                                </div>
+                                <div class="dropdown mr-1 ml-md-auto"></div>
+                                <div class="btn-group">
+                                    <select class="form-control" id="orderList">
+                                        <option class="dropdown-item" value="id-asc">Prix
+                                        </option>
+                                        <option class="dropdown-item" value="id-desc">Produit
+                                        </option>
+                                        <div class="dropdown-divider"></div>
+                                        <option class="dropdown-item" value="price-asc">catégorie</option>
                                     </select>
                                 </div>
                             </div>
@@ -69,71 +85,6 @@
                         </div> --}}
                     </div>
                 </div>
-
-                <div class="col-md-3 order-1 mb-5 mb-md-0">
-                    <div class="border p-4 rounded mb-4">
-                        <h3 class="mb-3 h6 text-uppercase text-black d-block">Categories</h3>
-                        <ul class="list-unstyled mb-0">
-                            @if (!empty($categories) && $categories->count() > 0)
-                                @foreach ($categories->where('cat_ust', null) as $category)
-                                    <li class="mb-1">
-                                        <a href="{{-- {{ route($category->slug . 'product') }} --}}"
-                                            class="d-flex"><span>{{ $category->name }}</span>
-                                            {{-- <span class="text-black ml-auto">({{ $category->items_count }})</span> --}}
-                                            <span
-                                                class="text-black ml-auto">({{ $category->getTotalProductCount() }})</span>
-                                        </a>
-                                    </li>
-                                @endforeach
-                            @endif
-                        </ul>
-                    </div>
-
-                    <div class="border p-4 rounded mb-4">
-                        <div class="mb-4">
-                            <h3 class="mb-3 h6 text-uppercase text-black d-block">Filter by Price</h3>
-                            <div id="slider-range" class="border-primary"></div>
-                            <input type="text" name="text" id="amount" class="form-control border-0 pl-0 bg-white"
-                                disabled="" />
-                            <input type="text" name="text" id="priceBetween" class="form-control" hidden />
-                        </div>
-
-                        <div class="mb-4">
-                            <h3 class="mb-3 h6 text-uppercase text-black d-block">Size</h3>
-                            @if (!empty($sizeLists))
-                                @if (!empty($sizeLists))
-                                    @foreach ($sizeLists as $key => $size)
-                                        <label for="size{{ $key }}" class="d-flex">
-                                            <input type="checkbox" value="{{ $size }}" id="size{{ $key }}"
-                                                {{ isset(request()->size) && in_array($size, explode(',', request()->size)) ? 'checked' : '' }}
-                                                class="mr-2 mt-1 sizeList"> <span
-                                                class="text-black">{{ $size }}</span>
-                                        </label>
-                                    @endforeach
-                                @endif
-                            @endif
-                        </div>
-
-                        <div class="mb-4">
-                            <h3 class="mb-3 h6 text-uppercase text-black d-block">Color</h3>
-                            @if (!empty($colors))
-                                @foreach ($colors as $key => $color)
-                                    <label for="color{{ $key }}" class="d-flex">
-                                        <input type="checkbox" value="{{ $color }}" id="color{{ $key }}"
-                                            {{ isset(request()->color) && in_array($color, explode(',', request()->color)) ? 'checked' : '' }}
-                                            class="mr-2 mt-1 colorList"> <span
-                                            class="text-black">{{ $color }}</span>
-                                    </label>
-                                @endforeach
-                            @endif
-                        </div>
-
-                        <div class="mb-4">
-                            <button class="btn btn-block btn-primary filterBtn">Filter</button>
-                        </div>
-
-                    </div>
-                </div>
             </div>
 
             <div class="row">
@@ -141,7 +92,7 @@
                     <div class="site-section site-blocks-2">
                         <div class="row justify-content-center text-center mb-5">
                             <div class="col-md-7 site-section-heading pt-4">
-                                <h2>Categories</h2>
+                                <h2>Catégories</h2>
                             </div>
                         </div>
                         <div class="row">
