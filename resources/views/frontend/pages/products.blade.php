@@ -7,30 +7,119 @@
         <div class="container">
 
             <div class="row mb-5">
-                <div class="col-md-9 order-2">
+                <div class="col-md-12 order-2">
 
                     <div class="row">
                         <div class="col-md-12 mb-5">
                             <div class="float-md-left mb-4">
-                                <h2 class="text-black h5">Shop All</h2>
+                                <h2 class="text-black h5">NOS PRODUITS</h2>
                             </div>
                             <div class="d-flex">
-                                <div class="dropdown mr-1 ml-md-auto">
-
-                                </div>
+                                <div class="dropdown mr-1 ml-md-auto"></div>
                                 <div class="btn-group">
-                                    <select class="form-control" id="orderList">
-                                        <option class="dropdown-item" value="">Reference</option>
-                                        <option class="dropdown-item" value="id-asc">Name, A to Z
+                                    <select class="form-control bordered-select" id="orderList">
+                                        <option class="dropdown-item" value="id-desc">Catégories
                                         </option>
-                                        <option class="dropdown-item" value="id-desc">Name, Z to A
+                                        <option class="dropdown-item" value="id-desc">Volailles
                                         </option>
-                                        <div class="dropdown-divider"></div>
-                                        <option class="dropdown-item" value="price-asc">Price,
-                                            low to high</option>
-                                        <option class="dropdown-item" value="price-desc">Price,
-                                            high to low</option>
+                                        <option class="dropdown-item" value="id-desc">Poissons
+                                        </option>
+                                        <option class="dropdown-item" value="id-desc">Fruits & légumes
+                                        </option>
+                                        <option class="dropdown-item" value="id-desc">Cave
+                                        </option>
+                                        <option class="dropdown-item" value="id-desc">Autres viandes
+                                        </option>
+                                        <option class="dropdown-item" value="id-desc">CPF Store
+                                        </option>
                                     </select>
+                                    <span class="mdi mdi-chevron-down select-arrow"></span>
+                                </div>
+                                <div class="dropdown mr-1 ml-md-auto"></div>
+                                <div class="btn-group">
+                                    <select class="form-control bordered-select" id="orderList">
+                                        <option class="dropdown-item" value="id-asc">Produits
+                                        </option>
+                                        <option class="dropdown-item" value="id-asc">Poulet Fermier
+                                        </option>
+                                        <option class="dropdown-item" value="id-asc">Dinde Bio
+                                        </option>
+                                        <option class="dropdown-item" value="id-asc">Canard à l'Orange
+                                        </option>
+                                        <option class="dropdown-item" value="id-asc">Saumon Fumé
+                                        </option>
+                                        <option class="dropdown-item" value="id-asc">Cabillaud Frais
+                                        </option>
+                                        <option class="dropdown-item" value="id-asc">Sardines à l'Huile
+                                        </option>
+                                        <option class="dropdown-item" value="id-asc">Pommes Bio
+                                        </option>
+                                        <option class="dropdown-item" value="id-asc">Carottes Fraîches
+                                        </option>
+                                        <option class="dropdown-item" value="id-asc">Tomates Cerises
+                                        </option>
+                                        <option class="dropdown-item" value="id-asc">Vin Rouge Bordeaux
+                                        </option>
+                                        <option class="dropdown-item" value="id-asc">Champagne Brut
+                                        </option>
+                                        <option class="dropdown-item" value="id-asc">Whisky Écossais
+                                        </option>
+                                        <option class="dropdown-item" value="id-asc">Huile d'Olive Extra Vierge
+                                        </option>
+                                        <option class="dropdown-item" value="id-asc">Miel de Montagne
+                                        </option>
+                                        <option class="dropdown-item" value="id-asc">Café Arabica
+                                        </option>
+                                        <option class="dropdown-item" value="id-asc">Bœuf Wagyu
+                                        </option>
+                                        <option class="dropdown-item" value="id-asc">Agneau Bio
+                                        </option>
+                                        <option class="dropdown-item" value="id-asc">Porc Fermier
+                                    </select>
+                                    <span class="mdi mdi-chevron-down select-arrow"></span>
+                                </div>
+                                <div class="dropdown mr-1 ml-md-auto"></div>
+                                <div class="btn-group">
+                                    <select class="form-control bordered-select" id="orderList">
+                                        <option class="dropdown-item" value="price-asc">Prix
+                                        </option>
+                                        <option class="dropdown-item" value="id-asc">9.000 - 12.000 FCFA
+                                        </option>
+                                        <option class="dropdown-item" value="id-asc">18.000 - 22.000 FCFA
+                                        </option>
+                                        <option class="dropdown-item" value="id-asc">15.000 - 20.000 FCFA
+                                        </option>
+                                        <option class="dropdown-item" value="id-asc">12.000 - 15.000 FCFA
+                                        </option>
+                                        <option class="dropdown-item" value="id-asc">10.000 - 12.000 FCFA
+                                        </option>
+                                        <option class="dropdown-item" value="id-asc">4.000 - 6.000 FCFA
+                                        </option>
+                                        <option class="dropdown-item" value="id-asc">2.500 - 4.000 FCFA/kg
+                                        </option>
+                                        <option class="dropdown-item" value="id-asc">1.500 - 2.500 FCFA/kg
+                                        </option>
+                                        <option class="dropdown-item" value="id-asc">2.000 - 3.000 FCFA/kg
+                                        </option>
+                                        <option class="dropdown-item" value="id-asc">15.000 - 20.000 FCFA
+                                        </option>
+                                        <option class="dropdown-item" value="id-asc">30.000 - 35.000 FCFA
+                                        </option>
+                                        <option class="dropdown-item" value="id-asc">25.000 - 30.000 FCFA
+                                        </option>
+                                        <option class="dropdown-item" value="id-asc">9.000 - 12.000 FCFA
+                                        </option>
+                                        <option class="dropdown-item" value="id-asc">7.000 - 10.000 FCFA
+                                        </option>
+                                        <option class="dropdown-item" value="id-asc">6.000 - 8.000 FCFA
+                                        </option>
+                                        <option class="dropdown-item" value="id-asc">30.000 - 40.000 FCFA
+                                        </option>
+                                        <option class="dropdown-item" value="id-asc">20.000 - 25.000 FCFA
+                                        </option>
+                                        <option class="dropdown-item" value="id-asc">12.000 - 15.000 FCFA
+                                    </select>
+                                    <span class="mdi mdi-chevron-down select-arrow"></span>
                                 </div>
                             </div>
                         </div>
@@ -69,81 +158,12 @@
                         </div> --}}
                     </div>
                 </div>
-
-                <div class="col-md-3 order-1 mb-5 mb-md-0">
-                    <div class="border p-4 rounded mb-4">
-                        <h3 class="mb-3 h6 text-uppercase text-black d-block">Categories</h3>
-                        <ul class="list-unstyled mb-0">
-                            @if (!empty($categories) && $categories->count() > 0)
-                                @foreach ($categories->where('cat_ust', null) as $category)
-                                    <li class="mb-1">
-                                        <a href="{{-- {{ route($category->slug . 'product') }} --}}"
-                                            class="d-flex"><span>{{ $category->name }}</span>
-                                            {{-- <span class="text-black ml-auto">({{ $category->items_count }})</span> --}}
-                                            <span
-                                                class="text-black ml-auto">({{ $category->getTotalProductCount() }})</span>
-                                        </a>
-                                    </li>
-                                @endforeach
-                            @endif
-                        </ul>
-                    </div>
-
-                    <div class="border p-4 rounded mb-4">
-                        <div class="mb-4">
-                            <h3 class="mb-3 h6 text-uppercase text-black d-block">Filter by Price</h3>
-                            <div id="slider-range" class="border-primary"></div>
-                            <input type="text" name="text" id="amount" class="form-control border-0 pl-0 bg-white"
-                                disabled="" />
-                            <input type="text" name="text" id="priceBetween" class="form-control" hidden />
-                        </div>
-
-                        <div class="mb-4">
-                            <h3 class="mb-3 h6 text-uppercase text-black d-block">Size</h3>
-                            @if (!empty($sizeLists))
-                                @if (!empty($sizeLists))
-                                    @foreach ($sizeLists as $key => $size)
-                                        <label for="size{{ $key }}" class="d-flex">
-                                            <input type="checkbox" value="{{ $size }}" id="size{{ $key }}"
-                                                {{ isset(request()->size) && in_array($size, explode(',', request()->size)) ? 'checked' : '' }}
-                                                class="mr-2 mt-1 sizeList"> <span
-                                                class="text-black">{{ $size }}</span>
-                                        </label>
-                                    @endforeach
-                                @endif
-                            @endif
-                        </div>
-
-                        <div class="mb-4">
-                            <h3 class="mb-3 h6 text-uppercase text-black d-block">Color</h3>
-                            @if (!empty($colors))
-                                @foreach ($colors as $key => $color)
-                                    <label for="color{{ $key }}" class="d-flex">
-                                        <input type="checkbox" value="{{ $color }}" id="color{{ $key }}"
-                                            {{ isset(request()->color) && in_array($color, explode(',', request()->color)) ? 'checked' : '' }}
-                                            class="mr-2 mt-1 colorList"> <span
-                                            class="text-black">{{ $color }}</span>
-                                    </label>
-                                @endforeach
-                            @endif
-                        </div>
-
-                        <div class="mb-4">
-                            <button class="btn btn-block btn-primary filterBtn">Filter</button>
-                        </div>
-
-                    </div>
-                </div>
             </div>
 
             <div class="row">
                 <div class="col-md-12">
                     <div class="site-section site-blocks-2">
-                        <div class="row justify-content-center text-center mb-5">
-                            <div class="col-md-7 site-section-heading pt-4">
-                                <h2>Categories</h2>
-                            </div>
-                        </div>
+                        
                         <div class="row">
                             @if (!empty($categories))
                                 {{-- collect: dizi oluştur --}}

@@ -44,3 +44,7 @@ Route::group(['middleware' => 'sitesetting'], function () {
 
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+// route pour la page des produits
+Route::get('/products', [App\Http\Controllers\Frontend\Products\ProductController::class, 'products'])->name('products');
+

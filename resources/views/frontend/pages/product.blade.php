@@ -71,7 +71,7 @@
                             </div>
 
                         </div>
-                        <p><button type="submit" class="buy-now btn btn-sm btn-primary">Add To Cart</button></p>
+                        <p><button type="submit" class="buy-now btn btn-sm btn-primary">Passer commande</button></p>
                     </form>
 
                 </div>

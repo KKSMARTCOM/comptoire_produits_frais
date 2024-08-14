@@ -98,15 +98,22 @@ ul{
   color: #000;
 }
 
-.btn.btn-sm {
+/* .btn.btn-sm {
   font-size: 14px !important;
   padding: 10px 20px !important;
+} */
+
+/* dimensions des boutons */
+.btn.btn-sm {
+  font-size: 10px !important;
+  padding: 11px 10px !important;
 }
 
 .btn.btn-primary {
   font-size: 17px;
   font-weight: 300;
-  letter-spacing: .2em;
+  background-color: #1a7b39 !important;
+  /* letter-spacing: .2em; */
 }
 
 .btn:hover {
@@ -398,11 +405,11 @@ ul{
   padding: 2.5em 0;
 }
 
-@media (min-width: 768px) {
+/* @media (min-width: 768px) {
   .site-section {
     padding: 5em 0;
   }
-}
+} */
 
 .site-section.site-section-sm {
   padding: 4em 0;
@@ -1445,4 +1452,42 @@ ul{
   width: 120px;
   border-radius: 50%;
   margin-bottom: 20px;
+}
+
+/* dimensions des cards pour les images */
+.img-fluid{
+  height: 200px !important;
+  width: 200px !important;
+}
+.p-4 {
+  padding: 0.5rem !important;
+}
+
+/* panier bouton */
+#panier {
+  font-size: 25px !important;
+  padding: 5px 10px !important;
+}
+
+.bordered-select {
+  border: 2px solid #1a7b39; /* Couleur et épaisseur de la bordure */
+  padding: 5px 30px 5px 10px; /* Espacement intérieur */
+  appearance: none; /* Supprimer le style par défaut de l'élément select */
+  background-color: #fff; /* Couleur de fond */
+  position: relative; /* Nécessaire pour le positionnement de la flèche */
+  width: 100%; /* S'assure que le select prend toute la largeur de son conteneur */
+}
+
+.select-arrow {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  transition: transform 0.3s ease;
+  color: #1a7b39; /* Couleur de la flèche */
+}
+
+.btn-group:hover .select-arrow {
+  transform: translateY(-50%) rotate(180deg); /* Rotation de la flèche lors du survol */
 }
