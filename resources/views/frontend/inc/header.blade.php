@@ -66,7 +66,7 @@
                     <li><a href="{{ route('contact') }}">La cave</a></li>
                     <li><a href="{{ route('contact') }}">Autres viandes</a></li>
                     <li><a href="{{ route('contact') }}">CPF Store</a></li>
-                    <li><a href="{{ route('contact') }}">Contacts</a></li>
+                    <li><a href="{{ route('contact') }}">Contact</a></li>
                 </ul>
                 <div class="site-top-icons ">
                     <ul>

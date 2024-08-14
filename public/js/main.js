@@ -46,7 +46,7 @@ jQuery(document).ready(function ($) {
         $('<div class="site-mobile-menu-close "></div>').prependTo(
             ".site-mobile-menu-header"
         );
-        $('<div class="site-mobile-menu-logo"></div>').prependTo(
+        $('<div class="site-mobile-menu-logo">LOGO</div>').prependTo(
             ".site-mobile-menu-header"
         );
 
@@ -192,14 +192,14 @@ jQuery(document).ready(function ($) {
         });
         $("#amount").val(
             "$" +
-                $("#slider-range").slider("values", 0) +
-                " - $" +
-                $("#slider-range").slider("values", 1)
+            $("#slider-range").slider("values", 0) +
+            " - $" +
+            $("#slider-range").slider("values", 1)
         );
         $("#priceBetween").val(
             $("#slider-range").slider("values", 0) +
-                " - " +
-                $("#slider-range").slider("values", 1)
+            " - " +
+            $("#slider-range").slider("values", 1)
         );
     };
     siteSliderRange();

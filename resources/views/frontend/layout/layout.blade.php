@@ -65,7 +65,7 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             var navbar = document.getElementById('site-navigation');
-            var sticky = 180;
+            var sticky = 200;
 
             function handleScroll() {
                 if (window.pageYOffset >= sticky) {

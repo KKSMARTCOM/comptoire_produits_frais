@@ -1,46 +1,56 @@
 <footer class="site-footer border-top">
     <div class="container">
         <div class="row">
-            <div class="col-lg-6 mb-5 mb-lg-6">
+            <div class="col-lg-6 col-md-12 site-footer-left">
                 <div class="row">
-                    <div class="col-md-12">
-                        <h3 class="footer-heading mb-4">Navigations</h3>
+                    <div class="col-lg-3">LOGO</div>
+                    <div class="col-lg-9 mt-md-2 mt-xs-2">
+                        <h2>Vous avez besoin d'aide ?</h2>
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo, molestiae. Alias aperiam
+                            explicabo debitis atque. Hic ab accusamus, animi nam atque eius eaque ex perspiciatis unde
+                            nemo maxime, expedita enim.</p>
                     </div>
-                    <div class="col-md-6 col-lg-4">
-                        <ul class="list-unstyled">
-                            <li><a href="{{ route('index') }}">Home</a></li>
-                            <li><a href="{{ route('about') }}">About</a></li>
-                            <li><a href="{{ route('product') }}">Shop</a></li>
-                            <li><a href="{{ route('contact') }}">Contact</a></li>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-12 mt-md-4 mt-xs-4 site-footer-right">
+                <div class="row">
+                    <div class="col-lg-6 col-md-6">
+                        <ul>
+                            <li>
+                                <h2>A propos</h2>
+                            </li>
+                            <li><a href="">Acceuil</a></li>
+                            <li><a href="">Poissons & Fruits de mer</a></li>
+                            <li><a href="">La cave</a></li>
+                            <li><a href="">Autres viandes</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-6 col-md-6">
+                        <ul>
+                            <li>-</li>
+                            <li><a href="">Contact</a></li>
+                            <li><a href="">CPF Store</a></li>
+                            <li><a href="">Fruits & Légumes</a></li>
+                            <li><a href="">Politiques de confidentialité</a></li>
                         </ul>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-6 col-lg-6">
-                <div class="block-5 mb-5">
-                    <h3 class="footer-heading mb-4">Contact Info</h3>
-                    <ul class="list-unstyled">
-                        <li class="address">{{-- {!! $settings['address'] !!} --}}Cotonou, Benin</li>
-                        <li class="phone"><a
-                                href="tel://{{ str_replace(' ', ' ', '00229 90 00 00 00') }}">{{-- {{ $settings['phone'] }} --}}00229 90 00 00 00</a>
-                        </li>
-                        <li class="email">{{-- {{ $settings['email'] }} --}}comptoire@frais.com</li>
-                    </ul>
+                <div class="row mt-md-4 mt-xs-4">
+                    <div class="col-lg-6 col-md-6 d-flex gap-3 align-items-center">
+                        <span class="mdi mdi-phone"></span>
+                        <p>00229 0000000</p>
+                    </div>
+                    <div class="col-lg-6 col-md-6 d-flex gap-3 align-items-center">
+                        <span class="mdi mdi-map-marker"></span>
+                        <p>Cotonou, Benin</p>
+                    </div>
                 </div>
-
+                <div class="row mt-md-4 mt-xs-4">
+                    <div class="col-lg-12">
+                        <small>Copyright 2024 - Réalisé par <a href="">KKSMARTCOM</a></small>
+                    </div>
+                </div>
             </div>
-        </div>
-        <div class="row pt-5 mt-5 text-center">
-            <div class="col-md-12">
-                <p>
-                    <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                    Copyright &copy; {{ date('Y') }} All rights reserved | This template is made with <i
-                        class="icon-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank"
-                        class="text-primary">Colorlib</a>
-                    <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                </p>
-            </div>
-
         </div>
     </div>
 </footer>
