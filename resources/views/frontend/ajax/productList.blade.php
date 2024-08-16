@@ -47,7 +47,7 @@
                 </figure>
                 <div class="block-4-text p-4">
                     <h3><a href="#">Poissons</a></h3>
-                    <p class="mb-0">Sardine</p>
+                    <p class="text-primary font-weight-bold">Sardine</p>
                     <p class="text-primary font-weight-bold">
                         6.000 FCFA</p>
 
@@ -80,7 +80,7 @@
                 </figure>
                 <div class="block-4-text p-4">
                     <h3><a href="#">Poissons</a></h3>
-                    <p class="mb-0">Cabillaud</p>
+                    <p class="text-primary font-weight-bold">Cabillaud</p>
                     <p class="text-primary font-weight-bold">
                         10.000 FCFA</p>
 
@@ -113,7 +113,7 @@
                 </figure>
                 <div class="block-4-text p-4">
                     <h3><a href="#">Poissons</a></h3>
-                    <p class="mb-0">Saumon</p>
+                    <p class="text-primary font-weight-bold">Saumon</p>
                     <p class="text-primary font-weight-bold">
                         12.000 FCFA</p>
 
@@ -146,7 +146,7 @@
                 </figure>
                 <div class="block-4-text p-4">
                     <h3><a href="#">Volailles</a></h3>
-                    <p class="mb-0">Canard</p>
+                    <p class="text-primary font-weight-bold">Canard</p>
                     <p class="text-primary font-weight-bold">
                         15.000 FCFA</p>
 
@@ -179,7 +179,7 @@
                 </figure>
                 <div class="block-4-text p-4">
                     <h3><a href="#">Volailles</a></h3>
-                    <p class="mb-0">Dinde</p>
+                    <p class="text-primary font-weight-bold">Dinde</p>
                     <p class="text-primary font-weight-bold">
                         18.000 FCFA</p>
 
@@ -213,7 +213,7 @@
                 </figure>
                 <div class="block-4-text p-4">
                     <h3><a href="#">Volailles</a></h3>
-                    <p class="mb-0">Poulet</p>
+                    <p class="text-primary font-weight-bold">Poulet</p>
                     <p class="text-primary font-weight-bold">
                         9.000 FCFA</p>
 
@@ -246,7 +246,7 @@
                 </figure>
                 <div class="block-4-text p-4">
                     <h3><a href="#">Fruits & Légumes</a></h3>
-                    <p class="mb-0">Pomme de terre bio</p>
+                    <p class="text-primary font-weight-bold">Pomme de terre bio</p>
                     <p class="text-primary font-weight-bold">
                         4.000 FCFA</p>
 
@@ -279,7 +279,7 @@
                 </figure>
                 <div class="block-4-text p-4">
                     <h3><a href="#">Fruits & Légumes</a></h3>
-                    <p class="mb-0">Carottes fraîches</p>
+                    <p class="text-primary font-weight-bold">Carottes fraîches</p>
                     <p class="text-primary font-weight-bold">
                         2.500 FCFA</p>
 
@@ -312,7 +312,7 @@
                 </figure>
                 <div class="block-4-text p-4">
                     <h3><a href="#">Fruits & Légumes</a></h3>
-                    <p class="mb-0">Tomates Cerises</p>
+                    <p class="text-primary font-weight-bold">Tomates Cerises</p>
                     <p class="text-primary font-weight-bold">
                         1.000 FCFA</p>
 
@@ -346,7 +346,7 @@
                 </figure>
                 <div class="block-4-text p-4">
                     <h3><a href="#">Vins</a></h3>
-                    <p class="mb-0">Vin Rouge Bordeaux</p>
+                    <p class="text-primary font-weight-bold">Vin Rouge Bordeaux</p>
                     <p class="text-primary font-weight-bold">
                         20.000 FCFA</p>
 
@@ -379,7 +379,7 @@
                 </figure>
                 <div class="block-4-text p-4">
                     <h3><a href="#">Vins</a></h3>
-                    <p class="mb-0">Champagne Brut</p>
+                    <p class="text-primary font-weight-bold">Champagne Brut</p>
                     <p class="text-primary font-weight-bold">
                         35.000 FCFA</p>
 
@@ -412,7 +412,7 @@
                 </figure>
                 <div class="block-4-text p-4">
                     <h3><a href="#">Vins</a></h3>
-                    <p class="mb-0">Whisky Écossais</p>
+                    <p class="text-primary font-weight-bold">Whisky Écossais</p>
                     <p class="text-primary font-weight-bold">
                         30.000 FCFA</p>
 
@@ -445,7 +445,7 @@
                 </figure>
                 <div class="block-4-text p-4">
                     <h3><a href="#">CPF Store</a></h3>
-                    <p class="mb-0">Huile d'Olive Extra Vierge</p>
+                    <p class="text-primary font-weight-bold">Huile d'Olive Extra Vierge</p>
                     <p class="text-primary font-weight-bold">
                         9.000 FCFA</p>
 
@@ -479,7 +479,7 @@
                 </figure>
                 <div class="block-4-text p-4">
                     <h3><a href="#">CPF Store</a></h3>
-                    <p class="mb-0">Miel de Montagne</p>
+                    <p class="text-primary font-weight-bold">Miel de Montagne</p>
                     <p class="text-primary font-weight-bold">
                         7.000 FCFA</p>
 
@@ -512,7 +512,7 @@
                 </figure>
                 <div class="block-4-text p-4">
                     <h3><a href="#">CPF Store</a></h3>
-                    <p class="mb-0">Café Arabica</p>
+                    <p class="text-primary font-weight-bold">Café Arabica</p>
                     <p class="text-primary font-weight-bold">
                         6.000 FCFA</p>
 
@@ -545,7 +545,7 @@
                 </figure>
                 <div class="block-4-text p-4">
                     <h3><a href="#">Autres Viandes</a></h3>
-                    <p class="mb-0">Bœuf Wagyu</p>
+                    <p class="text-primary font-weight-bold">Bœuf Wagyu</p>
                     <p class="text-primary font-weight-bold">
                         30.000 FCFA</p>
 
@@ -578,7 +578,7 @@
                 </figure>
                 <div class="block-4-text p-4">
                     <h3><a href="#">Autres Viandes</a></h3>
-                    <p class="mb-0">Porc Fermier</p>
+                    <p class="text-primary font-weight-bold">Porc Fermier</p>
                     <p class="text-primary font-weight-bold">
                         15.000 FCFA</p>
 

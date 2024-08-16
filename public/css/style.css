@@ -37,7 +37,7 @@ img{
   width: 100%;
 }
 
-ul{
+ul {
   padding: 0 !important;
 }
 
@@ -222,7 +222,7 @@ ul{
   color: #fff;
 }
 
-  /* section store */
+/* section store */
 .site-section-store{
   margin-top: 80px;
   padding: 20px 0px;
@@ -470,7 +470,7 @@ ul{
     padding: 0;
     border-right: 0px;
   }
-  
+
   .site-footer-right {
     padding-left: 0px;
   }
@@ -993,11 +993,11 @@ ul{
 }
 
 .site-category-card{
-/*  background-color: #87CEEB; */
- height: 280px;
- border-radius: 10px;
- box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
- transition: all ease-in-out .2s;
+  /*  background-color: #87CEEB; */
+  height: 280px;
+  border-radius: 10px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
+  transition: all ease-in-out .2s;
 }
 
 .site-category-card:hover {
@@ -1459,6 +1459,7 @@ ul{
   height: 200px !important;
   width: 200px !important;
 }
+
 .p-4 {
   padding: 0.5rem !important;
 }
@@ -1467,6 +1468,7 @@ ul{
 #panier {
   font-size: 25px !important;
   padding: 5px 10px !important;
+  color: #000 !important;
 }
 
 .bordered-select {
