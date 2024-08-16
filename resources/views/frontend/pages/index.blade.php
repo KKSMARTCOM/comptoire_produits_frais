@@ -99,7 +99,7 @@
                         </div>
                         <div class="site-section-box-bottom-link">
                             <a href="#"><span class="mdi mdi-eye-outline"></span></a>
-                            <button><a href="#">COMMANDER</a></button>
+                            <a href="#" class="button-link">COMMANDER</a>
                         </div>
                     </div>
                 </div>
@@ -115,7 +115,7 @@
                         </div>
                         <div class="site-section-box-bottom-link">
                             <a href="#"><span class="mdi mdi-eye-outline"></span></a>
-                            <button><a href="#">COMMANDER</a></button>
+                            <a href="#" class="button-link">COMMANDER</a>
                         </div>
                     </div>
                 </div>
@@ -131,7 +131,7 @@
                         </div>
                         <div class="site-section-box-bottom-link">
                             <a href="#"><span class="mdi mdi-eye-outline"></span></a>
-                            <button><a href="#">COMMANDER</a></button>
+                            <a href="#" class="button-link">COMMANDER</a>
                         </div>
                     </div>
                 </div>

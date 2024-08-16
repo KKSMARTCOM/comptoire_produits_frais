@@ -366,7 +366,7 @@ ul{
   color: #000;
 }
 
-.site-section-box-bottom-link button{
+.site-section-box-bottom-link .button-link{
   padding: 6px 20px;
   border: none;
   background-color: #000;
