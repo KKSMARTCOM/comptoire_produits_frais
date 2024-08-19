@@ -237,3 +237,19 @@ jQuery(document).ready(function ($) {
     };
     siteMagnificPopup();
 });
+
+$(document).ready(function() {
+    $('.showOrderForm').on('click', function() {
+        var productId = $(this).data('product-id');
+        $('#modalProductId').val(productId);
+        $('#orderModal').modal('show');
+    });
+
+    $('#orderForm').on('submit', function(e) {
+        e.preventDefault();
+        // Traitement de la soumission du formulaire
+        alert('Commande validée avec succès !');
+        $('#orderModal').modal('hide');
+    });
+});
+

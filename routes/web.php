@@ -48,3 +48,4 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 // route pour la page des produits
 Route::get('/products', [App\Http\Controllers\Frontend\Products\ProductController::class, 'products'])->name('products');
 
+Route::post('/submit-order', [OrderController::class, 'submit'])->name('order.submit');
