@@ -11,33 +11,6 @@ use Illuminate\Support\Facades\File;
 
 class CartController extends Controller
 {
-    public function cartList()
-    {
-        $cart = session()->get('cart') ?? [];
-
-        /* foreach ($cart as $cartItem) {
-            $vatRate = $cartItem['kdv'] ?? 0;
-            $vatAmount = ($cartItem['product']['price'] * $cartItem['quantity']) * ($vatRate / 100);
-            $totalAmount = $cartItem['product']['price'] * $cartItem['quantity'] + $vatAmount;
-            $totalPrice += $totalAmount;
-        } */
-
-        /* if (session()->get('couponCode') && $totalPrice != 0) {
-            $coupon = Coupon::where('name', session()->get('couponCode'))->where('status', '1')->first();
-            $couponPrice = $coupon->price ?? 0;
-            $totalPrice -= $couponPrice;
-        } else {
-            $totalPrice = $totalPrice;
-        }*/
-
-        //session()->put('totalPrice', $totalPrice);
-
-        /*if (count(session()->get('cart')) == 0) {
-            session()->forget('couponCode');
-        } */
-
-        return $cart;
-    }
 
     public function index()
     {
@@ -46,12 +19,13 @@ class CartController extends Controller
             'active' => 'Cart'
         ];
 
-        $cart = $this->cartList();
-        $subTotal = $this->calculTotal($cart);
+        // Récupère le panier de la session
+        $cart = session()->get('cart', []);
 
+        // Calcul du prix total du panier
+        $totalCartPrice = array_sum(array_column($cart, 'total'));
 
-        //return $cartItem;
-        return view('frontend.pages.cart', compact('cart', 'subTotal', 'breadcrumb'));
+        return view('frontend.pages.cart', compact('cart', 'totalCartPrice', 'breadcrumb'));
     }
 
     public function add(Request $request)
@@ -59,26 +33,26 @@ class CartController extends Controller
         //recupere le panier depuis la session ou initialise un tableau vide
         $cart = session()->get('cart', []);
         //decrypte l'id crypté
-        $productID = decryptData($request->product_id);
+        $productId = decryptData($request->product_id);
         //recherche le produit par son id
-        $product = $this->getProductById($productID);
-        //$qty = $request->qty ?? 1;
-        //$size = $request->size;
-
-        //$product = Product::find($productID);
+        $product = $this->getProductById($productId);
 
         if ($product) {
             //verifie si le produit est deja dans le panier
-            if (isset($cart[$productID])) {
+            if (isset($cart[$productId])) {
                 //augmente la qté si le produit existe
-                $cart[$productID]['quantity']++;
+                $cart[$productId]['quantity']++;
             } else {
                 //ajoute le produit au panier avec une qté initiale de 1
-                $cart[$productID] = [
+                $cart[$productId] = [
                     'quantity' => 1,
+                    'total' => $product['price'],
                     'product' => $product,
                 ];
             }
+
+            $cart[$productId]['total'] = $cart[$productId]['quantity'] * $product['price'];
+
             //sauvegarde le panier dans la session
             session()->put('cart', $cart);
 
@@ -86,50 +60,29 @@ class CartController extends Controller
         }
 
         return redirect()->back()->with('error', 'Product non existant !');
-
-
-        /* if (array_key_exists($productID, $cartItem)) {
-            $cartItem[$productID]['qty'] += $qty; // adet ekleme
-        } else {
-            $cartItem[$productID] = [
-                'image' => $product->image,
-                'name' => $product->name,
-                'price' => $product->price,
-                'qty' => $qty,
-                'kdv' => $product->kdv,
-                'size' => $size
-            ];
-        }
-
-        session(['cart' => $cartItem]);
-
-        if ($request->ajax()) {
-            return response()->json(['sepetCount' => count(session()->get('cart')), 'message' => 'Product successfully added to cart!']);
-        }
-
-        return back()->withSuccess('Product successfully added to cart.'); */
     }
 
     public function remove(Request $request)
     {
         // return $request->all();
 
-        $productID = decryptData($request->product_id);
+        $productId = decryptData($request->product_id);
         $cart = session()->get('cart', []);
 
-        if (isset($cart[$productID])) {
-            unset($cart[$productID]);
+        if (isset($cart[$productId])) {
+            unset($cart[$productId]);
         }
 
         session()->put('cart', $cart);
 
-        /* if (count(session()->get('cart')) == 0) {
-            session()->forget('couponCode');
-        } */
+        $productNumber = count($cart);
 
-        /* if ($request->ajax()) {
-            return response()->json(['sepetCount' => count(session()->get('cart')), 'message' => 'The product has been successfully deleted from the cart!']);
-        } */
+        // Calcul du prix total du panier
+        $totalCartPrice = array_sum(array_column($cart, 'total'));
+
+        if ($request->ajax()) {
+            return response()->json(['totalCartPrice' => $totalCartPrice, 'productNumber' => $productNumber, 'message' => 'Produit supprimé du panier avec succès !']);
+        }
 
         return redirect()->back()->with('success', 'Produit supprimé du panier avec succès !');
     }
@@ -154,47 +107,38 @@ class CartController extends Controller
 
     public function updateCart(Request $request)
     {
-        $productId = $request->id;
+        $productId = $request->product_id;
         $newQuantity = $request->quantity ?? 1;
-        $itemTotal = 0;
 
         $cart = session()->get('cart', []);
 
         if (isset($cart[$productId])) {
+            //si la nouvelle qte est supérieure à 0
             if ($newQuantity > 0) {
+                //mise à jour de la qte
+                $cart[$productId]['quantity'] = $newQuantity;
+                //calcul du nouveau total
+                $cart[$productId]['total'] = $newQuantity * $cart[$productId]['product']['price'];
+            } else {
+                //si la qte est egale à 0, on retire le produit du panier
+                unset($cart[$productId]);
             }
         }
 
-        /* $product = Product::find($productID);
-        if (!$product) {
-            return response()->json('Product not found!');
-        }
-        $cartItem = session('cart', []);
+        //mettre à jour le panier dans la session
+        session()->put('cart', $cart);
 
+        $totalCartPrice = array_sum(array_column($cart, 'total'));
 
-        if (array_key_exists($productID, $cartItem)) {
-            $cartItem[$productID]['qty'] = $qty; // adet güncelleme
-            if ($qty == 0 || $qty < 0) {
-                unset($cartItem[$productID]);
-            }
-            // $itemTotal = $product->price * $qty;
-            $kdvOraniItem = $product->kdv ?? 0;
-            $kdvTutarItem = ($product->price * $qty) * ($kdvOraniItem / 100);
-            $itemTotal = $product->price * $qty + $kdvTutarItem;
-        }
-
-        session(['cart' => $cartItem]);
-
-        $this->cartList();
-
-        if ($request->ajax()) {
-            return response()->json(['itemTotal' => $itemTotal, 'totalPrice' => session()->get('totalPrice'), 'message' => 'Cart updated successfully']);
-        } */
+        return response()->json([
+            'productTotal' => $cart[$productId]['total'] ?? 0,
+            'totalCartPrice' => $totalCartPrice
+        ]);
     }
 
     public function cartform()
     {
-        $cartItem = $this->cartList();
+        $cartItem = session()->get('cart', []);
         //return $cartItem;
         return view('frontend.pages.cartform', compact('cartItem'));
     }

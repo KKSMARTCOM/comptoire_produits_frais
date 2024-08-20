@@ -22,11 +22,11 @@
                         <thead>
                             <tr>
                                 <th class="product-thumbnail">Image</th>
-                                <th class="product-name">Product</th>
-                                <th class="product-price">Price</th>
-                                <th class="product-quantity">Quantity</th>
+                                <th class="product-name">Produit</th>
+                                <th class="product-price">Prix Unitaire</th>
+                                <th class="product-quantity">Quantité</th>
                                 <th class="product-total">Total</th>
-                                <th class="product-remove">Remove</th>
+                                <th class="product-remove">Retirer</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -35,8 +35,10 @@
                                 @foreach ($cart as $key => $cartItem)
                                     <tr class="orderItem" data-id="{{ $key }}">
                                         <td class="product-thumbnail">
-                                            <img src="{{ asset('images/' . $cartItem['product']['image']) }}"
-                                                alt="{{ $cartItem['product']['name'] }}" class="img-fluid">
+                                            <div class="product-thumbnail-image">
+                                                <img src="{{ asset('images/' . $cartItem['product']['image']) }}"
+                                                    alt="{{ $cartItem['product']['name'] }}" class="img-fluid">
+                                            </div>
                                         </td>
                                         <td class="product-name">
                                             <h2 class="h5 text-black">{{ $cartItem['product']['name'] ?? '' }}</h2>
@@ -60,17 +62,7 @@
 
                                         </td>
 
-                                        @php
-                                            $vatRate = $cartItem['product']['kdv'] ?? 0;
-                                            $price = $cartItem['product']['price'];
-                                            $qty = $cartItem['quantity'];
-
-                                            $vatAmount = $price * $qty * ($vatRate / 100);
-                                            $totalAmount = $price * $qty + $vatAmount;
-
-                                        @endphp
-
-                                        <td class="itemTotal">{{ $totalAmount }}.00 FCFA</td>
+                                        <td class="itemTotal">{{ $cartItem['total'] }}.00 FCFA</td>
                                         <td>
                                             <form class="removeItem" method="POST">
                                                 @csrf
@@ -120,28 +112,28 @@
                                     <h3 class="text-black h4 text-uppercase">Total du panier </h3>
                                 </div>
                             </div>
-                            <div class="row mb-3">
+                            {{-- <div class="row mb-3">
                                 <div class="col-md-6">
                                     <span class="text-black">Sous-total</span>
                                 </div>
                                 <div class="col-md-6 text-right">
-                                    <strong class="text-black">{{ $subTotal }}.00 FCFA</strong>
+                                    <strong class="text-black">{{ $totalCartPrice }}.00 FCFA</strong>
                                 </div>
-                            </div>
+                            </div> --}}
                             <div class="row mb-5">
                                 <div class="col-md-6">
                                     <span class="text-black">Total</span>
                                 </div>
                                 <div class="col-md-6 text-right">
                                     <strong class="newTotalPrice text-black">
-                                        {{ session()->get('totalPrice') ?? $subTotal }}.00 FCFA</strong>
+                                        {{ $totalCartPrice }}.00 FCFA</strong>
                                 </div>
                             </div>
 
                             <div class="row">
                                 <div class="col-md-12">
-                                    <button class="paymentButton btn btn-primary btn-lg py-3 btn-block">Proceed To
-                                        Checkout</button>
+                                    <button class="paymentButton btn btn-primary btn-lg py-3 btn-block">Passer
+                                        commande</button>
                                 </div>
                             </div>
                         </div>
@@ -177,7 +169,8 @@
 
         function sepetUpdate() {
             var product_id = $('.selected').closest('.orderItem').attr('data-id');
-            var qty = $('.selected').closest('.orderItem').find('.qtyItem').val();
+            var quantity = $('.selected').closest('.orderItem').find('.qtyItem').val();
+
             $.ajax({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -186,14 +179,15 @@
                 url: "{{ route('cartnewQty') }}",
                 data: {
                     product_id: product_id,
-                    qty: qty,
+                    quantity: quantity,
                 },
                 success: function(response) {
-                    $('.selected').find('.itemTotal').text('$' + response.itemTotal);
-                    if (qty == 0) {
+
+                    $('.selected').find('.itemTotal').text(response.productTotal + ' FCFA');
+                    if (quantity == 0) {
                         $('.selected').remove();
                     }
-                    $('.newTotalPrice').text(response.totalPrice);
+                    $('.newTotalPrice').text(response.totalCartPrice + ' FCFA');
                 }
             });
         }
@@ -211,7 +205,8 @@
                 data: formData,
                 success: function(response) {
                     toastr.success(response.message);
-                    $('.count').text(response.sepetCount);
+                    $('.count').text(response.productNumber);
+                    $('.newTotalPrice').text(response.totalCartPrice + ' FCFA');
                     item.closest('.orderItem').remove();
                 }
             });

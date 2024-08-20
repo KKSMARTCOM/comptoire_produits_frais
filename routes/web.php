@@ -39,7 +39,7 @@ Route::group(['middleware' => 'sitesetting'], function () {
     Route::post('/cart/save', [CartController::class, 'cartSave'])->name('cart.save');
 
     Auth::routes();
-    Route::get('logout', [AjaxController::class, 'logout'])->name('logout');
+    //Route::get('/logout', [AjaxController::class, 'logout'])->name('logout');
 });
 
 

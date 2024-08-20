@@ -60,12 +60,12 @@
                             @endif
                         </ul>
                     </li> --}}
-                    <li><a href="{{ route('about') }}">Volailles</a></li>
+                    <li><a href="{{ route('product') }}">Volailles</a></li>
                     <li><a href="{{ route('product') }}">Poissons </a></li>
-                    <li><a href="{{ route('contact') }}">Fruits & Légumes</a></li>
-                    <li><a href="{{ route('contact') }}">La cave</a></li>
-                    <li><a href="{{ route('contact') }}">Autres viandes</a></li>
-                    <li><a href="{{ route('contact') }}">CPF Store</a></li>
+                    <li><a href="{{ route('product') }}">Fruits & Légumes</a></li>
+                    <li><a href="{{ route('product') }}">La cave</a></li>
+                    <li><a href="{{ route('product') }}">Autres viandes</a></li>
+                    <li><a href="{{ route('product') }}">CPF Store</a></li>
                     <li><a href="{{ route('contact') }}">Contact</a></li>
                 </ul>
                 <div class="site-top-icons ">

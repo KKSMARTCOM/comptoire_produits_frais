@@ -10,7 +10,7 @@
                     @endforeach
                 @endif
                 <span class="mx-2 mb-0">/</span>
-                <strong class="text-black">{{ $breadcrumb['active'] }}</strong>
+                <strong class="text-black">{{ $breadcrumb['active'] ?? '' }}</strong>
             </div>
         </div>
     </div>
