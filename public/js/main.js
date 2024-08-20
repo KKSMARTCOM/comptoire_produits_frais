@@ -238,18 +238,33 @@ jQuery(document).ready(function ($) {
     siteMagnificPopup();
 });
 
+
+
 $(document).ready(function() {
-    $('.showOrderForm').on('click', function() {
+    // Gérer le clic sur le bouton "Passer commande"
+    $('.showOrderForm').on('click', function(e) {
+        e.preventDefault();
+
+        // Récupérer l'ID du produit à partir de l'attribut data-product-id
         var productId = $(this).data('product-id');
+
+        // Mettre à jour le champ caché du formulaire dans le modal avec l'ID du produit
         $('#modalProductId').val(productId);
+
+        // Afficher le modal
         $('#orderModal').modal('show');
     });
 
+    // Gérer la fermeture du modal après la soumission du formulaire
     $('#orderForm').on('submit', function(e) {
         e.preventDefault();
-        // Traitement de la soumission du formulaire
-        alert('Commande validée avec succès !');
+        
+        // Logique pour valider et soumettre le formulaire via Ajax ou autre méthode
+        // Après soumission réussie, fermer le modal
         $('#orderModal').modal('hide');
+        
+        // Optionnel: Vous pouvez ajouter du code pour afficher un message de confirmation ou rediriger l'utilisateur
     });
 });
+
 
