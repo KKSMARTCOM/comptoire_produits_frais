@@ -33,7 +33,7 @@ Route::group(['middleware' => 'sitesetting'], function () {
     Route::post('/cart/add', [CartController::class, 'add'])->name('cartadd');
     Route::post('/cart/remove', [CartController::class, 'remove'])->name('cartremove');
     Route::post('/cart/couponcheck', [CartController::class, 'couponcheck'])->name('coupon.check');
-    Route::post('/cart/newQty', [CartController::class, 'newQty'])->name('cartnewQty');
+    Route::post('/cart/newQty', [CartController::class, 'updateCart'])->name('cartnewQty');
     Route::get('/cart/form', [CartController::class, 'cartform'])->name('cart.form');
     Route::post('/cart/save', [CartController::class, 'cartSave'])->name('cart.save');
 
@@ -47,4 +47,3 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 // route pour la page des produits
 Route::get('/products', [App\Http\Controllers\Frontend\Products\ProductController::class, 'products'])->name('products');
-

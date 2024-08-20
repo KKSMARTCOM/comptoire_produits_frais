@@ -8,7 +8,7 @@
                 </figure>
                 <div class="block-4-text p-4">
                     <h3><a href="#">{{ strtoupper($product['category']) }}</a></h3>
-                    <p class="mb-0">{{ ucfirst($product['name']) }}</p>
+                    <p class="text-primary font-weight-bold">{{ ucfirst($product['name']) }}</p>
                     <p class="text-primary font-weight-bold">
                         {{ $product['price'] }}.00 FCFA</p>
 
@@ -18,14 +18,14 @@
 
                     {{-- {{ sifrelecoz($sifrele) }} --}}
 
-                    <form id="addForm" method="POST">
+                    <form id="addForm" method="POST" action="{{ route('cartadd', $encrypt) }}">
                         @csrf
                         <input type="hidden" name="product_id" value={{ $encrypt }}>
                         <p>
                             <button type="submit" id="panier" class="buy-now btn">
                                 <span class="mdi mdi-cart-plus"></span>
                             </button>
-                            <button type="submit" class="buy-now btn btn-sm btn-primary">Passer commande</button>
+                            <button type="" class="buy-now btn btn-sm btn-primary">Passer commande</button>
                         </p>
                     </form>
                 </div>

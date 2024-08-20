@@ -31,16 +31,17 @@
                         </thead>
                         <tbody>
 
-                            @if ($cartItem)
-                                @foreach ($cartItem as $key => $cart)
+                            @if ($cart)
+                                @foreach ($cart as $key => $cartItem)
                                     <tr class="orderItem" data-id="{{ $key }}">
                                         <td class="product-thumbnail">
-                                            <img src="{{ asset($cart['image']) }}" alt="Image" class="img-fluid">
+                                            <img src="{{ asset('images/' . $cartItem['product']['image']) }}"
+                                                alt="{{ $cartItem['product']['name'] }}" class="img-fluid">
                                         </td>
                                         <td class="product-name">
-                                            <h2 class="h5 text-black">{{ $cart['name'] ?? '' }}</h2>
+                                            <h2 class="h5 text-black">{{ $cartItem['product']['name'] ?? '' }}</h2>
                                         </td>
-                                        <td>$ {{ $cart['price'] }}</td>
+                                        <td>{{ $cartItem['product']['price'] }}.00 FCFA</td>
                                         <td>
                                             <div class="input-group mb-3" style="max-width: 120px;">
                                                 <div class="input-group-prepend">
@@ -48,7 +49,7 @@
                                                         type="button">&minus;</button>
                                                 </div>
                                                 <input type="text" class="qtyItem form-control text-center"
-                                                    value="{{ $cart['qty'] }}" placeholder=""
+                                                    value="{{ $cartItem['quantity'] }}" placeholder=""
                                                     aria-label="Example text with button addon"
                                                     aria-describedby="button-addon1">
                                                 <div class="input-group-append">
@@ -60,23 +61,24 @@
                                         </td>
 
                                         @php
-                                            $kdvOrani = $cart['kdv'] ?? 0;
-                                            $price = $cart['price'];
-                                            $qty = $cart['qty'];
+                                            $vatRate = $cartItem['product']['kdv'] ?? 0;
+                                            $price = $cartItem['product']['price'];
+                                            $qty = $cartItem['quantity'];
 
-                                            $kdvTutar = $price * $qty * ($kdvOrani / 100);
-                                            $toplamTutar = $price * $qty + $kdvTutar;
+                                            $vatAmount = $price * $qty * ($vatRate / 100);
+                                            $totalAmount = $price * $qty + $vatAmount;
+
                                         @endphp
 
-                                        <td class="itemTotal">$ {{ $toplamTutar }}</td>
+                                        <td class="itemTotal">{{ $totalAmount }}.00 FCFA</td>
                                         <td>
                                             <form class="removeItem" method="POST">
                                                 @csrf
                                                 @php
-                                                    $sifrele = sifrele($key);
+                                                    $encrypt = encryptData($key);
                                                 @endphp
 
-                                                <input type="hidden" name="product_id" value="{{ $sifrele }}">
+                                                <input type="hidden" name="product_id" value="{{ $encrypt }}">
                                                 <button type="submit" class="btn btn-primary btn-sm">X</button>
                                             </form>
                                         </td>
@@ -96,7 +98,7 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <label class="text-black h4" for="coupon">Coupon</label>
-                                <p>Enter your coupon code if you have one.</p>
+                                <p>Veuillez entrez le code de votre coupon ici si vous en avez un.</p>
                             </div>
                             <div class="col-md-8 mb-3 mb-md-0">
                                 <input type="text" class="form-control py-3" name="coupon_name"
@@ -104,7 +106,7 @@
                                     placeholder="Coupon Code">
                             </div>
                             <div class="col-md-4">
-                                <button type="submit" class="btn btn-primary btn-sm">Apply Coupon</button>
+                                <button type="submit" class="btn btn-primary btn-sm">Appliquer</button>
                             </div>
                         </div>
                     </form>
@@ -115,24 +117,24 @@
                         <div class="col-md-7">
                             <div class="row">
                                 <div class="col-md-12 text-right border-bottom mb-5">
-                                    <h3 class="text-black h4 text-uppercase">Cart Totals</h3>
+                                    <h3 class="text-black h4 text-uppercase">Total du panier </h3>
                                 </div>
                             </div>
-                            {{-- <div class="row mb-3">
+                            <div class="row mb-3">
                                 <div class="col-md-6">
-                                    <span class="text-black">Subtotal</span>
+                                    <span class="text-black">Sous-total</span>
                                 </div>
                                 <div class="col-md-6 text-right">
-                                    <strong class="text-black">$230.00</strong>
+                                    <strong class="text-black">{{ $subTotal }}.00 FCFA</strong>
                                 </div>
-                            </div> --}}
+                            </div>
                             <div class="row mb-5">
                                 <div class="col-md-6">
                                     <span class="text-black">Total</span>
                                 </div>
                                 <div class="col-md-6 text-right">
-                                    <strong class="newTotalPrice text-black">$
-                                        {{ session()->get('totalPrice') ?? '' }}</strong>
+                                    <strong class="newTotalPrice text-black">
+                                        {{ session()->get('totalPrice') ?? $subTotal }}.00 FCFA</strong>
                                 </div>
                             </div>
 

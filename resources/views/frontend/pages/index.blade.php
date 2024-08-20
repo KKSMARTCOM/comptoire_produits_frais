@@ -7,7 +7,7 @@
                 <div class="col-lg-3 col-md-6 mt-4 mt-lg-0" data-aos="fade-up" data-aos-delay="">
                     <div class="site-category-card">
                         <div class="site-category-card-image">
-                            <img src="{{ asset('images/volaille.jpeg') }}" alt="">
+                            <img src="{{ asset('images/poultry.png') }}" alt="">
                         </div>
                         <h1>VOLAILLES</h1>
                     </div>
@@ -15,7 +15,7 @@
                 <div class="col-lg-3 col-md-6 mt-4 mt-lg-0" data-aos="fade-up" data-aos-delay="100">
                     <div class="site-category-card">
                         <div class="site-category-card-image">
-                            <img src="{{ asset('images/poisson.jpg') }}" alt="">
+                            <img src="{{ asset('images/fish.png') }}" alt="">
                         </div>
                         <h1>POISSONS & FRUITS DE MER</h1>
                     </div>
@@ -23,7 +23,7 @@
                 <div class="col-lg-3 col-md-6 mt-4 mt-lg-0" data-aos="fade-up" data-aos-delay="200">
                     <div class="site-category-card">
                         <div class="site-category-card-image">
-                            <img src="{{ asset('images/fruits.jpg') }}" alt="">
+                            <img src="{{ asset('images/fruit.png') }}" alt="">
                         </div>
                         <h1>FRUITS & LÉGUMES</h1>
                     </div>
@@ -56,6 +56,16 @@
     <div class="site-section-store">
         <div class="container d-flex justify-content-between">
             <div class="site-section-store-left">
+                <div class="site-section-store-left-double-image">
+                    <div class="site-section-store-left-image">
+                        <img src="{{ asset('images/store1.jpg') }}" alt="">
+                    </div>
+                    <div class="site-section-store-left-image absolute-image">
+                        <img src="{{ asset('images/store2.jpg') }}" alt="">
+                    </div>
+                </div>
+            </div>
+            <div class="site-section-store-right">
                 <div>
                     <h1>CPF Store</h1>
                     <p>Une large varieté de produits alimentaires et divers Lorem ipsum dolor sit amet consectetur
@@ -65,17 +75,6 @@
                     <a href="#">Voir plus</a>
                 </div>
             </div>
-            <div class="site-section-store-right">
-                <div class="site-section-store-right-double-image">
-                    <div class="site-section-store-right-image">
-                        <img src="{{ asset('images/store1.jpg') }}" alt="">
-                    </div>
-                    <div class="site-section-store-right-image absolute-image">
-                        <img src="{{ asset('images/store2.jpg') }}" alt="">
-                    </div>
-                </div>
-            </div>
-
         </div>
     </div>
 
