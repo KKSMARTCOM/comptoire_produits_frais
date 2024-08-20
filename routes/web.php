@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AjaxController;
+use App\Http\Controllers\Backend\OrderController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\Frontend\PageController;
 use App\Http\Controllers\Frontend\PageHomeController;
@@ -47,3 +48,5 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 // route pour la page des produits
 Route::get('/products', [App\Http\Controllers\Frontend\Products\ProductController::class, 'products'])->name('products');
+
+Route::post('/submit-order', [OrderController::class, 'submit'])->name('order.submit');
