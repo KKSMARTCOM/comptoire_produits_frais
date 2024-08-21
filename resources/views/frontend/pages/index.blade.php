@@ -3,7 +3,7 @@
 @section('content')
     <div class="site-blocks-cover" data-aos="fade-down">
         <div class="container">
-            <div class="row">
+            <div class="row web-category">
                 <div class="col-lg-3 col-md-6 mt-4 mt-lg-0" data-aos="fade-up" data-aos-delay="">
                     <div class="site-category-card">
                         <div class="site-category-card-image">
@@ -36,6 +36,53 @@
                         <h1>AUTRES VIANDES</h1>
                     </div>
                 </div>
+            </div>
+
+            <div class="mobile-category">
+
+                <div class="owl-carousel owl-theme">
+                    <div class="item">
+                        <div class="" data-aos="fade-up" data-aos-delay="">
+                            <div class="site-category-card">
+                                <div class="site-category-card-image">
+                                    <img src="{{ asset('images/poultry.png') }}" alt="">
+                                </div>
+                                <h1>VOLAILLES</h1>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="" data-aos="fade-up" data-aos-delay="100">
+                            <div class="site-category-card">
+                                <div class="site-category-card-image">
+                                    <img src="{{ asset('images/fish.png') }}" alt="">
+                                </div>
+                                <h1>POISSONS & FRUITS DE MER</h1>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="" data-aos="fade-up" data-aos-delay="200">
+                            <div class="site-category-card">
+                                <div class="site-category-card-image">
+                                    <img src="{{ asset('images/fruit.png') }}" alt="">
+                                </div>
+                                <h1>FRUITS & LÉGUMES</h1>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="" data-aos="fade-up" data-aos-delay="300">
+                            <div class="site-category-card">
+                                <div class="site-category-card-image">
+                                    <img src="{{ asset('images/viandes.jpeg') }}" alt="">
+                                </div>
+                                <h1>AUTRES VIANDES</h1>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
@@ -140,4 +187,24 @@
             </div>
         </div>
     </div>
+@endsection
+@section('customjs')
+    <script>
+        $('.owl-carousel').owlCarousel({
+            loop: true,
+            margin: 10,
+            dots: true,
+            responsive: {
+                0: {
+                    items: 1
+                },
+                536: {
+                    items: 2
+                },
+                768: {
+                    items: 3
+                }
+            }
+        })
+    </script>
 @endsection

@@ -6,7 +6,7 @@
                 @if (!empty($breadcrumb['pages']))
                     @foreach ($breadcrumb['pages'] as $br)
                         <span class="mx-2 mb-0">/</span>
-                        <a href="{{-- {{ $br['link'] }} --}}">{{ $br['name'] }}</a>
+                        <a href="{{-- {{ $br['link'] }} --}}">{{ ucfirst($br['name']) }}</a>
                     @endforeach
                 @endif
                 <span class="mx-2 mb-0">/</span>

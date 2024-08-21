@@ -30,6 +30,7 @@ class CartController extends Controller
 
     public function add(Request $request)
     {
+        //dd($request->quantity);
         //recupere le panier depuis la session ou initialise un tableau vide
         $cart = session()->get('cart', []);
         //decrypte l'id crypté
@@ -41,11 +42,11 @@ class CartController extends Controller
             //verifie si le produit est deja dans le panier
             if (isset($cart[$productId])) {
                 //augmente la qté si le produit existe
-                $cart[$productId]['quantity']++;
+                $request->quantity ? $cart[$productId]['quantity'] += $request->quantity : $cart[$productId]['quantity']++;
             } else {
                 //ajoute le produit au panier avec une qté initiale de 1
                 $cart[$productId] = [
-                    'quantity' => 1,
+                    'quantity' => $request->quantity ?? 1,
                     'total' => $product['price'],
                     'product' => $product,
                 ];

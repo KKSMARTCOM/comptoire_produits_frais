@@ -45,18 +45,21 @@
                                         </td>
                                         <td>{{ $cartItem['product']['price'] }}.00 FCFA</td>
                                         <td>
-                                            <div class="input-group mb-3" style="max-width: 120px;">
-                                                <div class="input-group-prepend">
-                                                    <button class="decreaseBtn btn btn-outline-primary js-btn-minus"
-                                                        type="button">&minus;</button>
-                                                </div>
-                                                <input type="text" class="qtyItem form-control text-center"
-                                                    value="{{ $cartItem['quantity'] }}" placeholder=""
-                                                    aria-label="Example text with button addon"
-                                                    aria-describedby="button-addon1">
-                                                <div class="input-group-append">
-                                                    <button class="increaseBtn btn btn-outline-primary js-btn-plus"
-                                                        type="button">&plus;</button>
+                                            <div class="d-flex justify-content-center align-items-center">
+                                                <div class="input-group mb-3 align-items-center gap-2"
+                                                    style="max-width: 120px;">
+                                                    <div class="input-group-prepend">
+                                                        <button class="decreaseBtn btn btn-outline-primary js-btn-minus"
+                                                            type="button">&minus;</button>
+                                                    </div>
+                                                    <input type="text" class="qtyItem form-control text-center"
+                                                        value="{{ $cartItem['quantity'] }}" placeholder=""
+                                                        aria-label="Example text with button addon"
+                                                        aria-describedby="button-addon1">
+                                                    <div class="input-group-append">
+                                                        <button class="increaseBtn btn btn-outline-primary js-btn-plus"
+                                                            type="button">&plus;</button>
+                                                    </div>
                                                 </div>
                                             </div>
 
@@ -71,7 +74,7 @@
                                                 @endphp
 
                                                 <input type="hidden" name="product_id" value="{{ $encrypt }}">
-                                                <button type="submit" class="btn btn-primary btn-sm">X</button>
+                                                <button type="submit" class="btn btn-primary btn-sm border-0">X</button>
                                             </form>
                                         </td>
                                     </tr>

@@ -65,10 +65,10 @@ class PageController extends Controller
 
         $breadcrumb = [
             'pages' => [],
-            'active' => 'Products'
+            'active' => 'Produits'
         ];
 
-        if (!empty($anaKategori) && empty($altKategori)) {
+        /* if (!empty($anaKategori) && empty($altKategori)) {
             $breadcrumb['active'] = $anaKategori->name;
         }
 
@@ -79,7 +79,7 @@ class PageController extends Controller
             ];
 
             $breadcrumb['active'] = $altKategori->name;
-        }
+        } */
 
 
         return view('frontend.pages.products', compact('breadcrumb', 'products'));
@@ -97,17 +97,30 @@ class PageController extends Controller
 
     public function productdetail($slug)
     {
-        // $product = Product::whereSlug($slug)->first();
-        $product = Product::where("slug", $slug)->where('status', '1')->firstOrFail();
+        $products = $this->getProducts();
 
-        $products = Product::where('id', '!=', $product->id)
-            ->where('category_id', $product->category_id) // ürünün kategorisiyle aynı olan ürünleri getir
-            ->where('status', '1')
-            ->limit('6')
-            ->orderBy('id', 'desc')
-            ->get();
+        $productFiltered = array_filter($products, function ($item) use ($slug) {
+            return $item['id'] === intval($slug);
+        });
 
-        $category = Category::where('id', $product->category_id)->first();
+        $product = array_values($productFiltered);
+
+
+        //$product = Product::where("slug", $slug)->where('status', '1')->firstOrFail();
+
+        /* $products = Product::where('id', '!=', $product->id)
+        ->where('category_id', $product->category_id) // ürünün kategorisiyle aynı olan ürünleri getir
+        ->where('status', '1')
+        ->limit('6')
+        ->orderBy('id', 'desc')
+        ->get(); */
+
+
+        $category = $product[0]['category'];
+
+        $productFeatures = array_filter($products, function ($item) use ($category) {
+            return $item['category'] == $category;
+        });
 
         $breadcrumb = [
             'pages' => [],
@@ -117,10 +130,10 @@ class PageController extends Controller
         if (!empty($category)) {
             $breadcrumb['pages'][] = [
                 'link' => route('men' . 'product'),
-                'name' => 'men'
+                'name' => $category
             ];
         }
 
-        return view('frontend.pages.product', compact('breadcrumb'));
+        return view('frontend.pages.product', compact('breadcrumb', 'product', 'products', 'productFeatures'));
     }
 }
