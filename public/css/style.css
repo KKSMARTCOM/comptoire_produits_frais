@@ -1546,3 +1546,7 @@ ul {
 .btn-group:hover .select-arrow {
   transform: translateY(-50%) rotate(180deg); /* Rotation de la flèche lors du survol */
 }
+
+.modal-backdrop {
+  background-color: transparent !important;
+}
