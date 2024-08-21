@@ -48,38 +48,31 @@ class CartController extends Controller
         if ($product) {
             //verifie si le produit est deja dans le panier
             if (isset($cart[$productId])) {
-            if (isset($cart[$productId])) {
-                //augmente la qté si le produit existe
-<<<<<<< HEAD
-                $request->quantity ? $cart[$productId]['quantity'] += $request->quantity : $cart[$productId]['quantity']++;
-            } else {
-                //ajoute le produit au panier avec une qté initiale de 1
-                $cart[$productId] = [
-                    'quantity' => $request->quantity ?? 1,
-=======
-                $cart[$productId]['quantity']++;
-            } else {
-                //ajoute le produit au panier avec une qté initiale de 1
-                $cart[$productId] = [
-                    'quantity' => 1,
->>>>>>> b42ca18b87ff2309e8b9e2ba66cd93981e496503
-                    'total' => $product['price'],
-                    'product' => $product,
-                ];
+                if (isset($cart[$productId])) {
+                    //augmente la qté si le produit existe
+                    $request->quantity ? $cart[$productId]['quantity'] += $request->quantity : $cart[$productId]['quantity']++;
+                } else {
+                    //ajoute le produit au panier avec une qté initiale de 1
+                    $cart[$productId] = [
+                        'quantity' => $request->quantity ?? 1,
+                        'total' => $product['price'],
+                        'product' => $product,
+                    ];
+                }
+
+                $cart[$productId]['total'] = $cart[$productId]['quantity'] * $product['price'];
+
+
+                $cart[$productId]['total'] = $cart[$productId]['quantity'] * $product['price'];
+
+                //sauvegarde le panier dans la session
+                session()->put('cart', $cart);
+
+                return redirect()->back()->with('success', 'Produit ajouté au panier !');
             }
 
-            $cart[$productId]['total'] = $cart[$productId]['quantity'] * $product['price'];
-
-
-            $cart[$productId]['total'] = $cart[$productId]['quantity'] * $product['price'];
-
-            //sauvegarde le panier dans la session
-            session()->put('cart', $cart);
-
-            return redirect()->back()->with('success', 'Produit ajouté au panier !');
+            return redirect()->back()->with('error', 'Product non existant !');
         }
-
-        return redirect()->back()->with('error', 'Product non existant !');
     }
 
     public function remove(Request $request)
@@ -92,29 +85,30 @@ class CartController extends Controller
 
         if (isset($cart[$productId])) {
             unset($cart[$productId]);
-        if (isset($cart[$productId])) {
-            unset($cart[$productId]);
+            if (isset($cart[$productId])) {
+                unset($cart[$productId]);
+            }
+
+            session()->put('cart', $cart);
+
+            $productNumber = count($cart);
+
+            // Calcul du prix total du panier
+            $totalCartPrice = array_sum(array_column($cart, 'total'));
+            $productNumber = count($cart);
+
+            // Calcul du prix total du panier
+            $totalCartPrice = array_sum(array_column($cart, 'total'));
+
+            if ($request->ajax()) {
+                return response()->json(['totalCartPrice' => $totalCartPrice, 'productNumber' => $productNumber, 'message' => 'Produit supprimé du panier avec succès !']);
+            }
+            if ($request->ajax()) {
+                return response()->json(['totalCartPrice' => $totalCartPrice, 'productNumber' => $productNumber, 'message' => 'Produit supprimé du panier avec succès !']);
+            }
+
+            return redirect()->back()->with('success', 'Produit supprimé du panier avec succès !');
         }
-
-        session()->put('cart', $cart);
-
-        $productNumber = count($cart);
-
-        // Calcul du prix total du panier
-        $totalCartPrice = array_sum(array_column($cart, 'total'));
-        $productNumber = count($cart);
-
-        // Calcul du prix total du panier
-        $totalCartPrice = array_sum(array_column($cart, 'total'));
-
-        if ($request->ajax()) {
-            return response()->json(['totalCartPrice' => $totalCartPrice, 'productNumber' => $productNumber, 'message' => 'Produit supprimé du panier avec succès !']);
-        }
-        if ($request->ajax()) {
-            return response()->json(['totalCartPrice' => $totalCartPrice, 'productNumber' => $productNumber, 'message' => 'Produit supprimé du panier avec succès !']);
-        }
-
-        return redirect()->back()->with('success', 'Produit supprimé du panier avec succès !');
     }
 
     public function couponcheck(Request $request)
@@ -147,18 +141,6 @@ class CartController extends Controller
             //si la nouvelle qte est supérieure à 0
             //si la nouvelle qte est supérieure à 0
             if ($newQuantity > 0) {
-                //mise à jour de la qte
-                $cart[$productId]['quantity'] = $newQuantity;
-                //calcul du nouveau total
-                $cart[$productId]['total'] = $newQuantity * $cart[$productId]['product']['price'];
-            } else {
-                //si la qte est egale à 0, on retire le produit du panier
-                unset($cart[$productId]);
-            }
-        }
-
-        //mettre à jour le panier dans la session
-        session()->put('cart', $cart);
                 //mise à jour de la qte
                 $cart[$productId]['quantity'] = $newQuantity;
                 //calcul du nouveau total
