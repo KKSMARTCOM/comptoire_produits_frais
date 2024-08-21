@@ -39,51 +39,50 @@
     @endforeach
 @else --}}
 <!-- Modal de validation de commande -->
-<div class="modal fade" id="orderModal" tabindex="-1" role="dialog" aria-labelledby="orderModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
+<div class="modal fade" id="orderModal" tabindex="-1" aria-labelledby="orderModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document" style="max-width: 500px;">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="orderModalLabel">Valider la commande</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <form id="orderForm" method="POST">
                     @csrf
                     <input type="hidden" name="product_id" id="modalProductId">
-                    <div class="form-group">
-                        <label for="name">Nom</label>
+                    <div class="mb-3">
+                        <label for="name" class="form-label text-dark">Nom</label>
                         <input type="text" class="form-control" id="name" name="name" required>
                     </div>
-                    <div class="form-group">
-                        <label for="address">Adresse</label>
+                    <div class="mb-3">
+                        <label for="address" class="form-label text-dark">Adresse</label>
                         <input type="text" class="form-control" id="address" name="address" required>
                     </div>
-                    <div class="form-group">
-                        <label for="email">Email</label>
+                    <div class="mb-3">
+                        <label for="email" class="form-label text-dark">Email</label>
                         <input type="email" class="form-control" id="email" name="email" required>
                     </div>
-                    <div class="form-group">
-                        <label for="phone">Numéro de téléphone</label>
+                    <div class="mb-3">
+                        <label for="phone" class="form-label text-dark">Numéro de téléphone</label>
                         <input type="text" class="form-control" id="phone" name="phone" required>
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
                 <button type="submit" form="orderForm" class="btn btn-primary">Valider commande</button>
             </div>
         </div>
     </div>
 </div>
 
-<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-                        rel="stylesheet">
-                    <!-- jQuery (nécessaire pour Bootstrap) -->
-                    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-                    <!-- Bootstrap JavaScript -->
-                    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
+
+
+
+
+
 
 <div class="row">
     <!-- Premier bloc image un-->

@@ -240,31 +240,36 @@ jQuery(document).ready(function ($) {
 
 
 
-$(document).ready(function() {
+document.addEventListener('DOMContentLoaded', function () {
     // Gérer le clic sur le bouton "Passer commande"
-    $('.showOrderForm').on('click', function(e) {
-        e.preventDefault();
+    document.querySelectorAll('.showOrderForm').forEach(function (button) {
+        button.addEventListener('click', function (e) {
+            e.preventDefault();
 
-        // Récupérer l'ID du produit à partir de l'attribut data-product-id
-        var productId = $(this).data('product-id');
+            // Récupérer l'ID du produit à partir de l'attribut data-product-id
+            var productId = button.getAttribute('data-product-id');
 
-        // Mettre à jour le champ caché du formulaire dans le modal avec l'ID du produit
-        $('#modalProductId').val(productId);
+            // Mettre à jour le champ caché du formulaire dans le modal avec l'ID du produit
+            document.getElementById('modalProductId').value = productId;
 
-        // Afficher le modal
-        $('#orderModal').modal('show');
+            // Afficher le modal
+            var orderModal = new bootstrap.Modal(document.getElementById('orderModal'));
+            orderModal.show();
+        });
     });
 
     // Gérer la fermeture du modal après la soumission du formulaire
-    $('#orderForm').on('submit', function(e) {
+    document.getElementById('orderForm').addEventListener('submit', function (e) {
         e.preventDefault();
         
         // Logique pour valider et soumettre le formulaire via Ajax ou autre méthode
         // Après soumission réussie, fermer le modal
-        $('#orderModal').modal('hide');
+        var orderModal = bootstrap.Modal.getInstance(document.getElementById('orderModal'));
+        orderModal.hide();
         
         // Optionnel: Vous pouvez ajouter du code pour afficher un message de confirmation ou rediriger l'utilisateur
     });
 });
+
 
 
