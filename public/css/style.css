@@ -148,6 +148,9 @@ ul {
   min-height: 500px;
   height: calc( 100vh - 120px);
   position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .site-section-cave .container{
@@ -155,7 +158,7 @@ ul {
   top: 0;
   height: 100%;
   display: flex;
-  justify-content: end;
+  justify-content: flex-start;
   align-items: center;
 }
 
@@ -228,7 +231,7 @@ ul {
   padding: 20px 0px;
 }
 
-.site-section-store-left{
+.site-section-store-right{
   width: calc(100% - 600px);
   padding: 0 50px;
   color: #000;
@@ -236,7 +239,7 @@ ul {
   align-items: center;
 }
 
-.site-section-store-right-double-image{
+.site-section-store-left-double-image{
   height: 500px;
   width: 500px;
   position: relative;
@@ -244,12 +247,12 @@ ul {
   justify-content: end;
 }
 
-.site-section-store-left h1{
+.site-section-store-right h1{
   font-size: 80px;
   font-weight: 900;
 }
 
-.site-section-store-left a{
+.site-section-store-right a{
   padding: 8px 20px;
   text-decoration: none;
   border: none;
@@ -260,19 +263,19 @@ ul {
   transition: all ease-in .3s;
 }
 
-.site-section-store-left a:hover{
+.site-section-store-right a:hover{
   background-color: transparent;
   border: 1px solid #000;
   color: #000;
 }
 
-.site-section-store-right-image{
+.site-section-store-left-image{
   height: 280px;
   width: 300px;
   overflow: hidden;
 }
 
-.site-section-store-right-image img{
+.site-section-store-left-image img{
   object-fit: cover;
 }
 
@@ -287,11 +290,11 @@ ul {
     display: block !important;
   }
 
-  .site-section-store-left {
+  .site-section-store-right {
     width: 100%;
   }
 
-  .site-section-store-right{
+  .site-section-store-left{
     width: 100%;
     display: flex;
     justify-content: center;
@@ -300,18 +303,18 @@ ul {
 }
 
 @media (max-width:768px) {
-  .site-section-store-left {
+  .site-section-store-right {
     padding: 0;
   }
 }
 
 @media (max-width:580px) {
-  .site-section-store-right-double-image{
+  .site-section-store-left-double-image{
     height: 300px;
     width: 300px;
   }
 
-  .site-section-store-right-image {
+  .site-section-store-left-image {
     height: 180px;
     width: 200px;
   }
@@ -366,7 +369,7 @@ ul {
   color: #000;
 }
 
-.site-section-box-bottom-link button{
+.site-section-box-bottom-link .button-link{
   padding: 6px 20px;
   border: none;
   background-color: #000;
@@ -1492,4 +1495,8 @@ ul {
 
 .btn-group:hover .select-arrow {
   transform: translateY(-50%) rotate(180deg); /* Rotation de la flèche lors du survol */
+}
+
+.modal-backdrop {
+  background-color: transparent !important;
 }

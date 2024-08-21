@@ -7,37 +7,10 @@ use App\Models\Invoice;
 use App\Models\Order;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 
 class CartController extends Controller
 {
-    public function cartList()
-    {
-        $cartItem = session()->get('cart') ?? [];
-        $totalPrice = 0;
-
-        foreach ($cartItem as $cart) {
-            $kdvOrani = $cart['kdv'] ?? 0;
-            $kdvTutar = ($cart['price'] * $cart['qty']) * ($kdvOrani / 100);
-            $toplamTutar = $cart['price'] * $cart['qty'] + $kdvTutar;
-            $totalPrice += $toplamTutar;
-        }
-
-        if (session()->get('couponCode') && $totalPrice != 0) {
-            $coupon = Coupon::where('name', session()->get('couponCode'))->where('status', '1')->first();
-            $couponPrice = $coupon->price ?? 0;
-            $totalPrice -= $couponPrice;
-        } else {
-            $totalPrice = $totalPrice;
-        }
-
-        session()->put('totalPrice', $totalPrice);
-
-        if (count(session()->get('cart')) == 0) {
-            session()->forget('couponCode');
-        }
-
-        return $cartItem;
-    }
 
     public function index()
     {
@@ -46,69 +19,72 @@ class CartController extends Controller
             'active' => 'Cart'
         ];
 
-        $cartItem = $this->cartList();
-        //return $cartItem;
-        return view('frontend.pages.cart', compact('cartItem', 'breadcrumb'));
+        // Récupère le panier de la session
+        $cart = session()->get('cart', []);
+
+        // Calcul du prix total du panier
+        $totalCartPrice = array_sum(array_column($cart, 'total'));
+
+        return view('frontend.pages.cart', compact('cart', 'totalCartPrice', 'breadcrumb'));
     }
 
     public function add(Request $request)
     {
-        $productID = sifrelecoz($request->product_id);
-        $qty = $request->qty ?? 1;
-        $size = $request->size;
+        //recupere le panier depuis la session ou initialise un tableau vide
+        $cart = session()->get('cart', []);
+        //decrypte l'id crypté
+        $productId = decryptData($request->product_id);
+        //recherche le produit par son id
+        $product = $this->getProductById($productId);
 
-        $product = Product::find($productID);
+        if ($product) {
+            //verifie si le produit est deja dans le panier
+            if (isset($cart[$productId])) {
+                //augmente la qté si le produit existe
+                $cart[$productId]['quantity']++;
+            } else {
+                //ajoute le produit au panier avec une qté initiale de 1
+                $cart[$productId] = [
+                    'quantity' => 1,
+                    'total' => $product['price'],
+                    'product' => $product,
+                ];
+            }
 
-        if (!$product) {
-            return back()->withError('Product Not Found.');
+            $cart[$productId]['total'] = $cart[$productId]['quantity'] * $product['price'];
+
+            //sauvegarde le panier dans la session
+            session()->put('cart', $cart);
+
+            return redirect()->back()->with('success', 'Produit ajouté au panier !');
         }
 
-        $cartItem = session('cart', []);
-
-        if (array_key_exists($productID, $cartItem)) {
-            $cartItem[$productID]['qty'] += $qty; // adet ekleme
-        } else {
-            $cartItem[$productID] = [
-                'image' => $product->image,
-                'name' => $product->name,
-                'price' => $product->price,
-                'qty' => $qty,
-                'kdv' => $product->kdv,
-                'size' => $size
-            ];
-        }
-
-        session(['cart' => $cartItem]);
-
-        if ($request->ajax()) {
-            return response()->json(['sepetCount' => count(session()->get('cart')), 'message' => 'Product successfully added to cart!']);
-        }
-
-        return back()->withSuccess('Product successfully added to cart.');
+        return redirect()->back()->with('error', 'Product non existant !');
     }
 
     public function remove(Request $request)
     {
         // return $request->all();
 
-        $productID = sifrelecoz($request->product_id);
-        $cartItem = session('cart', []);
+        $productId = decryptData($request->product_id);
+        $cart = session()->get('cart', []);
 
-        if (array_key_exists($productID, $cartItem)) {
-            unset($cartItem[$productID]);
+        if (isset($cart[$productId])) {
+            unset($cart[$productId]);
         }
 
-        session(['cart' => $cartItem]);
+        session()->put('cart', $cart);
 
-        if (count(session()->get('cart')) == 0) {
-            session()->forget('couponCode');
-        }
+        $productNumber = count($cart);
+
+        // Calcul du prix total du panier
+        $totalCartPrice = array_sum(array_column($cart, 'total'));
 
         if ($request->ajax()) {
-            return response()->json(['sepetCount' => count(session()->get('cart')), 'message' => 'The product has been successfully deleted from the cart!']);
+            return response()->json(['totalCartPrice' => $totalCartPrice, 'productNumber' => $productNumber, 'message' => 'Produit supprimé du panier avec succès !']);
         }
 
-        return back()->withSuccess('The product has been successfully deleted from the cart.');
+        return redirect()->back()->with('success', 'Produit supprimé du panier avec succès !');
     }
 
     public function couponcheck(Request $request)
@@ -129,42 +105,40 @@ class CartController extends Controller
         return back()->withSuccess('Coupon applied successfully.');
     }
 
-    public function newQty(Request $request)
+    public function updateCart(Request $request)
     {
-        $productID = $request->product_id;
-        $qty = $request->qty ?? 1;
-        $itemTotal = 0;
+        $productId = $request->product_id;
+        $newQuantity = $request->quantity ?? 1;
 
-        $product = Product::find($productID);
-        if (!$product) {
-            return response()->json('Product not found!');
-        }
-        $cartItem = session('cart', []);
+        $cart = session()->get('cart', []);
 
-
-        if (array_key_exists($productID, $cartItem)) {
-            $cartItem[$productID]['qty'] = $qty; // adet güncelleme
-            if ($qty == 0 || $qty < 0) {
-                unset($cartItem[$productID]);
+        if (isset($cart[$productId])) {
+            //si la nouvelle qte est supérieure à 0
+            if ($newQuantity > 0) {
+                //mise à jour de la qte
+                $cart[$productId]['quantity'] = $newQuantity;
+                //calcul du nouveau total
+                $cart[$productId]['total'] = $newQuantity * $cart[$productId]['product']['price'];
+            } else {
+                //si la qte est egale à 0, on retire le produit du panier
+                unset($cart[$productId]);
             }
-            // $itemTotal = $product->price * $qty;
-            $kdvOraniItem = $product->kdv ?? 0;
-            $kdvTutarItem = ($product->price * $qty) * ($kdvOraniItem / 100);
-            $itemTotal = $product->price * $qty + $kdvTutarItem;
         }
 
-        session(['cart' => $cartItem]);
+        //mettre à jour le panier dans la session
+        session()->put('cart', $cart);
 
-        $this->cartList();
+        $totalCartPrice = array_sum(array_column($cart, 'total'));
 
-        if ($request->ajax()) {
-            return response()->json(['itemTotal' => $itemTotal, 'totalPrice' => session()->get('totalPrice'), 'message' => 'Cart updated successfully']);
-        }
+        return response()->json([
+            'productTotal' => $cart[$productId]['total'] ?? 0,
+            'totalCartPrice' => $totalCartPrice
+        ]);
     }
 
     public function cartform()
     {
-        $cartItem = $this->cartList();
+        $cartItem = session()->get('cart', []);
         //return $cartItem;
         return view('frontend.pages.cartform', compact('cartItem'));
     }
@@ -230,5 +204,30 @@ class CartController extends Controller
 
         session()->forget('cart');
         return redirect()->route('index')->withSuccess('Shopping Completed Successfully.');
+    }
+
+    private function getProductById($productId)
+    {
+        $path = storage_path('app/data.json');
+        $json = File::get($path);
+        $products = json_decode($json, true);
+
+        foreach ($products as $product) {
+            if ($product['id'] == $productId) {
+                return $product;
+            }
+        }
+
+        return null;
+    }
+
+    private function calculTotal($cart)
+    {
+        $total = 0;
+        foreach ($cart as $item) {
+            $total += $item['product']['price'] * $item['quantity'];
+        }
+
+        return $total;
     }
 }

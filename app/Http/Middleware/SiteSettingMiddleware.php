@@ -25,10 +25,10 @@ class SiteSettingMiddleware
         $cartItem = session('cart', []);
 
         foreach ($cartItem as $cart) {
-            $countQty += $cart['qty'];
+            $countQty += $cart['quantity'];
         }
 
-        view()/* ->share(['settings'=>$settings, 'categories'=>$categories, 'countQty'=>$countQty]) */;
+        view()->share([/* 'settings'=>$settings, 'categories'=>$categories, */'countQty' => $countQty]);
 
         return $next($request);
     }

@@ -134,7 +134,7 @@
                     </div>
 
 
-                    <div class="row mb-5 productContent">
+                    <div class="row mb-3 productContent">
 
                         @include('frontend.ajax.productList')
 
@@ -163,7 +163,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="site-section site-blocks-2">
-                        
+
                         <div class="row">
                             @if (!empty($categories))
                                 {{-- collect: dizi oluştur --}}
@@ -172,10 +172,12 @@
                                 @endphp --}}
                                 {{-- @foreach ($allcategories->where('cat_ust', null) as $category) --}}
                                 @foreach ($categories->where('cat_ust', null) as $category)
-                                    <div class="col-sm-6 col-md-6 col-lg-4 mb-4 mb-lg-0" data-aos="fade" data-aos-delay="">
+                                    <div class="col-sm-6 col-md-6 col-lg-4 mb-4 mb-lg-0" data-aos="fade"
+                                        data-aos-delay="">
                                         <a class="block-2-item" href="{{-- {{ route($category->slug . 'product') }} --}}">
                                             <figure class="image">
-                                                <img src="{{ asset(/* $category->image */'images/shoe_1.jpg') }}" alt="" class="img-fluid">
+                                                <img src="{{ asset(/* $category->image */ 'images/shoe_1.jpg') }}"
+                                                    alt="" class="img-fluid">
                                             </figure>
                                             <div class="text">
                                                 <span class="text-uppercase">Collections</span>

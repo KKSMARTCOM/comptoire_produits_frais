@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AjaxController;
+use App\Http\Controllers\Backend\OrderController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\Frontend\PageController;
 use App\Http\Controllers\Frontend\PageHomeController;
@@ -33,7 +34,7 @@ Route::group(['middleware' => 'sitesetting'], function () {
     Route::post('/cart/add', [CartController::class, 'add'])->name('cartadd');
     Route::post('/cart/remove', [CartController::class, 'remove'])->name('cartremove');
     Route::post('/cart/couponcheck', [CartController::class, 'couponcheck'])->name('coupon.check');
-    Route::post('/cart/newQty', [CartController::class, 'newQty'])->name('cartnewQty');
+    Route::post('/cart/newQty', [CartController::class, 'updateCart'])->name('cartnewQty');
     Route::get('/cart/form', [CartController::class, 'cartform'])->name('cart.form');
     Route::post('/cart/save', [CartController::class, 'cartSave'])->name('cart.save');
 
