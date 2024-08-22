@@ -60,9 +60,7 @@
                 toastr.error("{{ $error }}")
             @endforeach
         @endif
-    </script>
 
-    <script>
         document.addEventListener('DOMContentLoaded', function() {
             var navbar = document.getElementById('site-navigation');
             var sticky = 200;

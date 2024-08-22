@@ -1335,11 +1335,10 @@ ul {
 .site-blocks-table .product-thumbnail .product-thumbnail-image {
   height: 100px;
   width: 100px;
-  overflow: hidden;
 }
 
 .product-thumbnail-image img{
-  object-fit: cover;
+  object-fit: contain;
   height: 100%;
   width: 100%;
 }

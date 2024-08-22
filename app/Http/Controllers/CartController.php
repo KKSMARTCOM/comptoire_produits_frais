@@ -16,7 +16,7 @@ class CartController extends Controller
     {
         $breadcrumb = [
             'pages' => [],
-            'active' => 'Cart'
+            'active' => 'Pannier'
         ];
 
         // Récupère le panier de la session
@@ -57,6 +57,12 @@ class CartController extends Controller
             //sauvegarde le panier dans la session
             session()->put('cart', $cart);
 
+            $productNumber = count($cart);
+
+            if ($request->ajax()) {
+                return response()->json(['message' => 'Produit ajouté au panier !', 'productNumber' => $productNumber]);
+            }
+
             return redirect()->back()->with('success', 'Produit ajouté au panier !');
         }
 
@@ -91,22 +97,6 @@ class CartController extends Controller
         }
     }
 
-    public function couponcheck(Request $request)
-    {
-        $coupon = Coupon::where('name', $request->coupon_name)->where('status', '1')->first();
-
-        if (empty($coupon)) {
-            return back()->withError('Coupon not found.');
-        }
-
-        $couponPrice = $coupon->price ?? 0;
-        session()->put('couponPrice', $couponPrice);
-
-        $this->cartList();
-
-        return back()->withSuccess('Coupon applied successfully.');
-    }
-
     public function updateCart(Request $request)
     {
         $productId = $request->product_id;
@@ -137,6 +127,22 @@ class CartController extends Controller
             'productTotal' => $cart[$productId]['total'] ?? 0,
             'totalCartPrice' => $totalCartPrice
         ]);
+    }
+
+    public function couponcheck(Request $request)
+    {
+        $coupon = Coupon::where('name', $request->coupon_name)->where('status', '1')->first();
+
+        if (empty($coupon)) {
+            return back()->withError('Coupon not found.');
+        }
+
+        $couponPrice = $coupon->price ?? 0;
+        session()->put('couponPrice', $couponPrice);
+
+        $this->cartList();
+
+        return back()->withSuccess('Coupon applied successfully.');
     }
 
     public function cartform()

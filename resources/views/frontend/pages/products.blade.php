@@ -5,19 +5,17 @@
 
     <div class="site-section">
         <div class="container">
-
             <div class="row mb-5">
                 <div class="col-md-12 order-2">
-
                     <div class="row">
                         <div class="col-md-12 mb-5">
                             <div class="float-md-left mb-4">
-                                <h2 class="text-black h5">NOS PRODUITS</h2>
+                                <h2 class="text-black h5 fw-bold">NOS PRODUITS</h2>
                             </div>
-                            <div class="d-flex">
+                            <div class="d-flex justify-content-between">
                                 <div class="dropdown mr-1 ml-md-auto"></div>
                                 <div class="btn-group">
-                                    <select class="form-control bordered-select" id="orderList">
+                                    <select class="form-control bordered-select border-secondary" id="orderList">
                                         <option class="dropdown-item" value="id-desc">Catégories
                                         </option>
                                         <option class="dropdown-item" value="id-desc">Volailles
@@ -37,7 +35,7 @@
                                 </div>
                                 <div class="dropdown mr-1 ml-md-auto"></div>
                                 <div class="btn-group">
-                                    <select class="form-control bordered-select" id="orderList">
+                                    <select class="form-control bordered-select border-secondary" id="orderList">
                                         <option class="dropdown-item" value="id-asc">Produits
                                         </option>
                                         <option class="dropdown-item" value="id-asc">Poulet Fermier
@@ -80,7 +78,7 @@
                                 </div>
                                 <div class="dropdown mr-1 ml-md-auto"></div>
                                 <div class="btn-group">
-                                    <select class="form-control bordered-select" id="orderList">
+                                    <select class="form-control bordered-select border-secondary" id="orderList">
                                         <option class="dropdown-item" value="price-asc">Prix
                                         </option>
                                         <option class="dropdown-item" value="id-asc">9.000 - 12.000 FCFA
@@ -198,71 +196,8 @@
     </div>
 @endsection
 
-{{-- @section('customjs')
+@section('customjs')
     <script>
-        var maxPrice = "{{ $maxPrice }}";
-        var defaultMinPrice = "{{ request()->min ?? 0 }}"; // varsa minprice yoksa 0
-        var defaultMaxPrice = "{{ request()->max ?? $maxPrice }}";
-
-        var url = new URL(window.location.href); //baseURL alır - düzenlenebilir hala getirir
-        $(document).on('click', '.filterBtn', function(e) {
-            filter();
-        });
-
-        function filter() {
-            let colorList = $(".colorList:checked").map((_, chk) => chk.value).get();
-            let sizeList = $(".sizeList:checked").map((_, chk) => chk.value).get();
-
-            if (colorList.length > 0) {
-                url.searchParams.set("color", colorList.join(","));
-            } else {
-                url.searchParams.delete("color");
-            }
-
-            if (sizeList.length > 0) {
-                url.searchParams.set("size", sizeList.join(","));
-            } else {
-                url.searchParams.delete("size");
-            }
-
-            var price = $('#priceBetween').val().split('-');
-            url.searchParams.set("min", price[0])
-
-            url.searchParams.set("max", price[1])
-
-            newUrl = url.href;
-            window.history.pushState({}, '', newUrl);
-            // location.reload(); // sayfayı refresh etme
-
-            $.ajax({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                type: "GET",
-                url: newUrl,
-                success: function(response) {
-
-                    $('.productContent').html(response.data);
-                    $('.paginateButtons').html(response.paginate)
-                }
-            });
-        }
-
-        $(document).on('change', '#orderList', function(e) {
-            var order = $(this).val();
-
-            if (order != '') {
-                orderby = order.split('-');
-                url.searchParams.set("order", orderby[0])
-                url.searchParams.set("sort", orderby[1])
-            } else {
-                url.searchParams.delete('order');
-                url.searchParams.delete('sort');
-            }
-
-            filter();
-        });
-
         $(document).on('submit', '#addForm', function(e) {
             e.preventDefault();
             const formData = $(this).serialize();
@@ -275,9 +210,9 @@
                 data: formData,
                 success: function(response) {
                     toastr.success(response.message);
-                    $('.count').text(response.sepetCount);
+                    $('.count').text(response.productNumber);
                 }
             });
         })
     </script>
-@endsection --}}
+@endsection
