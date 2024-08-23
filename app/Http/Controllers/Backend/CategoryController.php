@@ -14,8 +14,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::with('category:id,cat_ust,name')->get();
-        return view('backend.pages.category.index', compact('categories'));
+        //$categories = Category::with('category:id,cat_ust,name')->get();
+        return view('backend.pages.category.index');
     }
 
     /**
@@ -23,8 +23,8 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        $categories = Category::where('cat_ust',null)->get();
-        return view('backend.pages.category.edit', compact('categories'));
+        //$categories = Category::where('cat_ust', null)->get();
+        return view('backend.pages.category.edit');
     }
 
     /**
@@ -64,9 +64,9 @@ class CategoryController extends Controller
      */
     public function edit(string $id)
     {
-        $category = Category::where('id', $id)->first();
-        $categories = Category::get();
-        return view('backend.pages.category.edit', compact('category', 'categories'));
+        //$category = Category::where('id', $id)->first();
+        //$categories = Category::get();
+        return view('backend.pages.category.edit');
     }
 
     /**
@@ -107,13 +107,14 @@ class CategoryController extends Controller
         dosyasil($category->image);
 
         $category->delete();
-        return response(['error'=>false, 'message'=>'Category deleted successfully']);
+        return response(['error' => false, 'message' => 'Category deleted successfully']);
     }
 
-    public function status(Request $request){
+    public function status(Request $request)
+    {
         $update = $request->statu;
         $updateCheck = $update == "false" ? '0' : '1';
         Category::where('id', $request->id)->update(['status' => $updateCheck]);
-        return response(['error'=>false, 'status'=>$update]);
+        return response(['error' => false, 'status' => $update]);
     }
 }

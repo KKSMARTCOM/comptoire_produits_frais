@@ -146,15 +146,15 @@
 
                 <div class="page">
                     <div class="subpage">
-                        <div class="header center"><img class="header-img" src="{{ asset($settings['logo']) }}" />
-                            <h2 class="font-weight-400">{{ $order->name ?? '' }}</h2>
+                        <div class="header center"><img class="header-img" src="{{ asset('backend/images/logo.svg') }}" />
+                            <h2 class="font-weight-400">{{ $order->name ?? '123' }}</h2>
                         </div>
 
                         <div class="invoice">
                             <div class="invoce-from">
                                 <p class="invoice-header">Order No</p>
                                 <div class="font-size-14">
-                                    <p>{{ isset($order->order_no) ?? '' }}</p>
+                                    <p>{{ isset($order->order_no) ?? '123' }}</p>
                                 </div>
                             </div>
                             <div class="font-size-14">
@@ -162,10 +162,10 @@
                                     {{ isset($order->created_at) ? Carbon::parse($order->created_at)->format('d-m-Y H:i:s') : '' }}
                                 </p> --}}
                                 <p class="bold-text">Order date:
-                                    {{ isset($order->created_at) ? Carbon::parse($order->created_at)->format('d.m.Y H:i') : '' }}
+                                    {{ isset($order->created_at) ? Carbon::parse($order->created_at)->format('d.m.Y H:i') : '122' }}
                                 </p>
                                 <p>Confirmation Time:
-                                    {{ isset($order->updated_at) ? Carbon::parse($order->updated_at)->format('d.m.Y H:i') : '' }}
+                                    {{ isset($order->updated_at) ? Carbon::parse($order->updated_at)->format('d.m.Y H:i') : '123' }}
                                 </p>
                             </div>
                         </div>
@@ -175,9 +175,9 @@
                                 </div>
                             </div>
                             <div class="font-size-14">
-                                <p>{{ $order->phone }}</p>
-                                <p>{{ $order->address }}</p>
-                                <p>{{ $order->email }}</p>
+                                <p>{{-- {{ $order->phone }} --}} 963214587</p>
+                                <p>{{-- {{ $order->address }} --}} Cotonou</p>
+                                <p>{{-- {{ $order->email }} --}} toto@gmail.com</p>
                             </div>
                         </div>
                     </div>
@@ -185,10 +185,10 @@
                     <div class="content">
                         <h2 class="center font-weight-400">Invoice Information</h2>
                         <p class="font-size-14">{{ $order->company_name ?? '' }}</p>
-                        <p class="font-size-14">{{ $order->country }}</p>
-                        <p class="font-size-14">{{ $order->city }}</p>
-                        <p class="font-size-14">{{ $order->district }}</p>
-                        <p class="font-size-14">{{ $order->note }}</p>
+                        <p class="font-size-14">{{-- {{ $order->country }} --}} Bénin</p>
+                        <p class="font-size-14">{{-- {{ $order->city }} --}} Cotonou</p>
+                        <p class="font-size-14">{{-- {{ $order->district }} --}} Gbegamey</p>
+                        <p class="font-size-14">{{-- {{ $order->note }} --}} Veuillez me livrer rapidement</p>
 
                         <table class="unstyledTable">
                             <thead>
@@ -225,13 +225,42 @@
                                             @endphp
                                         </tr>
                                     @endforeach
+                                @else
+                                    <tr>
+                                        <td>Vin</td>
+                                        <td>2</td>
+                                        <td>15000 FCFA</td>
+                                        <td>0%</td>
+                                        <td>30000 FCFA</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Vin</td>
+                                        <td>2</td>
+                                        <td>15000 FCFA</td>
+                                        <td>0%</td>
+                                        <td>30000 FCFA</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Vin</td>
+                                        <td>2</td>
+                                        <td>15000 FCFA</td>
+                                        <td>0%</td>
+                                        <td>30000 FCFA</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Vin</td>
+                                        <td>2</td>
+                                        <td>15000 FCFA</td>
+                                        <td>0%</td>
+                                        <td>30000 FCFA</td>
+                                    </tr>
                                 @endif
                             </tbody>
                             </tr>
                         </table>
 
                         <div class="footer">
-                            <h2 class="font-weight-400">Total : $ {{ $allTotal }}
+                            <h2 class="font-weight-400">Total : $ {{ $allTotal ?? '10000 FCFA' }}
                                 <h2 />
                         </div>
                     </div>

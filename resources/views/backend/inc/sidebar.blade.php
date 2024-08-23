@@ -21,7 +21,8 @@
             </div>
         </li>
         <li class="nav-item">
-            <a class="nav-link" data-toggle="collapse" href="#ui-basic1" aria-expanded="false" aria-controls="ui-basic1">
+            <a class="nav-link" data-toggle="collapse" href="#ui-basic1" aria-expanded="false"
+                aria-controls="ui-basic1">
                 <i class="icon-layout menu-icon"></i>
                 <span class="menu-title">Categories</span>
                 <i class="menu-arrow"></i>
@@ -37,7 +38,8 @@
             </div>
         </li>
         <li class="nav-item">
-            <a class="nav-link" data-toggle="collapse" href="#ui-basic3" aria-expanded="false" aria-controls="ui-basic3">
+            <a class="nav-link" data-toggle="collapse" href="#ui-basic3" aria-expanded="false"
+                aria-controls="ui-basic3">
                 <i class="icon-layout menu-icon"></i>
                 <span class="menu-title">Orders</span>
                 <i class="menu-arrow"></i>

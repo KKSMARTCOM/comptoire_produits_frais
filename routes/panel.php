@@ -10,8 +10,8 @@ use App\Http\Controllers\Backend\DashboardController;
 use App\Http\Controllers\Backend\OrderController;
 use App\Http\Controllers\Backend\ProductController;
 
-Route::group(['middleware' => ['panelsetting', 'auth'], 'prefix'=>'panel', 'as'=>'panel.'], function(){
-    Route::get('/', [DashboardController::class,'index'])->name('index');
+Route::group([/* 'middleware' => ['panelsetting', 'auth'], */'prefix' => 'panel', 'as' => 'panel.'], function () {
+    Route::get('/', [DashboardController::class, 'index'])->name('index');
     // slider route
     Route::get('/slider', [SliderController::class, 'index'])->name('slider.index');
     Route::get('/slider/add', [SliderController::class, 'create'])->name('slider.create');

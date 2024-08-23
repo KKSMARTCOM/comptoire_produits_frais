@@ -53,6 +53,72 @@
                                             </td>
                                         </tr>
                                     @endforeach
+                                @else
+                                    <tr class="item" item-id="1">
+                                        <td>Toto</td>
+                                        <td>toto@email.com</td>
+                                        <td>96241841</td>
+                                        <td>Cotonou</td>
+                                        <td>
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox" class="durum" data-on="Active"
+                                                        data-off="Passive" data-onstyle="success" data-offstyle="danger"
+                                                        data-toggle="toggle" checked>
+                                                </label>
+                                            </div>
+                                        </td>
+                                        <td>5</td>
+                                        <td class="d-flex">
+                                            <a href="{{ route('panel.order.edit', 1) }}" class="btn btn-primary mr-2">Edit
+                                            </a>
+                                            <button type="button" class="deleteBtn btn btn-danger">Delete</button>
+                                        </td>
+                                    </tr>
+
+                                    <tr class="item" item-id="2">
+                                        <td>Toto</td>
+                                        <td>toto@email.com</td>
+                                        <td>96241841</td>
+                                        <td>Cotonou</td>
+                                        <td>
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox" class="durum" data-on="Active"
+                                                        data-off="Passive" data-onstyle="success" data-offstyle="danger"
+                                                        data-toggle="toggle">
+                                                </label>
+                                            </div>
+                                        </td>
+                                        <td>5</td>
+                                        <td class="d-flex">
+                                            <a href="{{ route('panel.order.edit', 1) }}" class="btn btn-primary mr-2">Edit
+                                            </a>
+                                            <button type="button" class="deleteBtn btn btn-danger">Delete</button>
+                                        </td>
+                                    </tr>
+
+                                    <tr class="item" item-id="3">
+                                        <td>Toto</td>
+                                        <td>toto@email.com</td>
+                                        <td>96241841</td>
+                                        <td>Cotonou</td>
+                                        <td>
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox" class="durum" data-on="Active"
+                                                        data-off="Passive" data-onstyle="success" data-offstyle="danger"
+                                                        data-toggle="toggle" checked>
+                                                </label>
+                                            </div>
+                                        </td>
+                                        <td>5</td>
+                                        <td class="d-flex">
+                                            <a href="{{ route('panel.order.edit', 1) }}" class="btn btn-primary mr-2">Edit
+                                            </a>
+                                            <button type="button" class="deleteBtn btn btn-danger">Delete</button>
+                                        </td>
+                                    </tr>
                                 @endif
                             </tbody>
                         </table>
@@ -60,7 +126,7 @@
 
                     <div class="row">
                         <div class="col-lg-12">
-                            {{ $orders->links('pagination::custom') }}
+                            {{-- {{ $orders->links('pagination::custom') }} --}}1
                         </div>
                     </div>
 

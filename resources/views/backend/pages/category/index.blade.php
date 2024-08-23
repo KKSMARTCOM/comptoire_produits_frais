@@ -54,6 +54,78 @@
                                             </td>
                                         </tr>
                                     @endforeach
+                                @else
+                                    <tr class="item" item-id="1">
+                                        <td class="py-1">
+                                            <img src="{{ asset('backend/images/carousel/banner_10.jpg') }}"
+                                                alt="" />
+                                        </td>
+                                        <td>Vin</td>
+                                        <td>Blanc; Rouge</td>
+                                        <td>
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox" class="durum" data-on="Active"
+                                                        data-off="Passive" data-onstyle="success" data-offstyle="danger"
+                                                        data-toggle="toggle" checked>
+                                                </label>
+                                            </div>
+                                        </td>
+                                        <td class="d-flex">
+                                            <a href="{{ route('panel.category.edit', 1) }}"
+                                                class="btn btn-primary mr-2">Edit
+                                            </a>
+                                            <button type="button" class="deleteBtn btn btn-danger">Delete</button>
+                                        </td>
+                                    </tr>
+
+                                    <tr class="item" item-id="2">
+                                        <td class="py-1">
+                                            <img src="{{ asset('backend/images/carousel/banner_9.jpg') }}"
+                                                alt="" />
+                                        </td>
+                                        <td>Vin</td>
+                                        <td>Blanc; Rouge</td>
+                                        <td>
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox" class="durum" data-on="Active"
+                                                        data-off="Passive" data-onstyle="success" data-offstyle="danger"
+                                                        data-toggle="toggle">
+                                                </label>
+                                            </div>
+                                        </td>
+                                        <td class="d-flex">
+                                            <a href="{{ route('panel.category.edit', 1) }}"
+                                                class="btn btn-primary mr-2">Edit
+                                            </a>
+                                            <button type="button" class="deleteBtn btn btn-danger">Delete</button>
+                                        </td>
+                                    </tr>
+
+                                    <tr class="item" item-id="3">
+                                        <td class="py-1">
+                                            <img src="{{ asset('backend/images/carousel/banner_8.jpg') }}"
+                                                alt="" />
+                                        </td>
+                                        <td>Vin</td>
+                                        <td>Blanc; Rouge</td>
+                                        <td>
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox" class="durum" data-on="Active"
+                                                        data-off="Passive" data-onstyle="success" data-offstyle="danger"
+                                                        data-toggle="toggle" checked>
+                                                </label>
+                                            </div>
+                                        </td>
+                                        <td class="d-flex">
+                                            <a href="{{ route('panel.category.edit', 1) }}"
+                                                class="btn btn-primary mr-2">Edit
+                                            </a>
+                                            <button type="button" class="deleteBtn btn btn-danger">Delete</button>
+                                        </td>
+                                    </tr>
                                 @endif
                             </tbody>
                         </table>

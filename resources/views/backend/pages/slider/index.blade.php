@@ -67,6 +67,148 @@
                                             </td>
                                         </tr>
                                     @endforeach
+                                @else
+                                    <tr class="item" item-id="1">
+                                        <td class="py-1">
+                                            <img src="{{ asset('backend/images/carousel/banner_1.jpg') }}"
+                                                alt="" />
+                                        </td>
+                                        <td>Lorem, ipsum.</td>
+                                        <td>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum, ipsum?</td>
+                                        <td>http://Loremipsumdolor</td>
+                                        <td>
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox" class="durum" data-on="Active"
+                                                        data-off="Passive" data-onstyle="success" data-offstyle="danger"
+                                                        data-toggle="toggle" checked>
+                                                </label>
+                                            </div>
+                                        </td>
+                                        <td class="d-flex">
+                                            <a href="{{ route('panel.slider.edit', 1) }}" class="btn btn-primary mr-2">Edit
+                                            </a>
+                                            <form action="{{ route('panel.slider.destroy', 1) }}" method="POST">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-danger">Delete</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+
+                                    <tr class="item" item-id="2">
+                                        <td class="py-1">
+                                            <img src="{{ asset('backend/images/carousel/banner_3.jpg') }}"
+                                                alt="" />
+                                        </td>
+                                        <td>Lorem, ipsum.</td>
+                                        <td>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum, ipsum?</td>
+                                        <td>http://Loremipsumdolor</td>
+                                        <td>
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox" class="durum" data-on="Active"
+                                                        data-off="Passive" data-onstyle="success" data-offstyle="danger"
+                                                        data-toggle="toggle" checked>
+                                                </label>
+                                            </div>
+                                        </td>
+                                        <td class="d-flex">
+                                            <a href="{{ route('panel.slider.edit', 1) }}" class="btn btn-primary mr-2">Edit
+                                            </a>
+                                            <form action="{{ route('panel.slider.destroy', 1) }}" method="POST">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-danger">Delete</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+
+                                    <tr class="item" item-id="3">
+                                        <td class="py-1">
+                                            <img src="{{ asset('backend/images/carousel/banner_4.jpg') }}"
+                                                alt="" />
+                                        </td>
+                                        <td>Lorem, ipsum.</td>
+                                        <td>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum, ipsum?</td>
+                                        <td>http://Loremipsumdolor</td>
+                                        <td>
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox" class="durum" data-on="Active"
+                                                        data-off="Passive" data-onstyle="success" data-offstyle="danger"
+                                                        data-toggle="toggle">
+                                                </label>
+                                            </div>
+                                        </td>
+                                        <td class="d-flex">
+                                            <a href="{{ route('panel.slider.edit', 2) }}" class="btn btn-primary mr-2">Edit
+                                            </a>
+                                            <form action="{{ route('panel.slider.destroy', 2) }}" method="POST">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-danger">Delete</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+
+                                    <tr class="item" item-id="4">
+                                        <td class="py-1">
+                                            <img src="{{ asset('backend/images/carousel/banner_5.jpg') }}"
+                                                alt="" />
+                                        </td>
+                                        <td>Lorem, ipsum.</td>
+                                        <td>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum, ipsum?</td>
+                                        <td>http://Loremipsumdolor</td>
+                                        <td>
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox" class="durum" data-on="Active"
+                                                        data-off="Passive" data-onstyle="success" data-offstyle="danger"
+                                                        data-toggle="toggle" checked>
+                                                </label>
+                                            </div>
+                                        </td>
+                                        <td class="d-flex">
+                                            <a href="{{ route('panel.slider.edit', 3) }}"
+                                                class="btn btn-primary mr-2">Edit
+                                            </a>
+                                            <form action="{{ route('panel.slider.destroy', 3) }}" method="POST">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-danger">Delete</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+
+                                    <tr class="item" item-id="5">
+                                        <td class="py-1">
+                                            <img src="{{ asset('backend/images/carousel/banner_6.jpg') }}"
+                                                alt="" />
+                                        </td>
+                                        <td>Lorem, ipsum.</td>
+                                        <td>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum, ipsum?</td>
+                                        <td>http://Loremipsumdolor</td>
+                                        <td>
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox" class="durum" data-on="Active"
+                                                        data-off="Passive" data-onstyle="success" data-offstyle="danger"
+                                                        data-toggle="toggle" checked>
+                                                </label>
+                                            </div>
+                                        </td>
+                                        <td class="d-flex">
+                                            <a href="{{ route('panel.slider.edit', 4) }}"
+                                                class="btn btn-primary mr-2">Edit
+                                            </a>
+                                            <form action="{{ route('panel.slider.destroy', 4) }}" method="POST">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-danger">Delete</button>
+                                            </form>
+                                        </td>
+                                    </tr>
                                 @endif
                             </tbody>
                         </table>

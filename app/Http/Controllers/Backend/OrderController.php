@@ -14,8 +14,8 @@ class OrderController extends Controller
      */
     public function index()
     {
-        $orders = Invoice::withCount('orders')->paginate(20);
-        return view('backend.pages.order.index', compact('orders'));
+        //$orders = Invoice::withCount('orders')->paginate(20);
+        return view('backend.pages.order.index');
     }
 
     /**
@@ -47,8 +47,8 @@ class OrderController extends Controller
      */
     public function edit(string $id)
     {
-        $order = Invoice::where('id', $id)->with('orders')->firstOrFail();
-        return view('backend.pages.order.edit', compact('order'));
+        //$order = Invoice::where('id', $id)->with('orders')->firstOrFail();
+        return view('backend.pages.order.edit');
     }
 
     /**
@@ -62,18 +62,20 @@ class OrderController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Request $request){
+    public function destroy(Request $request)
+    {
         $order = Invoice::where('id', $request->id)->firstOrFail();
         Order::where('order_no', $order->order_no)->delete();
 
         $order->delete();
-        return response(['error'=>false, 'message'=>'Order deleted successfully']);
+        return response(['error' => false, 'message' => 'Order deleted successfully']);
     }
 
-    public function status(Request $request){
+    public function status(Request $request)
+    {
         $update = $request->statu;
         $updateCheck = $update == "false" ? '0' : '1';
         Invoice::where('id', $request->id)->update(['status' => $updateCheck]);
-        return response(['error'=>false, 'status'=>$update]);
+        return response(['error' => false, 'status' => $update]);
     }
 }

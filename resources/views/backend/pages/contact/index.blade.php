@@ -53,6 +53,32 @@
                                             </td>
                                         </tr>
                                     @endforeach
+                                @else
+                                    <tr class="item" item-id="1">
+                                        <td>toto</td>
+                                        <td>toto@gmail.com</td>
+                                        <td>Comment commander</td>
+                                        <td>{!! strLimit(
+                                            'Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste delectus nemo, odit excepturi quae pariatur esse odio deleniti. Nisi, veritatis.',
+                                            20,
+                                            route('panel.contact.edit', 1),
+                                        ) !!}</td>
+                                        <td>
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox" class="durum" data-on="Active"
+                                                        data-off="Passive" data-onstyle="success" data-offstyle="danger"
+                                                        data-toggle="toggle" checked>
+                                                </label>
+                                            </div>
+                                        </td>
+                                        <td>ip</td>
+                                        <td class="d-flex">
+                                            <a href="{{ route('panel.contact.edit', 1) }}" class="btn btn-primary mr-2">Edit
+                                            </a>
+                                            <button type="button" class="deleteBtn btn btn-danger">Delete</button>
+                                        </td>
+                                    </tr>
                                 @endif
                             </tbody>
                         </table>
@@ -60,7 +86,7 @@
 
                     <div class="row">
                         <div class="col-lg-12">
-                            {{ $contacts->links('pagination::custom') }}
+                            {{-- {{ $contacts->links('pagination::custom') }} --}}
                         </div>
                     </div>
 

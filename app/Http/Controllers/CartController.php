@@ -129,7 +129,7 @@ class CartController extends Controller
         ]);
     }
 
-    public function couponcheck(Request $request)
+    /* public function couponcheck(Request $request)
     {
         $coupon = Coupon::where('name', $request->coupon_name)->where('status', '1')->first();
 
@@ -143,7 +143,7 @@ class CartController extends Controller
         $this->cartList();
 
         return back()->withSuccess('Coupon applied successfully.');
-    }
+    } */
 
     public function cartform()
     {
@@ -152,7 +152,7 @@ class CartController extends Controller
         return view('frontend.pages.cartform', compact('cartItem'));
     }
 
-    function generateKod()
+    /* public function generateKod()
     {
         $siparisno = generateOTP(7);
         if ($this->barcodeKodExists($siparisno)) {
@@ -162,7 +162,7 @@ class CartController extends Controller
         return $siparisno;
     }
 
-    function barcodeKodExists($siparisno)
+    public function barcodeKodExists($siparisno)
     {
         return Invoice::where('order_no', $siparisno)->exists();
     }
@@ -213,7 +213,7 @@ class CartController extends Controller
 
         session()->forget('cart');
         return redirect()->route('index')->withSuccess('Shopping Completed Successfully.');
-    }
+    } */
 
     private function getProductById($productId)
     {
@@ -228,15 +228,5 @@ class CartController extends Controller
         }
 
         return null;
-    }
-
-    private function calculTotal($cart)
-    {
-        $total = 0;
-        foreach ($cart as $item) {
-            $total += $item['product']['price'] * $item['quantity'];
-        }
-
-        return $total;
     }
 }

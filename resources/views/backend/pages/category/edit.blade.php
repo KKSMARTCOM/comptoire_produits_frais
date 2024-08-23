@@ -64,14 +64,23 @@
                             <label for="content">Kategori</label>
                             <select class="form-control" name="cat_ust" id="">
                                 <option value="">Select Category</option>
-                                @if ($categories)
+                                {{-- @if ($categories)
                                     @foreach ($categories as $item)
                                         <option value="{{ $item->id }}"
                                             {{ isset($category) && $category->cat_ust == $item->id ? 'selected' : '' }}>
                                             {{ $item->name }}
                                         </option>
                                     @endforeach
-                                @endif
+                                @endif --}}
+                                <option value="1">
+                                    Rouge
+                                </option>
+                                <option value="2">
+                                    Blanc
+                                </option>
+                                <option value="3">
+                                    Mousseux
+                                </option>
                             </select>
                         </div>
                         <div class="form-group">
@@ -91,7 +100,7 @@
                             </select>
                         </div>
                         <button type="submit" class="btn btn-primary mr-2">Submit</button>
-                        <button class="btn btn-light">Cancel</button>
+                        <a href="{{ route('panel.category.index') }}" class="btn btn-light">Cancel</a>
                     </form>
                 </div>
             </div>
