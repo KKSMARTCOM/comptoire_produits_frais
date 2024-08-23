@@ -106,8 +106,8 @@
                                         <td>
                                             <div class="checkbox">
                                                 <label>
-                                                    <input type="checkbox" class="durum" data-on="Active"
-                                                        data-off="Passive" data-onstyle="success" data-offstyle="danger"
+                                                    <input type="checkbox" class="" data-on="En cours"
+                                                        data-off="Livré" data-onstyle="success" data-offstyle="danger"
                                                         data-toggle="toggle" checked>
                                                 </label>
                                             </div>
