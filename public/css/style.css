@@ -112,7 +112,7 @@ ul {
 .btn.btn-primary {
   font-size: 17px;
   font-weight: 300;
-  background-color: #1a7b39 !important;
+  background-color: #004200 !important;
   /* letter-spacing: .2em; */
 }
 
@@ -522,7 +522,7 @@ ul {
 
 .site-footer span {
   font-size: 30px;
-  color: #1a7b39;
+  color: #004200;
 }
 
 .site-footer .footer-heading {
@@ -532,7 +532,7 @@ ul {
 
 /* Navbar */
 .site-navbar {
-  background: #1a7b39;
+  background: #004200;
   margin-bottom: 0px;
   z-index: 1999;
   position: relative;
@@ -792,7 +792,7 @@ ul {
   top: 0;
   left: 0;
   z-index: 1000;
-  background-color: #1a7b39;
+  background-color: #004200;
   width: 100%;
 }
 
@@ -877,7 +877,7 @@ ul {
   padding: 20px;
   height: calc(100vh - 52px);
   padding-bottom: 150px;
-  background-color: #1a7b39;
+  background-color: #004200;
 }
 
 .site-mobile-menu .site-nav-wrap {
@@ -1524,7 +1524,7 @@ ul {
 }
 
 .bordered-select {
-  border: 2px solid #1a7b39; /* Couleur et épaisseur de la bordure */
+  border: 2px solid #004200; /* Couleur et épaisseur de la bordure */
   padding: 5px 30px 5px 10px; /* Espacement intérieur */
   appearance: none; /* Supprimer le style par défaut de l'élément select */
   background-color: #fff; /* Couleur de fond */
@@ -1539,7 +1539,7 @@ ul {
   transform: translateY(-50%);
   pointer-events: none;
   transition: transform 0.3s ease;
-  color: #1a7b39; /* Couleur de la flèche */
+  color: #004200; /* Couleur de la flèche */
 }
 
 .btn-group:hover .select-arrow {
@@ -1549,3 +1549,4 @@ ul {
 .modal-backdrop {
   background-color: transparent !important;
 }
+

@@ -5,7 +5,7 @@
         <div class="col-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title">Slider</h4>
+                    <h4 class="card-title">Produit</h4>
 
                     @if ($errors)
                         @foreach ($errors->all() as $error)
@@ -44,7 +44,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group">
+                        {{-- <div class="form-group">
                             <label>Image</label>
                             <input type="file" name="image" class="file-upload-default">
                             <div class="input-group col-xs-12">
@@ -54,22 +54,33 @@
                                     <button class="file-upload-browse btn btn-primary" type="button">Upload</button>
                                 </span>
                             </div>
-                        </div>
+                        </div> --}}
                         <div class="form-group">
-                            <label for="name">Name</label>
+                            <label for="name">Nom</label>
                             <input type="text" class="form-control" id="name" value="{{ $slider->name ?? '' }}"
-                                name="name" placeholder="Slider Title">
+                                name="name" placeholder="Nom du produit">
                         </div>
                         <div class="form-group">
-                            <label for="content">Content</label>
+                            <label for="content">Description</label>
                             <textarea class="form-control" id="content" rows="4" name="content" placeholder="Slider Content">
                                 {!! $slider->content ?? '' !!}
                             </textarea>
                         </div>
                         <div class="form-group">
-                            <label for="link">Slider Link</label>
+                            <label for="link">Prix</label>
                             <input type="text" class="form-control" id="link" name="link"
-                                value="{{ $slider->link ?? '' }}" placeholder="Slider Link">
+                                value="{{ $slider->link ?? '' }}" placeholder="Prix du produit">
+                        </div>
+                        <div class="form-group">
+                            <label>Image</label>
+                            <input type="file" name="image" class="file-upload-default">
+                            <div class="input-group col-xs-12">
+                                <input type="text" class="form-control file-upload-info" disabled
+                                    placeholder="télécharger image">
+                                <span class="input-group-append">
+                                    <button class="file-upload-browse btn btn-primary" type="button" style="background-color: #004200 !important">Télécharger</button>
+                                </span>
+                            </div>
                         </div>
                         <div class="form-group">
                             <label for="status">Status</label>
@@ -77,12 +88,12 @@
                                 $status = $slider->status ?? '1';
                             @endphp
                             <select name="status" id="status" class="form-control">
-                                <option value="0" {{ $status == '0' ? 'selected' : '' }}>Passive</option>
-                                <option value="1" {{ $status == '1' ? 'selected' : '' }}>Active</option>
+                                <option value="0" {{ $status == '0' ? 'selected' : '' }}>Indisponible</option>
+                                <option value="1" {{ $status == '1' ? 'selected' : '' }}>Disponible</option>
                             </select>
                         </div>
-                        <button type="submit" class="btn btn-primary mr-2">Submit</button>
-                        <a href="{{ route('panel.slider.index') }}" class="btn btn-light">Cancel</a>
+                        <button type="submit" class="btn btn-primary mr-2" style="background-color: #004200 !important">Enregistrer</button>
+                        <a href="{{ route('panel.slider.index') }}" class="btn btn-light">Fermer</a>
                     </form>
                 </div>
             </div>

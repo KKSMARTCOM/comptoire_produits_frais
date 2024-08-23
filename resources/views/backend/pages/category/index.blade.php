@@ -5,9 +5,9 @@
         <div class="col-lg-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title">Basic Table</h4>
+                    <h4 class="card-title">Liste des catégories</h4>
                     <p class="card-description">
-                        <a href="{{ route('panel.category.create') }}" class="btn btn-primary">Add</a>
+                        <a href="{{ route('panel.category.create') }}" class="btn btn-primary" style="background-color: #004200 !important">Ajouter</a>
                     </p>
 
                     @if (session()->get('success'))
@@ -20,9 +20,9 @@
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th>Image</th>
-                                    <th>Kategori</th>
-                                    <th>Alt Kategori</th>
+                                    {{-- <th>Image</th> --}}
+                                    <th>Nom</th>
+                                    <th>Description</th>
                                     <th>Status</th>
                                     <th>Action</th>
                                 </tr>
@@ -31,16 +31,16 @@
                                 @if (!empty($categories) && $categories->count() > 0)
                                     @foreach ($categories as $category)
                                         <tr class="item" item-id="{{ $category->id }}">
-                                            <td class="py-1">
+                                            {{-- <td class="py-1">
                                                 <img src="{{ asset($category->image) }}" alt="{{ $category->name }}" />
-                                            </td>
+                                            </td> --}}
                                             <td>{{ $category->name }}</td>
                                             <td>{{ $category->category->name ?? '' }}</td>
                                             <td>
                                                 <div class="checkbox">
                                                     <label>
-                                                        <input type="checkbox" class="durum" data-on="Active"
-                                                            data-off="Passive" data-onstyle="success" data-offstyle="danger"
+                                                        <input type="checkbox" class="durum" data-on="Disponible"
+                                                            data-off="Indisponible" data-onstyle="success" data-offstyle="danger"
                                                             data-toggle="toggle"
                                                             {{ $category->status == '1' ? 'checked' : '' }}>
                                                     </label>
@@ -48,82 +48,82 @@
                                             </td>
                                             <td class="d-flex">
                                                 <a href="{{ route('panel.category.edit', $category->id) }}"
-                                                    class="btn btn-primary mr-2">Edit
+                                                    class="btn btn-primary mr-2">Modifier
                                                 </a>
-                                                <button type="button" class="deleteBtn btn btn-danger">Delete</button>
+                                                <button type="button" class="deleteBtn btn btn-danger" style="background-color: #FF281C !important">Supprimer</button>
                                             </td>
                                         </tr>
                                     @endforeach
                                 @else
                                     <tr class="item" item-id="1">
-                                        <td class="py-1">
+                                        {{-- <td class="py-1">
                                             <img src="{{ asset('backend/images/carousel/banner_10.jpg') }}"
                                                 alt="" />
-                                        </td>
+                                        </td> --}}
                                         <td>Vin</td>
                                         <td>Blanc; Rouge</td>
                                         <td>
                                             <div class="checkbox">
                                                 <label>
-                                                    <input type="checkbox" class="durum" data-on="Active"
-                                                        data-off="Passive" data-onstyle="success" data-offstyle="danger"
+                                                    <input type="checkbox" class="durum" data-on="Disponible"
+                                                        data-off="Indisponible" data-onstyle="success" data-offstyle="danger"
                                                         data-toggle="toggle" checked>
                                                 </label>
                                             </div>
                                         </td>
                                         <td class="d-flex">
                                             <a href="{{ route('panel.category.edit', 1) }}"
-                                                class="btn btn-primary mr-2">Edit
+                                                class="btn btn-primary mr-2">Modifier
                                             </a>
-                                            <button type="button" class="deleteBtn btn btn-danger">Delete</button>
+                                            <button type="button" class="deleteBtn btn btn-danger" style="background-color: #FF281C !important">Supprimer</button>
                                         </td>
                                     </tr>
 
                                     <tr class="item" item-id="2">
-                                        <td class="py-1">
+                                        {{-- <td class="py-1">
                                             <img src="{{ asset('backend/images/carousel/banner_9.jpg') }}"
                                                 alt="" />
-                                        </td>
-                                        <td>Vin</td>
-                                        <td>Blanc; Rouge</td>
+                                        </td> --}}
+                                        <td>Viandes</td>
+                                        <td>Volailles; Autres viandes</td>
                                         <td>
                                             <div class="checkbox">
                                                 <label>
-                                                    <input type="checkbox" class="durum" data-on="Active"
-                                                        data-off="Passive" data-onstyle="success" data-offstyle="danger"
+                                                    <input type="checkbox" class="durum" data-on="Disponible"
+                                                        data-off="Indisponible" data-onstyle="success" data-offstyle="danger"
                                                         data-toggle="toggle">
                                                 </label>
                                             </div>
                                         </td>
                                         <td class="d-flex">
                                             <a href="{{ route('panel.category.edit', 1) }}"
-                                                class="btn btn-primary mr-2">Edit
+                                                class="btn btn-primary mr-2">Modifier
                                             </a>
-                                            <button type="button" class="deleteBtn btn btn-danger">Delete</button>
+                                            <button type="button" class="deleteBtn btn btn-danger" style="background-color: #FF281C !important">Supprimer</button>
                                         </td>
                                     </tr>
 
                                     <tr class="item" item-id="3">
-                                        <td class="py-1">
+                                       {{--  <td class="py-1">
                                             <img src="{{ asset('backend/images/carousel/banner_8.jpg') }}"
                                                 alt="" />
-                                        </td>
-                                        <td>Vin</td>
-                                        <td>Blanc; Rouge</td>
+                                        </td> --}}
+                                        <td>Fruits & légumes frais</td>
+                                        <td>Fruits; légumes frais</td>
                                         <td>
                                             <div class="checkbox">
                                                 <label>
-                                                    <input type="checkbox" class="durum" data-on="Active"
-                                                        data-off="Passive" data-onstyle="success" data-offstyle="danger"
+                                                    <input type="checkbox" class="durum" data-on="Disponible"
+                                                        data-off="Indisponible" data-onstyle="success" data-offstyle="danger"
                                                         data-toggle="toggle" checked>
                                                 </label>
                                             </div>
                                         </td>
                                         <td class="d-flex">
                                             <a href="{{ route('panel.category.edit', 1) }}"
-                                                class="btn btn-primary mr-2">Edit
+                                                class="btn btn-primary mr-2">Modifier
                                             </a>
-                                            <button type="button" class="deleteBtn btn btn-danger">Delete</button>
+                                            <button type="button" class="deleteBtn btn btn-danger" style="background-color: #FF281C !important">Supprimer</button>
                                         </td>
                                     </tr>
                                 @endif

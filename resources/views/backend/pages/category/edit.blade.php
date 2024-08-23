@@ -5,7 +5,7 @@
         <div class="col-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title">Category</h4>
+                    <h4 class="card-title">Catégorie</h4>
 
                     @if ($errors)
                         @foreach ($errors->all() as $error)
@@ -44,7 +44,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group">
+                        {{-- <div class="form-group">
                             <label>Image</label>
                             <input type="file" name="image" class="file-upload-default">
                             <div class="input-group col-xs-12">
@@ -54,16 +54,11 @@
                                     <button class="file-upload-browse btn btn-primary" type="button">Upload</button>
                                 </span>
                             </div>
-                        </div>
+                        </div> --}}
                         <div class="form-group">
-                            <label for="name">Name</label>
-                            <input type="text" class="form-control" id="name" value="{{ $category->name ?? '' }}"
-                                name="name" placeholder="category Title">
-                        </div>
-                        <div class="form-group">
-                            <label for="content">Kategori</label>
+                            <label for="content">Nom</label>
                             <select class="form-control" name="cat_ust" id="">
-                                <option value="">Select Category</option>
+                                <option value="">Sélectionner la catégorie</option>
                                 {{-- @if ($categories)
                                     @foreach ($categories as $item)
                                         <option value="{{ $item->id }}"
@@ -73,34 +68,40 @@
                                     @endforeach
                                 @endif --}}
                                 <option value="1">
-                                    Rouge
+                                    Volailles
                                 </option>
                                 <option value="2">
-                                    Blanc
+                                    Fruits & légumes
                                 </option>
                                 <option value="3">
-                                    Mousseux
+                                    Vins
                                 </option>
                             </select>
                         </div>
                         <div class="form-group">
+                            <label for="name">Description</label>
+                            <input type="text" class="form-control" id="name" value="{{ $category->name ?? '' }}"
+                                name="name" placeholder="Description de la catégorie">
+                        </div>
+                        
+                        {{-- <div class="form-group">
                             <label for="content">Content</label>
                             <textarea class="form-control" id="content" rows="4" name="content" placeholder="Category Content">
                                 {!! $category->content ?? '' !!}
                             </textarea>
-                        </div>
+                        </div> --}}
                         <div class="form-group">
                             <label for="status">Status</label>
                             @php
                                 $status = $category->status ?? '1';
                             @endphp
                             <select name="status" id="status" class="form-control">
-                                <option value="0" {{ $status == '0' ? 'selected' : '' }}>Passive</option>
-                                <option value="1" {{ $status == '1' ? 'selected' : '' }}>Active</option>
+                                <option value="0" {{ $status == '0' ? 'selected' : '' }}>Disponible</option>
+                                <option value="1" {{ $status == '1' ? 'selected' : '' }}>Indisponible</option>
                             </select>
                         </div>
-                        <button type="submit" class="btn btn-primary mr-2">Submit</button>
-                        <a href="{{ route('panel.category.index') }}" class="btn btn-light">Cancel</a>
+                        <button type="submit" class="btn btn-primary mr-2" style="background-color: #004200 !important">Enregistrer</button>
+                        <a href="{{ route('panel.category.index') }}" class="btn btn-light">Annuler</a>
                     </form>
                 </div>
             </div>
