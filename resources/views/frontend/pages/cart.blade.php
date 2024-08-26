@@ -5,18 +5,17 @@
 
     <div class="site-section">
         <div class="container">
-            <div class="float-md-left mb-4">
-                <h2 class="text-black h5 fw-bold">VOTRE PANIER</h2>
-            </div>
             @if ($cart && count($cart) > 0)
                 <div class="row">
-                    <div class="col-lg-12 mb-5">
+                    <div class="col-lg-12 mb-5 d-flex justify-content-center">
                         @if (session()->get('success'))
                             <div class="alert alert-success">{{ session()->get('success') }}</div>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         @endif
 
                         @if (session()->get('error'))
                             <div class="alert alert-danger">{{ session()->get('error') }}</div>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         @endif
                     </div>
                 </div>
@@ -25,7 +24,7 @@
                         <table class="table table-bordered">
                             <thead>
                                 <tr>
-                                    <th class="product-thumbnail">Image</th>
+                                    <th class="product-thumbnail"></th>
                                     <th class="product-name">Produit</th>
                                     <th class="product-price">Prix Unitaire</th>
                                     <th class="product-quantity">Quantité</th>
@@ -51,7 +50,7 @@
                                                 <div class="input-group mb-3 align-items-center gap-2"
                                                     style="max-width: 120px;">
                                                     <div class="input-group-prepend">
-                                                        <button class="decreaseBtn btn btn-outline-primary js-btn-minus"
+                                                        <button class="decreaseBtn btn btn-outline-success js-btn-minus"
                                                             type="button">&minus;</button>
                                                     </div>
                                                     <input type="text" class="qtyItem form-control text-center"
@@ -59,7 +58,7 @@
                                                         aria-label="Example text with button addon"
                                                         aria-describedby="button-addon1">
                                                     <div class="input-group-append">
-                                                        <button class="increaseBtn btn btn-outline-primary js-btn-plus"
+                                                        <button class="increaseBtn btn btn-outline-success js-btn-plus"
                                                             type="button">&plus;</button>
                                                     </div>
                                                 </div>
@@ -76,7 +75,8 @@
                                                 @endphp
 
                                                 <input type="hidden" name="product_id" value="{{ $encrypt }}">
-                                                <button type="submit" class="btn btn-primary btn-sm border-0">X</button>
+                                                <button type="submit" class="btn btn-primary btn-sm border-0"><span
+                                                        style="font-size: 16px" class="mdi mdi-delete"></span></button>
                                             </form>
                                         </td>
                                     </tr>
@@ -84,6 +84,11 @@
                             </tbody>
                         </table>
                     </div>
+                </div>
+
+                <div>
+                    <h3 class="mb-5">Vous avez besoin d'autres produits, <a href="">cliquez ici</a> pour acheter
+                        plus</h3>
                 </div>
 
                 <div class="row">
@@ -101,7 +106,7 @@
                                         placeholder="Coupon Code">
                                 </div>
                                 <div class="col-md-4">
-                                    <button type="submit" class="btn btn-primary btn-sm">Appliquer</button>
+                                    <button type="submit" class="btn btn-primary btn-sm border-0">Appliquer</button>
                                 </div>
                             </div>
                         </form>
@@ -135,7 +140,7 @@
 
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <button class="paymentButton btn btn-primary btn-lg py-3 btn-block">Passer
+                                        <button class="paymentButton btn btn-primary btn-lg py-3 btn-block border-0">Passer
                                             commande</button>
                                     </div>
                                 </div>

@@ -1,8 +1,8 @@
-<div class="bg-light py-3">
+<div class="bg-light py-3 site-breadcrumb" style="background-image: url('{{ asset('images/banner.jpg') }}')">
     <div class="container">
-        <div class="row">
+        <div class="row text-center">
             <div class="col-md-12 mb-0">
-                <a href="{{ route('index') }}">Home</a>
+                <a href="{{ route('index') }}">Acceuil</a>
                 @if (!empty($breadcrumb['pages']))
                     @foreach ($breadcrumb['pages'] as $br)
                         <span class="mx-2 mb-0">/</span>

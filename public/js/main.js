@@ -238,11 +238,24 @@ jQuery(document).ready(function ($) {
     siteMagnificPopup();
 });
 
+// Afficher les catégories
+$(document).ready(function () {
+    $('.has-children').click(function () {
+        var dropdownContent = $('.site-category-dropdown');
+        // Toggle pour afficher ou cacher
+        if (dropdownContent.is(':visible')) {
+            dropdownContent.stop(true, true).slideUp(300).animate({ opacity: 0 }, { queue: false, duration: 300 });
+        } else {
+            dropdownContent.stop(true, true).slideDown(300).animate({ opacity: 1 }, { queue: false, duration: 300 });
+        }
+    });
+});
+
 
 
 document.addEventListener('DOMContentLoaded', function () {
     // Gérer le clic sur le bouton "Passer commande"
-    document.querySelectorAll('.showOrderForm').forEach(function (button) {
+    /* document.querySelectorAll('.showOrderForm').forEach(function (button) {
         button.addEventListener('click', function (e) {
             e.preventDefault();
 
@@ -256,17 +269,17 @@ document.addEventListener('DOMContentLoaded', function () {
             var orderModal = new bootstrap.Modal(document.getElementById('orderModal'));
             orderModal.show();
         });
-    });
+    }); */
 
     // Gérer la fermeture du modal après la soumission du formulaire
     document.getElementById('orderForm').addEventListener('submit', function (e) {
         e.preventDefault();
-        
+
         // Logique pour valider et soumettre le formulaire via Ajax ou autre méthode
         // Après soumission réussie, fermer le modal
         var orderModal = bootstrap.Modal.getInstance(document.getElementById('orderModal'));
         orderModal.hide();
-        
+
         // Optionnel: Vous pouvez ajouter du code pour afficher un message de confirmation ou rediriger l'utilisateur
     });
 });

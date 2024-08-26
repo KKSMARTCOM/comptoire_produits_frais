@@ -31,7 +31,7 @@
                 <div class="col-lg-3 col-md-6 mt-4 mt-lg-0" data-aos="fade-up" data-aos-delay="300">
                     <div class="site-category-card">
                         <div class="site-category-card-image">
-                            <img src="{{ asset('images/viandes.jpeg') }}" alt="">
+                            <img src="{{ asset('images/viandes.png') }}" alt="">
                         </div>
                         <h1>AUTRES VIANDES</h1>
                     </div>
@@ -75,7 +75,7 @@
                         <div class="" data-aos="fade-up" data-aos-delay="300">
                             <div class="site-category-card">
                                 <div class="site-category-card-image">
-                                    <img src="{{ asset('images/viandes.jpeg') }}" alt="">
+                                    <img src="{{ asset('images/viandes.png') }}" alt="">
                                 </div>
                                 <h1>AUTRES VIANDES</h1>
                             </div>
@@ -119,7 +119,7 @@
                         adipisicing elit. Aspernatur recusandae, ratione totam sequi soluta eligendi dicta ullam dignissimos
                         assumenda error explicabo laudantium et obcaecati molestiae reiciendis iure quidem vitae ipsa?...
                     </p>
-                    <a href="#">Voir plus</a>
+                    <a href="#">Découvrir</a>
                 </div>
             </div>
         </div>
@@ -141,12 +141,15 @@
                         <div class="site-section-box-bottom-text">
                             <h3>Coffret1</h3>
                             <p>20 000 FCFA</p>
-                            <p>Composé de ...</p>
+                            <p>Composé de Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quis, magnam...</p>
+
                         </div>
                         <div class="site-section-box-bottom-link">
                             <a href="#"><span class="mdi mdi-eye-outline"></span></a>
-                            <a href="#" class="button-link">COMMANDER</a>
                         </div>
+                    </div>
+                    <div class="mt-4 text-end">
+                        <a href="#" class="button-link">Commander</a>
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-6 site-section-box-container">
@@ -157,12 +160,15 @@
                         <div class="site-section-box-bottom-text">
                             <h3>Coffret2</h3>
                             <p>20 000 FCFA</p>
-                            <p>Composé de ...</p>
+                            <p>Composé de Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quis, magnam ...</p>
+
                         </div>
                         <div class="site-section-box-bottom-link">
                             <a href="#"><span class="mdi mdi-eye-outline"></span></a>
-                            <a href="#" class="button-link">COMMANDER</a>
                         </div>
+                    </div>
+                    <div class="mt-4 text-end">
+                        <a href="#" class="button-link">Commander</a>
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-6 site-section-box-container">
@@ -173,12 +179,15 @@
                         <div class="site-section-box-bottom-text">
                             <h3>Coffret3</h3>
                             <p>20 000 FCFA</p>
-                            <p>Composé de ...</p>
+                            <p>Composé de Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quis, magnam ...</p>
+
                         </div>
                         <div class="site-section-box-bottom-link">
                             <a href="#"><span class="mdi mdi-eye-outline"></span></a>
-                            <a href="#" class="button-link">COMMANDER</a>
                         </div>
+                    </div>
+                    <div class="mt-4 text-end">
+                        <a href="#" class="button-link">Commander</a>
                     </div>
                 </div>
             </div>

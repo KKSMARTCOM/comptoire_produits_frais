@@ -9,13 +9,10 @@
                 <div class="col-md-12 order-2">
                     <div class="row">
                         <div class="col-md-12 mb-5">
-                            <div class="float-md-left mb-4">
-                                <h2 class="text-black h5 fw-bold">NOS PRODUITS</h2>
-                            </div>
-                            <div class="d-flex justify-content-between">
+                            <div class="d-flex gap-2">
                                 <div class="dropdown mr-1 ml-md-auto"></div>
                                 <div class="btn-group">
-                                    <select class="form-control bordered-select border-secondary" id="orderList">
+                                    <select class="form-control bordered-select border-0" id="orderList">
                                         <option class="dropdown-item" value="id-desc">Catégories
                                         </option>
                                         <option class="dropdown-item" value="id-desc">Volailles
@@ -35,7 +32,7 @@
                                 </div>
                                 <div class="dropdown mr-1 ml-md-auto"></div>
                                 <div class="btn-group">
-                                    <select class="form-control bordered-select border-secondary" id="orderList">
+                                    <select class="form-control bordered-select border-0" id="orderList">
                                         <option class="dropdown-item" value="id-asc">Produits
                                         </option>
                                         <option class="dropdown-item" value="id-asc">Poulet Fermier
@@ -78,7 +75,7 @@
                                 </div>
                                 <div class="dropdown mr-1 ml-md-auto"></div>
                                 <div class="btn-group">
-                                    <select class="form-control bordered-select border-secondary" id="orderList">
+                                    <select class="form-control bordered-select border-0" id="orderList">
                                         <option class="dropdown-item" value="price-asc">Prix
                                         </option>
                                         <option class="dropdown-item" value="id-asc">9.000 - 12.000 FCFA
@@ -211,6 +208,24 @@
                 success: function(response) {
                     toastr.success(response.message);
                     $('.count').text(response.productNumber);
+                }
+            });
+        })
+
+        $(document).on('submit', '#add&OpenCartForm', function(e) {
+            e.preventDefault();
+            const formData = $(this).serialize();
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                type: "POST",
+                url: "{{ route('cartadd') }}",
+                data: formData,
+                success: function(response) {
+                    toastr.success(response.message);
+                    $('.count').text(response.productNumber);
+                    window.location.href = "{{ route('cart') }}";
                 }
             });
         })

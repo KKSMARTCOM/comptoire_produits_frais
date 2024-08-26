@@ -63,7 +63,7 @@ class CartController extends Controller
                 return response()->json(['message' => 'Produit ajouté au panier !', 'productNumber' => $productNumber]);
             }
 
-            return redirect()->back()->with('success', 'Produit ajouté au panier !');
+            return redirect()->route('cart')->with('success', 'Produit ajouté au panier !');
         }
 
         return redirect()->back()->with('error', 'Product non existant !');

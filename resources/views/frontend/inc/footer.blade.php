@@ -20,37 +20,43 @@
                                 <h2>A propos</h2>
                             </li>
                             <li><a href="">Acceuil</a></li>
+                            <li><a href="">Volailles</a></li>
                             <li><a href="">Poissons & Fruits de mer</a></li>
-                            <li><a href="">La cave</a></li>
                             <li><a href="">Autres viandes</a></li>
+                            <li><a href="">Fruits & Légumes</a></li>
+                            <li><a href="">La cave</a></li>
+                            <li><a href="">CPF Store</a></li>
                         </ul>
                     </div>
                     <div class="col-lg-6 col-md-6">
                         <ul>
-                            <li>-</li>
-                            <li><a href="">Contact</a></li>
-                            <li><a href="">CPF Store</a></li>
-                            <li><a href="">Fruits & Légumes</a></li>
-                            <li><a href="">Politiques de confidentialité</a></li>
+                            <li>
+                                <h2>Contact</h2>
+                            </li>
+                            <li class="d-flex align-items-center gap-2"><span class="mdi mdi-facebook"></span>
+                                <p>Facebook</p>
+                            </li>
+                            <li class="d-flex align-items-center gap-2"><span class="mdi mdi-whatsapp"></span>
+                                <p>Whatsapp</p>
+                            </li>
+                            <li class="d-flex align-items-center gap-2"><span class="mdi mdi-phone"></span>
+                                <p>00229 0000000</p>
+                            </li>
+                            <li class="d-flex align-items-center gap-2"><span class="mdi mdi-map-marker"></span>
+                                <p>Cotonou, Benin</p>
+                            </li>
                         </ul>
                     </div>
                 </div>
-                <div class="row mt-md-4 mt-xs-4">
-                    <div class="col-lg-6 col-md-6 d-flex gap-3 align-items-center">
-                        <span class="mdi mdi-phone"></span>
-                        <p>00229 0000000</p>
-                    </div>
-                    <div class="col-lg-6 col-md-6 d-flex gap-3 align-items-center">
-                        <span class="mdi mdi-map-marker"></span>
-                        <p>Cotonou, Benin</p>
-                    </div>
-                </div>
-                <div class="row mt-md-4 mt-xs-4">
-                    <div class="col-lg-12">
-                        <small>Copyright 2024 - Réalisé par <a href="">KKSMARTCOM</a></small>
-                    </div>
-                </div>
             </div>
+        </div>
+        <div class="site-footer-bottom d-flex justify-content-center align-items-center gap-2 mt-4">
+            <a href="#">Mentions légales</a> <span class="mdi mdi-circle"></span>
+            <a href="#">CGV</a> <span class="mdi mdi-circle"></span>
+            <a href="#">Politique de confidentialités</a>
+        </div>
+        <div class="text-center">
+            <p>Copyright © 2024 - Réalisé par <a href="https://kksmartcom.com/" target="_blank">KK SMART COM</a></p>
         </div>
     </div>
 </footer>
