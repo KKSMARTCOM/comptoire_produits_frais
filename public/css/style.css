@@ -1550,3 +1550,12 @@ ul {
   background-color: transparent !important;
 }
 
+/* .sidebar .nav:not(.sub-menu) > .nav-item.active {
+background-color: #004200 !important;
+} */
+
+.sidebar .nav .nav-item.active > .nav-link {
+  background-color: #004200 !important;
+  position: relative;
+  }
+

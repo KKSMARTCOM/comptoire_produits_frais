@@ -6,10 +6,16 @@
                 <span class="menu-title">Dashboard</span>
             </a>
         </li>
+        <li class="nav-item {{ request()->routeIs('panel.category.index') ? 'active' : '' }}">
+            <a class="nav-link" href="{{ route('panel.category.index') }}">
+                <i class="icon-layout menu-icon"></i>
+                <span class="menu-title">Catégories</span>
+            </a>
+        </li>
         <li class="nav-item {{ request()->routeIs('panel.slider.index') ? 'active' : '' }}">
             <a class="nav-link" {{-- data-toggle="collapse" --}} href="{{ route('panel.slider.index') }}" {{-- aria-expanded="false" aria-controls="ui-basic" --}}>
                 <i class="icon-layout menu-icon"></i>
-                <span class="menu-title">Catégories</span>
+                <span class="menu-title">Produits</span>
                 {{-- <i class="menu-arrow"></i> --}}
             </a>
             {{-- <div class="collapse" id="ui-basic">
@@ -20,12 +26,12 @@
                 </ul>
             </div> --}}
         </li>
-        <li class="nav-item {{ request()->routeIs('panel.category.index') ? 'active' : '' }}">
+        {{-- <li class="nav-item {{ request()->routeIs('panel.category.index') ? 'active' : '' }}">
             <a class="nav-link" href="{{ route('panel.category.index') }}">
                 <i class="icon-layout menu-icon"></i>
                 <span class="menu-title">Produits</span>
             </a>
-        </li>
+        </li> --}}
         <li class="nav-item {{ request()->routeIs('panel.order.index') ? 'active' : '' }}">
             <a class="nav-link" href="{{ route('panel.order.index') }}">
                 <i class="icon-layout menu-icon"></i>
