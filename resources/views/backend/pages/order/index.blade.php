@@ -5,7 +5,7 @@
         <div class="col-lg-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title">Basic Table</h4>
+                    <h4 class="card-title">Liste des commandes</h4>
 
                     @if (session()->get('success'))
                         <div class="alert alert-success">
@@ -17,12 +17,16 @@
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th>Name Surname</th>
-                                    <th>Emailt</th>
-                                    <th>Phonet</th>
-                                    <th>Address</th>
+                                    <th>Numéro de la commande </th>
+                                    <th>Nom du client </th>
+                                    <th>Date de la commande </th>
+                                    <th>Email du client</th>
+                                    <th>Numéro de téléphone du client</th>
+                                    <th>Adresse de livraison</th>
+                                    <th>Produits commandés</th>
+                                    <th>Qtité</th>
+                                    <th>Montant total </th>
                                     <th>Status</th>
-                                    <th>Number of Product</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -30,95 +34,111 @@
                                 @if (!empty($orders) && $orders->count() > 0)
                                     @foreach ($orders as $order)
                                         <tr class="item" item-id="{{ $order->id }}">
+                                            <td>{{ $order->number }}</td>
                                             <td>{{ $order->name }}</td>
+                                            <td>{{ $order->date }}</td>
                                             <td>{{ $order->email ?? '' }}</td>
                                             <td>{{ $order->phone ?? '' }}</td>
                                             <td>{!! strLimit($order->address, 20, route('panel.order.edit', $order->id)) !!}</td>
                                             <td>
                                                 <div class="checkbox">
                                                     <label>
-                                                        <input type="checkbox" class="durum" data-on="Active"
-                                                            data-off="Passive" data-onstyle="success" data-offstyle="danger"
+                                                        <input type="checkbox" class="durum" data-on="Livrée"
+                                                            data-off="En cours" data-onstyle="success" data-offstyle="danger"
                                                             data-toggle="toggle"
                                                             {{ $order->status == '1' ? 'checked' : '' }}>
                                                     </label>
                                                 </div>
                                             </td>
+                                            <td>{{ $order->product }}</td>
+                                            <td>{{ $order->Qtite }}</td>
+                                            <td>{{ $order->price }}</td>
                                             <td>{{ $order->orders_count ?? '' }}</td>
                                             <td class="d-flex">
                                                 <a href="{{ route('panel.order.edit', $order->id) }}"
-                                                    class="btn btn-primary mr-2">Edit
+                                                    class="btn btn-primary mr-2">Modifier
                                                 </a>
-                                                <button type="button" class="deleteBtn btn btn-danger">Delete</button>
+                                                <button type="button" class="deleteBtn btn btn-danger">Supprimer</button>
                                             </td>
                                         </tr>
                                     @endforeach
                                 @else
                                     <tr class="item" item-id="1">
+                                        <td>23455678</td>
                                         <td>Toto</td>
+                                        <td>23-08-2024</td>
                                         <td>toto@email.com</td>
                                         <td>96241841</td>
                                         <td>Cotonou</td>
+                                        <td>Chateau Rouge, dinde</td>
+                                        <td>5</td>
+                                        <td>45.000FCFA</td>
                                         <td>
                                             <div class="checkbox">
                                                 <label>
-                                                    <input type="checkbox" class="durum" data-on="Active"
-                                                        data-off="Passive" data-onstyle="success" data-offstyle="danger"
+                                                    <input type="checkbox" class="durum" data-on="Livrée"
+                                                        data-off="En cours" data-onstyle="success" data-offstyle="danger"
                                                         data-toggle="toggle" checked>
                                                 </label>
                                             </div>
                                         </td>
-                                        <td>5</td>
                                         <td class="d-flex">
-                                            <a href="{{ route('panel.order.edit', 1) }}" class="btn btn-primary mr-2">Edit
+                                            <a href="{{ route('panel.order.edit', 1) }}" class="btn btn-primary mr-2">Modifier
                                             </a>
-                                            <button type="button" class="deleteBtn btn btn-danger">Delete</button>
+                                            <button type="button" class="deleteBtn btn btn-danger">Supprimer</button>
                                         </td>
                                     </tr>
-
                                     <tr class="item" item-id="2">
+                                        <td>23455678</td>
                                         <td>Toto</td>
+                                        <td>23-08-2024</td>
                                         <td>toto@email.com</td>
                                         <td>96241841</td>
                                         <td>Cotonou</td>
-                                        <td>
-                                            <div class="checkbox">
-                                                <label>
-                                                    <input type="checkbox" class="durum" data-on="Active"
-                                                        data-off="Passive" data-onstyle="success" data-offstyle="danger"
-                                                        data-toggle="toggle">
-                                                </label>
-                                            </div>
-                                        </td>
+                                        <td>Chateau Rouge, dinde</td>
                                         <td>5</td>
-                                        <td class="d-flex">
-                                            <a href="{{ route('panel.order.edit', 1) }}" class="btn btn-primary mr-2">Edit
-                                            </a>
-                                            <button type="button" class="deleteBtn btn btn-danger">Delete</button>
-                                        </td>
-                                    </tr>
-
-                                    <tr class="item" item-id="3">
-                                        <td>Toto</td>
-                                        <td>toto@email.com</td>
-                                        <td>96241841</td>
-                                        <td>Cotonou</td>
+                                        <td>45.000FCFA</td>
                                         <td>
                                             <div class="checkbox">
                                                 <label>
-                                                    <input type="checkbox" class="" data-on="En cours"
-                                                        data-off="Livré" data-onstyle="success" data-offstyle="danger"
+                                                    <input type="checkbox" class="durum" data-on="Livrée"
+                                                        data-off="En cours" data-onstyle="success" data-offstyle="danger"
                                                         data-toggle="toggle" checked>
                                                 </label>
                                             </div>
                                         </td>
-                                        <td>5</td>
                                         <td class="d-flex">
-                                            <a href="{{ route('panel.order.edit', 1) }}" class="btn btn-primary mr-2">Edit
+                                            <a href="{{ route('panel.order.edit', 1) }}" class="btn btn-primary mr-2">Modifier
                                             </a>
-                                            <button type="button" class="deleteBtn btn btn-danger">Delete</button>
+                                            <button type="button" class="deleteBtn btn btn-danger">Supprimer</button>
                                         </td>
                                     </tr>
+                                    <tr class="item" item-id="3">
+                                        <td>23455678</td>
+                                        <td>Toto</td>
+                                        <td>23-08-2024</td>
+                                        <td>toto@email.com</td>
+                                        <td>96241841</td>
+                                        <td>Cotonou</td>
+                                        <td>Chateau Rouge, dinde</td>
+                                        <td>5</td>
+                                        <td>45.000FCFA</td>
+                                        <td>
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox" class="durum" data-on="Livrée"
+                                                        data-off="En cours" data-onstyle="success" data-offstyle="danger"
+                                                        data-toggle="toggle" checked>
+                                                </label>
+                                            </div>
+                                        </td>
+                                        <td class="d-flex">
+                                            <a href="{{ route('panel.order.edit', 1) }}" class="btn btn-primary mr-2">Modifier
+                                            </a>
+                                            <button type="button" class="deleteBtn btn btn-danger">Supprimer</button>
+                                        </td>
+                                    </tr>
+                                    
                                 @endif
                             </tbody>
                         </table>

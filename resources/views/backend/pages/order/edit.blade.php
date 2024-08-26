@@ -146,7 +146,7 @@
 
                 <div class="page">
                     <div class="subpage">
-                        <div class="header center"><img class="header-img" src="{{ asset('backend/images/logo.svg') }}" />
+                        <div class="header center"><img class="header-img" src="{{ asset('backend/images/logoold.svg') }}" />
                             <h2 class="font-weight-400">{{ $order->name ?? '123' }}</h2>
                         </div>
 
