@@ -13,15 +13,17 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-6 d-flex justify-content-center">
-                    <img src="{{ asset('images/' . $product[0]['image']) }}" alt="Image" class="img-fluid">
+                <div class="col-md-6 d-flex justify-content-center p-1">
+                    <div class="product-detail-image">
+                        <img src="{{ asset('images/' . $product[0]['image']) }}" alt="Image">
+                    </div>
                 </div>
                 <div class="col-md-6">
                     <h2 class="text-black">{{ $product[0]['name'] }}</h2>
                     <p class="text-black">{{-- {!! $product->content ?? '' !!} --}} Lorem ipsum dolor sit amet consectetur adipisicing elit.
                         Dolor animi magnam,
                         dolorum maiores libero molestiae numquam quaerat ratione nobis ab?</p>
-                    <p><strong class="text-primary h4">{{ number_format($product[0]['price'], 2) }} FCFA</strong></p>
+                    <p><strong class="h4">{{ number_format($product[0]['price'], 2) }} FCFA</strong></p>
                     @php
                         $encrypt = encryptData($product[0]['id']);
                     @endphp
@@ -64,18 +66,19 @@
                         <div class="mb-4">
                             <div class="input-group mb-3 align-items-center gap-2" style="max-width: 120px;">
                                 <div class="input-group-prepend">
-                                    <button class="btn btn-outline-primary js-btn-minus" type="button">&minus;</button>
+                                    <button class="btn btn-outline-success js-btn-minus" type="button">&minus;</button>
                                 </div>
                                 <input type="text" class="form-control text-center" value="1" name="quantity"
                                     placeholder="" aria-label="Example text with button addon"
                                     aria-describedby="button-addon1">
                                 <div class="input-group-append">
-                                    <button class="btn btn-outline-primary js-btn-plus" type="button">&plus;</button>
+                                    <button class="btn btn-outline-success js-btn-plus" type="button">&plus;</button>
                                 </div>
                             </div>
 
                         </div>
-                        <p><button type="submit" class="buy-now btn btn-sm btn-primary">Ajouter au panier</button></p>
+                        <p><button type="submit" class="buy-now btn btn-sm btn-primary border-0">Ajouter au panier</button>
+                        </p>
                     </form>
 
                 </div>
@@ -99,13 +102,13 @@
                                     <div class="block-4 text-center">
                                         <figure class="block-4-image d-flex justify-content-center">
                                             <img src="{{ asset('images/' . $product['image']) }}"
-                                                alt="{{ $product['name'] }}" class="img-fluid">
+                                                alt="{{ $product['name'] }}">
                                         </figure>
                                         <div class="block-4-text p-4">
                                             <h3><a href="{{ route('productdetail', $product['id']) }}">{{ $product['name'] }}
                                                 </a>
                                             </h3>
-                                            <p class="text-primary font-weight-bold">{{ $product['price'] }} FCFA</p>
+                                            <p class="font-weight-bold">{{ $product['price'] }} FCFA</p>
                                         </div>
                                     </div>
                                 </div>

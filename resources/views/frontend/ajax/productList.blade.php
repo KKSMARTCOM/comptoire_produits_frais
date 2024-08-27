@@ -40,8 +40,8 @@
 
         <div class="col-sm-6 col-lg-3 mb-4 aos-init aos-animate" data-aos="fade-up">
             <div class="block-4 text-center">
-                <div class="block-4-image p-1">
-                    <a href={{ route('productdetail', $product['id']) }}><img
+                <div class="block-4-image">
+                    <a class="block-4-image-content" href={{ route('productdetail', $product['id']) }}><img
                             src="{{ asset('images/' . $product['image']) }}" alt="{{ $product['name'] }}"></a>
                 </div>
                 <div class="block-4-text p-4">

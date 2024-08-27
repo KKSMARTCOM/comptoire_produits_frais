@@ -203,7 +203,7 @@
                                     </div> --}}
 
                                     <div class="form-group">
-                                        <button class="btn btn-primary btn-lg py-3 btn-block">Commander</button>
+                                        <button class="btn btn-primary btn-lg py-3 btn-block border-0">Commander</button>
                                     </div>
 
                                 </div>

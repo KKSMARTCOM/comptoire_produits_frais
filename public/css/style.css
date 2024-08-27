@@ -39,6 +39,7 @@ img{
 
 ul {
   padding: 0 !important;
+  list-style: none;
 }
 
 .text-black {
@@ -552,7 +553,13 @@ ul {
   background-size: cover;
   background-position: center;
   height: 100px;
-  font-size: 18px;
+  font-size: 20px;
+  color: #fff;
+  font-weight: 600;
+}
+
+.site-breadcrumb a, .site-breadcrumb span, .site-breadcrumb strong{
+  color: #fff;
 }
 
 /* Navbar */
@@ -1298,6 +1305,7 @@ ul {
 
 .block-4 {
   background: #fff;
+  padding: 10px;
   transition: all ease-in-out .5s;
 }
 
@@ -1306,19 +1314,32 @@ ul {
 }
 
 .block-4 .block-4-image{
-  height: 250px;
-  width: 250px;
-  overflow: hidden;
+  height: 300px;
+  width: 100%;
   display: flex;
   justify-content: center;
+  align-items: center;
+}
+
+.block-4 .block-4-image .block-4-image-content{
+  height: 280px;
+  width: 220px;
+  overflow: hidden;
+  background-color: #fff;
 }
 
 .block-4 .block-4-image a{
   display: block;
 }
 
-.block-4 .block-4-image a img{
-  object-fit: cover;
+.block-4 .block-4-image .block-4-image-content a{
+  display: block;
+  height: 100%;
+  width: 100%;
+}
+
+.block-4 .block-4-image .block-4-image-content img{ 
+  object-fit: contain;
 }
 
 .block-4 .block-4-text h3 {
@@ -1331,10 +1352,11 @@ ul {
   font-size: 14px;
 }
 
-.block-4 .block-4-text h2 a{
+.block-4 .block-4-text h2 a, .block-4 .block-4-text h3 a{
   text-decoration: none;
   font-size: 20px;
-  font-weight: 500;
+  color: #000;
+  font-weight: 600;
 }
 
 .block-5 ul,
@@ -1436,6 +1458,18 @@ ul {
   height: 100%;
   width: 100%;
 }
+
+.product-mobile-thumbnail{
+  width: 250px;
+}
+
+@media (max-width:500px) {
+  .product-mobile-thumbnail {
+      width: 150px;
+    }
+}
+
+
 
 .site-blocks-table thead th {
   padding: 30px;
@@ -1598,6 +1632,16 @@ ul {
   width: 120px;
   border-radius: 50%;
   margin-bottom: 20px;
+}
+
+.product-detail-image{
+  height: 400px;
+  width: 100%;
+  overflow: hidden;
+}
+
+.product-detail-image img{
+  object-fit: contain;
 }
 
 /* dimensions des cards pour les images */
