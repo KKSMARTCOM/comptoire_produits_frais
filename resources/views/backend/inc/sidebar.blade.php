@@ -38,12 +38,19 @@
                 <span class="menu-title">Commandes</span>
             </a>
         </li>
-        <li class="nav-item {{ request()->routeIs('panel.about.index') ? 'active' : '' }}">
-            <a class="nav-link" href="{{ route('panel.about.index') }}">
+        {{-- <li class="nav-item {{ request()->routeIs('panel.user.index') || request()->routeIs('panel.user.update') ? 'active' : '' }}">
+            <a class="nav-link" href="{{ route('panel.user.index') }}">
                 <i class="icon-grid menu-icon"></i>
                 <span class="menu-title">Utilisateurs</span>
             </a>
+        </li> --}}
+        <li class="nav-item {{ request()->routeIs('panel.user.index') ? 'active' : '' }}">
+            <a class="nav-link" href="{{ route('panel.user.index') }}">
+                <i class="icon-layout menu-icon"></i>
+                <span class="menu-title">Utilisateurs</span>
+            </a>
         </li>
+
         <li class="nav-item {{ request()->routeIs('panel.contact.index') ? 'active' : '' }}">
             <a class="nav-link" href="{{ route('panel.contact.index') }}">
                 <i class="icon-grid menu-icon"></i>

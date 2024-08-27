@@ -55,9 +55,9 @@
                                             <td>{{ $order->price }}</td>
                                             <td>{{ $order->orders_count ?? '' }}</td>
                                             <td class="d-flex">
-                                                <a href="{{ route('panel.order.edit', $order->id) }}"
+                                                {{-- <a href="{{ route('panel.order.edit', $order->id) }}"
                                                     class="btn btn-primary mr-2">Modifier
-                                                </a>
+                                                </a> --}}
                                                 <button type="button" class="deleteBtn btn btn-danger">Supprimer</button>
                                             </td>
                                         </tr>
@@ -83,8 +83,8 @@
                                             </div>
                                         </td>
                                         <td class="d-flex">
-                                            <a href="{{ route('panel.order.edit', 1) }}" class="btn btn-primary mr-2">Modifier
-                                            </a>
+                                            {{-- <a href="{{ route('panel.order.edit', 1) }}" class="btn btn-primary mr-2">Modifier
+                                            </a> --}}
                                             <button type="button" class="deleteBtn btn btn-danger">Supprimer</button>
                                         </td>
                                     </tr>
@@ -108,8 +108,8 @@
                                             </div>
                                         </td>
                                         <td class="d-flex">
-                                            <a href="{{ route('panel.order.edit', 1) }}" class="btn btn-primary mr-2">Modifier
-                                            </a>
+                                            {{-- <a href="{{ route('panel.order.edit', 1) }}" class="btn btn-primary mr-2">Modifier
+                                            </a> --}}
                                             <button type="button" class="deleteBtn btn btn-danger">Supprimer</button>
                                         </td>
                                     </tr>
@@ -133,8 +133,8 @@
                                             </div>
                                         </td>
                                         <td class="d-flex">
-                                            <a href="{{ route('panel.order.edit', 1) }}" class="btn btn-primary mr-2">Modifier
-                                            </a>
+                                            {{-- <a href="{{ route('panel.order.edit', 1) }}" class="btn btn-primary mr-2">Modifier
+                                            </a> --}}
                                             <button type="button" class="deleteBtn btn btn-danger">Supprimer</button>
                                         </td>
                                     </tr>
