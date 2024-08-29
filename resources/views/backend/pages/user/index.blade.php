@@ -5,7 +5,10 @@
         <div class="col-lg-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title">Liste des contacts</h4>
+                    <h4 class="card-title">Liste des utilisateurs</h4>
+                    <p class="card-description">
+                        <a href="{{ route('panel.user.create') }}" class="btn btn-primary" style="background-color: #004200 !important">Ajouter</a>
+                    </p>
 
                     @if (session()->get('success'))
                         <div class="alert alert-success">
@@ -17,38 +20,21 @@
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th>Nom du client</th>
+                                    <th>Nom d'utilisateur</th>
                                     <th>Email</th>
-                                    <th>Objet</th>
-                                    <th>Message</th>
-                                    <th>Status</th>
+                                    <th>Mot de passe</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @if (!empty($contacts) && $contacts->count() > 0)
-                                    @foreach ($contacts as $contact)
-                                        <tr class="item" item-id="{{ $contact->id }}">
-                                            <td>{{ $contact->name }}</td>
-                                            <td>{{ $contact->email ?? '' }}</td>
-                                            <td>{{ $contact->objet ?? '' }}</td>
-                                            <td>{!! strLimit($contact->message, 20, route('panel.contact.edit', $contact->id)) !!}</td>
-                                            <td>
-                                                <div class="checkbox">
-                                                    <label>
-                                                        <input type="checkbox" class="durum" data-on="Active"
-                                                            data-off="Passive" data-onstyle="success" data-offstyle="danger"
-                                                            data-toggle="toggle"
-                                                            {{ $contact->status == '1' ? 'checked' : '' }}>
-                                                    </label>
-                                                </div>
-                                            </td>
-                                            <td>{{ $contact->ip ?? '' }}</td>
+                                @if (!empty($users) && $users->count() > 0)
+                                    @foreach ($users as $user)
+                                        <tr class="item" item-id="{{ $user->id }}">
+                                            <td>{{ $user->name }}</td>
+                                            <td>{{ $user->email ?? '' }}</td>
+                                            <td>{{ $user->password ?? '' }}</td>
                                             <td class="d-flex">
-                                                {{-- <a href="{{ route('panel.contact.edit', $contact->id) }}"
-                                                    class="btn btn-primary mr-2">Edit
-                                                </a> --}}
-                                                <button type="button" class="deleteBtn btn btn-danger">Delete</button>
+                                                <button type="button" class="deleteBtn btn btn-danger">Supprimer</button>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -56,24 +42,8 @@
                                     <tr class="item" item-id="1">
                                         <td>toto</td>
                                         <td>toto@gmail.com</td>
-                                        <td>Comment commander</td>
-                                        <td>{!! strLimit(
-                                            'Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste delectus nemo, odit excepturi quae pariatur esse odio deleniti. Nisi, veritatis.',
-                                            20,
-                                            route('panel.contact.edit', 1),
-                                        ) !!}</td>
-                                        <td>
-                                            <div class="checkbox">
-                                                <label>
-                                                    <input type="checkbox" class="durum" data-on="Traité"
-                                                        data-off="Non traité" data-onstyle="success" data-offstyle="danger"
-                                                        data-toggle="toggle" checked>
-                                                </label>
-                                            </div>
-                                        </td>
+                                        <td>é&ezaèytrçèiuyàçoiu"</td>
                                         <td class="d-flex">
-                                            {{-- <a href="{{ route('panel.contact.edit', 1) }}" class="btn btn-primary mr-2">Edit
-                                            </a> --}}
                                             <button type="button" class="deleteBtn btn btn-danger">Delete</button>
                                         </td>
                                     </tr>

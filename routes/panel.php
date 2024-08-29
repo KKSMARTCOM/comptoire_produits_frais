@@ -27,9 +27,10 @@ Route::group([/* 'middleware' => ['panelsetting', 'auth'], */'prefix' => 'panel'
     Route::resource('/category', CategoryController::class)->except('destroy'); // destroy çıkartılır.
     Route::delete('/category/destroy', [CategoryController::class, 'destroy'])->name('category.destroy');
     Route::post('/category-status/update', [CategoryController::class, 'status'])->name('category.status');
-    // about route
-    Route::get('/about', [AboutController::class, 'index'])->name('about.index');
-    Route::post('/about/update', [AboutController::class, 'update'])->name('about.update');
+    // user route
+    Route::get('/user', [AboutController::class, 'index'])->name('user.index');
+    Route::get('/user/add', [AboutController::class, 'create'])->name('user.create');
+    Route::post('/user/update', [AboutController::class, 'update'])->name('user.update');
     // contact route
     Route::get('/contact', [ContactController::class, 'index'])->name('contact.index');
     Route::get('/contact/{id}/edit', [ContactController::class, 'edit'])->name('contact.edit');

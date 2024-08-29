@@ -56,7 +56,7 @@
                             </div>
                         </div> --}}
                         <div class="form-group">
-                            <label for="content">Nom</label>
+                            <label for="content">Libellé</label>
                             <select class="form-control" name="cat_ust" id="">
                                 <option value="">Sélectionner la catégorie</option>
                                 {{-- @if ($categories)
@@ -78,11 +78,37 @@
                                 </option>
                             </select>
                         </div>
-                        <div class="form-group">
+                        {{-- <div class="form-group">
                             <label for="name">Description</label>
                             <input type="text" class="form-control" id="name" value="{{ $category->name ?? '' }}"
                                 name="name" placeholder="Description de la catégorie">
+                        </div> --}}
+                        <div class="form-group">
+                            <label for="description">Description</label>
+                            <input type="text" class="form-control" id="description" value="{{ $category->name ?? '' }}"
+                                name="description" placeholder="Description de la catégorie" maxlength="100">
+                            <small id="charLimitMessage" class="form-text text-danger" style="display: none;">Nombre de caractères atteint</small>
                         </div>
+                        
+                        <script>
+                            document.addEventListener('DOMContentLoaded', function() {
+                                const descriptionField = document.getElementById('description');
+                                const charLimitMessage = document.getElementById('charLimitMessage');
+                        
+                                descriptionField.addEventListener('input', function() {
+                                    const currentLength = descriptionField.value.length;
+                        
+                                    if (currentLength >= 100) {
+                                        charLimitMessage.style.display = 'block';
+                                        // Empêche la saisie de plus de 100 caractères
+                                        descriptionField.value = descriptionField.value.substring(0, 100);
+                                    } else {
+                                        charLimitMessage.style.display = 'none';
+                                    }
+                                });
+                            });
+                        </script>
+                        
                         
                         {{-- <div class="form-group">
                             <label for="content">Content</label>

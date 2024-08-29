@@ -1,4 +1,7 @@
 @extends('backend.layout.app')
+@php
+    $status = isset($slider) ? $slider->status : 'illimite'; // Remplacez 'illimite' par l'état par défaut souhaité
+@endphp
 
 @section('content')
     <div class="row">
@@ -22,7 +25,9 @@
                                 <tr>
                                     <th>Nom</th>
                                     <th>Description</th>
+                                    <th>Libellé</th>
                                     <th>Prix</th>
+                                    <th>Qtité</th>
                                     <th>Image</th>
                                     {{-- <th>Title</th> --}}
                                     {{-- <th>Content</th> --}}
@@ -49,14 +54,32 @@
                                                     class="badge badge-{{ $slider->status == '1' ? 'success' : 'danger' }}">
                                                     {{ $slider->status == '1' ? 'Active' : 'Passive' }}
                                                 </label> --}}
-                                                <div class="checkbox">
+                                                {{-- <div class="checkbox">
                                                     <label>
-                                                        <input type="checkbox" class="durum" data-on="Active"
-                                                            data-off="Passive" data-onstyle="success" data-offstyle="danger"
+                                                        <input type="checkbox" class="durum" data-on="Illimité"
+                                                            data-off="Epuisé" data-onstyle="success" data-offstyle="danger"
                                                             data-toggle="toggle"
                                                             {{ $slider->status == '1' ? 'checked' : '' }}>
                                                     </label>
+                                                </div> --}}
+                                                <div class="form-group">
+                                                    <label for="stockStatus">Statut du stock</label>
+                                                    <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                                                        <label class="btn btn-success {{ $slider->status == 'illimite' ? 'active' : '' }}">
+                                                            <input type="radio" name="status" value="illimite" id="optionIllimite" autocomplete="off"
+                                                                {{ $slider->status == 'illimite' ? 'checked' : '' }}> Illimité
+                                                        </label>
+                                                        <label class="btn btn-warning {{ $slider->status == 'en_stock' ? 'active' : '' }}">
+                                                            <input type="radio" name="status" value="en_stock" id="optionEnStock" autocomplete="off"
+                                                                {{ $slider->status == 'en_stock' ? 'checked' : '' }}> En stock
+                                                        </label>
+                                                        <label class="btn btn-danger {{ $slider->status == 'epuise' ? 'active' : '' }}">
+                                                            <input type="radio" name="status" value="epuise" id="optionEpuise" autocomplete="off"
+                                                                {{ $slider->status == 'epuise' ? 'checked' : '' }}> Épuisé
+                                                        </label>
+                                                    </div>
                                                 </div>
+                                                
                                             </td>
                                             <td class="d-flex">
                                                 <a href="{{ route('panel.slider.edit', $slider->id) }}"
@@ -77,7 +100,9 @@
                                     <tr class="item" item-id="1">
                                         <td>Poulet Fermier</td>
                                         <td>Le Poulet Fermier est une option de choix pour ceux qui recherchent une viande de meilleure qualité, tant sur le plan gustatif que nutritionnel.</td>
+                                        <td>Volailles</td>
                                         <td>1250.00 FCFA</td>
+                                        <td>125</td>
                                         <td class="py-1">
                                             <img src="{{ asset('backend/images/carousel/banner_1.jpg') }}"
                                                 alt="" />
@@ -85,12 +110,38 @@
                                         {{-- <td>Lorem, ipsum.</td> --}}
                                         {{-- <td>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum, ipsum?</td>
                                         <td>http://Loremipsumdolor</td> --}}
-                                        <td>
+                                        {{-- <td>
                                             <div class="checkbox">
                                                 <label>
                                                     <input type="checkbox" class="durum" data-on="Disponible"
                                                         data-off="Indisponible" data-onstyle="success" data-offstyle="danger"
                                                         data-toggle="toggle" checked>
+                                                </label>
+                                            </div>
+                                        </td> --}}
+                                        {{-- <td>
+                                            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                                                <label class="btn btn-success {{ $status == 'illimite' ? 'active' : '' }}">
+                                                    <input type="radio" name="status" id="illimite" value="illimite" {{ $status == 'illimite' ? 'checked' : '' }}> Illimité
+                                                </label>
+                                                <label class="btn btn-warning {{ $status == 'en_stock' ? 'active' : '' }}">
+                                                    <input type="radio" name="status" id="en_stock" value="en_stock" {{ $status == 'en_stock' ? 'checked' : '' }}> En stock
+                                                </label>
+                                                <label class="btn btn-danger {{ $status == 'epuise' ? 'active' : '' }}">
+                                                    <input type="radio" name="status" id="epuise" value="epuise" {{ $status == 'epuise' ? 'checked' : '' }}> Épuisé
+                                                </label>
+                                            </div>
+                                        </td> --}}
+                                        <td>
+                                            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                                                <label class="btn btn-success">
+                                                    <input type="radio" name="status" id="illimite" value="illimite"> Illimité
+                                                </label>
+                                                <label class="btn btn-warning">
+                                                    <input type="radio" name="status" id="en_stock" value="en_stock"> En stock
+                                                </label>
+                                                <label class="btn btn-danger">
+                                                    <input type="radio" name="status" id="epuise" value="epuise"> Épuisé
                                                 </label>
                                             </div>
                                         </td>
@@ -108,7 +159,9 @@
                                     <tr class="item" item-id="2">
                                         <td>Saumon Fumé</td>
                                         <td>Le saumon fumé est un produit de la mer d'une grande finesse, apprécié pour son goût fumé délicat et sa texture fondante</td>
+                                        <td>Poissons</td>
                                         <td>1800.00 FCFA</td>
+                                        <td></td>
                                         <td class="py-1">
                                             <img src="{{ asset('backend/images/carousel/banner_3.jpg') }}"
                                                 alt="" />
@@ -116,12 +169,25 @@
                                         {{-- <td>Lorem, ipsum.</td>
                                         <td>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum, ipsum?</td>
                                         <td>http://Loremipsumdolor</td> --}}
-                                        <td>
+                                        {{-- <td>
                                             <div class="checkbox">
                                                 <label>
                                                     <input type="checkbox" class="durum" data-on="Disponible"
                                                         data-off="Indisponible" data-onstyle="success" data-offstyle="danger"
                                                         data-toggle="toggle" checked>
+                                                </label>
+                                            </div>
+                                        </td> --}}
+                                        <td>
+                                            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                                                <label class="btn btn-success">
+                                                    <input type="radio" name="status" id="illimite" value="illimite"> Illimité
+                                                </label>
+                                                <label class="btn btn-warning">
+                                                    <input type="radio" name="status" id="en_stock" value="en_stock"> En stock
+                                                </label>
+                                                <label class="btn btn-danger">
+                                                    <input type="radio" name="status" id="epuise" value="epuise"> Épuisé
                                                 </label>
                                             </div>
                                         </td>
@@ -139,7 +205,9 @@
                                     <tr class="item" item-id="3">
                                         <td>Tomates Bio</td>
                                         <td>Les tomates bio représentent une option savoureuse, nutritive et respectueuse de l'environnement.</td>
+                                        <td>Produits frais</td>
                                         <td>300.00 FCFA</td>
+                                        <td></td>
                                         <td class="py-1">
                                             <img src="{{ asset('backend/images/carousel/banner_4.jpg') }}"
                                                 alt="" />
@@ -148,11 +216,15 @@
                                         <td>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum, ipsum?</td>
                                         <td>http://Loremipsumdolor</td> --}}
                                         <td>
-                                            <div class="checkbox">
-                                                <label>
-                                                    <input type="checkbox" class="durum" data-on="Disponible"
-                                                        data-off="Indisponible" data-onstyle="success" data-offstyle="danger"
-                                                        data-toggle="toggle">
+                                            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                                                <label class="btn btn-success">
+                                                    <input type="radio" name="status" id="illimite" value="illimite"> Illimité
+                                                </label>
+                                                <label class="btn btn-warning">
+                                                    <input type="radio" name="status" id="en_stock" value="en_stock"> En stock
+                                                </label>
+                                                <label class="btn btn-danger">
+                                                    <input type="radio" name="status" id="epuise" value="epuise"> Épuisé
                                                 </label>
                                             </div>
                                         </td>
@@ -170,7 +242,9 @@
                                     <tr class="item" item-id="4">
                                         <td>Vin Rouge</td>
                                         <td>Le vin rouge est une boisson riche et complexe, offrant une grande variété de saveurs et d'arômes.</td>
+                                        <td>Vins</td>
                                         <td>1500.00 FCFA</td>
+                                        <td>158</td>
                                         <td class="py-1">
                                             <img src="{{ asset('backend/images/carousel/banner_5.jpg') }}"
                                                 alt="" />
@@ -179,11 +253,15 @@
                                         <td>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum, ipsum?</td>
                                         <td>http://Loremipsumdolor</td> --}}
                                         <td>
-                                            <div class="checkbox">
-                                                <label>
-                                                    <input type="checkbox" class="durum" data-on="Disponible"
-                                                        data-off="Indisponible" data-onstyle="success" data-offstyle="danger"
-                                                        data-toggle="toggle" checked>
+                                            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                                                <label class="btn btn-success">
+                                                    <input type="radio" name="status" id="illimite" value="illimite"> Illimité
+                                                </label>
+                                                <label class="btn btn-warning">
+                                                    <input type="radio" name="status" id="en_stock" value="en_stock"> En stock
+                                                </label>
+                                                <label class="btn btn-danger">
+                                                    <input type="radio" name="status" id="epuise" value="epuise"> Épuisé
                                                 </label>
                                             </div>
                                         </td>
@@ -202,7 +280,9 @@
                                     <tr class="item" item-id="5">
                                         <td>Boeuf Angus</td>
                                         <td>Le Bœuf Angus est une viande de premier choix, prisée pour son goût riche, sa tendreté exceptionnelle, et son persillage généreux.</td>
+                                        <td>Autres viandes</td>
                                         <td>2500.00 FCFA</td>
+                                        <td></td>
                                         <td class="py-1">
                                             <img src="{{ asset('backend/images/carousel/banner_6.jpg') }}"
                                                 alt="" />
@@ -211,11 +291,15 @@
                                         <td>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum, ipsum?</td>
                                         <td>http://Loremipsumdolor</td> --}}
                                         <td>
-                                            <div class="checkbox">
-                                                <label>
-                                                    <input type="checkbox" class="durum" data-on="Disponible"
-                                                        data-off="Indisponible" data-onstyle="success" data-offstyle="danger"
-                                                        data-toggle="toggle" checked>
+                                            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                                                <label class="btn btn-success">
+                                                    <input type="radio" name="status" id="illimite" value="illimite"> Illimité
+                                                </label>
+                                                <label class="btn btn-warning">
+                                                    <input type="radio" name="status" id="en_stock" value="en_stock"> En stock
+                                                </label>
+                                                <label class="btn btn-danger">
+                                                    <input type="radio" name="status" id="epuise" value="epuise"> Épuisé
                                                 </label>
                                             </div>
                                         </td>
@@ -299,5 +383,7 @@
                     alertify.error('Deletion canceled.');
                 });
         });
+
+        
     </script>
 @endsection

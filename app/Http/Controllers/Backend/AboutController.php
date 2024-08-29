@@ -10,8 +10,8 @@ class AboutController extends Controller
 {
     public function index()
     {
-        //$about = About::where('id',1)->first();
-        return view('backend.pages.about.index');
+        //$user = User::where('id',1)->first();
+        return view('backend.pages.user.index');
     }
 
     public function update(Request $request, $id = 1)
@@ -20,17 +20,17 @@ class AboutController extends Controller
         if ($request->hasFile('image')) {
             $img = $request->file('image');
             $folderName = $request->name;
-            $uploadFolder = 'img/about/';
+            $uploadFolder = 'img/user/';
             folderOpen($uploadFolder);
             $imgurl = resimyukle($img, $folderName, $uploadFolder);
         }
 
-        $about = About::where('id', $id)->first();
+        $user = User::where('id', $id)->first();
 
-        About::updateOrCreate(
+        User::updateOrCreate(
             ['id' => $id], // sorgu kısmı
             [
-                'image' => $imgurl ?? $about->image,
+                'image' => $imgurl ?? $user->image,
                 'name' => $request->name,
                 'content' => $request->content,
                 'text_1_icon' => $request->text_1_icon,
@@ -45,6 +45,40 @@ class AboutController extends Controller
             ] // veritabanına eklenen kısım
         );
 
-        return back()->withSuccess('About updated successfully');
+        return back()->withSuccess('User updated successfully');
+    }
+
+    public function create()
+    {
+        //$categories = Category::where('cat_ust', null)->get();
+        return view('backend.pages.user.edit');
+    }
+
+    public function store(UserRequest $request)
+    {
+        if ($request->hasFile('image')) {
+            $img = $request->file('image');
+            $folderName = $request->name;
+            $uploadFolder = 'img/user/';
+            folderOpen($uploadFolder);
+            $imgurl = resimyukle($img, $folderName, $uploadFolder);
+        }
+
+        User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => $request->password,
+            'image' => $imgurl ?? NULL,
+        ]);
+
+        return back()->withSuccess('User created successfully');
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(string $id)
+    {
+        //
     }
 }

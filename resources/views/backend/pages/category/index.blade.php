@@ -7,7 +7,8 @@
                 <div class="card-body">
                     <h4 class="card-title">Liste des catégories</h4>
                     <p class="card-description">
-                        <a href="{{ route('panel.category.create') }}" class="btn btn-primary" style="background-color: #004200 !important">Ajouter</a>
+                        <a href="{{ route('panel.category.create') }}" class="btn btn-primary"
+                            style="background-color: #004200 !important">Ajouter</a>
                     </p>
 
                     @if (session()->get('success'))
@@ -21,7 +22,7 @@
                             <thead>
                                 <tr>
                                     {{-- <th>Image</th> --}}
-                                    <th>Nom</th>
+                                    <th>Libellé</th>
                                     <th>Description</th>
                                     <th>Status</th>
                                     <th>Action</th>
@@ -36,12 +37,14 @@
                                             </td> --}}
                                             <td>{{ $category->name }}</td>
                                             <td>{{ $category->category->name ?? '' }}</td>
+                                            {{-- <td>{{ \Illuminate\Support\Str::limit($category->category->name ?? '', 100) }}</td> --}}
+
                                             <td>
                                                 <div class="checkbox">
                                                     <label>
                                                         <input type="checkbox" class="durum" data-on="Disponible"
-                                                            data-off="Indisponible" data-onstyle="success" data-offstyle="danger"
-                                                            data-toggle="toggle"
+                                                            data-off="Indisponible" data-onstyle="success"
+                                                            data-offstyle="danger" data-toggle="toggle"
                                                             {{ $category->status == '1' ? 'checked' : '' }}>
                                                     </label>
                                                 </div>
@@ -50,7 +53,8 @@
                                                 <a href="{{ route('panel.category.edit', $category->id) }}"
                                                     class="btn btn-primary mr-2">Modifier
                                                 </a>
-                                                <button type="button" class="deleteBtn btn btn-danger" style="background-color: #FF281C !important">Supprimer</button>
+                                                <button type="button" class="deleteBtn btn btn-danger"
+                                                    style="background-color: #FF281C !important">Supprimer</button>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -66,8 +70,8 @@
                                             <div class="checkbox">
                                                 <label>
                                                     <input type="checkbox" class="durum" data-on="Disponible"
-                                                        data-off="Indisponible" data-onstyle="success" data-offstyle="danger"
-                                                        data-toggle="toggle" checked>
+                                                        data-off="Indisponible" data-onstyle="success"
+                                                        data-offstyle="danger" data-toggle="toggle" checked>
                                                 </label>
                                             </div>
                                         </td>
@@ -75,7 +79,8 @@
                                             <a href="{{ route('panel.category.edit', 1) }}"
                                                 class="btn btn-primary mr-2">Modifier
                                             </a>
-                                            <button type="button" class="deleteBtn btn btn-danger" style="background-color: #FF281C !important">Supprimer</button>
+                                            <button type="button" class="deleteBtn btn btn-danger"
+                                                style="background-color: #FF281C !important">Supprimer</button>
                                         </td>
                                     </tr>
 
@@ -90,8 +95,8 @@
                                             <div class="checkbox">
                                                 <label>
                                                     <input type="checkbox" class="durum" data-on="Disponible"
-                                                        data-off="Indisponible" data-onstyle="success" data-offstyle="danger"
-                                                        data-toggle="toggle">
+                                                        data-off="Indisponible" data-onstyle="success"
+                                                        data-offstyle="danger" data-toggle="toggle">
                                                 </label>
                                             </div>
                                         </td>
@@ -99,12 +104,13 @@
                                             <a href="{{ route('panel.category.edit', 1) }}"
                                                 class="btn btn-primary mr-2">Modifier
                                             </a>
-                                            <button type="button" class="deleteBtn btn btn-danger" style="background-color: #FF281C !important">Supprimer</button>
+                                            <button type="button" class="deleteBtn btn btn-danger"
+                                                style="background-color: #FF281C !important">Supprimer</button>
                                         </td>
                                     </tr>
 
                                     <tr class="item" item-id="3">
-                                       {{--  <td class="py-1">
+                                        {{--  <td class="py-1">
                                             <img src="{{ asset('backend/images/carousel/banner_8.jpg') }}"
                                                 alt="" />
                                         </td> --}}
@@ -114,8 +120,8 @@
                                             <div class="checkbox">
                                                 <label>
                                                     <input type="checkbox" class="durum" data-on="Disponible"
-                                                        data-off="Indisponible" data-onstyle="success" data-offstyle="danger"
-                                                        data-toggle="toggle" checked>
+                                                        data-off="Indisponible" data-onstyle="success"
+                                                        data-offstyle="danger" data-toggle="toggle" checked>
                                                 </label>
                                             </div>
                                         </td>
@@ -123,7 +129,8 @@
                                             <a href="{{ route('panel.category.edit', 1) }}"
                                                 class="btn btn-primary mr-2">Modifier
                                             </a>
-                                            <button type="button" class="deleteBtn btn btn-danger" style="background-color: #FF281C !important">Supprimer</button>
+                                            <button type="button" class="deleteBtn btn btn-danger"
+                                                style="background-color: #FF281C !important">Supprimer</button>
                                         </td>
                                     </tr>
                                 @endif
@@ -195,5 +202,6 @@
                     alertify.error('Deletion canceled.');
                 });
         });
+
     </script>
 @endsection
