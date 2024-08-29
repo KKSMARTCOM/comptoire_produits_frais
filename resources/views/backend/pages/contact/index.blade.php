@@ -5,7 +5,7 @@
         <div class="col-lg-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title">Basic Table</h4>
+                    <h4 class="card-title">Liste des contacts</h4>
 
                     @if (session()->get('success'))
                         <div class="alert alert-success">
@@ -17,12 +17,11 @@
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th>Name Surname</th>
-                                    <th>Emailt</th>
-                                    <th>Subject</th>
+                                    <th>Nom du client</th>
+                                    <th>Email</th>
+                                    <th>Objet</th>
                                     <th>Message</th>
                                     <th>Status</th>
-                                    <th>IP</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -32,7 +31,7 @@
                                         <tr class="item" item-id="{{ $contact->id }}">
                                             <td>{{ $contact->name }}</td>
                                             <td>{{ $contact->email ?? '' }}</td>
-                                            <td>{{ $contact->subject ?? '' }}</td>
+                                            <td>{{ $contact->objet ?? '' }}</td>
                                             <td>{!! strLimit($contact->message, 20, route('panel.contact.edit', $contact->id)) !!}</td>
                                             <td>
                                                 <div class="checkbox">
@@ -46,9 +45,9 @@
                                             </td>
                                             <td>{{ $contact->ip ?? '' }}</td>
                                             <td class="d-flex">
-                                                <a href="{{ route('panel.contact.edit', $contact->id) }}"
+                                                {{-- <a href="{{ route('panel.contact.edit', $contact->id) }}"
                                                     class="btn btn-primary mr-2">Edit
-                                                </a>
+                                                </a> --}}
                                                 <button type="button" class="deleteBtn btn btn-danger">Delete</button>
                                             </td>
                                         </tr>
@@ -66,16 +65,15 @@
                                         <td>
                                             <div class="checkbox">
                                                 <label>
-                                                    <input type="checkbox" class="durum" data-on="Active"
-                                                        data-off="Passive" data-onstyle="success" data-offstyle="danger"
+                                                    <input type="checkbox" class="durum" data-on="Traité"
+                                                        data-off="Non traité" data-onstyle="success" data-offstyle="danger"
                                                         data-toggle="toggle" checked>
                                                 </label>
                                             </div>
                                         </td>
-                                        <td>ip</td>
                                         <td class="d-flex">
-                                            <a href="{{ route('panel.contact.edit', 1) }}" class="btn btn-primary mr-2">Edit
-                                            </a>
+                                            {{-- <a href="{{ route('panel.contact.edit', 1) }}" class="btn btn-primary mr-2">Edit
+                                            </a> --}}
                                             <button type="button" class="deleteBtn btn btn-danger">Delete</button>
                                         </td>
                                     </tr>

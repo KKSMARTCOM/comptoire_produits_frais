@@ -5,9 +5,9 @@
         <div class="col-lg-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title">Site Settings</h4>
+                    <h4 class="card-title">Paramètres</h4>
                     <p class="card-description">
-                        <a href="{{ route('panel.setting.create') }}" class="btn btn-primary">Add</a>
+                        <a href="{{ route('panel.setting.create') }}" class="btn btn-primary">Ajouter</a>
                     </p>
 
                     @if (session()->get('success'))

@@ -61,15 +61,53 @@
                                 name="name" placeholder="Nom du produit">
                         </div>
                         <div class="form-group">
-                            <label for="content">Description</label>
-                            <textarea class="form-control" id="content" rows="4" name="content" placeholder="Slider Content">
-                                {!! $slider->content ?? '' !!}
-                            </textarea>
+                            <label for="description">Description</label>
+                            <input type="text" class="form-control" id="description" value="{{ $slider->name ?? '' }}"
+                                name="description" placeholder="Description du produit" maxlength="100">
+                            <small id="charLimitMessage" class="form-text text-danger" style="display: none;">Nombre de caractères atteint</small>
+                        </div>
+                        <script>
+                            document.addEventListener('DOMContentLoaded', function() {
+                                const descriptionField = document.getElementById('description');
+                                const charLimitMessage = document.getElementById('charLimitMessage');
+                        
+                                descriptionField.addEventListener('input', function() {
+                                    const currentLength = descriptionField.value.length;
+                        
+                                    if (currentLength >= 100) {
+                                        charLimitMessage.style.display = 'block';
+                                        // Empêche la saisie de plus de 100 caractères
+                                        descriptionField.value = descriptionField.value.substring(0, 100);
+                                    } else {
+                                        charLimitMessage.style.display = 'none';
+                                    }
+                                });
+                            });
+                        </script>
+                        <div class="form-group">
+                            <label for="content">Catégorie</label>
+                            <select class="form-control" name="cat_ust" id="">
+                                <option value="">Sélectionner la catégorie</option>
+                                <option value="1">
+                                    Volailles
+                                </option>
+                                <option value="2">
+                                    Fruits & légumes
+                                </option>
+                                <option value="3">
+                                    Vins
+                                </option>
+                            </select>
                         </div>
                         <div class="form-group">
                             <label for="link">Prix</label>
                             <input type="text" class="form-control" id="link" name="link"
                                 value="{{ $slider->link ?? '' }}" placeholder="Prix du produit">
+                        </div>
+                        <div class="form-group">
+                            <label for="qty">Qtité</label>
+                            <input type="text" class="form-control" id="qty" value="{{ $slider->qty ?? '' }}"
+                                name="qty" placeholder="Qtité en stock">
                         </div>
                         <div class="form-group">
                             <label>Image</label>
