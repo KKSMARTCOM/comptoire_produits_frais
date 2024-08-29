@@ -132,7 +132,7 @@
                     <h2>NOS COFFRETS & PANIERS DE FÊTES</h2>
                 </div>
             </div>
-            <div class="row gap-4 justify-content-center">
+            <div class="row gap-4 mb-4 justify-content-center">
                 <div class="col-lg-4 col-md-6 site-section-box-container">
                     <div class="site-section-box-image">
                         <img src="{{ asset('images/coffret1.jpg') }}" alt="">
@@ -191,8 +191,67 @@
                     </div>
                 </div>
             </div>
+            <div class="row gap-4 mb-4 justify-content-center more-coffret">
+                <div class="col-lg-4 col-md-6 site-section-box-container">
+                    <div class="site-section-box-image">
+                        <img src="{{ asset('images/coffret1.jpg') }}" alt="">
+                    </div>
+                    <div class="site-section-box-bottom">
+                        <div class="site-section-box-bottom-text">
+                            <h3>Coffret4</h3>
+                            <p>20 000 FCFA</p>
+                            <p>Composé de Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quis, magnam...</p>
+
+                        </div>
+                        <div class="site-section-box-bottom-link">
+                            <a href="#"><span class="mdi mdi-eye-outline"></span></a>
+                        </div>
+                    </div>
+                    <div class="mt-4 text-end">
+                        <a href="#" class="button-link">Commander</a>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 site-section-box-container">
+                    <div class="site-section-box-image">
+                        <img src="{{ asset('images/coffret2.jpg') }}" alt="">
+                    </div>
+                    <div class="site-section-box-bottom">
+                        <div class="site-section-box-bottom-text">
+                            <h3>Coffret5</h3>
+                            <p>20 000 FCFA</p>
+                            <p>Composé de Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quis, magnam ...</p>
+
+                        </div>
+                        <div class="site-section-box-bottom-link">
+                            <a href="#"><span class="mdi mdi-eye-outline"></span></a>
+                        </div>
+                    </div>
+                    <div class="mt-4 text-end">
+                        <a href="#" class="button-link">Commander</a>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 site-section-box-container">
+                    <div class="site-section-box-image">
+                        <img src="{{ asset('images/coffret3.jpg') }}" alt="">
+                    </div>
+                    <div class="site-section-box-bottom">
+                        <div class="site-section-box-bottom-text">
+                            <h3>Coffret6</h3>
+                            <p>20 000 FCFA</p>
+                            <p>Composé de Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quis, magnam ...</p>
+
+                        </div>
+                        <div class="site-section-box-bottom-link">
+                            <a href="#"><span class="mdi mdi-eye-outline"></span></a>
+                        </div>
+                    </div>
+                    <div class="mt-4 text-end">
+                        <a href="#" class="button-link">Commander</a>
+                    </div>
+                </div>
+            </div>
             <div class="site-section-box-more">
-                <a href="">Voir plus</a>
+                <a class="site-section-box-more-button" href="">Voir plus</a>
             </div>
         </div>
     </div>

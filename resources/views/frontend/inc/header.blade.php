@@ -35,11 +35,13 @@
 
 
     </div>
+
     <nav class="site-navigation text-center" id="site-navigation" role="navigation">
         <div class="container">
             <div class="d-flex align-items-center justify-content-between">
-                <div>
-                    <h2 class="text-dark">LOGO</h2>
+                <div class="site-logo">
+                    <a href="{{ route('index') }}"><img src="{{ asset('images/svg/KKSMARTDESIGN_CPF_LOGO_prop9.svg') }}"
+                            alt="LOGO"></a>
                 </div>
                 <ul class="site-menu js-clone-nav">
                     <li class="active"><a href="{{ route('index') }}">Accueil</a></li>
@@ -76,9 +78,37 @@
                     <li><a href="{{ route('product') }}">Autres viandes</a></li>
                     <li><a href="{{ route('product') }}">La cave</a></li>
                     <li><a href="{{ route('product') }}">Fruits & Légumes</a></li>
+                    <li><a href="{{ route('product') }}">Coffrets & Paniers</a></li>
                     <li><a href="{{ route('product') }}">CPF Store</a></li>
                 </ul>
             </div>
         </div>
     </nav>
+
+    <div class="site-mobile">
+        <div class="site-mobile-menu-bg"></div>
+        <div class="site-mobile-menu">
+            <div class="site-mobile-menu-header">
+                <div class='site-mobile-menu-close'><span class='mdi mdi-close js-menu-toggle'></span></div>
+                <div class="site-mobile-menu-logo">
+                    <div class="site-logo"><a href="{{ route('index') }}"><img
+                                src="{{ asset('images/svg/KKSMARTDESIGN_CPF_LOGO_prop9.svg') }}" alt='LOGO'></a>
+                    </div>
+                </div>
+            </div>
+            <div class='site-mobile-menu-body'>
+                <ul>
+                    <li class="active"><a href="{{ route('index') }}">Accueil</a></li>
+                    <li><a href="{{ route('product') }}">Volailles</a></li>
+                    <li><a href="{{ route('product') }}">Poissons </a></li>
+                    <li><a href="{{ route('product') }}">Autres Viandes</a></li>
+                    <li><a href="{{ route('product') }}">La cave</a></li>
+                    <li><a href="{{ route('product') }}">Fruits & Légumes</a></li>
+                    <li><a href="{{ route('product') }}">Coffrets & Paniers</a></li>
+                    <li><a href="{{ route('product') }}">CPF Store</a></li>
+                    <li><a href="{{ route('contact') }}">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
 </header>

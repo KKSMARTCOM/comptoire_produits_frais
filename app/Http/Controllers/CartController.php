@@ -147,9 +147,14 @@ class CartController extends Controller
 
     public function cartform()
     {
+        $breadcrumb = [
+            'pages' => [],
+            'active' => 'Commande'
+        ];
+
         $cartItem = session()->get('cart', []);
         //return $cartItem;
-        return view('frontend.pages.cartform', compact('cartItem'));
+        return view('frontend.pages.cartform', compact('breadcrumb', 'cartItem'));
     }
 
     /* public function generateKod()
@@ -165,26 +170,30 @@ class CartController extends Controller
     public function barcodeKodExists($siparisno)
     {
         return Invoice::where('order_no', $siparisno)->exists();
-    }
+    } */
 
     public function cartSave(Request $request)
     {
-        // return $request->all();
 
         $request->validate([
-            'name' => 'required|string|min:3',
-            'email' => 'required|email',
+            'lastname' => 'required|string|min:2',
+            'firstname' => 'required|string|min:2',
             'phone' => 'required|string',
             'company_name' => 'nullable|string',
             'address' => 'required|string',
-            'country' => 'required|string',
             'city' => 'required|string',
             'district' => 'required|string',
-            'zip_code' => 'required|string',
             'note' => 'nullable|string',
+        ], [
+            'lastname.required' => 'Vous devez obligatoirement remplir ce champ',
+            'firstname.required' => 'Vous devez obligatoirement remplir ce champ',
+            'phone.required' => 'Vous devez obligatoirement remplir ce champ',
+            'address.required' => 'Vous devez obligatoirement remplir ce champ',
+            'city.required' => 'Vous devez obligatoirement remplir ce champ',
+            'district.required' => 'Vous devez obligatoirement remplir ce champ',
         ]);
 
-        $invoce = Invoice::create([
+        /* $invoce = Invoice::create([
             "user_id" => auth()->user()->id ?? null,
             "order_no" => $this->generateKod(),
             "country" => $request->country,
@@ -197,9 +206,9 @@ class CartController extends Controller
             "email" => $request->email ?? null,
             "phone" => $request->phone ?? null,
             "note" => $request->note ?? null,
-        ]);
+        ]); */
 
-        $cart = session()->get('cart') ?? [];
+        /* $cart = session()->get('cart') ?? [];
         foreach ($cart as $key => $item) {
             Order::create([
                 'order_no' => $invoce->order_no,
@@ -209,11 +218,11 @@ class CartController extends Controller
                 'qty' => $item['qty'],
                 'kdvd' => $item['kdv'],
             ]);
-        }
+        } */
 
         session()->forget('cart');
-        return redirect()->route('index')->withSuccess('Shopping Completed Successfully.');
-    } */
+        return redirect()->route('finish')->with('success', 'Commande effectué !');
+    }
 
     private function getProductById($productId)
     {

@@ -21,6 +21,8 @@
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@5.9.55/css/materialdesignicons.min.css">
 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nouislider/distribute/nouislider.min.css">
+
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
 </head>
@@ -45,21 +47,18 @@
     @yield('customjs')
     <script src="{{ asset('/') }}js/main.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/nouislider/distribute/nouislider.min.js"></script>
 
     <script>
         @if (session()->get('success'))
             toastr.success("{{ session()->get('success') }}")
         @endif
 
-        @if (session()->get('error'))
-            toastr.error("{{ session()->get('error') }}")
-        @endif
-
-        @if (count($errors))
+        /* @if (session()->get('error'))
             @foreach ($errors->all() as $error)
                 toastr.error("{{ $error }}")
             @endforeach
-        @endif
+        @endif */
 
         document.addEventListener('DOMContentLoaded', function() {
             var navbar = document.getElementById('site-navigation');

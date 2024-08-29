@@ -23,6 +23,7 @@ Route::group(['middleware' => 'sitesetting'], function () {
     Route::get('/', [PageHomeController::class, 'index'])->name('index');
     Route::get('/about', [PageController::class, 'about'])->name('about');
     Route::get('/contact', [PageController::class, 'contact'])->name('contact');
+    Route::get('/finish', [PageController::class, 'finish'])->name('finish');
     Route::post('/contact/save', [AjaxController::class, 'contactsave'])->name('contact.save');
     Route::get('/product', [PageController::class, 'product'])->name('product');
     Route::get('/men/{slug?}', [PageController::class, 'product'])->name('menproduct');

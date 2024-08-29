@@ -100,10 +100,10 @@
                             @foreach ($productFeatures as $product)
                                 <div class="item">
                                     <div class="block-4 text-center">
-                                        <figure class="block-4-image d-flex justify-content-center">
+                                        <div class="block-4-image d-flex justify-content-center">
                                             <img src="{{ asset('images/' . $product['image']) }}"
-                                                alt="{{ $product['name'] }}">
-                                        </figure>
+                                                alt="{{ $product['name'] }}" class="object-fit-contain">
+                                        </div>
                                         <div class="block-4-text p-4">
                                             <h3><a href="{{ route('productdetail', $product['id']) }}">{{ $product['name'] }}
                                                 </a>

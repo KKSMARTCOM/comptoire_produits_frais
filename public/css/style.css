@@ -413,6 +413,10 @@ ul {
   color: #000;
 }
 
+.more-coffret{
+  display: none;
+}
+
 .site-section {
   padding: 2.5em 0;
 }
@@ -556,10 +560,25 @@ ul {
   font-size: 20px;
   color: #fff;
   font-weight: 600;
+  position: relative;
+}
+
+.site-breadcrumb .container{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .site-breadcrumb a, .site-breadcrumb span, .site-breadcrumb strong{
   color: #fff;
+}
+
+.site-breadcrumb-bg{
+  height: 100%;
+  width: 100%;
+  background-color: #000;
+  opacity: 0.5;
 }
 
 /* Navbar */
@@ -596,17 +615,17 @@ ul {
     display: inline-block;
     margin-right: 10px; }
   .site-navbar .site-search-icon a:hover {
-    text-decoration: none; }
-  .site-navbar .site-logo a {
-    text-transform: uppercase;
-    color: #25262a;
-    letter-spacing: .2em;
-    font-size: 20px;
-    padding-left: 10px;
-    padding-right: 10px;
-    border: 2px solid #25262a; }
-    .site-navbar .site-logo a:hover {
-      text-decoration: none; } */
+    text-decoration: none; }*/
+.site-navigation .site-logo {
+    height: 80px ;
+    width: 160px ;
+    overflow: hidden;
+}
+
+.site-navigation .site-logo img{
+  object-fit: contain;
+}
+
 .site-navbar a {
   color: #004200;
 }
@@ -842,7 +861,7 @@ ul {
 
 .site-category-dropdown ul li a{
   text-decoration: none;
-  padding: 10px;
+  padding: 10px 20px;
   background-color: #d8d8d8;
   border-radius: 50px;
   color: #333333;
@@ -852,7 +871,9 @@ ul {
 }
 
 .site-category-dropdown ul li a:hover{
-  transform: scale(1);
+  background-color: #fff;
+  color: #004200;
+  transform: translateX(1.5);
 }
 
 .show{
@@ -863,23 +884,42 @@ ul {
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 1000;
+  z-index: 500;
   background-color: #fff;
   border-bottom: 1px solid #004200;
   width: 100%;
 }
 
+.site-mobile{
+  visibility: hidden;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+}
+
+.site-mobile-menu-bg{
+  width: 100%;
+  height: 100%;
+  opacity: 0.5;
+  background-color: #000;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1000;
+}
+
 .site-mobile-menu {
   width: 300px;
+  top: 0;
+  right: -300px;
+  bottom: 0;
   position: fixed;
-  right: 0;
   z-index: 2000;
-  padding-top: 20px;
   background: #fff;
   height: calc(100vh);
-  -webkit-transform: translateX(110%);
-  -ms-transform: translateX(110%);
-  transform: translateX(110%);
   -webkit-box-shadow: -10px 0 20px -10px rgba(0, 0, 0, 0.1);
   box-shadow: -10px 0 20px -10px rgba(0, 0, 0, 0.1);
   -webkit-transition: .3s all ease-in-out;
@@ -896,7 +936,6 @@ ul {
 .site-mobile-menu .site-mobile-menu-header {
   width: 100%;
   float: left;
-  margin-bottom: 20px;
   padding-left: 20px;
   padding-right: 20px;
 }
@@ -907,7 +946,7 @@ ul {
 }
 
 .site-mobile-menu .site-mobile-menu-header .site-mobile-menu-close span {
-  font-size: 40px;
+  font-size: 30px;
   display: inline-block;
   padding-left: 10px;
   padding-right: 10px;
@@ -916,31 +955,11 @@ ul {
   -webkit-transition: .3s all ease;
   -o-transition: .3s all ease;
   transition: .3s all ease;
+  color: #000;
 }
 
 .site-mobile-menu .site-mobile-menu-header .site-mobile-menu-close span:hover {
   color: #25262a;
-}
-
-.site-mobile-menu .site-mobile-menu-header .site-mobile-menu-logo {
-  float: left;
-  margin-top: 10px;
-  margin-left: 20px;
-}
-
-.site-mobile-menu .site-mobile-menu-header .site-mobile-menu-logo a {
-  display: inline-block;
-  text-transform: uppercase;
-  color: #25262a;
-  letter-spacing: .2em;
-  font-size: 20px;
-  padding-left: 10px;
-  padding-right: 10px;
-  border: 2px solid #25262a;
-}
-
-.site-mobile-menu .site-mobile-menu-header .site-mobile-menu-logo a:hover {
-  text-decoration: none;
 }
 
 .site-mobile-menu .site-mobile-menu-body {
@@ -948,9 +967,9 @@ ul {
   -webkit-overflow-scrolling: touch;
   position: relative;
   padding: 20px;
-  height: calc(100vh - 52px);
+  height: calc(100vh - 30px);
   padding-bottom: 150px;
-  background-color: #004200;
+  background-color: #fff;
 }
 
 .site-mobile-menu .site-nav-wrap {
@@ -960,18 +979,20 @@ ul {
   position: relative;
 }
 
-.site-mobile-menu .site-nav-wrap a {
-  padding: 10px 20px;
+.site-mobile-menu .site-nav-wrap a, .site-mobile-menu .site-mobile-menu-body ul li a {
+  padding: 5px 20px;
+  font-size: 20px;
+  font-weight: 600 !important;
   display: block;
   position: relative;
-  color: #fff;
+  color: #004200;
   text-decoration: none;
   font-weight: 500;
 
 }
 
-.site-mobile-menu .site-nav-wrap a:hover {
-  color: #87CEEB;
+.site-mobile-menu .site-nav-wrap a:hover, .site-mobile-menu .site-mobile-menu-body ul li a:hover {
+  color: #FF281C;
 }
 
 .site-mobile-menu .site-nav-wrap li {
@@ -980,7 +1001,7 @@ ul {
 }
 
 .site-mobile-menu .site-nav-wrap li.active>a {
-  color: #87CEEB;
+  color: #FF281C;
 }
 
 .site-mobile-menu .site-nav-wrap .arrow-collapse {
@@ -1359,6 +1380,10 @@ ul {
   font-weight: 600;
 }
 
+.block-4 .buy-now{
+  padding: 5px 10px;
+}
+
 .block-5 ul,
 .block-5 ul li {
   list-style: none;
@@ -1656,7 +1681,7 @@ ul {
 
 /* panier bouton */
 #panier {
-  font-size: 25px !important;
+  font-size: 15px !important;
   padding: 5px 10px !important;
   color: #000 !important;
 }
@@ -1696,4 +1721,68 @@ background-color: #004200 !important;
   background-color: #004200 !important;
   position: relative;
   }
+
+/* noUiSlider Style */
+
+/* Styles pour le range slider */
+#price_slider {
+  background-color: #ddd;
+  border-radius: 8px;
+  height: 10px;
+}
+
+/* Couleur et style des poignées (handles) */
+.noUi-handle{
+  background-color: #fff !important;
+  border-radius: 100% !important;
+  width: 20px !important;
+  height: 20px !important;
+}
+
+.noUi-handle:hover {
+  cursor: pointer;
+}
+
+/* Couleur de la barre connectée entre les poignées */
+.noUi-connect {
+  background-color: #004200 !important;
+}
+
+/* Couleur de la barre restante (inconnectée) */
+.noUi-base {
+  background-color: #e0e0e0;
+  height: 10px;
+  border-radius: 8px;
+}
+
+/* Page de remerciement */
+
+.site-order{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.site-order-content{
+  width: 620px;
+}
+
+.site-order-icon{
+  width: 150px;
+  height: 150px;
+}
+
+.site-order-text h2{
+  color: #000;
+  margin-top: 20px;
+}
+
+.site-order-text a{
+  text-decoration: none;
+  padding: 10px 15px;
+  background-color: #004200;
+  color: #fff;
+  border-radius: 10px;
+}
 
