@@ -41,13 +41,13 @@
                                 <a href="javascript:void(0)">Facebook</a>
                             </li>
                             <li class="d-flex align-items-center gap-2"><span class="mdi mdi-whatsapp"></span>
-                                <p>00229 0000000</p>
+                                <p>+229 44430051</p>
                             </li>
                             <li class="d-flex align-items-center gap-2"><span class="mdi mdi-phone"></span>
-                                <p>00229 0000000</p>
+                                <p>+229 44430051</p>
                             </li>
                             <li class="d-flex align-items-center gap-2"><span class="mdi mdi-map-marker"></span>
-                                <p>Cotonou, Benin</p>
+                                <p>En face SONEB Gbegamey, Cotonou, Benin</p>
                             </li>
                         </ul>
                     </div>
@@ -60,8 +60,9 @@
             <a href="javascript:void(0)">CGV</a> <span class="mdi mdi-circle"></span>
             <a class="text-nowrap" href="javascript:void(0)">Politique de confidentialités</a>
         </div>
-        <div class="text-center mt-4">
-            <p>Copyright © 2024 - Réalisé par <a href="https://kksmartcom.com/" target="_blank">KK SMART COM</a></p>
+        <div class="mt-4">
+            <p class="text-center">Copyright © 2024 - Réalisé par <a class="text-decoration-none"
+                    href="https://kksmartcom.com/" target="_blank">KK SMART COM</a></p>
         </div>
     </div>
 </footer>

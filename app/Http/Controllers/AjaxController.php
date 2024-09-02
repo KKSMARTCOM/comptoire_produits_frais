@@ -7,6 +7,7 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\ContentFormRequest;
+use Illuminate\Support\Facades\Mail;
 
 class AjaxController extends Controller
 {
@@ -28,9 +29,29 @@ class AjaxController extends Controller
             'lastname' => Str::title($request->lastname),
             'firstname' => Str::title($request->firstname),
             'subject' => $request->subject,
-            'message' => $request->message,
+            'messages' => $request->message,
             'ip' => $request->ip(),
         ];
+
+        //dd($newData);
+
+        Mail::send(
+            'frontend.pages.mails.contact',
+            [
+                'lastname' => $newData['lastname'],
+                'firstname' => $newData['firstname'],
+                'subject' => $newData['subject'],
+                'messages' => $newData['messages'],
+            ],
+            function ($message) {
+
+                $config = config('mail');
+
+                $message->subject("Nouveau message reçu !")
+                    ->from($config['from']['address'], $config['from']['name'])
+                    ->to('arsenegnanhoungbe@gmail.com');
+            }
+        );
 
         return back()->withSuccess('Message envoyé !');
     }

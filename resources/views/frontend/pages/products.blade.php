@@ -11,7 +11,7 @@
                         <div class="row">
                             <div class="col-md-12 mb-5">
                                 <div class="d-block d-md-flex gap-4">
-                                    <div class="d-flex align-items-center">
+                                    <div class="position-relative filterOption mt-3 mt-lg-0">
                                         <select class="form-control border-0" name="category" id="category">
                                             <option class="dropdown-item" value="">Catégories
                                             </option>
@@ -28,16 +28,16 @@
                                             <option class="dropdown-item" value="cpf store">CPF Store
                                             </option>
                                         </select>
-                                        <span class="mdi mdi-chevron-down"></span>
+                                        <span class="position-absolute filterChevron mdi mdi-chevron-down"></span>
                                     </div>
                                     <div class="mt-3 mt-lg-0">
                                         <label for="price_range">Prix :</label>
-                                        <span id="price_range_label">0 FCFA - 5000 FCFA</span>
+                                        <span id="price_range_label">0 FCFA - 700000 FCFA</span>
                                         <div id="price_slider"></div>
                                         <input type="hidden" id="min_price" name="min_price" value="0">
                                         <input type="hidden" id="max_price" name="max_price" value="5000">
                                     </div>
-                                    <div class="d-flex align-items-center mt-3 mt-lg-0">
+                                    <div class="position-relative filterOption mt-3 mt-lg-0">
                                         <select class="form-control border-0" id="sort" name="sort">
                                             <option class="dropdown-item" value="">Trier par
                                             </option>
@@ -48,7 +48,7 @@
                                             <option class="dropdown-item" value="promotion">En promotion
                                             </option>
                                         </select>
-                                        <span class="mdi mdi-chevron-down"></span>
+                                        <span class="position-absolute filterChevron mdi mdi-chevron-down"></span>
                                     </div>
                                 </div>
                             </div>
@@ -145,11 +145,11 @@
 
             // Initialisation du range slider avec noUiSlider
             noUiSlider.create(priceSlider, {
-                start: [0, 5000],
+                start: [0, 700000],
                 connect: true,
                 range: {
                     'min': 0,
-                    'max': 5000
+                    'max': 700000
                 },
                 step: 10,
                 //tooltips: [true, true],

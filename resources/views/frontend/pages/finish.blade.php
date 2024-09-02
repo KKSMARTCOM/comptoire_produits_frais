@@ -13,7 +13,7 @@
                                 <img src="{{ asset('images/svg/success.svg') }}" alt="">
                             </div>
                         </div>
-                        <div class="site-order-text">
+                        <div class="site-order-text p-2">
                             <h2>Votre commande a bien été effectuée !</h2>
                             <p>Votre commande vous sera livrée dans les plus brefs délais. En attendant, si vous avez besoin
                                 de produits supplémentaires, vous pouvez consulter la liste des produits.</p>

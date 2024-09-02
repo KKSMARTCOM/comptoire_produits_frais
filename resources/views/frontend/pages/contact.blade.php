@@ -52,7 +52,8 @@
                             </div> --}}
                             <div class="form-group row">
                                 <div class="col-md-12">
-                                    <label for="c_subject" class="text-black">Objet </label>
+                                    <label for="c_subject" class="text-black">Objet <span
+                                            class="text-danger">*</span></label>
                                     <input type="text" class="form-control" id="subject" name="subject"
                                         value="{{ old('subject') }}">
                                 </div>
@@ -63,7 +64,8 @@
 
                             <div class="form-group row">
                                 <div class="col-md-12">
-                                    <label for="c_message" class="text-black">Message </label>
+                                    <label for="c_message" class="text-black">Message<span
+                                            class="text-danger">*</span></label>
                                     <textarea name="message" id="c_message" cols="30" rows="7" class="form-control"
                                         aria-valuetext="{{ old('message') }}"></textarea>
                                 </div>

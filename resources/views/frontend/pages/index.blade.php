@@ -5,80 +5,79 @@
         <div class="container">
             <div class="row web-category">
                 <div class="col-lg-3 col-md-6 mt-4 mt-lg-0" data-aos="fade-up" data-aos-delay="">
-                    <div class="site-category-card">
+                    <a href="{{ route('product') }}" class="site-category-card">
                         <div class="site-category-card-image">
                             <img src="{{ asset('images/poultry.png') }}" alt="">
                         </div>
                         <h1>VOLAILLES</h1>
-                    </div>
+                    </a>
                 </div>
                 <div class="col-lg-3 col-md-6 mt-4 mt-lg-0" data-aos="fade-up" data-aos-delay="100">
-                    <div class="site-category-card">
+                    <a href="{{ route('product') }}" class="site-category-card">
                         <div class="site-category-card-image">
                             <img src="{{ asset('images/fish.png') }}" alt="">
                         </div>
                         <h1>POISSONS & FRUITS DE MER</h1>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6 mt-4 mt-lg-0" data-aos="fade-up" data-aos-delay="200">
-                    <div class="site-category-card">
-                        <div class="site-category-card-image">
-                            <img src="{{ asset('images/fruit.png') }}" alt="">
-                        </div>
-                        <h1>FRUITS & LÉGUMES</h1>
-                    </div>
+                    </a>
                 </div>
                 <div class="col-lg-3 col-md-6 mt-4 mt-lg-0" data-aos="fade-up" data-aos-delay="300">
-                    <div class="site-category-card">
+                    <a href="{{ route('product') }}" class="site-category-card">
                         <div class="site-category-card-image">
                             <img src="{{ asset('images/viandes.png') }}" alt="">
                         </div>
                         <h1>AUTRES VIANDES</h1>
-                    </div>
+                    </a>
+                </div>
+                <div class="col-lg-3 col-md-6 mt-4 mt-lg-0" data-aos="fade-up" data-aos-delay="200">
+                    <a href="{{ route('product') }}" class="site-category-card">
+                        <div class="site-category-card-image">
+                            <img src="{{ asset('images/fruit.png') }}" alt="">
+                        </div>
+                        <h1>FRUITS & LÉGUMES</h1>
+                    </a>
                 </div>
             </div>
 
             <div class="mobile-category">
-
                 <div class="owl-carousel owl-theme">
                     <div class="item">
                         <div class="" data-aos="fade-up" data-aos-delay="">
-                            <div class="site-category-card">
+                            <a href="{{ route('product') }}" class="site-category-card">
                                 <div class="site-category-card-image">
                                     <img src="{{ asset('images/poultry.png') }}" alt="">
                                 </div>
                                 <h1>VOLAILLES</h1>
-                            </div>
+                            </a>
                         </div>
                     </div>
                     <div class="item">
                         <div class="" data-aos="fade-up" data-aos-delay="100">
-                            <div class="site-category-card">
+                            <a href="{{ route('product') }}" class="site-category-card">
                                 <div class="site-category-card-image">
                                     <img src="{{ asset('images/fish.png') }}" alt="">
                                 </div>
                                 <h1>POISSONS & FRUITS DE MER</h1>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <div class="" data-aos="fade-up" data-aos-delay="200">
-                            <div class="site-category-card">
-                                <div class="site-category-card-image">
-                                    <img src="{{ asset('images/fruit.png') }}" alt="">
-                                </div>
-                                <h1>FRUITS & LÉGUMES</h1>
-                            </div>
+                            </a>
                         </div>
                     </div>
                     <div class="item">
                         <div class="" data-aos="fade-up" data-aos-delay="300">
-                            <div class="site-category-card">
+                            <a href="{{ route('product') }}" class="site-category-card">
                                 <div class="site-category-card-image">
                                     <img src="{{ asset('images/viandes.png') }}" alt="">
                                 </div>
                                 <h1>AUTRES VIANDES</h1>
-                            </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="" data-aos="fade-up" data-aos-delay="200">
+                            <a href="{{ route('product') }}" class="site-category-card">
+                                <div class="site-category-card-image">
+                                    <img src="{{ asset('images/fruit.png') }}" alt="">
+                                </div>
+                                <h1>FRUITS & LÉGUMES</h1>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -90,12 +89,12 @@
     <div class="site-section-cave" style="background-image: url('{{ asset('images/cave.jpg') }}')">
         <div class="site-section-cave-opacity"></div>
         <div class="container">
-            <div class="site-section-cave-text">
+            <div class="site-section-cave-text p-2">
                 <h1>Cave à vin</h1>
                 <p>Une cave qui prône la pérennité, le savoir, la culture, mais surtout qui vous garantit l’authenticité
                     de
                     ses produits et la qualité.</p>
-                <a href="#">Découvrir</a>
+                <a href="{{ route('product') }}">Découvrir</a>
             </div>
         </div>
     </div>
@@ -112,14 +111,15 @@
                     </div>
                 </div>
             </div>
-            <div class="site-section-store-right">
+            <div class="site-section-store-right p-2">
                 <div>
                     <h1>CPF Store</h1>
-                    <p>Une large varieté de produits alimentaires et divers Lorem ipsum dolor sit amet consectetur
+                    <p>Une large varieté de produits alimentaires et divers Lorem ipsum dolor sit amet
+                        consectetur
                         adipisicing elit. Aspernatur recusandae, ratione totam sequi soluta eligendi dicta ullam dignissimos
                         assumenda error explicabo laudantium et obcaecati molestiae reiciendis iure quidem vitae ipsa?...
                     </p>
-                    <a href="#">Découvrir</a>
+                    <a href="{{ route('product') }}">Découvrir</a>
                 </div>
             </div>
         </div>
@@ -132,7 +132,7 @@
                     <h2>NOS COFFRETS & PANIERS DE FÊTES</h2>
                 </div>
             </div>
-            <div class="row gap-4 mb-4 justify-content-center">
+            <div class="row p-2 gap-4 mb-4 justify-content-center">
                 <div class="col-lg-4 col-md-6 site-section-box-container">
                     <div class="site-section-box-image">
                         <img src="{{ asset('images/coffret1.jpg') }}" alt="">
@@ -145,11 +145,11 @@
 
                         </div>
                         <div class="site-section-box-bottom-link">
-                            <a href="#"><span class="mdi mdi-eye-outline"></span></a>
+                            <a href="{{ route('cart') }}"><span class="mdi mdi-eye-outline"></span></a>
                         </div>
                     </div>
                     <div class="mt-4 text-end">
-                        <a href="#" class="button-link">Commander</a>
+                        <a href="javascript:void(0)" class="button-link">Commander</a>
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-6 site-section-box-container">
@@ -164,11 +164,11 @@
 
                         </div>
                         <div class="site-section-box-bottom-link">
-                            <a href="#"><span class="mdi mdi-eye-outline"></span></a>
+                            <a href="{{ route('cart') }}"><span class="mdi mdi-eye-outline"></span></a>
                         </div>
                     </div>
                     <div class="mt-4 text-end">
-                        <a href="#" class="button-link">Commander</a>
+                        <a href="javascript:void(0)" class="button-link">Commander</a>
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-6 site-section-box-container">
@@ -183,11 +183,11 @@
 
                         </div>
                         <div class="site-section-box-bottom-link">
-                            <a href="#"><span class="mdi mdi-eye-outline"></span></a>
+                            <a href="{{ route('cart') }}"><span class="mdi mdi-eye-outline"></span></a>
                         </div>
                     </div>
                     <div class="mt-4 text-end">
-                        <a href="#" class="button-link">Commander</a>
+                        <a href="javascript:void(0)" class="button-link">Commander</a>
                     </div>
                 </div>
             </div>
@@ -204,11 +204,11 @@
 
                         </div>
                         <div class="site-section-box-bottom-link">
-                            <a href="#"><span class="mdi mdi-eye-outline"></span></a>
+                            <a href="{{ route('cart') }}"><span class="mdi mdi-eye-outline"></span></a>
                         </div>
                     </div>
                     <div class="mt-4 text-end">
-                        <a href="#" class="button-link">Commander</a>
+                        <a href="javascript:void(0)" class="button-link">Commander</a>
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-6 site-section-box-container">
@@ -223,11 +223,11 @@
 
                         </div>
                         <div class="site-section-box-bottom-link">
-                            <a href="#"><span class="mdi mdi-eye-outline"></span></a>
+                            <a href="{{ route('cart') }}"><span class="mdi mdi-eye-outline"></span></a>
                         </div>
                     </div>
                     <div class="mt-4 text-end">
-                        <a href="#" class="button-link">Commander</a>
+                        <a href="javascript:void(0)" class="button-link">Commander</a>
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-6 site-section-box-container">
@@ -242,11 +242,11 @@
 
                         </div>
                         <div class="site-section-box-bottom-link">
-                            <a href="#"><span class="mdi mdi-eye-outline"></span></a>
+                            <a href="{{ route('cart') }}"><span class="mdi mdi-eye-outline"></span></a>
                         </div>
                     </div>
                     <div class="mt-4 text-end">
-                        <a href="#" class="button-link">Commander</a>
+                        <a href="javascript:void(0)" class="button-link">Commander</a>
                     </div>
                 </div>
             </div>
@@ -262,6 +262,8 @@
             loop: true,
             margin: 10,
             dots: true,
+            autoplay: true,
+            autoplayTimeout: 3000,
             responsive: {
                 0: {
                     items: 1

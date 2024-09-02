@@ -23,7 +23,7 @@
                     <p class="text-black">{{-- {!! $product->content ?? '' !!} --}} Lorem ipsum dolor sit amet consectetur adipisicing elit.
                         Dolor animi magnam,
                         dolorum maiores libero molestiae numquam quaerat ratione nobis ab?</p>
-                    <p><strong class="h4">{{ number_format($product[0]['price'], 2) }} FCFA</strong></p>
+                    <p><strong class="h4">{{ $product[0]['price'] }} FCFA</strong></p>
                     @php
                         $encrypt = encryptData($product[0]['id']);
                     @endphp

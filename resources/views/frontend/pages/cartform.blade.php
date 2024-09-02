@@ -47,7 +47,7 @@
 
                             <div class="form-group row">
                                 <div class="col-md-12">
-                                    <label for="c_companyname" class="text-black">Nom d'entreprise </label>
+                                    <label for="c_companyname" class="text-black">Nom d'entreprise (facultatif) </label>
                                     <input type="text" class="form-control" id="c_companyname" name="company_name"
                                         value="{{ old('company_name') }}">
                                 </div>
@@ -55,7 +55,7 @@
 
                             <div class="form-group row">
                                 <div class="col-md-12">
-                                    <label for="c_address" class="text-black">Adresse <span
+                                    <label for="c_address" class="text-black">Adresse (Indication précise) <span
                                             class="text-danger">*</span></label>
                                     <input type="text" class="form-control" id="c_address" name="address"
                                         value="{{ old('address') }}" placeholder="Adresse de la ville">
@@ -161,7 +161,7 @@
                                                         <td>{{ $cart['product']['name'] }} <strong
                                                                 class="mx-2">x</strong>
                                                             {{ $cart['quantity'] }}</td>
-                                                        <td>$ {{ $toplamTutar }}</td>
+                                                        <td>{{ $toplamTutar }} FCFA</td>
                                                     </tr>
                                                 @endforeach
                                             @endif
@@ -169,14 +169,15 @@
                                             <tr>
                                                 <td class="text-black font-weight-bold"><strong>Prix du coupon</strong>
                                                 </td>
-                                                <td class="text-black font-weight-bold"><strong>$
-                                                        {{ session()->get('couponPrice') ?? 0 }}</strong></td>
+                                                <td class="text-black font-weight-bold">
+                                                    <strong>{{ session()->get('couponPrice') ?? 0 }} FCFA</strong></td>
                                             </tr>
                                             <tr>
                                                 <td class="text-black font-weight-bold"><strong>Total de la
                                                         commande</strong></td>
-                                                <td class="text-black font-weight-bold"><strong>$
-                                                        {{ array_sum(array_column(session()->get('cart'), 'total')) ?? 0 }}</strong>
+                                                <td class="text-black font-weight-bold"><strong>
+                                                        {{ array_sum(array_column(session()->get('cart'), 'total')) ?? 0 }}
+                                                        FCFA</strong>
                                                 </td>
                                             </tr>
 

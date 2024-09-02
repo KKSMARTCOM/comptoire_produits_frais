@@ -11,7 +11,7 @@
                     <h2><a href={{ route('productdetail', $product['id']) }}
                             class="text-dark font-weight-bold">{{ ucfirst($product['name']) }}</a></h2>
                     <p class="text-dark font-weight-bold">
-                        {{ $product['price'] }}.00 FCFA</p>
+                        {{ $product['price'] }} FCFA</p>
                     @php
                         $encrypt = encryptData($product['id']);
                     @endphp

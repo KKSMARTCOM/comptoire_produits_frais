@@ -45,7 +45,7 @@
                                         <td class="product-name">
                                             <h2 class="h5 text-black">{{ $cartItem['product']['name'] ?? '' }}</h2>
                                         </td>
-                                        <td>{{ $cartItem['product']['price'] }}.00 FCFA</td>
+                                        <td>{{ $cartItem['product']['price'] }} FCFA</td>
                                         <td>
                                             <div class="d-flex justify-content-center align-items-center">
                                                 <div class="input-group mb-3 align-items-center gap-2"
@@ -67,7 +67,7 @@
 
                                         </td>
 
-                                        <td class="itemTotal">{{ $cartItem['total'] }}.00 FCFA</td>
+                                        <td class="itemTotal">{{ $cartItem['total'] }} FCFA</td>
                                         <td>
                                             <form class="removeItem" method="POST">
                                                 @csrf
@@ -76,7 +76,7 @@
                                                 @endphp
 
                                                 <input type="hidden" name="product_id" value="{{ $encrypt }}">
-                                                <button type="submit" class="btn btn-primary btn-sm border-0"><span
+                                                <button type="submit" class="btn btn-danger btn-sm border-0"><span
                                                         style="font-size: 16px" class="mdi mdi-delete"></span></button>
                                             </form>
                                         </td>
@@ -87,10 +87,10 @@
                     </div>
                 </div>
                 {{-- MOBILE --}}
-                <div class="row mb-5 d-block d-lg-none">
+                <div class="row p-2 mb-5 d-block d-lg-none">
                     <ul>
                         @foreach ($cart as $key => $cartItem)
-                            <li class="orderItem align-items-center d-flex gap-4 pt-1 pb-4 border-bottom border-dark-subtle"
+                            <li class="orderItem h-24 align-items-center d-flex gap-4 border-bottom border-dark-subtle"
                                 data-id="{{ $key }}">
                                 <div class="product-mobile-thumbnail">
                                     <div class="product-thumbnail-image">
@@ -99,9 +99,9 @@
                                     </div>
                                 </div>
                                 <div class="flex-grow-1">
-                                    <div>
+                                    <div class="product-mobile-cart-text">
                                         <h2>{{ $cartItem['product']['name'] ?? '' }}</h2>
-                                        <p>{{ $cartItem['product']['price'] }}.00 FCFA</p>
+                                        <p>{{ $cartItem['product']['price'] }} FCFA</p>
                                     </div>
                                     <div class="d-flex justify-content-between align-items-center">
                                         <div class="d-flex justify-content-center align-items-center">
@@ -130,7 +130,7 @@
                                                 <input type="hidden" name="product_id" value="{{ $encrypt }}">
                                                 <button type="submit" class="border-0 btn btn-light"><span
                                                         style="font-size: 16px"
-                                                        class="text-success fs-2 mdi mdi-delete"></span></button>
+                                                        class="text-danger fs-2 mdi mdi-delete"></span></button>
                                             </form>
                                         </div>
                                     </div>
@@ -140,10 +140,13 @@
                     </ul>
                 </div>
 
-                <div>
-                    <p class="mb-5">Vous n'avez pas tous les produits désirés dans le panier ? <a
+                <div class="mb-5">
+                    <a href="{{ route('product') }}" class="buy-now btn btn-primary border-0"> <span
+                            class="mdi mdi-plus"></span>Ajouter
+                    </a>
+                    {{-- <p class="mb-5">Vous n'avez pas tous les produits désirés dans le panier ? <a
                             href="{{ route('product') }}">cliquez ici</a> pour ajouter
-                        plus !</p>
+                        plus !</p> --}}
                 </div>
 
                 <div class="row">
