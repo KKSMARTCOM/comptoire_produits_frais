@@ -82,17 +82,14 @@
                                                 
                                             </td>
                                             <td class="d-flex">
-                                                <a href="{{ route('panel.slider.edit', $slider->id) }}"
-                                                    class="btn btn-primary mr-2">Modifier
+                                                <!-- Lien pour modifier avec une icône de crayon -->
+                                                <a href="{{ route('panel.slider.edit', $slider->id) }}" class="btn btn-primary mr-2">
+                                                    <i class="fas fa-edit"></i>
                                                 </a>
-                                                {{-- <form action="{{ route('panel.slider.destroy', $slider->id) }}"
-                                                    method="POST">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="btn btn-danger">Delete</button>
-                                                </form> --}}
-
-                                                <button type="button" class="deleteBtn btn btn-danger">Supprimer</button>
+                                                <!-- Bouton pour supprimer avec une icône de corbeille -->
+                                                <button type="button" class="deleteBtn btn btn-danger">
+                                                    <i class="fas fa-trash-alt"></i>
+                                                </button>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -146,14 +143,22 @@
                                             </div>
                                         </td>
                                         <td class="d-flex">
-                                            <a href="{{ route('panel.slider.edit', 1) }}" class="btn btn-primary mr-2">Modifier
+                                            <!-- Lien pour modifier avec une icône de crayon -->
+                                            <a href="{{ route('panel.slider.edit', 1) }}" class="btn btn-primary mr-2 btn-icon">
+                                                <span class="fas fa-edit"></span>
                                             </a>
-                                            <form action="{{ route('panel.slider.destroy', 1) }}" method="POST">
+                                            <!-- Formulaire pour supprimer avec une icône de corbeille -->
+                                            <form action="{{ route('panel.slider.destroy', 1) }}" method="POST" class="d-inline">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" class="btn btn-danger">Supprimer</button>
+                                                <button type="submit" class="btn btn-danger btn-icon">
+                                                    <span class="fas fa-trash-alt"></span>
+                                                </button>
                                             </form>
                                         </td>
+                                        
+                                        
+                                        
                                     </tr>
 
                                     <tr class="item" item-id="2">
@@ -192,12 +197,17 @@
                                             </div>
                                         </td>
                                         <td class="d-flex">
-                                            <a href="{{ route('panel.slider.edit', 1) }}" class="btn btn-primary mr-2">Modifier
+                                            <!-- Lien pour modifier avec une icône de crayon -->
+                                            <a href="{{ route('panel.slider.edit', 1) }}" class="btn btn-primary mr-2 btn-icon">
+                                                <span class="fas fa-edit"></span>
                                             </a>
-                                            <form action="{{ route('panel.slider.destroy', 1) }}" method="POST">
+                                            <!-- Formulaire pour supprimer avec une icône de corbeille -->
+                                            <form action="{{ route('panel.slider.destroy', 1) }}" method="POST" class="d-inline">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" class="btn btn-danger">Supprimer</button>
+                                                <button type="submit" class="btn btn-danger btn-icon">
+                                                    <span class="fas fa-trash-alt"></span>
+                                                </button>
                                             </form>
                                         </td>
                                     </tr>
@@ -229,12 +239,17 @@
                                             </div>
                                         </td>
                                         <td class="d-flex">
-                                            <a href="{{ route('panel.slider.edit', 2) }}" class="btn btn-primary mr-2">Modifier
+                                            <!-- Lien pour modifier avec une icône de crayon -->
+                                            <a href="{{ route('panel.slider.edit', 1) }}" class="btn btn-primary mr-2 btn-icon">
+                                                <span class="fas fa-edit"></span>
                                             </a>
-                                            <form action="{{ route('panel.slider.destroy', 2) }}" method="POST">
+                                            <!-- Formulaire pour supprimer avec une icône de corbeille -->
+                                            <form action="{{ route('panel.slider.destroy', 1) }}" method="POST" class="d-inline">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" class="btn btn-danger">Supprimer</button>
+                                                <button type="submit" class="btn btn-danger btn-icon">
+                                                    <span class="fas fa-trash-alt"></span>
+                                                </button>
                                             </form>
                                         </td>
                                     </tr>
@@ -266,13 +281,17 @@
                                             </div>
                                         </td>
                                         <td class="d-flex">
-                                            <a href="{{ route('panel.slider.edit', 3) }}"
-                                                class="btn btn-primary mr-2">Modifier
+                                            <!-- Lien pour modifier avec une icône de crayon -->
+                                            <a href="{{ route('panel.slider.edit', 1) }}" class="btn btn-primary mr-2 btn-icon">
+                                                <span class="fas fa-edit"></span>
                                             </a>
-                                            <form action="{{ route('panel.slider.destroy', 3) }}" method="POST">
+                                            <!-- Formulaire pour supprimer avec une icône de corbeille -->
+                                            <form action="{{ route('panel.slider.destroy', 1) }}" method="POST" class="d-inline">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" class="btn btn-danger">Supprimer</button>
+                                                <button type="submit" class="btn btn-danger btn-icon">
+                                                    <span class="fas fa-trash-alt"></span>
+                                                </button>
                                             </form>
                                         </td>
                                     </tr>
@@ -304,13 +323,17 @@
                                             </div>
                                         </td>
                                         <td class="d-flex">
-                                            <a href="{{ route('panel.slider.edit', 4) }}"
-                                                class="btn btn-primary mr-2">Modifier
+                                            <!-- Lien pour modifier avec une icône de crayon -->
+                                            <a href="{{ route('panel.slider.edit', 1) }}" class="btn btn-primary mr-2 btn-icon">
+                                                <span class="fas fa-edit"></span>
                                             </a>
-                                            <form action="{{ route('panel.slider.destroy', 4) }}" method="POST">
+                                            <!-- Formulaire pour supprimer avec une icône de corbeille -->
+                                            <form action="{{ route('panel.slider.destroy', 1) }}" method="POST" class="d-inline">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" class="btn btn-danger">Supprimer</button>
+                                                <button type="submit" class="btn btn-danger btn-icon">
+                                                    <span class="fas fa-trash-alt"></span>
+                                                </button>
                                             </form>
                                         </td>
                                     </tr>
@@ -323,7 +346,7 @@
         </div>
     </div>
 @endsection
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 @section('customjs')
     <script>
         // basmalı olduğu için change kullanıldı

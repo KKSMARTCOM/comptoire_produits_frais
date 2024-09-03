@@ -111,15 +111,28 @@
                         </div>
                         <div class="form-group">
                             <label>Image</label>
-                            <input type="file" name="image" class="file-upload-default">
+                            <input type="file" name="image" class="file-upload-default" id="imageInput" style="display:none;">
                             <div class="input-group col-xs-12">
-                                <input type="text" class="form-control file-upload-info" disabled
-                                    placeholder="télécharger image">
+                                <input type="text" class="form-control file-upload-info" id="imagePlaceholder" placeholder="télécharger image" readonly>
                                 <span class="input-group-append">
                                     <button class="file-upload-browse btn btn-primary" type="button" style="background-color: #004200 !important">Télécharger</button>
                                 </span>
                             </div>
                         </div>
+                        <script>
+                            document.getElementById('imagePlaceholder').addEventListener('click', function() {
+                                document.getElementById('imageInput').click();
+                            });
+                        
+                            document.querySelector('.file-upload-browse').addEventListener('click', function() {
+                                document.getElementById('imageInput').click();
+                            });
+                        
+                            document.getElementById('imageInput').addEventListener('change', function() {
+                                var fileName = this.files[0].name;
+                                document.getElementById('imagePlaceholder').value = fileName;
+                            });
+                        </script>
                         <div class="form-group">
                             <label for="status">Status</label>
                             @php

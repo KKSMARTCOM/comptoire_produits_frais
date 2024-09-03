@@ -54,12 +54,28 @@
                                             <td>{{ $order->Qtite }}</td>
                                             <td>{{ $order->price }}</td>
                                             <td>{{ $order->orders_count ?? '' }}</td>
-                                            <td class="d-flex">
+                                            {{-- <td class="d-flex">
                                                 <a href="{{ route('panel.order.edit', $order->id) }}"
                                                     class="btn btn-primary mr-2">Modifier
                                                 </a>
                                                 <button type="button" class="deleteBtn btn btn-danger">Supprimer</button>
+                                            </td> --}}
+                                            <td class="d-flex">
+                                                <!-- Lien pour modifier avec une icône de crayon -->
+                                                <a href="{{ route('panel.order.edit', $order->id) }}" class="btn btn-primary mr-2">
+                                                    <i class="fas fa-edit"></i>
+                                                </a>
+                                                <!-- Bouton pour afficher les détails avec une icône d'œil -->
+                                                <a href="{{ route('panel.order.edit', $order->id) }}" class="btn btn-info mr-2">
+                                                    <i class="fas fa-eye"></i>
+                                                </a>
+                                                <!-- Bouton pour supprimer avec une icône de corbeille -->
+                                                <button type="button" class="deleteBtn btn btn-danger">
+                                                    <i class="fas fa-trash-alt"></i>
+                                                </button>
                                             </td>
+                                            
+                                            
                                         </tr>
                                     @endforeach
                                 @else
@@ -82,11 +98,27 @@
                                                 </label>
                                             </div>
                                         </td>
-                                        <td class="d-flex">
+                                        {{-- <td class="d-flex">
                                             <a href="{{ route('panel.order.edit', 1) }}" class="btn btn-primary mr-2">Modifier
                                             </a>
                                             <button type="button" class="deleteBtn btn btn-danger">Supprimer</button>
+                                        </td> --}}
+                                        <td class="d-flex">
+                                            <!-- Lien pour modifier avec une icône de crayon -->
+                                            <a href="{{ route('panel.order.edit', 1) }}" class="btn btn-primary mr-2">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
+                                            <!-- Lien pour afficher les détails avec une icône d'œil -->
+                                            <a href="{{ route('panel.order.edit', 1) }}" class="btn btn-info mr-2">
+                                                <i class="fas fa-eye"></i>
+                                            </a>
+                                            <!-- Bouton pour supprimer avec une icône de corbeille -->
+                                            <button type="button" class="deleteBtn btn btn-danger">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </button>
                                         </td>
+                                        
+                                        
                                     </tr>
                                     <tr class="item" item-id="2">
                                         <td>23455678</td>
@@ -108,9 +140,18 @@
                                             </div>
                                         </td>
                                         <td class="d-flex">
-                                            <a href="{{ route('panel.order.edit', 1) }}" class="btn btn-primary mr-2">Modifier
+                                            <!-- Lien pour modifier avec une icône de crayon -->
+                                            <a href="{{ route('panel.order.edit', 1) }}" class="btn btn-primary mr-2">
+                                                <i class="fas fa-edit"></i>
                                             </a>
-                                            <button type="button" class="deleteBtn btn btn-danger">Supprimer</button>
+                                            <!-- Lien pour afficher les détails avec une icône d'œil -->
+                                            <a href="{{ route('panel.order.edit', 1) }}" class="btn btn-info mr-2">
+                                                <i class="fas fa-eye"></i>
+                                            </a>
+                                            <!-- Bouton pour supprimer avec une icône de corbeille -->
+                                            <button type="button" class="deleteBtn btn btn-danger">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </button>
                                         </td>
                                     </tr>
                                     <tr class="item" item-id="3">
@@ -133,9 +174,18 @@
                                             </div>
                                         </td>
                                         <td class="d-flex">
-                                            <a href="{{ route('panel.order.edit', 1) }}" class="btn btn-primary mr-2">Modifier
+                                            <!-- Lien pour modifier avec une icône de crayon -->
+                                            <a href="{{ route('panel.order.edit', 1) }}" class="btn btn-primary mr-2">
+                                                <i class="fas fa-edit"></i>
                                             </a>
-                                            <button type="button" class="deleteBtn btn btn-danger">Supprimer</button>
+                                            <!-- Lien pour afficher les détails avec une icône d'œil -->
+                                            <a href="{{ route('panel.order.edit', 1) }}" class="btn btn-info mr-2">
+                                                <i class="fas fa-eye"></i>
+                                            </a>
+                                            <!-- Bouton pour supprimer avec une icône de corbeille -->
+                                            <button type="button" class="deleteBtn btn btn-danger">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </button>
                                         </td>
                                     </tr>
                                     
@@ -157,6 +207,8 @@
 @endsection
 
 @section('customjs')
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
     <script>
         // basmalı olduğu için change kullanıldı
         // buton olsaydı click kullanılması gerekiyordu
