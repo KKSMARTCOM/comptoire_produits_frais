@@ -361,6 +361,10 @@ ul {
   color: #fff;
 }
 
+.site-section-box-bottom-text h3{
+  font-size: 20px;
+}
+
 .site-section-box-bottom-text > p{
   color: #807e7e;
   margin: 0;
@@ -600,7 +604,6 @@ ul {
 
 .site-navbar .site-navbar-top {
   height: 260px;
-  background-color: #7971ea;
   width: 100%;
   background-repeat: no-repeat;
   background-size: contain;
@@ -624,7 +627,9 @@ ul {
     text-decoration: none; }*/
 .site-navigation .site-logo {
     height: 80px ;
-    width: 160px ;
+    width: 120px ;
+    display: flex;
+    justify-content: center;
     overflow: hidden;
 }
 
@@ -644,21 +649,20 @@ ul {
   font-size: 30px;
 }
 
-.site-navbar .site-top-icons {
+/* .site-navbar .site-top-icons {
   width: 100%;
-}
+} */
 
 @media (min-width: 1000px) {
   .site-navbar .site-top-icons .site-menu-toggle {
     display: none;
   }
+
+  /* .site-navbar .site-top-icons {
+    width: 0px;
+  } */
 }
 
-@media (min-width: 1000px) {
-  .site-navbar .site-top-icons {
-    width: 0px;
-  }
-}
 
 .site-navbar .site-top-icons ul,
 .site-navbar .site-top-icons ul li {
@@ -730,9 +734,6 @@ ul {
 
 .site-navbar .site-navigation .site-menu {
   margin-bottom: 0px;
-  display: flex;
-  align-items: center;
-  gap: 30px;
 }
 
 .site-navbar .site-navigation .site-menu .active>a {
@@ -759,15 +760,15 @@ ul {
 
 .site-navbar .site-navigation .site-menu>li {
   display: inline-block;
-  padding: 10px 20px;
+  padding: 10px 5px;
 }
 
 .site-navbar .site-navigation .site-menu>li>a {
   padding: 5px 0px;
   text-transform: capitalize;
-  letter-spacing: .05em;
+  letter-spacing: .02em;
   color: #004200;
-  font-size: 18px;
+  font-size: 15px;
   font-weight: 600;
   text-decoration: none !important;
 }
@@ -1304,7 +1305,6 @@ ul {
 }
 
 .block-3 .owl-nav {
-  position: relative;
   position: absolute;
   bottom: -50px;
   left: 50%;
@@ -1799,16 +1799,32 @@ background-color: #004200 !important;
   border-radius: 10px;
 }
 
-.filterChevron{
-  top: 50%;
-  transform:translateY(-50%);
-  right: 0;
+.filterOption{
+  width: 150px;
 }
 
-.filterOption{
+.filterOption .form-select:focus{
+  border: none;
+  box-shadow: none;
+  outline: none;
+}
+
+.price_range_input{
   width: 120px;
   display: flex;
   align-items: center;
+  gap: 10px;
 }
 
+.price_range_input input{
+  width: 100%;
+  outline: none;
+  text-align: center;
+  border-radius: 5px;
+  border: 1px solid #004200;
+}
 
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button{
+  -webkit-appearance: none;
+}

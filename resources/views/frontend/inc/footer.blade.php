@@ -38,7 +38,8 @@
                                 <h2>Contact</h2>
                             </li>
                             <li class="d-flex align-items-center gap-2"><span class="mdi mdi-facebook"></span>
-                                <a href="javascript:void(0)">Facebook</a>
+                                <a href="https://www.facebook.com/share/8ExoYVHiVx74rwPt/?mibextid=LQQJ4d"
+                                    target="_blank">Facebook</a>
                             </li>
                             <li class="d-flex align-items-center gap-2"><span class="mdi mdi-whatsapp"></span>
                                 <p>+229 44430051</p>

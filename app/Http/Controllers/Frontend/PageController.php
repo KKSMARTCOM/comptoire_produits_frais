@@ -55,6 +55,10 @@ class PageController extends Controller
 
         $products = $this->getProducts();
 
+        $category = $request->input('category');
+        $wineType = $request->input('wineType');
+        $wineRegion = $request->input('wineRegion');
+
         // Appliquer les filtres
         if ($request->has('category') && $request->category) {
             $products = array_filter($products, function ($product) use ($request) {
@@ -70,6 +74,7 @@ class PageController extends Controller
             });
         }
 
+        /* Trie */
         if ($request->has('sort') && $request->sort) {
             if ($request->sort === 'price_asc') {
                 usort($products, function ($a, $b) {
@@ -79,11 +84,33 @@ class PageController extends Controller
                 usort($products, function ($a, $b) {
                     return $b['price'] - $a['price'];
                 });
+            } elseif ($request->sort === 'alpha_asc') {
+                usort($products, function ($a, $b) {
+                    return strcasecmp($a['name'], $b['name']);
+                });
+            } elseif ($request->sort === 'alpha_desc') {
+                usort($products, function ($a, $b) {
+                    return strcasecmp($b['name'], $a['name']);
+                });
             } elseif ($request->sort === 'promotion') {
                 usort($products, function ($a, $b) {
                     return ($b['promotion'] ? 1 : 0) - ($a['promotion'] ? 1 : 0);
                 });
             }
+        }
+
+        // Filtrage par type de vin si la catégorie est 'cave'
+        if ($category === 'la cave' && $wineType) {
+            $products = array_filter($products, function ($product) use ($wineType) {
+                return isset($product['subcategories']['type']) && $product['subcategories']['type'] === $wineType;
+            });
+        }
+
+        // Filtrage par région si la catégorie est 'cave'
+        if ($category === 'la cave' && $wineRegion) {
+            $products = array_filter($products, function ($product) use ($wineRegion) {
+                return isset($product['subcategories']['region']) && $product['subcategories']['region'] === $wineRegion;
+            });
         }
 
         //La recherche

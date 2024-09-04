@@ -25,7 +25,7 @@
                                 </button>
                             </p>
                         </form>
-                        <form id="add&OpenCartForm" method="POST" action="{{ route('cartadd', $encrypt) }}">
+                        <form id="addOpenCartForm" method="POST" action="{{ route('cartadd', $encrypt) }}">
                             @csrf
                             <input type="hidden" name="product_id" value={{ $encrypt }}>
                             <p>

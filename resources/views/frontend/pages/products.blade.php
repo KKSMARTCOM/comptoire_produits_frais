@@ -10,9 +10,10 @@
                     <form id="filterForm" action="">
                         <div class="row">
                             <div class="col-md-12 mb-5">
-                                <div class="d-block d-md-flex gap-4">
-                                    <div class="position-relative filterOption mt-3 mt-lg-0">
-                                        <select class="form-control border-0" name="category" id="category">
+                                <div class="d-block d-md-flex flex-wrap align-items-start gap-4">
+                                    {{-- Categories --}}
+                                    <div class="filterOption mt-3 mt-lg-0">
+                                        <select class="form-select border-0" name="category" id="category">
                                             <option class="dropdown-item" value="">Catégories
                                             </option>
                                             <option class="dropdown-item" value="volailles">Volailles
@@ -23,32 +24,70 @@
                                             </option>
                                             <option class="dropdown-item" value="fruits/legumes">Fruits & légumes
                                             </option>
-                                            <option class="dropdown-item" value="cave">Cave
+                                            <option class="dropdown-item" value="la cave">La cave
                                             </option>
                                             <option class="dropdown-item" value="cpf store">CPF Store
                                             </option>
                                         </select>
-                                        <span class="position-absolute filterChevron mdi mdi-chevron-down"></span>
                                     </div>
-                                    <div class="mt-3 mt-lg-0">
+                                    {{-- Prix --}}
+                                    <div class="mt-3 mt-lg-0 p-2">
                                         <label for="price_range">Prix :</label>
                                         <span id="price_range_label">0 FCFA - 700000 FCFA</span>
-                                        <div id="price_slider"></div>
-                                        <input type="hidden" id="min_price" name="min_price" value="0">
-                                        <input type="hidden" id="max_price" name="max_price" value="5000">
+                                        {{-- <div id="price_slider"></div> --}}
+                                        <div class="d-flex gap-2 price_range mt-3">
+                                            <div class="price_range_input">
+                                                <label for="min_price">Min</label>
+                                                <input type="number" id="min_price" name="min_price" value="0">
+                                            </div>
+                                            <div class="price_range_input">
+                                                <label for="max_price">Max</label>
+                                                <input type="number" id="max_price" name="max_price" value="700000"
+                                                    placeholder="700000">
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="position-relative filterOption mt-3 mt-lg-0">
-                                        <select class="form-control border-0" id="sort" name="sort">
+                                    {{-- Sous-categories des vins --}}
+                                    <div id="subcategories" style="visibility: hidden" class="d-flex gap-3">
+                                        <!-- Filtre par type de vin -->
+                                        <div class="filterOption mt-3 mt-lg-0">
+                                            <select class="form-select border-0" id="wine_type">
+                                                <option value="">Type de vin</option>
+                                                <option value="vin rouge">Vin Rouge</option>
+                                                <option value="vin blanc">Vin Blanc</option>
+                                                <option value="vin rosé">Vin Rosé</option>
+                                                <option value="champagne">Champagne</option>
+                                            </select>
+                                        </div>
+
+                                        <!-- Filtre par région de vin -->
+                                        <div class="filterOption mt-3 mt-lg-0">
+                                            <select class="form-select border-0" id="wine_region">
+                                                <option value="">Région</option>
+                                                <option value="Bordeaux">Bordeaux</option>
+                                                <option value="Champagne">Champagne</option>
+                                                <option value="Provence">Provence</option>
+                                                <option value="Bourgogne">Bourgogne</option>
+                                                <option value="Côtes du Rhône">Côtes du Rhône</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="filterOption mt-3 mt-lg-0">
+                                        <select class="form-select border-0" id="sort" name="sort">
                                             <option class="dropdown-item" value="">Trier par
                                             </option>
                                             <option class="dropdown-item" value="price_asc">Prix croissant
                                             </option>
                                             <option class="dropdown-item" value="price_desc">Prix décroissant
                                             </option>
+                                            <option class="dropdown-item" value="alpha_asc">Alphabétique de A à Z
+                                            </option>
+                                            <option class="dropdown-item" value="alpha_desc">Alphabétique de Z à A
+                                            </option>
                                             <option class="dropdown-item" value="promotion">En promotion
                                             </option>
                                         </select>
-                                        <span class="position-absolute filterChevron mdi mdi-chevron-down"></span>
                                     </div>
                                 </div>
                             </div>
@@ -64,7 +103,7 @@
                     </div>
 
                     <!-- Zone où seront affichés les filtres appliqués -->
-                    <div id="activeFilters" class="mb-4">
+                    <div id="activeFilters" class="">
                         <ul id="filtersList" class="list-unstyled">
                             <!-- Les filtres appliqués seront ajoutés ici -->
                         </ul>
@@ -97,39 +136,6 @@
                 </div>
             </div>
 
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="site-section site-blocks-2">
-
-                        <div class="row">
-                            @if (!empty($categories))
-                                {{-- collect: dizi oluştur --}}
-                                {{-- @php
-                                    $allcategories = collect($categories);
-                                @endphp --}}
-                                {{-- @foreach ($allcategories->where('cat_ust', null) as $category) --}}
-                                @foreach ($categories->where('cat_ust', null) as $category)
-                                    <div class="col-sm-6 col-md-6 col-lg-4 mb-4 mb-lg-0" data-aos="fade" data-aos-delay="">
-                                        <a class="block-2-item" href="{{-- {{ route($category->slug . 'product') }} --}}">
-                                            <figure class="image">
-                                                <img src="{{ asset(/* $category->image */ 'images/shoe_1.jpg') }}"
-                                                    alt="" class="img-fluid">
-                                            </figure>
-                                            <div class="text">
-                                                <span class="text-uppercase">Collections</span>
-                                                <h3>{{ $category->name }}</h3>
-                                            </div>
-                                        </a>
-                                    </div>
-                                @endforeach
-                            @endif
-
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-
         </div>
     </div>
 @endsection
@@ -139,44 +145,11 @@
         document.addEventListener('DOMContentLoaded', function() {
             const minPriceInput = document.getElementById('min_price');
             const maxPriceInput = document.getElementById('max_price');
-            const priceRangeLabel = document.getElementById('price_range_label');
             const priceSlider = document.getElementById('price_slider');
+            const category = document.getElementById('category');
+            const subcategoriesDiv = document.getElementById('subcategories');
+            let priceRangeLabel = document.getElementById('price_range_label');
             var filtersList = document.getElementById('filtersList');
-
-            // Initialisation du range slider avec noUiSlider
-            noUiSlider.create(priceSlider, {
-                start: [0, 700000],
-                connect: true,
-                range: {
-                    'min': 0,
-                    'max': 700000
-                },
-                step: 10,
-                //tooltips: [true, true],
-                format: {
-                    to: function(value) {
-                        return parseInt(value) + ' FCFA';
-                    },
-                    from: function(value) {
-                        return Number(value.replace(' FCFA', ''))
-                    }
-                }
-            });
-
-            // Met à jour les inputs cachés avec les valeurs du slider
-            priceSlider.noUiSlider.on('update', function(values, handle) {
-                const minPrice = parseInt(values[0].replace(' FCFA', ''));
-                const maxPrice = parseInt(values[1].replace(' FCFA', ''));
-
-                minPriceInput.value = minPrice;
-                maxPriceInput.value = maxPrice;
-
-                // Met à jour l'affichage du label avec la plage de prix actuelle
-                priceRangeLabel.textContent = minPrice + ' FCFA - ' + maxPrice + ' FCFA';
-
-                // Appel de la fonction pour mettre à jour les produits
-                fetchProduct()
-            });
 
 
             $(document).on('change', '#filterForm', function(event) {
@@ -184,6 +157,24 @@
                 fetchProduct()
                 updateFilters(event.target.id);
             })
+
+            category.addEventListener('change', function() {
+                if (this.value === 'la cave') {
+                    subcategoriesDiv.style.visibility = 'visible'; // Afficher sous-catégories
+                } else {
+                    subcategoriesDiv.style.visibility = 'hidden'; // Masquer sous-catégories
+                }
+            })
+
+            minPriceInput.addEventListener('input', function() {
+                fetchProduct();
+                priceRangeLabel.textContent = `${minPriceInput.value} FCFA - ${maxPriceInput.value} FCFA`
+
+            });
+            maxPriceInput.addEventListener('input', function() {
+                fetchProduct();
+                priceRangeLabel.textContent = `${minPriceInput.value} FCFA - ${maxPriceInput.value} FCFA`
+            });
 
             // Fonction pour mettre à jour les filtres affichés
             function updateFilters(type) {
@@ -222,10 +213,15 @@
                 let category = $('#category').val();
                 let minPrice = $('#min_price').val();
                 let maxPrice = $('#max_price').val();
+                let wineType = $('#wine_type').val();
+                let wineRegion = $('#wine_region').val();
                 let sort = $('#sort').val();
 
+                //console.log(winType, winRegion);
 
-                let newUrl = "{{ route('product') }}?category=" + category + "&min_price=" + minPrice +
+                let newUrl = "{{ route('product') }}?category=" + category + "&wineType=" + wineType +
+                    "&wineRegion=" +
+                    wineRegion + "&min_price=" + minPrice +
                     "&max_price=" +
                     maxPrice + "&sort=" + sort;
 
@@ -236,7 +232,7 @@
                     type: "GET",
                     url: newUrl,
                     success: function(response) {
-                        //console.log(response.products)
+                        console.log(response)
                         $('.productContent').html(response.products);
                         // Si besoin, mettre à jour la pagination ici
                         // $('.paginateButtons').html(response.paginate);
@@ -265,7 +261,7 @@
             });
         })
 
-        $(document).on('submit', '#add&OpenCartForm', function(e) {
+        $(document).on('submit', '#addOpenCartForm', function(e) {
             e.preventDefault();
             const formData = $(this).serialize();
             $.ajax({
