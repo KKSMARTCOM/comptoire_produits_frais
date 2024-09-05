@@ -17,7 +17,7 @@
                             <i class="icon-search"></i>
                         </span>
                     </div>
-                    <input type="text" class="form-control" id="navbar-search-input" placeholder="Search now"
+                    <input type="text" class="form-control" id="navbar-search-input" placeholder="Rechercher maintenant"
                         aria-label="search" aria-describedby="search">
                 </div>
             </li>
@@ -39,9 +39,9 @@
                             </div>
                         </div>
                         <div class="preview-item-content">
-                            <h6 class="preview-subject font-weight-normal">Application Error</h6>
+                            <h6 class="preview-subject font-weight-normal">Erreur d'application</h6>
                             <p class="font-weight-light small-text mb-0 text-muted">
-                                Just now
+                                Tout à l' heure
                             </p>
                         </div>
                     </a>
@@ -52,9 +52,9 @@
                             </div>
                         </div>
                         <div class="preview-item-content">
-                            <h6 class="preview-subject font-weight-normal">Settings</h6>
+                            <h6 class="preview-subject font-weight-normal">Paramètres</h6>
                             <p class="font-weight-light small-text mb-0 text-muted">
-                                Private message
+                                Message privé
                             </p>
                         </div>
                     </a>
