@@ -7,118 +7,92 @@
         <div class="container">
             <div class="row mb-5">
                 <div class="col-md-12 order-2">
-                    <div class="row">
-                        <div class="col-md-12 mb-5">
-                            <div class="d-flex gap-2">
-                                <div class="dropdown mr-1 ml-md-auto"></div>
-                                <div class="btn-group">
-                                    <select class="form-control bordered-select border-0" id="orderList">
-                                        <option class="dropdown-item" value="id-desc">Catégories
-                                        </option>
-                                        <option class="dropdown-item" value="id-desc">Volailles
-                                        </option>
-                                        <option class="dropdown-item" value="id-desc">Poissons
-                                        </option>
-                                        <option class="dropdown-item" value="id-desc">Fruits & légumes
-                                        </option>
-                                        <option class="dropdown-item" value="id-desc">Cave
-                                        </option>
-                                        <option class="dropdown-item" value="id-desc">Autres viandes
-                                        </option>
-                                        <option class="dropdown-item" value="id-desc">CPF Store
-                                        </option>
-                                    </select>
-                                    <span class="mdi mdi-chevron-down select-arrow"></span>
-                                </div>
-                                <div class="dropdown mr-1 ml-md-auto"></div>
-                                <div class="btn-group">
-                                    <select class="form-control bordered-select border-0" id="orderList">
-                                        <option class="dropdown-item" value="id-asc">Produits
-                                        </option>
-                                        <option class="dropdown-item" value="id-asc">Poulet Fermier
-                                        </option>
-                                        <option class="dropdown-item" value="id-asc">Dinde Bio
-                                        </option>
-                                        <option class="dropdown-item" value="id-asc">Canard à l'Orange
-                                        </option>
-                                        <option class="dropdown-item" value="id-asc">Saumon Fumé
-                                        </option>
-                                        <option class="dropdown-item" value="id-asc">Cabillaud Frais
-                                        </option>
-                                        <option class="dropdown-item" value="id-asc">Sardines à l'Huile
-                                        </option>
-                                        <option class="dropdown-item" value="id-asc">Pommes Bio
-                                        </option>
-                                        <option class="dropdown-item" value="id-asc">Carottes Fraîches
-                                        </option>
-                                        <option class="dropdown-item" value="id-asc">Tomates Cerises
-                                        </option>
-                                        <option class="dropdown-item" value="id-asc">Vin Rouge Bordeaux
-                                        </option>
-                                        <option class="dropdown-item" value="id-asc">Champagne Brut
-                                        </option>
-                                        <option class="dropdown-item" value="id-asc">Whisky Écossais
-                                        </option>
-                                        <option class="dropdown-item" value="id-asc">Huile d'Olive Extra Vierge
-                                        </option>
-                                        <option class="dropdown-item" value="id-asc">Miel de Montagne
-                                        </option>
-                                        <option class="dropdown-item" value="id-asc">Café Arabica
-                                        </option>
-                                        <option class="dropdown-item" value="id-asc">Bœuf Wagyu
-                                        </option>
-                                        <option class="dropdown-item" value="id-asc">Agneau Bio
-                                        </option>
-                                        <option class="dropdown-item" value="id-asc">Porc Fermier
-                                    </select>
-                                    <span class="mdi mdi-chevron-down select-arrow"></span>
-                                </div>
-                                <div class="dropdown mr-1 ml-md-auto"></div>
-                                <div class="btn-group">
-                                    <select class="form-control bordered-select border-0" id="orderList">
-                                        <option class="dropdown-item" value="price-asc">Prix
-                                        </option>
-                                        <option class="dropdown-item" value="id-asc">9.000 - 12.000 FCFA
-                                        </option>
-                                        <option class="dropdown-item" value="id-asc">18.000 - 22.000 FCFA
-                                        </option>
-                                        <option class="dropdown-item" value="id-asc">15.000 - 20.000 FCFA
-                                        </option>
-                                        <option class="dropdown-item" value="id-asc">12.000 - 15.000 FCFA
-                                        </option>
-                                        <option class="dropdown-item" value="id-asc">10.000 - 12.000 FCFA
-                                        </option>
-                                        <option class="dropdown-item" value="id-asc">4.000 - 6.000 FCFA
-                                        </option>
-                                        <option class="dropdown-item" value="id-asc">2.500 - 4.000 FCFA/kg
-                                        </option>
-                                        <option class="dropdown-item" value="id-asc">1.500 - 2.500 FCFA/kg
-                                        </option>
-                                        <option class="dropdown-item" value="id-asc">2.000 - 3.000 FCFA/kg
-                                        </option>
-                                        <option class="dropdown-item" value="id-asc">15.000 - 20.000 FCFA
-                                        </option>
-                                        <option class="dropdown-item" value="id-asc">30.000 - 35.000 FCFA
-                                        </option>
-                                        <option class="dropdown-item" value="id-asc">25.000 - 30.000 FCFA
-                                        </option>
-                                        <option class="dropdown-item" value="id-asc">9.000 - 12.000 FCFA
-                                        </option>
-                                        <option class="dropdown-item" value="id-asc">7.000 - 10.000 FCFA
-                                        </option>
-                                        <option class="dropdown-item" value="id-asc">6.000 - 8.000 FCFA
-                                        </option>
-                                        <option class="dropdown-item" value="id-asc">30.000 - 40.000 FCFA
-                                        </option>
-                                        <option class="dropdown-item" value="id-asc">20.000 - 25.000 FCFA
-                                        </option>
-                                        <option class="dropdown-item" value="id-asc">12.000 - 15.000 FCFA
-                                    </select>
-                                    <span class="mdi mdi-chevron-down select-arrow"></span>
+                    <form id="filterForm" action="">
+                        <div class="row">
+                            <div class="col-md-12 mb-5">
+                                <div class="d-block d-md-flex flex-wrap align-items-start gap-4">
+                                    {{-- Categories --}}
+                                    <div class="filterOption mt-3 mt-lg-0">
+                                        <select class="form-select border-0" name="category" id="category">
+                                            <option class="dropdown-item" value="">Catégories
+                                            </option>
+                                            <option class="dropdown-item" value="volailles">Volailles
+                                            </option>
+                                            <option class="dropdown-item" value="poissons">Poissons
+                                            </option>
+                                            <option class="dropdown-item" value="autres viandes">Autres viandes
+                                            </option>
+                                            <option class="dropdown-item" value="fruits/legumes">Fruits & légumes
+                                            </option>
+                                            <option class="dropdown-item" value="la cave">La cave
+                                            </option>
+                                            <option class="dropdown-item" value="cpf store">CPF Store
+                                            </option>
+                                        </select>
+                                    </div>
+                                    {{-- Prix --}}
+                                    <div class="mt-3 mt-lg-0 p-2">
+                                        <label for="price_range">Prix :</label>
+                                        <span id="price_range_label">0 FCFA - 700000 FCFA</span>
+                                        {{-- <div id="price_slider"></div> --}}
+                                        <div class="d-flex gap-2 price_range mt-3">
+                                            <div class="price_range_input">
+                                                <label for="min_price">Min</label>
+                                                <input type="number" id="min_price" name="min_price" value="0">
+                                            </div>
+                                            <div class="price_range_input">
+                                                <label for="max_price">Max</label>
+                                                <input type="number" id="max_price" name="max_price" value="700000"
+                                                    placeholder="700000">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {{-- Sous-categories des vins --}}
+                                    <div id="subcategories" style="visibility: hidden" class="d-flex gap-3">
+                                        <!-- Filtre par type de vin -->
+                                        <div class="filterOption mt-3 mt-lg-0">
+                                            <select class="form-select border-0" id="wine_type">
+                                                <option value="">Type de vin</option>
+                                                <option value="vin rouge">Vin Rouge</option>
+                                                <option value="vin blanc">Vin Blanc</option>
+                                                <option value="vin rosé">Vin Rosé</option>
+                                                <option value="champagne">Champagne</option>
+                                            </select>
+                                        </div>
+
+                                        <!-- Filtre par région de vin -->
+                                        <div class="filterOption mt-3 mt-lg-0">
+                                            <select class="form-select border-0" id="wine_region">
+                                                <option value="">Région</option>
+                                                <option value="Bordeaux">Bordeaux</option>
+                                                <option value="Champagne">Champagne</option>
+                                                <option value="Provence">Provence</option>
+                                                <option value="Bourgogne">Bourgogne</option>
+                                                <option value="Côtes du Rhône">Côtes du Rhône</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="filterOption mt-3 mt-lg-0">
+                                        <select class="form-select border-0" id="sort" name="sort">
+                                            <option class="dropdown-item" value="">Trier par
+                                            </option>
+                                            <option class="dropdown-item" value="price_asc">Prix croissant
+                                            </option>
+                                            <option class="dropdown-item" value="price_desc">Prix décroissant
+                                            </option>
+                                            <option class="dropdown-item" value="alpha_asc">Alphabétique de A à Z
+                                            </option>
+                                            <option class="dropdown-item" value="alpha_desc">Alphabétique de Z à A
+                                            </option>
+                                            <option class="dropdown-item" value="promotion">En promotion
+                                            </option>
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </form>
 
                     <div class="row">
                         <div class="col-lg-12">
@@ -128,10 +102,17 @@
                         </div>
                     </div>
 
+                    <!-- Zone où seront affichés les filtres appliqués -->
+                    <div id="activeFilters" class="">
+                        <ul id="filtersList" class="list-unstyled">
+                            <!-- Les filtres appliqués seront ajoutés ici -->
+                        </ul>
+                    </div>
 
-                    <div class="row mb-3 productContent">
 
-                        @include('frontend.ajax.productList')
+                    <div class="row mb-3 productContent" id="productList">
+
+                        @include('frontend.ajax.productList', ['products' => $products])
 
                     </div>
 
@@ -155,46 +136,114 @@
                 </div>
             </div>
 
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="site-section site-blocks-2">
-
-                        <div class="row">
-                            @if (!empty($categories))
-                                {{-- collect: dizi oluştur --}}
-                                {{-- @php
-                                    $allcategories = collect($categories);
-                                @endphp --}}
-                                {{-- @foreach ($allcategories->where('cat_ust', null) as $category) --}}
-                                @foreach ($categories->where('cat_ust', null) as $category)
-                                    <div class="col-sm-6 col-md-6 col-lg-4 mb-4 mb-lg-0" data-aos="fade"
-                                        data-aos-delay="">
-                                        <a class="block-2-item" href="{{-- {{ route($category->slug . 'product') }} --}}">
-                                            <figure class="image">
-                                                <img src="{{ asset(/* $category->image */ 'images/shoe_1.jpg') }}"
-                                                    alt="" class="img-fluid">
-                                            </figure>
-                                            <div class="text">
-                                                <span class="text-uppercase">Collections</span>
-                                                <h3>{{ $category->name }}</h3>
-                                            </div>
-                                        </a>
-                                    </div>
-                                @endforeach
-                            @endif
-
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-
         </div>
     </div>
 @endsection
 
 @section('customjs')
     <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const minPriceInput = document.getElementById('min_price');
+            const maxPriceInput = document.getElementById('max_price');
+            const priceSlider = document.getElementById('price_slider');
+            const category = document.getElementById('category');
+            const subcategoriesDiv = document.getElementById('subcategories');
+            let priceRangeLabel = document.getElementById('price_range_label');
+            var filtersList = document.getElementById('filtersList');
+
+
+            $(document).on('change', '#filterForm', function(event) {
+                //console.log(event.target.id)
+                fetchProduct()
+                updateFilters(event.target.id);
+            })
+
+            category.addEventListener('change', function() {
+                if (this.value === 'la cave') {
+                    subcategoriesDiv.style.visibility = 'visible'; // Afficher sous-catégories
+                } else {
+                    subcategoriesDiv.style.visibility = 'hidden'; // Masquer sous-catégories
+                }
+            })
+
+            minPriceInput.addEventListener('input', function() {
+                fetchProduct();
+                priceRangeLabel.textContent = `${minPriceInput.value} FCFA - ${maxPriceInput.value} FCFA`
+
+            });
+            maxPriceInput.addEventListener('input', function() {
+                fetchProduct();
+                priceRangeLabel.textContent = `${minPriceInput.value} FCFA - ${maxPriceInput.value} FCFA`
+            });
+
+            // Fonction pour mettre à jour les filtres affichés
+            function updateFilters(type) {
+                let filterItem;
+                let filterText;
+
+                if (type === 'category') {
+                    filterText = $('#category option:selected').text();
+                    filterItem =
+                        `<li id="filter_category">${filterText} <button class="btn btn-sm btn-danger" onclick="removeFilter('category')">X</button></li>`;
+                    disableOption('category', $('#category').val());
+                } else if (type === 'sort') {
+                    filterText = $('#sort option:selected').text();
+                    filterItem =
+                        `<li id="filter_sort">${filterText} <button class="btn btn-sm btn-danger" onclick="removeFilter('sort')">X</button></li>`;
+                    disableOption('sort', $('#sort').val());
+                }
+
+                // Mettre à jour la liste des filtres affichés
+                $('#filtersList').append(filterItem);
+            }
+
+            // Fonction pour supprimer un filtre
+            window.removeFilter = function(type) {
+                if (type === 'category') {
+                    $('#category').val('');
+                    $('#filtersList').find('#filter_category').remove();
+                } else if (type === 'sort') {
+                    $('#sort').val('');
+                    $('#filtersList').find('#filter_sort').remove();
+                }
+                fetchProducts();
+            }
+
+            function fetchProduct() {
+                let category = $('#category').val();
+                let minPrice = $('#min_price').val();
+                let maxPrice = $('#max_price').val();
+                let wineType = $('#wine_type').val();
+                let wineRegion = $('#wine_region').val();
+                let sort = $('#sort').val();
+
+                //console.log(winType, winRegion);
+
+                let newUrl = "{{ route('product') }}?category=" + category + "&wineType=" + wineType +
+                    "&wineRegion=" +
+                    wineRegion + "&min_price=" + minPrice +
+                    "&max_price=" +
+                    maxPrice + "&sort=" + sort;
+
+                $.ajax({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    type: "GET",
+                    url: newUrl,
+                    success: function(response) {
+                        console.log(response)
+                        $('.productContent').html(response.products);
+                        // Si besoin, mettre à jour la pagination ici
+                        // $('.paginateButtons').html(response.paginate);
+                    },
+                    error: function(xhr) {
+                        console.log(xhr.responseText);
+                    }
+                });
+            }
+        })
+
         $(document).on('submit', '#addForm', function(e) {
             e.preventDefault();
             const formData = $(this).serialize();
@@ -212,7 +261,7 @@
             });
         })
 
-        $(document).on('submit', '#add&OpenCartForm', function(e) {
+        $(document).on('submit', '#addOpenCartForm', function(e) {
             e.preventDefault();
             const formData = $(this).serialize();
             $.ajax({

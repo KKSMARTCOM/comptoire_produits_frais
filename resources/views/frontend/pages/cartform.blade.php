@@ -16,71 +16,102 @@
                         <div class="p-3 p-lg-5 border">
                             <div class="form-group">
                                 <label for="c_country" class="text-black">Pays <span class="text-danger">*</span></label>
-                                <select id="c_country" name="country" class="form-control">
+                                <select id="c_country" name="country" class="form-control" disabled>
                                     <option value="">Veuillez choisir un pays</option>
-                                    <option value="Turkey" selected>Türkiye</option>
+                                    <option value="Bénin" selected>Bénin</option>
                                 </select>
                             </div>
+
                             <div class="form-group row">
                                 <div class="col-md-12">
-                                    <label for="c_fname" class="text-black">Nom Prénom<span
+                                    <label for="c_fname" class="text-black">Nom<span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="c_fname" name="lastname"
+                                        value="{{ old('lastname') }}">
+                                </div>
+                                @error('lastname')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-md-12">
+                                    <label for="c_fname" class="text-black">Prénom<span
                                             class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" id="c_fname" name="name">
+                                    <input type="text" class="form-control" id="c_fname" name="firstname"
+                                        value="{{ old('lastname') }}">
+                                </div>
+                                @error('firstname')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-md-12">
+                                    <label for="c_companyname" class="text-black">Nom d'entreprise (facultatif) </label>
+                                    <input type="text" class="form-control" id="c_companyname" name="company_name"
+                                        value="{{ old('company_name') }}">
                                 </div>
                             </div>
 
                             <div class="form-group row">
                                 <div class="col-md-12">
-                                    <label for="c_companyname" class="text-black">Nom d'entreprise </label>
-                                    <input type="text" class="form-control" id="c_companyname" name="company_name">
-                                </div>
-                            </div>
-
-                            <div class="form-group row">
-                                <div class="col-md-12">
-                                    <label for="c_address" class="text-black">Adresse <span
+                                    <label for="c_address" class="text-black">Adresse (Indication précise) <span
                                             class="text-danger">*</span></label>
                                     <input type="text" class="form-control" id="c_address" name="address"
-                                        placeholder="Adresse de la ville">
+                                        value="{{ old('address') }}" placeholder="Adresse de la ville">
                                 </div>
+                                @error('address')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
                             </div>
 
                             <div class="form-group row">
                                 <div class="col-md-6">
                                     <label for="c_state_country" class="text-black">Ville<span
                                             class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" id="c_state_country" name="city">
+                                    <input type="text" class="form-control" id="c_state_country" name="city"
+                                        value="{{ old('city') }}">
+                                    @error('city')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
                                 </div>
                                 <div class="col-md-6">
                                     <label for="c_state_country" class="text-black">Quartier<span
                                             class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" id="c_state_country" name="district">
+                                    <input type="text" class="form-control" id="c_state_country" name="district"
+                                        value="{{ old('district') }}">
+                                    @error('district')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
                                 </div>
-                                <div class="col-md-12">
+                                {{-- <div class="col-md-12">
                                     <label for="c_postal_zip" class="text-black">Code postal <span
                                             class="text-danger">*</span></label>
                                     <input type="text" class="form-control" id="c_postal_zip" name="zip_code">
-                                </div>
+                                </div> --}}
                             </div>
 
-                            <div class="form-group row mb-5">
-                                <div class="col-md-6">
+                            <div class="form-group row mb-4">
+                                {{-- <div class="col-md-6">
                                     <label for="c_email_address" class="text-black">Email <span
                                             class="text-danger">*</span></label>
                                     <input type="text" class="form-control" id="c_email_address" name="email">
-                                </div>
-                                <div class="col-md-6">
+                                </div> --}}
+                                <div class="col-md-12">
                                     <label for="c_phone" class="text-black">Téléphone <span
                                             class="text-danger">*</span></label>
                                     <input type="text" class="form-control" id="c_phone" name="phone"
-                                        placeholder="Numéro de téléphone">
+                                        placeholder="Numéro de téléphone" value="{{ old('phone') }}">
                                 </div>
+                                @error('phone')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
                             </div>
 
                             <div class="form-group">
                                 <label for="c_order_notes" class="text-black">Note</label>
                                 <textarea name="note" id="c_order_notes" cols="30" rows="5" class="form-control"
-                                    placeholder="Ecrivez votre note ici..."></textarea>
+                                    placeholder="Ecrivez votre note ici..." value="{{ old('note') }}"></textarea>
                             </div>
 
                         </div>
@@ -130,7 +161,7 @@
                                                         <td>{{ $cart['product']['name'] }} <strong
                                                                 class="mx-2">x</strong>
                                                             {{ $cart['quantity'] }}</td>
-                                                        <td>$ {{ $toplamTutar }}</td>
+                                                        <td>{{ $toplamTutar }} FCFA</td>
                                                     </tr>
                                                 @endforeach
                                             @endif
@@ -138,72 +169,24 @@
                                             <tr>
                                                 <td class="text-black font-weight-bold"><strong>Prix du coupon</strong>
                                                 </td>
-                                                <td class="text-black font-weight-bold"><strong>$
-                                                        {{ session()->get('couponPrice') ?? 0 }}</strong></td>
+                                                <td class="text-black font-weight-bold">
+                                                    <strong>{{ session()->get('couponPrice') ?? 0 }} FCFA</strong></td>
                                             </tr>
                                             <tr>
                                                 <td class="text-black font-weight-bold"><strong>Total de la
                                                         commande</strong></td>
-                                                <td class="text-black font-weight-bold"><strong>$
-                                                        {{ array_sum(array_column(session()->get('cart'), 'total')) ?? 0 }}</strong>
+                                                <td class="text-black font-weight-bold"><strong>
+                                                        {{ array_sum(array_column(session()->get('cart'), 'total')) ?? 0 }}
+                                                        FCFA</strong>
                                                 </td>
                                             </tr>
 
                                         </tbody>
                                     </table>
 
-                                    {{-- <div class="border p-3 mb-3">
-                                        <h3 class="h6 mb-0"><a class="d-block" data-toggle="collapse"
-                                                href="#collapsebank" role="button" aria-expanded="false"
-                                                aria-controls="collapsebank">Direct Bank
-                                                Transfer</a></h3>
-
-                                        <div class="collapse" id="collapsebank">
-                                            <div class="py-2">
-                                                <p class="mb-0">Make your payment directly into our bank account. Please
-                                                    use
-                                                    your Order ID as the payment reference. Your order won’t be shipped
-                                                    until
-                                                    the funds have cleared in our account.</p>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="border p-3 mb-3">
-                                        <h3 class="h6 mb-0"><a class="d-block" data-toggle="collapse"
-                                                href="#collapsecheque" role="button" aria-expanded="false"
-                                                aria-controls="collapsecheque">Cheque
-                                                Payment</a></h3>
-
-                                        <div class="collapse" id="collapsecheque">
-                                            <div class="py-2">
-                                                <p class="mb-0">Make your payment directly into our bank account. Please
-                                                    use
-                                                    your Order ID as the payment reference. Your order won’t be shipped
-                                                    until
-                                                    the funds have cleared in our account.</p>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="border p-3 mb-5">
-                                        <h3 class="h6 mb-0"><a class="d-block" data-toggle="collapse"
-                                                href="#collapsepaypal" role="button" aria-expanded="false"
-                                                aria-controls="collapsepaypal">Paypal</a></h3>
-
-                                        <div class="collapse" id="collapsepaypal">
-                                            <div class="py-2">
-                                                <p class="mb-0">Make your payment directly into our bank account. Please
-                                                    use
-                                                    your Order ID as the payment reference. Your order won’t be shipped
-                                                    until
-                                                    the funds have cleared in our account.</p>
-                                            </div>
-                                        </div>
-                                    </div> --}}
-
                                     <div class="form-group">
-                                        <button class="btn btn-primary btn-lg py-3 btn-block">Commander</button>
+                                        <button type="submit"
+                                            class="btn btn-primary btn-lg py-3 border-0">Commander</button>
                                     </div>
 
                                 </div>

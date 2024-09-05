@@ -2,13 +2,16 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-6 col-md-12 site-footer-left">
-                <div class="row">
-                    <div class="col-lg-3">LOGO</div>
+                <div class="row align-items-start">
+                    <div class="site-logo col-lg-3">
+                        <a href="{{ route('index') }}"><img
+                                src="{{ asset('images/svg/KKSMARTDESIGN_CPF_LOGO_prop9.svg') }}" alt="LOGO"></a>
+                    </div>
                     <div class="col-lg-9 mt-md-2 mt-xs-2">
-                        <h2>Vous avez besoin d'aide ?</h2>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo, molestiae. Alias aperiam
-                            explicabo debitis atque. Hic ab accusamus, animi nam atque eius eaque ex perspiciatis unde
-                            nemo maxime, expedita enim.</p>
+                        <h2>Besoin d'aide ?</h2>
+                        <p>Notre équipe est là pour vous accompagner à chaque étape de votre achat. Explorez notre
+                            large gamme de produits et profitez d'une expérience d'achat fluide et sécurisée. Pour toute
+                            question, n'hésitez pas à nous contacter !</p>
                     </div>
                 </div>
             </div>
@@ -19,13 +22,14 @@
                             <li>
                                 <h2>A propos</h2>
                             </li>
-                            <li><a href="">Acceuil</a></li>
-                            <li><a href="">Volailles</a></li>
-                            <li><a href="">Poissons & Fruits de mer</a></li>
-                            <li><a href="">Autres viandes</a></li>
-                            <li><a href="">Fruits & Légumes</a></li>
-                            <li><a href="">La cave</a></li>
-                            <li><a href="">CPF Store</a></li>
+                            <li><a href="{{ route('index') }}">Acceuil</a></li>
+                            <li><a href="{{ route('product') }}">Volailles</a></li>
+                            <li><a href="{{ route('product') }}">Poissons & Fruits de mer</a></li>
+                            <li><a href="{{ route('product') }}">Autres viandes</a></li>
+                            <li><a href="{{ route('product') }}">Fruits & Légumes</a></li>
+                            <li><a href="{{ route('product') }}">La cave</a></li>
+                            <li><a href="{{ route('product') }}">Coffrets & Paniers</a></li>
+                            <li><a href="{{ route('product') }}">CPF Store</a></li>
                         </ul>
                     </div>
                     <div class="col-lg-6 col-md-6">
@@ -34,29 +38,32 @@
                                 <h2>Contact</h2>
                             </li>
                             <li class="d-flex align-items-center gap-2"><span class="mdi mdi-facebook"></span>
-                                <p>Facebook</p>
+                                <a href="https://www.facebook.com/share/8ExoYVHiVx74rwPt/?mibextid=LQQJ4d"
+                                    target="_blank">Facebook</a>
                             </li>
                             <li class="d-flex align-items-center gap-2"><span class="mdi mdi-whatsapp"></span>
-                                <p>Whatsapp</p>
+                                <p>+229 44430051</p>
                             </li>
                             <li class="d-flex align-items-center gap-2"><span class="mdi mdi-phone"></span>
-                                <p>00229 0000000</p>
+                                <p>+229 44430051</p>
                             </li>
                             <li class="d-flex align-items-center gap-2"><span class="mdi mdi-map-marker"></span>
-                                <p>Cotonou, Benin</p>
+                                <p>En face SONEB Gbegamey, Cotonou, Benin</p>
                             </li>
                         </ul>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="site-footer-bottom d-flex justify-content-center align-items-center gap-2 mt-4">
-            <a href="#">Mentions légales</a> <span class="mdi mdi-circle"></span>
-            <a href="#">CGV</a> <span class="mdi mdi-circle"></span>
-            <a href="#">Politique de confidentialités</a>
+        <div
+            class="site-footer-bottom d-flex flex-column flex-md-row gap-0 gap-md-2 justify-content-center align-items-center mt-2">
+            <a class="text-nowrap" href="javascript:void(0)">Mentions légales</a> <span class="mdi mdi-circle"></span>
+            <a href="javascript:void(0)">CGV</a> <span class="mdi mdi-circle"></span>
+            <a class="text-nowrap" href="javascript:void(0)">Politique de confidentialités</a>
         </div>
-        <div class="text-center">
-            <p>Copyright © 2024 - Réalisé par <a href="https://kksmartcom.com/" target="_blank">KK SMART COM</a></p>
+        <div class="mt-4">
+            <p class="text-center">Copyright © 2024 - Réalisé par <a class="text-decoration-none"
+                    href="https://kksmartcom.com/" target="_blank">KK SMART COM</a></p>
         </div>
     </div>
 </footer>

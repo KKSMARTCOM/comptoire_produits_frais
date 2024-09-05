@@ -8,6 +8,7 @@ use App\Models\Order;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Mail;
 
 class CartController extends Controller
 {
@@ -147,9 +148,14 @@ class CartController extends Controller
 
     public function cartform()
     {
+        $breadcrumb = [
+            'pages' => [],
+            'active' => 'Commande'
+        ];
+
         $cartItem = session()->get('cart', []);
         //return $cartItem;
-        return view('frontend.pages.cartform', compact('cartItem'));
+        return view('frontend.pages.cartform', compact('breadcrumb', 'cartItem'));
     }
 
     /* public function generateKod()
@@ -165,55 +171,85 @@ class CartController extends Controller
     public function barcodeKodExists($siparisno)
     {
         return Invoice::where('order_no', $siparisno)->exists();
-    }
+    } */
 
     public function cartSave(Request $request)
     {
-        // return $request->all();
 
         $request->validate([
-            'name' => 'required|string|min:3',
-            'email' => 'required|email',
+            'lastname' => 'required|string|min:2',
+            'firstname' => 'required|string|min:2',
             'phone' => 'required|string',
             'company_name' => 'nullable|string',
             'address' => 'required|string',
-            'country' => 'required|string',
             'city' => 'required|string',
             'district' => 'required|string',
-            'zip_code' => 'required|string',
             'note' => 'nullable|string',
+        ], [
+            'lastname.required' => 'Vous devez obligatoirement remplir ce champ',
+            'firstname.required' => 'Vous devez obligatoirement remplir ce champ',
+            'phone.required' => 'Vous devez obligatoirement remplir ce champ',
+            'address.required' => 'Vous devez obligatoirement remplir ce champ',
+            'city.required' => 'Vous devez obligatoirement remplir ce champ',
+            'district.required' => 'Vous devez obligatoirement remplir ce champ',
         ]);
 
-        $invoce = Invoice::create([
-            "user_id" => auth()->user()->id ?? null,
+        $invoice = [
             "order_no" => $this->generateKod(),
             "country" => $request->country,
-            "name" => $request->name,
+            "lastname" => $request->lastname,
+            "firstname" => $request->firstname,
             "company_name" => $request->company_name ?? null,
             "address" => $request->address ?? null,
             "city" => $request->city ?? null,
             "district" => $request->district ?? null,
-            "zip_code" => $request->zip_code ?? null,
-            "email" => $request->email ?? null,
             "phone" => $request->phone ?? null,
             "note" => $request->note ?? null,
-        ]);
+        ];
 
         $cart = session()->get('cart') ?? [];
+
+        $totalCartPrice = array_sum(array_column($cart, 'total'));
+
         foreach ($cart as $key => $item) {
-            Order::create([
-                'order_no' => $invoce->order_no,
+            $order = [
+                'order_no' => $invoice['order_no'],
                 'product_id' => $key,
-                'name' => $item['name'],
-                'price' => $item['price'],
-                'qty' => $item['qty'],
-                'kdvd' => $item['kdv'],
-            ]);
+                'name' => $item['product']['name'],
+                'price' => $item['product']['price'],
+                'quantity' => $item['quantity'],
+                //'kdvd' => $item['kdv'],
+            ];
         }
 
+        Mail::send(
+            'frontend.pages.mails.order',
+            [
+                'order_no' => $invoice['order_no'],
+                'lastname' => $invoice['lastname'],
+                'firstname' => $invoice['firstname'],
+                'company_name' => $invoice['company_name'],
+                'city' => $invoice['city'],
+                'address' => $invoice['address'],
+                'district' => $invoice['district'],
+                'phone' => $invoice['phone'],
+                'note' => $invoice['note'],
+                'totalCartPrice' => $totalCartPrice,
+                'cart' => $cart,
+            ],
+            function ($message) {
+
+                $config = config('mail');
+
+                $message->subject("Nouvelle commande reçue !")
+                    ->from($config['from']['address'], $config['from']['name'])
+                    ->to('arso@yopmail.com');
+            }
+        );
+
         session()->forget('cart');
-        return redirect()->route('index')->withSuccess('Shopping Completed Successfully.');
-    } */
+        return redirect()->route('finish')->with('success', 'Commande effectué !');
+    }
 
     private function getProductById($productId)
     {
@@ -228,5 +264,12 @@ class CartController extends Controller
         }
 
         return null;
+    }
+
+    function generateKod()
+    {
+        $orderNo = generateOTP(7);
+
+        return $orderNo;
     }
 }

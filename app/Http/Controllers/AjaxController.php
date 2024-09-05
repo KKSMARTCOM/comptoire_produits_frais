@@ -7,49 +7,57 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\ContentFormRequest;
+use Illuminate\Support\Facades\Mail;
 
 class AjaxController extends Controller
 {
-    public function contactsave(ContentFormRequest $request){
-        // zorunlu alanlar
-        ///// ContentFormRequest 'ten çağırıldı............
-        // $validationData = $request->validate([
-        //     'name' => 'required|string|min:3',
-        //     'email' => 'required|email',
-        //     'subject' => 'required',
-        //     'message' => 'required',
-        // ]);
-
-        // mesajlar değiştirmek istersek
-        // $validationData = $request->validate([
-        //     'name' => 'required|string|min:3',
-        // ], [
-        //     'name.required' => 'İsim zorunlu!',
-        //     'name.string' => 'Karakterden oluşmalı',
-        //     'name.min' => 'En az 3 Karakterden oluşmalı',
-        // ]);
-
-        // $data = $request->all();
-        // $data['ip'] = request()->ip();
-        //return $data;
+    public function contactsave(Request $request)
+    {
+        $request->validate([
+            'lastname' => 'required|string|min:2',
+            'firstname' => 'required|string|min:2',
+            'subject' => 'required|string',
+            'message' => 'required|string'
+        ], [
+            'lastname.required' => 'Vous devez obligatoirement remplir ce champ',
+            'firstname.required' => 'Vous devez obligatoirement remplir ce champ',
+            'subject.required' => 'Vous devez obligatoirement remplir ce champ',
+            'message.required' => 'Vous devez obligatoirement remplir ce champ'
+        ]);
 
         $newData = [
-            'name' => Str::title($request->name),
-            'email' => $request->email,
+            'lastname' => Str::title($request->lastname),
+            'firstname' => Str::title($request->firstname),
             'subject' => $request->subject,
-            'message' => $request->message,
+            'messages' => $request->message,
             'ip' => $request->ip(),
         ];
-        $lastsave = Contact::create($newData);
 
-        return back()->withSuccess('Successfully sent.');
-        // return back()->with([
-        //     'message' => 'Successfully sent',
-        //     //'errors' => $validationData,
-        // ]);
+        //dd($newData);
+
+        Mail::send(
+            'frontend.pages.mails.contact',
+            [
+                'lastname' => $newData['lastname'],
+                'firstname' => $newData['firstname'],
+                'subject' => $newData['subject'],
+                'messages' => $newData['messages'],
+            ],
+            function ($message) {
+
+                $config = config('mail');
+
+                $message->subject("Nouveau message reçu !")
+                    ->from($config['from']['address'], $config['from']['name'])
+                    ->to('arsenegnanhoungbe@gmail.com');
+            }
+        );
+
+        return back()->withSuccess('Message envoyé !');
     }
 
-    public function logout(){
+    public function logout()
+    {
         Auth::logout();
         return redirect()->route('index');
     }

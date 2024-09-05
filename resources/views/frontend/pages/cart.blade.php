@@ -19,7 +19,8 @@
                         @endif
                     </div>
                 </div>
-                <div class="row mb-5">
+                {{-- WEB --}}
+                <div class="row mb-5 d-none d-lg-block">
                     <div class="col-lg-12 site-blocks-table">
                         <table class="table table-bordered">
                             <thead>
@@ -44,11 +45,11 @@
                                         <td class="product-name">
                                             <h2 class="h5 text-black">{{ $cartItem['product']['name'] ?? '' }}</h2>
                                         </td>
-                                        <td>{{ $cartItem['product']['price'] }}.00 FCFA</td>
+                                        <td>{{ $cartItem['product']['price'] }} FCFA</td>
                                         <td>
                                             <div class="d-flex justify-content-center align-items-center">
                                                 <div class="input-group mb-3 align-items-center gap-2"
-                                                    style="max-width: 120px;">
+                                                    style="max-width: 130px;">
                                                     <div class="input-group-prepend">
                                                         <button class="decreaseBtn btn btn-outline-success js-btn-minus"
                                                             type="button">&minus;</button>
@@ -66,7 +67,7 @@
 
                                         </td>
 
-                                        <td class="itemTotal">{{ $cartItem['total'] }}.00 FCFA</td>
+                                        <td class="itemTotal">{{ $cartItem['total'] }} FCFA</td>
                                         <td>
                                             <form class="removeItem" method="POST">
                                                 @csrf
@@ -75,7 +76,7 @@
                                                 @endphp
 
                                                 <input type="hidden" name="product_id" value="{{ $encrypt }}">
-                                                <button type="submit" class="btn btn-primary btn-sm border-0"><span
+                                                <button type="submit" class="btn btn-danger btn-sm border-0"><span
                                                         style="font-size: 16px" class="mdi mdi-delete"></span></button>
                                             </form>
                                         </td>
@@ -85,10 +86,67 @@
                         </table>
                     </div>
                 </div>
+                {{-- MOBILE --}}
+                <div class="row p-2 mb-5 d-block d-lg-none">
+                    <ul>
+                        @foreach ($cart as $key => $cartItem)
+                            <li class="orderItem h-24 align-items-center d-flex gap-4 border-bottom border-dark-subtle"
+                                data-id="{{ $key }}">
+                                <div class="product-mobile-thumbnail">
+                                    <div class="product-thumbnail-image">
+                                        <img src="{{ asset('images/' . $cartItem['product']['image']) }}"
+                                            alt="{{ $cartItem['product']['name'] }}">
+                                    </div>
+                                </div>
+                                <div class="flex-grow-1">
+                                    <div class="product-mobile-cart-text">
+                                        <h2>{{ $cartItem['product']['name'] ?? '' }}</h2>
+                                        <p>{{ $cartItem['product']['price'] }} FCFA</p>
+                                    </div>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div class="d-flex justify-content-center align-items-center">
+                                            <div class="input-group align-items-center gap-2" style="max-width: 130px;">
+                                                <div class="input-group-prepend">
+                                                    <button class="decreaseBtn btn btn-outline-success js-btn-minus"
+                                                        type="button">&minus;</button>
+                                                </div>
+                                                <input type="text" class="qtyItem form-control text-center"
+                                                    value="{{ $cartItem['quantity'] }}" placeholder=""
+                                                    aria-label="Example text with button addon"
+                                                    aria-describedby="button-addon1">
+                                                <div class="input-group-append">
+                                                    <button class="increaseBtn btn btn-outline-success js-btn-plus"
+                                                        type="button">&plus;</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <form class="removeItem" method="POST">
+                                                @csrf
+                                                @php
+                                                    $encrypt = encryptData($key);
+                                                @endphp
 
-                <div>
-                    <h3 class="mb-5">Vous avez besoin d'autres produits, <a href="">cliquez ici</a> pour acheter
-                        plus</h3>
+                                                <input type="hidden" name="product_id" value="{{ $encrypt }}">
+                                                <button type="submit" class="border-0 btn btn-light"><span
+                                                        style="font-size: 16px"
+                                                        class="text-danger fs-2 mdi mdi-delete"></span></button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        @endforeach
+                    </ul>
+                </div>
+
+                <div class="mb-5">
+                    <a href="{{ route('product') }}" class="buy-now btn btn-primary border-0"> <span
+                            class="mdi mdi-plus"></span>Ajouter
+                    </a>
+                    {{-- <p class="mb-5">Vous n'avez pas tous les produits désirés dans le panier ? <a
+                            href="{{ route('product') }}">cliquez ici</a> pour ajouter
+                        plus !</p> --}}
                 </div>
 
                 <div class="row">
@@ -114,10 +172,10 @@
 
                     <div class="col-md-6 pl-5">
                         <div class="row justify-content-end">
-                            <div class="col-md-7">
+                            <div class="col-md-7 mt-4 mt-md-0">
                                 <div class="row">
                                     <div class="col-md-12 text-right border-bottom mb-5">
-                                        <h3 class="text-black h4 text-uppercase">Total du panier </h3>
+                                        <h3 class="text-black text-nowrap h4 text-uppercase">Total du panier </h3>
                                     </div>
                                 </div>
                                 {{-- <div class="row mb-3">
@@ -133,14 +191,15 @@
                                         <span class="text-black">Total</span>
                                     </div>
                                     <div class="col-md-6 text-right">
-                                        <strong class="newTotalPrice text-black">
+                                        <strong class="newTotalPrice text-black text-nowrap">
                                             {{ $totalCartPrice }}.00 FCFA</strong>
                                     </div>
                                 </div>
 
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <button class="paymentButton btn btn-primary btn-lg py-3 btn-block border-0">Passer
+                                        <button
+                                            class="paymentButton btn btn-primary btn-lg py-3 btn-block text-nowrap border-0">Passer
                                             commande</button>
                                     </div>
                                 </div>
@@ -185,6 +244,8 @@
         function sepetUpdate() {
             var product_id = $('.selected').closest('.orderItem').attr('data-id');
             var quantity = $('.selected').closest('.orderItem').find('.qtyItem').val();
+            console.log(product_id, quantity);
+
 
             $.ajax({
                 headers: {

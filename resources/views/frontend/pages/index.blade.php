@@ -5,80 +5,79 @@
         <div class="container">
             <div class="row web-category">
                 <div class="col-lg-3 col-md-6 mt-4 mt-lg-0" data-aos="fade-up" data-aos-delay="">
-                    <div class="site-category-card">
+                    <a href="{{ route('product') }}" class="site-category-card">
                         <div class="site-category-card-image">
                             <img src="{{ asset('images/poultry.png') }}" alt="">
                         </div>
                         <h1>VOLAILLES</h1>
-                    </div>
+                    </a>
                 </div>
                 <div class="col-lg-3 col-md-6 mt-4 mt-lg-0" data-aos="fade-up" data-aos-delay="100">
-                    <div class="site-category-card">
+                    <a href="{{ route('product') }}" class="site-category-card">
                         <div class="site-category-card-image">
                             <img src="{{ asset('images/fish.png') }}" alt="">
                         </div>
                         <h1>POISSONS & FRUITS DE MER</h1>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6 mt-4 mt-lg-0" data-aos="fade-up" data-aos-delay="200">
-                    <div class="site-category-card">
-                        <div class="site-category-card-image">
-                            <img src="{{ asset('images/fruit.png') }}" alt="">
-                        </div>
-                        <h1>FRUITS & LÉGUMES</h1>
-                    </div>
+                    </a>
                 </div>
                 <div class="col-lg-3 col-md-6 mt-4 mt-lg-0" data-aos="fade-up" data-aos-delay="300">
-                    <div class="site-category-card">
+                    <a href="{{ route('product') }}" class="site-category-card">
                         <div class="site-category-card-image">
                             <img src="{{ asset('images/viandes.png') }}" alt="">
                         </div>
                         <h1>AUTRES VIANDES</h1>
-                    </div>
+                    </a>
+                </div>
+                <div class="col-lg-3 col-md-6 mt-4 mt-lg-0" data-aos="fade-up" data-aos-delay="200">
+                    <a href="{{ route('product') }}" class="site-category-card">
+                        <div class="site-category-card-image">
+                            <img src="{{ asset('images/fruit.png') }}" alt="">
+                        </div>
+                        <h1>FRUITS & LÉGUMES</h1>
+                    </a>
                 </div>
             </div>
 
             <div class="mobile-category">
-
                 <div class="owl-carousel owl-theme">
                     <div class="item">
                         <div class="" data-aos="fade-up" data-aos-delay="">
-                            <div class="site-category-card">
+                            <a href="{{ route('product') }}" class="site-category-card">
                                 <div class="site-category-card-image">
                                     <img src="{{ asset('images/poultry.png') }}" alt="">
                                 </div>
                                 <h1>VOLAILLES</h1>
-                            </div>
+                            </a>
                         </div>
                     </div>
                     <div class="item">
                         <div class="" data-aos="fade-up" data-aos-delay="100">
-                            <div class="site-category-card">
+                            <a href="{{ route('product') }}" class="site-category-card">
                                 <div class="site-category-card-image">
                                     <img src="{{ asset('images/fish.png') }}" alt="">
                                 </div>
                                 <h1>POISSONS & FRUITS DE MER</h1>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <div class="" data-aos="fade-up" data-aos-delay="200">
-                            <div class="site-category-card">
-                                <div class="site-category-card-image">
-                                    <img src="{{ asset('images/fruit.png') }}" alt="">
-                                </div>
-                                <h1>FRUITS & LÉGUMES</h1>
-                            </div>
+                            </a>
                         </div>
                     </div>
                     <div class="item">
                         <div class="" data-aos="fade-up" data-aos-delay="300">
-                            <div class="site-category-card">
+                            <a href="{{ route('product') }}" class="site-category-card">
                                 <div class="site-category-card-image">
                                     <img src="{{ asset('images/viandes.png') }}" alt="">
                                 </div>
                                 <h1>AUTRES VIANDES</h1>
-                            </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="" data-aos="fade-up" data-aos-delay="200">
+                            <a href="{{ route('product') }}" class="site-category-card">
+                                <div class="site-category-card-image">
+                                    <img src="{{ asset('images/fruit.png') }}" alt="">
+                                </div>
+                                <h1>FRUITS & LÉGUMES</h1>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -90,12 +89,12 @@
     <div class="site-section-cave" style="background-image: url('{{ asset('images/cave.jpg') }}')">
         <div class="site-section-cave-opacity"></div>
         <div class="container">
-            <div class="site-section-cave-text">
+            <div class="site-section-cave-text p-2">
                 <h1>Cave à vin</h1>
-                <p>Une cave qui prône la pérennité, le savoir, la culture, mais surtout qui vous garantit l’authenticité
-                    de
-                    ses produits et la qualité.</p>
-                <a href="#">Découvrir</a>
+                <p>Découvrez notre cave en ligne, où vins, champagnes et spiritueux d'exception vous attendent. Chaque
+                    bouteille est sélectionnée avec soin pour offrir une expérience unique, que ce soit pour un repas ou une
+                    célébration. Laissez-vous séduire par notre gamme de produits raffinés et authentiques.</p>
+                <a href="{{ route('product') }}">Découvrir</a>
             </div>
         </div>
     </div>
@@ -112,14 +111,15 @@
                     </div>
                 </div>
             </div>
-            <div class="site-section-store-right">
+            <div class="site-section-store-right p-2">
                 <div>
                     <h1>CPF Store</h1>
-                    <p>Une large varieté de produits alimentaires et divers Lorem ipsum dolor sit amet consectetur
-                        adipisicing elit. Aspernatur recusandae, ratione totam sequi soluta eligendi dicta ullam dignissimos
-                        assumenda error explicabo laudantium et obcaecati molestiae reiciendis iure quidem vitae ipsa?...
+                    <p>Explorez notre sélection de produits alimentaires, alliant qualité et saveurs authentiques. Des
+                        viandes fraîches aux fruits et légumes bio, en passant par les poissons et produits d'épicerie fine,
+                        chaque article est choisi pour garantir une expérience culinaire exceptionnelle. Appréciez des
+                        produits frais, locaux et soigneusement sélectionnés pour toutes vos envies.
                     </p>
-                    <a href="#">Découvrir</a>
+                    <a href="{{ route('product') }}">Découvrir</a>
                 </div>
             </div>
         </div>
@@ -132,24 +132,24 @@
                     <h2>NOS COFFRETS & PANIERS DE FÊTES</h2>
                 </div>
             </div>
-            <div class="row gap-4 justify-content-center">
+            <div class="row p-2 gap-4 mb-4 justify-content-center">
                 <div class="col-lg-4 col-md-6 site-section-box-container">
                     <div class="site-section-box-image">
                         <img src="{{ asset('images/coffret1.jpg') }}" alt="">
                     </div>
                     <div class="site-section-box-bottom">
                         <div class="site-section-box-bottom-text">
-                            <h3>Coffret1</h3>
+                            <h3>Coffret Gourmand</h3>
                             <p>20 000 FCFA</p>
-                            <p>Composé de Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quis, magnam...</p>
+                            <p>Savourez un mélange exquis de délices sucrés et salés dans notre coffret gourmet...</p>
 
                         </div>
                         <div class="site-section-box-bottom-link">
-                            <a href="#"><span class="mdi mdi-eye-outline"></span></a>
+                            <a href="{{ route('cart') }}"><span class="mdi mdi-eye-outline"></span></a>
                         </div>
                     </div>
-                    <div class="mt-4 text-end">
-                        <a href="#" class="button-link">Commander</a>
+                    <div class="mt-4 d-flex align-items-end justify-content-end">
+                        <a href="javascript:void(0)" class="button-link">Commander</a>
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-6 site-section-box-container">
@@ -158,17 +158,17 @@
                     </div>
                     <div class="site-section-box-bottom">
                         <div class="site-section-box-bottom-text">
-                            <h3>Coffret2</h3>
+                            <h3>Panier de Fruits Frais</h3>
                             <p>20 000 FCFA</p>
-                            <p>Composé de Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quis, magnam ...</p>
+                            <p>Offrez-vous ou vos proches un assortiment de fruits frais et de saison...</p>
 
                         </div>
                         <div class="site-section-box-bottom-link">
-                            <a href="#"><span class="mdi mdi-eye-outline"></span></a>
+                            <a href="{{ route('cart') }}"><span class="mdi mdi-eye-outline"></span></a>
                         </div>
                     </div>
-                    <div class="mt-4 text-end">
-                        <a href="#" class="button-link">Commander</a>
+                    <div class="mt-4 d-flex align-items-end justify-content-end">
+                        <a href="javascript:void(0)" class="button-link">Commander</a>
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-6 site-section-box-container">
@@ -177,22 +177,84 @@
                     </div>
                     <div class="site-section-box-bottom">
                         <div class="site-section-box-bottom-text">
-                            <h3>Coffret3</h3>
+                            <h3>Coffret Vin et Fromages</h3>
                             <p>20 000 FCFA</p>
-                            <p>Composé de Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quis, magnam ...</p>
+                            <p>Combinez les meilleurs vins avec une sélection de fromages raffinés pour une expérience
+                                inoubliable...</p>
 
                         </div>
                         <div class="site-section-box-bottom-link">
-                            <a href="#"><span class="mdi mdi-eye-outline"></span></a>
+                            <a href="{{ route('cart') }}"><span class="mdi mdi-eye-outline"></span></a>
                         </div>
                     </div>
-                    <div class="mt-4 text-end">
-                        <a href="#" class="button-link">Commander</a>
+                    <div class="mt-4 d-flex align-items-end justify-content-end">
+                        <a href="javascript:void(0)" class="button-link">Commander</a>
+                    </div>
+                </div>
+            </div>
+            <div class="row gap-4 mb-4 justify-content-center more-coffret">
+                <div class="col-lg-4 col-md-6 site-section-box-container">
+                    <div class="site-section-box-image">
+                        <img src="{{ asset('images/coffret1.jpg') }}" alt="">
+                    </div>
+                    <div class="site-section-box-bottom">
+                        <div class="site-section-box-bottom-text">
+                            <h3>Coffret Gourmet</h3>
+                            <p>20 000 FCFA</p>
+                            <p>Découvrez une sélection premium de produits fins pour une expérience culinaire
+                                exceptionnelle...</p>
+
+                        </div>
+                        <div class="site-section-box-bottom-link">
+                            <a href="{{ route('cart') }}"><span class="mdi mdi-eye-outline"></span></a>
+                        </div>
+                    </div>
+                    <div class="mt-4 d-flex align-items-end justify-content-end">
+                        <a href="javascript:void(0)" class="button-link">Commander</a>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 site-section-box-container">
+                    <div class="site-section-box-image">
+                        <img src="{{ asset('images/coffret2.jpg') }}" alt="">
+                    </div>
+                    <div class="site-section-box-bottom">
+                        <div class="site-section-box-bottom-text">
+                            <h3>Panier Délices Artisanaux</h3>
+                            <p>20 000 FCFA</p>
+                            <p>Savourez des produits artisanaux soigneusement choisis pour éveiller vos papilles...</p>
+
+                        </div>
+                        <div class="site-section-box-bottom-link">
+                            <a href="{{ route('cart') }}"><span class="mdi mdi-eye-outline"></span></a>
+                        </div>
+                    </div>
+                    <div class="mt-4 d-flex align-items-end justify-content-end">
+                        <a href="javascript:void(0)" class="button-link">Commander</a>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 site-section-box-container">
+                    <div class="site-section-box-image">
+                        <img src="{{ asset('images/coffret3.jpg') }}" alt="">
+                    </div>
+                    <div class="site-section-box-bottom">
+                        <div class="site-section-box-bottom-text">
+                            <h3>Coffret Épicurien</h3>
+                            <p>20 000 FCFA</p>
+                            <p>Profitez d'un assortiment de spécialités gastronomiques pour ravir les amateurs de bonne
+                                cuisine...</p>
+
+                        </div>
+                        <div class="site-section-box-bottom-link">
+                            <a href="{{ route('cart') }}"><span class="mdi mdi-eye-outline"></span></a>
+                        </div>
+                    </div>
+                    <div class="mt-4 d-flex align-items-end justify-content-end">
+                        <a href="javascript:void(0)" class="button-link">Commander</a>
                     </div>
                 </div>
             </div>
             <div class="site-section-box-more">
-                <a href="">Voir plus</a>
+                <a class="site-section-box-more-button" href="">Voir plus</a>
             </div>
         </div>
     </div>
@@ -203,6 +265,8 @@
             loop: true,
             margin: 10,
             dots: true,
+            autoplay: true,
+            autoplayTimeout: 3000,
             responsive: {
                 0: {
                     items: 1

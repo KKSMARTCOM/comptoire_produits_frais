@@ -1,4 +1,5 @@
-<div class="bg-light py-3 site-breadcrumb" style="background-image: url('{{ asset('images/banner.jpg') }}')">
+<div class="bg-light site-breadcrumb" style="background-image: url('{{ asset('images/banner.jpg') }}')">
+    <div class="site-breadcrumb-bg"></div>
     <div class="container">
         <div class="row text-center">
             <div class="col-md-12 mb-0">
@@ -10,7 +11,7 @@
                     @endforeach
                 @endif
                 <span class="mx-2 mb-0">/</span>
-                <strong class="text-black">{{ $breadcrumb['active'] ?? '' }}</strong>
+                <strong>{{ $breadcrumb['active'] ?? '' }}</strong>
             </div>
         </div>
     </div>

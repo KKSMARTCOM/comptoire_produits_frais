@@ -31,6 +31,15 @@ class PageController extends Controller
         return view('frontend.pages.about', compact('breadcrumb'));
     }
 
+    public function finish()
+    {
+        $breadcrumb = [
+            'pages' => [],
+            'active' => 'Merci'
+        ];
+        return view('frontend.pages.finish', compact('breadcrumb'));
+    }
+
     public function getProducts()
     {
         //Récupération des produits à partir du fichier json
@@ -46,11 +55,61 @@ class PageController extends Controller
 
         $products = $this->getProducts();
 
-        //Application des filtres
-        if ($request->has('category')) {
-            $category = $request->input('category');
-            $products = array_filter($products, function ($product) use ($category) {
-                return $product['category'] === $category;
+        $category = $request->input('category');
+        $wineType = $request->input('wineType');
+        $wineRegion = $request->input('wineRegion');
+
+        // Appliquer les filtres
+        if ($request->has('category') && $request->category) {
+            $products = array_filter($products, function ($product) use ($request) {
+                return $product['category'] == $request->category;
+            });
+        }
+
+        if ($request->has('min_price') && $request->has('max_price')) {
+            $minPrice = (int)$request->min_price;
+            $maxPrice = (int)$request->max_price;
+            $products = array_filter($products, function ($product) use ($minPrice, $maxPrice) {
+                return $product['price'] >= $minPrice && $product['price'] <= $maxPrice;
+            });
+        }
+
+        /* Trie */
+        if ($request->has('sort') && $request->sort) {
+            if ($request->sort === 'price_asc') {
+                usort($products, function ($a, $b) {
+                    return $a['price'] - $b['price'];
+                });
+            } elseif ($request->sort === 'price_desc') {
+                usort($products, function ($a, $b) {
+                    return $b['price'] - $a['price'];
+                });
+            } elseif ($request->sort === 'alpha_asc') {
+                usort($products, function ($a, $b) {
+                    return strcasecmp($a['name'], $b['name']);
+                });
+            } elseif ($request->sort === 'alpha_desc') {
+                usort($products, function ($a, $b) {
+                    return strcasecmp($b['name'], $a['name']);
+                });
+            } elseif ($request->sort === 'promotion') {
+                usort($products, function ($a, $b) {
+                    return ($b['promotion'] ? 1 : 0) - ($a['promotion'] ? 1 : 0);
+                });
+            }
+        }
+
+        // Filtrage par type de vin si la catégorie est 'cave'
+        if ($category === 'la cave' && $wineType) {
+            $products = array_filter($products, function ($product) use ($wineType) {
+                return isset($product['subcategories']['type']) && $product['subcategories']['type'] === $wineType;
+            });
+        }
+
+        // Filtrage par région si la catégorie est 'cave'
+        if ($category === 'la cave' && $wineRegion) {
+            $products = array_filter($products, function ($product) use ($wineRegion) {
+                return isset($product['subcategories']['region']) && $product['subcategories']['region'] === $wineRegion;
             });
         }
 
@@ -67,6 +126,12 @@ class PageController extends Controller
             'pages' => [],
             'active' => 'Produits'
         ];
+
+        // Si la requête est une requête AJAX, renvoyer les produits filtrés au format JSON
+        if ($request->ajax()) {
+            $data['products'] = view('frontend.ajax.productList', ['products' => $products])->render();
+            return response()->json($data);
+        }
 
         /* if (!empty($anaKategori) && empty($altKategori)) {
             $breadcrumb['active'] = $anaKategori->name;
