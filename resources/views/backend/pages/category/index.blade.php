@@ -17,38 +17,25 @@
                         </div>
                     @endif
 
-                    <div class="table-responsive">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    {{-- <th>Image</th> --}}
-                                    <th>Libellé</th>
-                                    <th>Description</th>
-                                    <th>Status</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @if (!empty($categories) && $categories->count() > 0)
+                    @if (!empty($categories) && $categories->count() > 0)
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Libellé</th>
+                                        <th>Description</th>
+                                        <th>Catégorie</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
                                     @foreach ($categories as $category)
                                         <tr class="item" item-id="{{ $category->id }}">
-                                            {{-- <td class="py-1">
-                                                <img src="{{ asset($category->image) }}" alt="{{ $category->name }}" />
-                                            </td> --}}
-                                            <td>{{ $category->name }}</td>
-                                            <td>{{ $category->category->name ?? '' }}</td>
-                                            {{-- <td>{{ \Illuminate\Support\Str::limit($category->category->name ?? '', 100) }}</td> --}}
-
-                                            <td>
-                                                <div class="checkbox">
-                                                    <label>
-                                                        <input type="checkbox" class="durum" data-on="Disponible"
-                                                            data-off="Indisponible" data-onstyle="success"
-                                                            data-offstyle="danger" data-toggle="toggle"
-                                                            {{ $category->status == '1' ? 'checked' : '' }}>
-                                                    </label>
-                                                </div>
+                                            <td>{{ ucfirst($category->name) }}</td>
+                                            <td>{{ Str::limit($category->content ?? '/', 50) }}</td>
+                                            <td>{{ $category->category->name ?? '/' }}
                                             </td>
+
                                             <td class="d-flex">
                                                 <a href="{{ route('panel.category.edit', $category->id) }}"
                                                     class="btn btn-primary mr-2">Modifier
@@ -58,85 +45,12 @@
                                             </td>
                                         </tr>
                                     @endforeach
-                                @else
-                                    <tr class="item" item-id="1">
-                                        {{-- <td class="py-1">
-                                            <img src="{{ asset('backend/images/carousel/banner_10.jpg') }}"
-                                                alt="" />
-                                        </td> --}}
-                                        <td>Vin</td>
-                                        <td>Blanc; Rouge</td>
-                                        <td>
-                                            <div class="checkbox">
-                                                <label>
-                                                    <input type="checkbox" class="durum" data-on="Disponible"
-                                                        data-off="Indisponible" data-onstyle="success"
-                                                        data-offstyle="danger" data-toggle="toggle" checked>
-                                                </label>
-                                            </div>
-                                        </td>
-                                        <td class="d-flex">
-                                            <a href="{{ route('panel.category.edit', 1) }}"
-                                                class="btn btn-primary mr-2">Modifier
-                                            </a>
-                                            <button type="button" class="deleteBtn btn btn-danger"
-                                                style="background-color: #FF281C !important">Supprimer</button>
-                                        </td>
-                                    </tr>
-
-                                    <tr class="item" item-id="2">
-                                        {{-- <td class="py-1">
-                                            <img src="{{ asset('backend/images/carousel/banner_9.jpg') }}"
-                                                alt="" />
-                                        </td> --}}
-                                        <td>Viandes</td>
-                                        <td>Volailles; Autres viandes</td>
-                                        <td>
-                                            <div class="checkbox">
-                                                <label>
-                                                    <input type="checkbox" class="durum" data-on="Disponible"
-                                                        data-off="Indisponible" data-onstyle="success"
-                                                        data-offstyle="danger" data-toggle="toggle">
-                                                </label>
-                                            </div>
-                                        </td>
-                                        <td class="d-flex">
-                                            <a href="{{ route('panel.category.edit', 1) }}"
-                                                class="btn btn-primary mr-2">Modifier
-                                            </a>
-                                            <button type="button" class="deleteBtn btn btn-danger"
-                                                style="background-color: #FF281C !important">Supprimer</button>
-                                        </td>
-                                    </tr>
-
-                                    <tr class="item" item-id="3">
-                                        {{--  <td class="py-1">
-                                            <img src="{{ asset('backend/images/carousel/banner_8.jpg') }}"
-                                                alt="" />
-                                        </td> --}}
-                                        <td>Fruits & légumes frais</td>
-                                        <td>Fruits; légumes frais</td>
-                                        <td>
-                                            <div class="checkbox">
-                                                <label>
-                                                    <input type="checkbox" class="durum" data-on="Disponible"
-                                                        data-off="Indisponible" data-onstyle="success"
-                                                        data-offstyle="danger" data-toggle="toggle" checked>
-                                                </label>
-                                            </div>
-                                        </td>
-                                        <td class="d-flex">
-                                            <a href="{{ route('panel.category.edit', 1) }}"
-                                                class="btn btn-primary mr-2">Modifier
-                                            </a>
-                                            <button type="button" class="deleteBtn btn btn-danger"
-                                                style="background-color: #FF281C !important">Supprimer</button>
-                                        </td>
-                                    </tr>
-                                @endif
-                            </tbody>
-                        </table>
-                    </div>
+                                </tbody>
+                            </table>
+                        </div>
+                    @else
+                        <h3 class="text-center">Aucune donnée</h3>
+                    @endif
                 </div>
             </div>
         </div>
@@ -176,7 +90,8 @@
             var item = $(this).closest('.item');
             id = item.attr('item-id');
 
-            alertify.confirm("Are you sure?", "You won't be able to revert this!",
+            alertify.confirm("Etes vous sûre ?",
+                "Vous vous apprêtez à supprimer une catégorie, cette action est irréverssible !",
                 function() {
 
                     $.ajax({
@@ -199,9 +114,8 @@
                     });
                 },
                 function() {
-                    alertify.error('Deletion canceled.');
+                    alertify.error('Suppression annulée.');
                 });
         });
-
     </script>
 @endsection

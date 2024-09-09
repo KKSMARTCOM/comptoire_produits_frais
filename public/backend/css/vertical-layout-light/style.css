@@ -28418,6 +28418,7 @@ div.tagsinput span.tag a {
   min-height: calc(100vh - 60px);
   display: -webkit-flex;
   display: flex;
+  justify-content: end;
   -webkit-flex-direction: row;
   flex-direction: row;
   padding-left: 0;
@@ -28475,6 +28476,9 @@ div.tagsinput span.tag a {
   -webkit-transition: width 0.25s ease, background 0.25s ease;
   -moz-transition: width 0.25s ease, background 0.25s ease;
   -ms-transition: width 0.25s ease, background 0.25s ease;
+  position: fixed;
+  left: 0;
+  bottom: 0;
 }
 
 .sidebar .nav {
@@ -28757,18 +28761,17 @@ div.tagsinput span.tag a {
 /* style for off-canvas menu*/
 @media screen and (max-width: 991px) {
   .sidebar-offcanvas {
-    position: fixed;
     max-height: calc(100vh - 60px);
     top: 60px;
     bottom: 0;
     overflow: auto;
-    right: -235px;
+    left: calc(100vw + 235px);
     -webkit-transition: all 0.25s ease-out;
     -o-transition: all 0.25s ease-out;
     transition: all 0.25s ease-out;
   }
   .sidebar-offcanvas.active {
-    right: 0;
+    left: calc(100vw - 235px);
   }
 }
 

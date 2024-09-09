@@ -10,7 +10,8 @@
                 <div class="card-body">
                     <h4 class="card-title">Liste des produits</h4>
                     <p class="card-description">
-                        <a href="{{ route('panel.slider.create') }}" class="btn btn-primary" style="background-color: #004200 !important">Ajouter</a>
+                        <a href="{{ route('panel.product.create') }}" class="btn btn-primary"
+                            style="background-color: #004200 !important">Ajouter</a>
                     </p>
 
                     @if (session()->get('success'))
@@ -65,25 +66,34 @@
                                                 <div class="form-group">
                                                     <label for="stockStatus">Statut du stock</label>
                                                     <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                                                        <label class="btn btn-success {{ $slider->status == 'illimite' ? 'active' : '' }}">
-                                                            <input type="radio" name="status" value="illimite" id="optionIllimite" autocomplete="off"
-                                                                {{ $slider->status == 'illimite' ? 'checked' : '' }}> Illimité
+                                                        <label
+                                                            class="btn btn-success {{ $slider->status == 'illimite' ? 'active' : '' }}">
+                                                            <input type="radio" name="status" value="illimite"
+                                                                id="optionIllimite" autocomplete="off"
+                                                                {{ $slider->status == 'illimite' ? 'checked' : '' }}>
+                                                            Illimité
                                                         </label>
-                                                        <label class="btn btn-warning {{ $slider->status == 'en_stock' ? 'active' : '' }}">
-                                                            <input type="radio" name="status" value="en_stock" id="optionEnStock" autocomplete="off"
-                                                                {{ $slider->status == 'en_stock' ? 'checked' : '' }}> En stock
+                                                        <label
+                                                            class="btn btn-warning {{ $slider->status == 'en_stock' ? 'active' : '' }}">
+                                                            <input type="radio" name="status" value="en_stock"
+                                                                id="optionEnStock" autocomplete="off"
+                                                                {{ $slider->status == 'en_stock' ? 'checked' : '' }}> En
+                                                            stock
                                                         </label>
-                                                        <label class="btn btn-danger {{ $slider->status == 'epuise' ? 'active' : '' }}">
-                                                            <input type="radio" name="status" value="epuise" id="optionEpuise" autocomplete="off"
+                                                        <label
+                                                            class="btn btn-danger {{ $slider->status == 'epuise' ? 'active' : '' }}">
+                                                            <input type="radio" name="status" value="epuise"
+                                                                id="optionEpuise" autocomplete="off"
                                                                 {{ $slider->status == 'epuise' ? 'checked' : '' }}> Épuisé
                                                         </label>
                                                     </div>
                                                 </div>
-                                                
+
                                             </td>
                                             <td class="d-flex">
                                                 <!-- Lien pour modifier avec une icône de crayon -->
-                                                <a href="{{ route('panel.slider.edit', $slider->id) }}" class="btn btn-primary mr-2">
+                                                <a href="{{ route('panel.slider.edit', $slider->id) }}"
+                                                    class="btn btn-primary mr-2">
                                                     <i class="fas fa-edit"></i>
                                                 </a>
                                                 <!-- Bouton pour supprimer avec une icône de corbeille -->
@@ -96,7 +106,8 @@
                                 @else
                                     <tr class="item" item-id="1">
                                         <td>Poulet Fermier</td>
-                                        <td>Le Poulet Fermier est une option de choix pour ceux qui recherchent une viande de meilleure qualité, tant sur le plan gustatif que nutritionnel.</td>
+                                        <td>Le Poulet Fermier est une option de choix pour ceux qui recherchent une viande
+                                            de meilleure qualité, tant sur le plan gustatif que nutritionnel.</td>
                                         <td>Volailles</td>
                                         <td>1250.00 FCFA</td>
                                         <td>125</td>
@@ -132,23 +143,28 @@
                                         <td>
                                             <div class="btn-group btn-group-toggle" data-toggle="buttons">
                                                 <label class="btn btn-success">
-                                                    <input type="radio" name="status" id="illimite" value="illimite"> Illimité
+                                                    <input type="radio" name="status" id="illimite" value="illimite">
+                                                    Illimité
                                                 </label>
                                                 <label class="btn btn-warning">
-                                                    <input type="radio" name="status" id="en_stock" value="en_stock"> En stock
+                                                    <input type="radio" name="status" id="en_stock" value="en_stock"> En
+                                                    stock
                                                 </label>
                                                 <label class="btn btn-danger">
-                                                    <input type="radio" name="status" id="epuise" value="epuise"> Épuisé
+                                                    <input type="radio" name="status" id="epuise" value="epuise">
+                                                    Épuisé
                                                 </label>
                                             </div>
                                         </td>
                                         <td class="d-flex">
                                             <!-- Lien pour modifier avec une icône de crayon -->
-                                            <a href="{{ route('panel.slider.edit', 1) }}" class="btn btn-primary mr-2 btn-icon">
+                                            <a href="{{ route('panel.slider.edit', 1) }}"
+                                                class="btn btn-primary mr-2 btn-icon">
                                                 <span class="fas fa-edit"></span>
                                             </a>
                                             <!-- Formulaire pour supprimer avec une icône de corbeille -->
-                                            <form action="{{ route('panel.slider.destroy', 1) }}" method="POST" class="d-inline">
+                                            <form action="{{ route('panel.slider.destroy', 1) }}" method="POST"
+                                                class="d-inline">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-danger btn-icon">
@@ -156,14 +172,15 @@
                                                 </button>
                                             </form>
                                         </td>
-                                        
-                                        
-                                        
+
+
+
                                     </tr>
 
                                     <tr class="item" item-id="2">
                                         <td>Saumon Fumé</td>
-                                        <td>Le saumon fumé est un produit de la mer d'une grande finesse, apprécié pour son goût fumé délicat et sa texture fondante</td>
+                                        <td>Le saumon fumé est un produit de la mer d'une grande finesse, apprécié pour son
+                                            goût fumé délicat et sa texture fondante</td>
                                         <td>Poissons</td>
                                         <td>1800.00 FCFA</td>
                                         <td></td>
@@ -186,23 +203,28 @@
                                         <td>
                                             <div class="btn-group btn-group-toggle" data-toggle="buttons">
                                                 <label class="btn btn-success">
-                                                    <input type="radio" name="status" id="illimite" value="illimite"> Illimité
+                                                    <input type="radio" name="status" id="illimite" value="illimite">
+                                                    Illimité
                                                 </label>
                                                 <label class="btn btn-warning">
-                                                    <input type="radio" name="status" id="en_stock" value="en_stock"> En stock
+                                                    <input type="radio" name="status" id="en_stock" value="en_stock"> En
+                                                    stock
                                                 </label>
                                                 <label class="btn btn-danger">
-                                                    <input type="radio" name="status" id="epuise" value="epuise"> Épuisé
+                                                    <input type="radio" name="status" id="epuise" value="epuise">
+                                                    Épuisé
                                                 </label>
                                             </div>
                                         </td>
                                         <td class="d-flex">
                                             <!-- Lien pour modifier avec une icône de crayon -->
-                                            <a href="{{ route('panel.slider.edit', 1) }}" class="btn btn-primary mr-2 btn-icon">
+                                            <a href="{{ route('panel.slider.edit', 1) }}"
+                                                class="btn btn-primary mr-2 btn-icon">
                                                 <span class="fas fa-edit"></span>
                                             </a>
                                             <!-- Formulaire pour supprimer avec une icône de corbeille -->
-                                            <form action="{{ route('panel.slider.destroy', 1) }}" method="POST" class="d-inline">
+                                            <form action="{{ route('panel.slider.destroy', 1) }}" method="POST"
+                                                class="d-inline">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-danger btn-icon">
@@ -214,7 +236,8 @@
 
                                     <tr class="item" item-id="3">
                                         <td>Tomates Bio</td>
-                                        <td>Les tomates bio représentent une option savoureuse, nutritive et respectueuse de l'environnement.</td>
+                                        <td>Les tomates bio représentent une option savoureuse, nutritive et respectueuse de
+                                            l'environnement.</td>
                                         <td>Produits frais</td>
                                         <td>300.00 FCFA</td>
                                         <td></td>
@@ -228,23 +251,28 @@
                                         <td>
                                             <div class="btn-group btn-group-toggle" data-toggle="buttons">
                                                 <label class="btn btn-success">
-                                                    <input type="radio" name="status" id="illimite" value="illimite"> Illimité
+                                                    <input type="radio" name="status" id="illimite"
+                                                        value="illimite"> Illimité
                                                 </label>
                                                 <label class="btn btn-warning">
-                                                    <input type="radio" name="status" id="en_stock" value="en_stock"> En stock
+                                                    <input type="radio" name="status" id="en_stock"
+                                                        value="en_stock"> En stock
                                                 </label>
                                                 <label class="btn btn-danger">
-                                                    <input type="radio" name="status" id="epuise" value="epuise"> Épuisé
+                                                    <input type="radio" name="status" id="epuise" value="epuise">
+                                                    Épuisé
                                                 </label>
                                             </div>
                                         </td>
                                         <td class="d-flex">
                                             <!-- Lien pour modifier avec une icône de crayon -->
-                                            <a href="{{ route('panel.slider.edit', 1) }}" class="btn btn-primary mr-2 btn-icon">
+                                            <a href="{{ route('panel.slider.edit', 1) }}"
+                                                class="btn btn-primary mr-2 btn-icon">
                                                 <span class="fas fa-edit"></span>
                                             </a>
                                             <!-- Formulaire pour supprimer avec une icône de corbeille -->
-                                            <form action="{{ route('panel.slider.destroy', 1) }}" method="POST" class="d-inline">
+                                            <form action="{{ route('panel.slider.destroy', 1) }}" method="POST"
+                                                class="d-inline">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-danger btn-icon">
@@ -256,7 +284,8 @@
 
                                     <tr class="item" item-id="4">
                                         <td>Vin Rouge</td>
-                                        <td>Le vin rouge est une boisson riche et complexe, offrant une grande variété de saveurs et d'arômes.</td>
+                                        <td>Le vin rouge est une boisson riche et complexe, offrant une grande variété de
+                                            saveurs et d'arômes.</td>
                                         <td>Vins</td>
                                         <td>1500.00 FCFA</td>
                                         <td>158</td>
@@ -270,23 +299,28 @@
                                         <td>
                                             <div class="btn-group btn-group-toggle" data-toggle="buttons">
                                                 <label class="btn btn-success">
-                                                    <input type="radio" name="status" id="illimite" value="illimite"> Illimité
+                                                    <input type="radio" name="status" id="illimite"
+                                                        value="illimite"> Illimité
                                                 </label>
                                                 <label class="btn btn-warning">
-                                                    <input type="radio" name="status" id="en_stock" value="en_stock"> En stock
+                                                    <input type="radio" name="status" id="en_stock"
+                                                        value="en_stock"> En stock
                                                 </label>
                                                 <label class="btn btn-danger">
-                                                    <input type="radio" name="status" id="epuise" value="epuise"> Épuisé
+                                                    <input type="radio" name="status" id="epuise" value="epuise">
+                                                    Épuisé
                                                 </label>
                                             </div>
                                         </td>
                                         <td class="d-flex">
                                             <!-- Lien pour modifier avec une icône de crayon -->
-                                            <a href="{{ route('panel.slider.edit', 1) }}" class="btn btn-primary mr-2 btn-icon">
+                                            <a href="{{ route('panel.slider.edit', 1) }}"
+                                                class="btn btn-primary mr-2 btn-icon">
                                                 <span class="fas fa-edit"></span>
                                             </a>
                                             <!-- Formulaire pour supprimer avec une icône de corbeille -->
-                                            <form action="{{ route('panel.slider.destroy', 1) }}" method="POST" class="d-inline">
+                                            <form action="{{ route('panel.slider.destroy', 1) }}" method="POST"
+                                                class="d-inline">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-danger btn-icon">
@@ -298,7 +332,8 @@
 
                                     <tr class="item" item-id="5">
                                         <td>Boeuf Angus</td>
-                                        <td>Le Bœuf Angus est une viande de premier choix, prisée pour son goût riche, sa tendreté exceptionnelle, et son persillage généreux.</td>
+                                        <td>Le Bœuf Angus est une viande de premier choix, prisée pour son goût riche, sa
+                                            tendreté exceptionnelle, et son persillage généreux.</td>
                                         <td>Autres viandes</td>
                                         <td>2500.00 FCFA</td>
                                         <td></td>
@@ -312,23 +347,28 @@
                                         <td>
                                             <div class="btn-group btn-group-toggle" data-toggle="buttons">
                                                 <label class="btn btn-success">
-                                                    <input type="radio" name="status" id="illimite" value="illimite"> Illimité
+                                                    <input type="radio" name="status" id="illimite"
+                                                        value="illimite"> Illimité
                                                 </label>
                                                 <label class="btn btn-warning">
-                                                    <input type="radio" name="status" id="en_stock" value="en_stock"> En stock
+                                                    <input type="radio" name="status" id="en_stock"
+                                                        value="en_stock"> En stock
                                                 </label>
                                                 <label class="btn btn-danger">
-                                                    <input type="radio" name="status" id="epuise" value="epuise"> Épuisé
+                                                    <input type="radio" name="status" id="epuise" value="epuise">
+                                                    Épuisé
                                                 </label>
                                             </div>
                                         </td>
                                         <td class="d-flex">
                                             <!-- Lien pour modifier avec une icône de crayon -->
-                                            <a href="{{ route('panel.slider.edit', 1) }}" class="btn btn-primary mr-2 btn-icon">
+                                            <a href="{{ route('panel.slider.edit', 1) }}"
+                                                class="btn btn-primary mr-2 btn-icon">
                                                 <span class="fas fa-edit"></span>
                                             </a>
                                             <!-- Formulaire pour supprimer avec une icône de corbeille -->
-                                            <form action="{{ route('panel.slider.destroy', 1) }}" method="POST" class="d-inline">
+                                            <form action="{{ route('panel.slider.destroy', 1) }}" method="POST"
+                                                class="d-inline">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-danger btn-icon">
@@ -406,7 +446,5 @@
                     alertify.error('Deletion canceled.');
                 });
         });
-
-        
     </script>
 @endsection

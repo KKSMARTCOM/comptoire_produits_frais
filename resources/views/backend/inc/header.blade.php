@@ -1,15 +1,15 @@
 <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
     <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
-        <a class="navbar-brand brand-logo mr-5" href="{{ route('panel.index') }}"><img src="{{ asset('backend/images/logoold.svg') }}"
-                class="mr-2" alt="logo" /></a>
-        <a class="navbar-brand brand-logo-mini" href="{{ route('panel.index') }}"><img src="{{ asset('backend/images/logoold.svg') }}"
-                alt="logo" /></a>
+        <a class="navbar-brand brand-logo mr-5" href="{{ route('panel.index') }}"><img
+                src="{{ asset('backend/images/KKSMARTDESIGN_CPF_LOGO_prop9.svg') }}" class="mr-2" alt="logo" /></a>
+        <a class="navbar-brand brand-logo-mini" href="{{ route('panel.index') }}"><img
+                src="{{ asset('backend/images/KKSMARTDESIGN_CPF_LOGO_prop9.svg') }}" alt="logo" /></a>
     </div>
     <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
         <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
             <span class="icon-menu"></span>
         </button>
-        <ul class="navbar-nav mr-lg-2">
+        {{-- <ul class="navbar-nav mr-lg-2">
             <li class="nav-item nav-search d-none d-lg-block">
                 <div class="input-group">
                     <div class="input-group-prepend hover-cursor" id="navbar-search-icon">
@@ -21,7 +21,7 @@
                         aria-label="search" aria-describedby="search">
                 </div>
             </li>
-        </ul>
+        </ul> --}}
         <ul class="navbar-nav navbar-nav-right">
             <li class="nav-item dropdown">
                 <a class="nav-link count-indicator dropdown-toggle" id="notificationDropdown" href="#"
@@ -39,9 +39,9 @@
                             </div>
                         </div>
                         <div class="preview-item-content">
-                            <h6 class="preview-subject font-weight-normal">Application Error</h6>
+                            <h6 class="preview-subject font-weight-normal">Erreur d'application</h6>
                             <p class="font-weight-light small-text mb-0 text-muted">
-                                Just now
+                                Maintenant
                             </p>
                         </div>
                     </a>
@@ -52,9 +52,9 @@
                             </div>
                         </div>
                         <div class="preview-item-content">
-                            <h6 class="preview-subject font-weight-normal">Settings</h6>
+                            <h6 class="preview-subject font-weight-normal">Paramètres</h6>
                             <p class="font-weight-light small-text mb-0 text-muted">
-                                Private message
+                                Message privé
                             </p>
                         </div>
                     </a>
@@ -65,9 +65,9 @@
                             </div>
                         </div>
                         <div class="preview-item-content">
-                            <h6 class="preview-subject font-weight-normal">New user registration</h6>
+                            <h6 class="preview-subject font-weight-normal">Utilisateur enrégistré</h6>
                             <p class="font-weight-light small-text mb-0 text-muted">
-                                2 days ago
+                                Depuis 2 jrs
                             </p>
                         </div>
                     </a>
@@ -80,19 +80,19 @@
                 <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
                     <a class="dropdown-item">
                         <i class="ti-settings text-primary"></i>
-                        Settings
+                        Paramètres
                     </a>
                     <a class="dropdown-item">
                         <i class="ti-power-off text-primary"></i>
-                        Logout
+                        Déconnexion
                     </a>
                 </div>
             </li>
-            <li class="nav-item nav-settings d-none d-lg-flex">
+            {{-- <li class="nav-item nav-settings d-none d-lg-flex">
                 <a class="nav-link" href="#">
                     <i class="icon-ellipsis"></i>
                 </a>
-            </li>
+            </li> --}}
         </ul>
         <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button"
             data-toggle="offcanvas">

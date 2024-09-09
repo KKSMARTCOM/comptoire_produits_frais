@@ -1,30 +1,30 @@
 <?php
 // <!-- her sistem başlatıldığında çalışması için "autoload" alanına yazıldı -->
 
-if (!function_exists('dosyasil')) {
-    function dosyasil($string)
+if (!function_exists('deleteFile')) {
+    function deleteFile($filePath)
     {
-        if (file_exists($string)) {
-            if (!empty($string)) {
-                unlink($string);
+        if (file_exists($filePath)) {
+            if (!empty($filePath)) {
+                unlink($filePath);
             }
         }
     }
 }
 
-if (!function_exists('resimyukle')) {
-    function resimyukle($img, $name, $yol)
+if (!function_exists('uploadImage')) {
+    function uploadImage($img, $name, $path)
     {
         $extension = $img->getClientOriginalExtension();
         $folderName = time() . '-' . Str::slug($name);
 
-        if (in_array($extension, ['pdf', 'svg', 'webp', 'jiff'])) { // Dosya uzantısına göre işlemler
-            $img->move(public_path($yol), $folderName . '.' . $extension);
-            $imgurl = $yol . $folderName . '.' . $extension;
+        if (in_array($extension, ['pdf', 'svg', 'webp', 'jiff'])) { // Process based on file extension
+            $img->move(public_path($path), $folderName . '.' . $extension);
+            $imgurl = $path . $folderName . '.' . $extension;
         } else {
             $img = ImageResize::make($img);
-            $img->encode('webp', 75)->save($yol . $folderName . '.webp');
-            $imgurl = $yol . $folderName . '.webp';
+            $img->encode('webp', 75)->save($path . $folderName . '.webp');
+            $imgurl = $path . $folderName . '.webp';
         }
         return $imgurl;
     }
@@ -51,7 +51,7 @@ if (!function_exists('folderOpen')) {
     }
 }
 
-// random order sıra oluşturma
+// random order number
 if (!function_exists('generateOTP')) {
     function generateOTP($n)
     {

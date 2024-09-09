@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>Shoppers &mdash; E-Commerce</title>
+    <title>CPF Boutique en ligne</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -53,12 +53,6 @@
         @if (session()->get('success'))
             toastr.success("{{ session()->get('success') }}")
         @endif
-
-        /* @if (session()->get('error'))
-            @foreach ($errors->all() as $error)
-                toastr.error("{{ $error }}")
-            @endforeach
-        @endif */
 
         document.addEventListener('DOMContentLoaded', function() {
             var navbar = document.getElementById('site-navigation');
