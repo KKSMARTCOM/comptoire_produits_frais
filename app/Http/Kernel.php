@@ -67,4 +67,10 @@ class Kernel extends HttpKernel
         'sitesetting'=>  \App\Http\Middleware\SiteSettingMiddleware::class,
         'panelsetting'=>  \App\Http\Middleware\PanelSettingMiddleware::class,
     ];
+
+    protected $routeMiddleware = [
+        // autres middlewares
+        'admin' => \App\Http\Middleware\CheckAdmin::class . ':admin',
+        'superadmin' => \App\Http\Middleware\CheckAdmin::class . ':superadmin',
+    ];
 }
