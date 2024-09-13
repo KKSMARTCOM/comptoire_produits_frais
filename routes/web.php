@@ -7,6 +7,7 @@ use App\Http\Controllers\Backend\OrderController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\Frontend\PageController;
 use App\Http\Controllers\Frontend\PageHomeController;
+use App\Http\Controllers\Backend\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,6 +19,7 @@ use App\Http\Controllers\Frontend\PageHomeController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
 
 Route::group(['middleware' => 'sitesetting'], function () {
     Route::get('/', [PageHomeController::class, 'index'])->name('index');
@@ -51,3 +53,31 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::get('/products', [App\Http\Controllers\Frontend\Products\ProductController::class, 'products'])->name('products');
 
 Route::post('/submit-order', [OrderController::class, 'submit'])->name('order.submit');
+
+// Route::get('/users', [UserController::class, 'index'])->name('users.index');
+
+// Routes pour les utilisateurs
+Route::prefix('panel/user')->group(function () {
+    Route::get('/', [UserController::class, 'index'])->name('panel.user.index');      // Lister les utilisateurs
+    // Route::get('/panel/user', [UserController::class, 'index'])->name('panel.user.index');
+
+    Route::get('/create', [UserController::class, 'create'])->name('panel.user.create'); // Formulaire de création
+    Route::post('/store', [UserController::class, 'store'])->name('panel.user.store');  // Enregistrer un utilisateur
+    Route::get('/edit/{id}', [UserController::class, 'edit'])->name('panel.user.edit'); // Formulaire d'édition
+    Route::put('/update/{id}', [UserController::class, 'update'])->name('panel.user.update'); // Mettre à jour l'utilisateur
+    Route::delete('/destroy/{id}', [UserController::class, 'destroy'])->name('panel.user.destroy'); // Supprimer un utilisateur
+});
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::group(['middleware' => 'admin'], function () {
+    Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
+    // autres routes pour les admins
+});
+
+Route::group(['middleware' => 'superadmin'], function () {
+    Route::get('/superadmin/dashboard', [SuperAdminController::class, 'index'])->name('superadmin.dashboard');
+    // autres routes pour les super admins
+});

@@ -1,9 +1,9 @@
 <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
     <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
         <a class="navbar-brand brand-logo mr-5" href="{{ route('panel.index') }}"><img
-                src="{{ asset('backend/images/KKSMARTDESIGN_CPF_LOGO_prop9.svg') }}" class="mr-2" alt="logo" /></a>
+                src="{{ asset('backend/images/logo.svg') }}" class="mr-2" alt="logo" /></a>
         <a class="navbar-brand brand-logo-mini" href="{{ route('panel.index') }}"><img
-                src="{{ asset('backend/images/KKSMARTDESIGN_CPF_LOGO_prop9.svg') }}" alt="logo" /></a>
+                src="{{ asset('backend/images/logo.svg') }}" alt="logo" /></a>
     </div>
     <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
         <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
@@ -17,7 +17,7 @@
                             <i class="icon-search"></i>
                         </span>
                     </div>
-                    <input type="text" class="form-control" id="navbar-search-input" placeholder="Search now"
+                    <input type="text" class="form-control" id="navbar-search-input" placeholder="Rechercher maintenant"
                         aria-label="search" aria-describedby="search">
                 </div>
             </li>
@@ -41,7 +41,7 @@
                         <div class="preview-item-content">
                             <h6 class="preview-subject font-weight-normal">Erreur d'application</h6>
                             <p class="font-weight-light small-text mb-0 text-muted">
-                                Maintenant
+                                Tout à l' heure
                             </p>
                         </div>
                     </a>
@@ -75,19 +75,36 @@
             </li>
             <li class="nav-item nav-profile dropdown">
                 <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
-                    <img src="{{ asset('backend/images/faces/face28.jpg') }}" alt="profile" />
+                    <img src="backend/images/faces/face28.jpg" alt="profile" />
                 </a>
                 <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
+                    <!-- Afficher le nom de l'utilisateur connecté -->
                     <a class="dropdown-item">
-                        <i class="ti-settings text-primary"></i>
-                        Paramètres
+                        <i class="ti-user text-primary"></i>
+                        {{ Auth::user()->name }} <!-- Affiche le nom de l'utilisateur -->
                     </a>
+
+                    <!-- Afficher la date et l'heure de connexion -->
                     <a class="dropdown-item">
+                        <i class="ti-calendar text-primary"></i>
+                        Connecté.e le : {{ \Carbon\Carbon::now()->format('d/m/Y') }} à
+                        {{ \Carbon\Carbon::now()->format('H:i') }}
+                    </a>
+
+                    <!-- Bouton de déconnexion -->
+                    <a class="dropdown-item" href="{{ route('logout') }}"
+                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                         <i class="ti-power-off text-primary"></i>
-                        Déconnexion
+                        Se déconnecter
                     </a>
+
+                    <!-- Formulaire de déconnexion -->
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                        @csrf
+                    </form>
                 </div>
             </li>
+
             {{-- <li class="nav-item nav-settings d-none d-lg-flex">
                 <a class="nav-link" href="#">
                     <i class="icon-ellipsis"></i>
