@@ -74,25 +74,41 @@
                 </div>
             </li>
             <li class="nav-item nav-profile dropdown">
-                <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
-                    <img src="backend/images/faces/face28.jpg" alt="profile" />
-                </a>
-                <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
-                    <a class="dropdown-item">
-                        <i class="ti-settings text-primary"></i>
-                        Settings
-                    </a>
-                    <a class="dropdown-item">
-                        <i class="ti-power-off text-primary"></i>
-                        Logout
-                    </a>
-                </div>
-            </li>
-            <li class="nav-item nav-settings d-none d-lg-flex">
+    <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
+        <img src="backend/images/faces/face28.jpg" alt="profile" />
+    </a>
+    <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
+        <!-- Afficher le nom de l'utilisateur connecté -->
+        <a class="dropdown-item">
+            <i class="ti-user text-primary"></i>
+            {{ Auth::user()->name }} <!-- Affiche le nom de l'utilisateur -->
+        </a>
+
+        <!-- Afficher la date et l'heure de connexion -->
+        <a class="dropdown-item">
+            <i class="ti-calendar text-primary"></i>
+            Connecté.e le : {{ \Carbon\Carbon::now()->format('d/m/Y') }} à {{ \Carbon\Carbon::now()->format('H:i') }}
+        </a>
+
+        <!-- Bouton de déconnexion -->
+        <a class="dropdown-item" href="{{ route('logout') }}" 
+           onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+            <i class="ti-power-off text-primary"></i>
+            Se déconnecter
+        </a>
+
+        <!-- Formulaire de déconnexion -->
+        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+            @csrf
+        </form>
+    </div>
+</li>
+
+            {{-- <li class="nav-item nav-settings d-none d-lg-flex">
                 <a class="nav-link" href="#">
                     <i class="icon-ellipsis"></i>
                 </a>
-            </li>
+            </li> --}}
         </ul>
         <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button"
             data-toggle="offcanvas">

@@ -21,9 +21,15 @@
                         <td>{{ $user->id }}</td>
                         <td>{{ $user->name }}</td>
                         <td>{{ $user->email }}</td>
-                        <td>{{ $user->is_admin ? 'Admin' : 'Utilisateur' }}</td>
-                        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-
+                        <td>
+                            @if($user->is_admin == 2)
+                                Super Administrateur
+                            @elseif($user->is_admin == 1)
+                                Administrateur
+                            @else
+                                Utilisateur
+                            @endif
+                        </td>
                         <td>
                             <a href="{{ route('panel.user.edit', $user->id) }}" class="btn btn-warning">
                                 <i class="fas fa-edit"></i> <!-- Icône d'édition -->
@@ -46,3 +52,4 @@
         </tbody>
     </table>
 @endsection
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">

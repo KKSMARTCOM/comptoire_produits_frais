@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
@@ -25,7 +27,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/panel';
 
     /**
      * Create a new controller instance.
@@ -46,7 +48,16 @@ class LoginController extends Controller
         } elseif ($user->isAdmin()) {
             return redirect()->route('admin.dashboard');
         }
-        return redirect('/home'); // ou une autre route par défaut
+        return redirect('/panel'); // ou une autre route par défaut
+    }
+
+    // Méthode de déconnexion personnalisée
+    public function logout(Request $request)
+    {
+        Auth::logout();
+        
+        // Rediriger vers la page de connexion après la déconnexion
+        return redirect('/login');
     }
 
 }

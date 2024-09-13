@@ -41,11 +41,18 @@
 
                         <div class="form-group">
                             <label for="is_admin">Rôle</label>
-                            <select class="form-control" id="is_admin" name="is_admin">
-                                <option value="0">Admin</option>
-                                <option value="1">Super Admin</option>
+                            <select class="form-control @error('is_admin') is-invalid @enderror" required id="is_admin" name="is_admin">
+                                <option value="0" {{ old('is_admin') == 0 ? 'selected' : '' }}>Utilisateur</option>
+                                <option value="1" {{ old('is_admin') == 1 ? 'selected' : '' }}>Administrateur</option>
+                                <option value="2" {{ old('is_admin') == 2 ? 'selected' : '' }}>Super Administrateur</option>
                             </select>
+                            @error('is_admin')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
                         </div>
+
 
                         <button type="submit" class="btn btn-primary mr-2">Enregistrer</button>
                         <a href="{{ route('panel.user.index') }}" class="btn btn-light">Fermer</a>
