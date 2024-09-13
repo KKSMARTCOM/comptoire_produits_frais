@@ -1,11 +1,15 @@
 <header class="site-navbar" role="banner">
-    <div class="site-navbar-top" {{-- style="background-image: url('{{ asset('images/banner2.jpeg') }}')" --}}>
+    <div class="site-navbar-top">
 
 
-        <img src="{{ asset('images/large-banner.png') }}" {{-- srcset="{{ asset('images/mobile-banner.png') }} 480w, {{ asset('images/web-banner.png') }} 1200w, 
-            {{ asset('images/large-banner.png') }} 3440w" --}}
-            sizes="(max-width: 600px) 480px, (max-width: 900px) 800px, 1200px, (max-width: 1600px) 1600px, 3440px"
-            class="site-navbar-top-image" alt="">
+        {{-- <img src="{{ asset('images/banner.jpg') }}"
+            srcset="{{ asset('images/banner/small-banner.png') }} 480w,
+                    {{ asset('images/banner/normal-banner.png') }} 1024w,
+                    {{ asset('images/banner/large-banner.png') }} 1920w"
+            sizes="(max-width:480px) 100vw,
+                    (min-width:481px) and (max-width:1024px) 50vw,
+                    (min-width:1025px) 100vw"
+            alt="Banner" style="object-fit: cover"> --}}
         {{-- <div class="col-6 col-md-4 order-2 order-md-1 site-search-icon text-left">
                     <form action="" class="site-block-top-search">
                         <span class="icon icon-search2"></span>

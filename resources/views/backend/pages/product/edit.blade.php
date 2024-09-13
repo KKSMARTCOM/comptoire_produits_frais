@@ -46,12 +46,16 @@
                             @method('PUT')
                         @endif
 
-                        <div class="form-group">
-                            <div class="input-group col-xs-12">
-                                <img src="{{ asset($product->image ?? 'img/noimage.webp') }}"
-                                    style="height: 100%; width:100%" alt="">
+                        @if (!empty($product->image))
+                            <div class="form-group">
+                                <div class="input-group col-xs-12 d-flex justify-content-center">
+                                    <div style="height: 310px; width:250px;overflow:hidden;">
+                                        <img src="{{ asset($product->image ?? 'img/noimage.webp') }}"
+                                            style="height: 100%; width:100%; object-fit:cover;" alt="">
+                                    </div>
+                                </div>
                             </div>
-                        </div>
+                        @endif
 
                         <div class="form-group">
                             <label for="name">Nom</label>
@@ -169,9 +173,15 @@
                 }
             });
         });
+
+
+        document.getElementById('imageInput').addEventListener('change', function() {
+            var fileName = this.files[0].name;
+            document.getElementById('imagePlaceholder').value = fileName;
+        });
     </script>
 
-    <script>
+    {{-- <script>
         document.getElementById('imagePlaceholder').addEventListener('click', function() {
             document.getElementById('imageInput').click();
         });
@@ -179,12 +189,7 @@
         document.querySelector('.file-upload-browse').addEventListener('click', function() {
             document.getElementById('imageInput').click();
         });
-
-        document.getElementById('imageInput').addEventListener('change', function() {
-            var fileName = this.files[0].name;
-            document.getElementById('imagePlaceholder').value = fileName;
-        });
-    </script>
+    </script> --}}
 
     {{-- <script>
         const option = {

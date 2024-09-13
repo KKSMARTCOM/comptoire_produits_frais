@@ -20,10 +20,18 @@ if (!function_exists('uploadImage')) {
 
         if (in_array($extension, ['pdf', 'svg', 'webp', 'jiff'])) { // Process based on file extension
             $img->move(public_path($path), $folderName . '.' . $extension);
+
             $imgurl = $path . $folderName . '.' . $extension;
         } else {
             $img = ImageResize::make($img);
+
+            $img->resize(640, 735, function ($constraint) {
+                $constraint->aspectRatio();
+                $constraint->upsize();
+            });
+
             $img->encode('webp', 75)->save($path . $folderName . '.webp');
+
             $imgurl = $path . $folderName . '.webp';
         }
         return $imgurl;
@@ -55,10 +63,10 @@ if (!function_exists('folderOpen')) {
 if (!function_exists('generateOTP')) {
     function generateOTP($n)
     {
-        $generator = "123456789123";
+        $generator = "123456789123ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
         $result = '';
         for ($i = 1; $i < $n; $i++) {
-            $result = substr($generator, (rand() % (strlen($generator))), 1);
+            $result .= substr($generator, (rand() % (strlen($generator)) - 1), 1);
         }
         return $result;
     }

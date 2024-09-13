@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Coupon;
 use App\Models\Invoice;
 use App\Models\Order;
+use App\Models\OrderItem;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
@@ -194,35 +195,35 @@ class CartController extends Controller
             'district.required' => 'Vous devez obligatoirement remplir ce champ',
         ]);
 
-        $invoice = [
-            "order_no" => $this->generateKod(),
-            "country" => $request->country,
+        $invoice = Order::create([
+            "order_no" => $this->generateCode(),
+            "country" => $request->country ?? null,
             "lastname" => $request->lastname,
             "firstname" => $request->firstname,
             "company_name" => $request->company_name ?? null,
-            "address" => $request->address ?? null,
-            "city" => $request->city ?? null,
-            "district" => $request->district ?? null,
-            "phone" => $request->phone ?? null,
+            "address" => $request->address,
+            "city" => $request->city,
+            "district" => $request->district,
+            "phone" => $request->phone,
             "note" => $request->note ?? null,
-        ];
+        ]);
 
         $cart = session()->get('cart') ?? [];
 
         $totalCartPrice = array_sum(array_column($cart, 'total'));
 
         foreach ($cart as $key => $item) {
-            $order = [
+            OrderItem::create([
                 'order_no' => $invoice['order_no'],
                 'product_id' => $key,
                 'name' => $item['product']['name'],
                 'price' => $item['product']['price'],
                 'quantity' => $item['quantity'],
                 //'kdvd' => $item['kdv'],
-            ];
+            ]);
         }
 
-        Mail::send(
+        /* Mail::send(
             'frontend.pages.mails.order',
             [
                 'order_no' => $invoice['order_no'],
@@ -245,7 +246,7 @@ class CartController extends Controller
                     ->from($config['from']['address'], $config['from']['name'])
                     ->to('arso@yopmail.com');
             }
-        );
+        ); */
 
         session()->forget('cart');
         return redirect()->route('finish')->with('success', 'Commande effectué !');
@@ -266,10 +267,18 @@ class CartController extends Controller
         return null;
     }
 
-    function generateKod()
+
+    function generateCode()
     {
-        $orderNo = generateOTP(7);
+        do {
+            $orderNo = generateOTP(7);
+        } while ($this->otpExists($orderNo));
 
         return $orderNo;
+    }
+
+    function otpExists($orderNo)
+    {
+        return Order::where('order_no', $orderNo)->exists();
     }
 }

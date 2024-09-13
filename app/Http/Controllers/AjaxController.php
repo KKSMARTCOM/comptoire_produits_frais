@@ -16,11 +16,14 @@ class AjaxController extends Controller
         $request->validate([
             'lastname' => 'required|string|min:2',
             'firstname' => 'required|string|min:2',
+            'email' => 'required|email',
             'subject' => 'required|string',
             'message' => 'required|string'
         ], [
             'lastname.required' => 'Vous devez obligatoirement remplir ce champ',
             'firstname.required' => 'Vous devez obligatoirement remplir ce champ',
+            'email.required' => 'Vous devez obligatoirement remplir ce champ',
+            'email.email' => 'Vous devez entrez un mail valide',
             'subject.required' => 'Vous devez obligatoirement remplir ce champ',
             'message.required' => 'Vous devez obligatoirement remplir ce champ'
         ]);
@@ -28,6 +31,7 @@ class AjaxController extends Controller
         $newData = [
             'lastname' => Str::title($request->lastname),
             'firstname' => Str::title($request->firstname),
+            'email' => $request->email,
             'subject' => $request->subject,
             'messages' => $request->message,
             'ip' => $request->ip(),
@@ -40,6 +44,7 @@ class AjaxController extends Controller
             [
                 'lastname' => $newData['lastname'],
                 'firstname' => $newData['firstname'],
+                'email' => $newData['email'],
                 'subject' => $newData['subject'],
                 'messages' => $newData['messages'],
             ],

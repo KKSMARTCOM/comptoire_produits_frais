@@ -13,7 +13,8 @@
                 <span class="menu-title">Catégories</span>
             </a>
         </li>
-        <li class="nav-item {{ request()->routeIs('panel.slider.index') ? 'active' : '' }}">
+        <li
+            class="nav-item {{ request()->routeIs('panel.product.index') || request()->routeIs('panel.product.create') || request()->routeIs('panel.product.edit') ? 'active' : '' }}">
             <a class="nav-link" {{-- data-toggle="collapse" --}} href="{{ route('panel.product.index') }}" {{-- aria-expanded="false" aria-controls="ui-basic" --}}>
                 <i class="icon-layout menu-icon"></i>
                 <span class="menu-title">Produits</span>
@@ -33,7 +34,8 @@
                 <span class="menu-title">Produits</span>
             </a>
         </li> --}}
-        <li class="nav-item {{ request()->routeIs('panel.order.index') ? 'active' : '' }}">
+        <li
+            class="nav-item {{ request()->routeIs('panel.order.index') || request()->routeIs('panel.order.edit') ? 'active' : '' }}">
             <a class="nav-link" href="{{ route('panel.order.index') }}">
                 <i class="icon-layout menu-icon"></i>
                 <span class="menu-title">Commandes</span>

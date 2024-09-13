@@ -5,6 +5,9 @@
     Prénom du client : {{ $firstname }}
 </p>
 <p>
+    Email : {{ $email }}
+</p>
+<p>
     Objet : {{ $subject }}
 </p>
 <p>

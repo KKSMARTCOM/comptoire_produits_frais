@@ -199,15 +199,14 @@ ul {
 }
 
 @media (max-width:580px) {
-  .site-section-cave-text h1 {
-    font-size: 20px;
+  .site-section-cave-text h1, .site-section-store-right h1 {
+    font-size: 40px !important;
   }
 
 }
 
 .site-section-cave-text p, .site-section-store-left p{
   font-size: 20px;
-  text-align: justify;
 }
 
 .site-section-cave-text a{
@@ -254,10 +253,6 @@ ul {
 .site-section-store-right h1{
   font-size: 80px;
   font-weight: 900;
-}
-
-.site-section-store-right p, .site-section-cave-text p{
-  text-align: justify;
 }
 
 .site-section-store-right a{
@@ -530,7 +525,6 @@ ul {
 .site-footer p{
   margin: 0;
   padding: 0;
-  text-align: justify;
 }
 
 .site-footer h2{
@@ -606,10 +600,37 @@ ul {
   height: 260px;
   width: 100%;
   background-repeat: no-repeat;
-  background-size: contain;
+  background-size: cover;
   background-position: center;
   overflow: hidden;
   margin-bottom: 0px;
+}
+
+/* Pour les petits écrans */
+@media (max-width: 480px) {
+  .site-navbar .site-navbar-top {
+    background-image: url('/images/banner/mobile.png');
+    background-size: cover;
+    background-position: center;
+  }
+}
+
+/* Pour les écrans moyens */
+@media (min-width: 481px) and (max-width: 1024px) {
+  .site-navbar .site-navbar-top {
+    background-image: url('/images/banner/web.png');
+    background-size: cover;
+    background-position: center;
+  }
+}
+
+/* Pour les grands écrans */
+@media (min-width: 1025px) {
+  .site-navbar .site-navbar-top {
+    background-image: url('/images/banner/large_web.png');
+    background-size: cover;
+    background-position: center;
+  }
 }
 
 .site-navbar-top-image {

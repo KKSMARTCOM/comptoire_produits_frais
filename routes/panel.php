@@ -54,4 +54,5 @@ Route::group([/* 'middleware' => ['panelsetting', 'auth'], */'prefix' => 'panel'
     Route::put('/order/{id}/update', [OrderController::class, 'update'])->name('order.update');
     Route::delete('/order/destroy', [OrderController::class, 'destroy'])->name('order.destroy');
     Route::post('/order-status/update', [OrderController::class, 'status'])->name('order.status');
+    Route::post('/order-quantity/update', [OrderController::class, 'change'])->name('order.change');
 });

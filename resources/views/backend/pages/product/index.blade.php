@@ -42,16 +42,17 @@
                                     @foreach ($products as $product)
                                         <tr class="item" item-id="{{ $product->id }}">
                                             <td>{{ ucfirst($product->name) }}</td>
-                                            <td>{{ Str::Limit(ucfirst($product->content), 50) ?? '' }}</td>
+                                            <td>{{ Str::Limit(ucfirst($product->content), 50) ?? '/' }}</td>
                                             <td>{{ $product->productCategory->name }}</td>
                                             <td>{{ $product->price }}</td>
                                             <td>{{ $product->quantity }}</td>
-                                            <td class="py-1">
-                                                <img src="{{ asset($product->image) }}" alt="{{ $product->name }}" />
+                                            <td class="">
+                                                <div style="height: 50px; width:50px;">
+
+                                                    <img style="height: 100%;width:100%; object-fit:cover;"
+                                                        src="{{ asset($product->image) }}" alt="{{ $product->name }}" />
+                                                </div>
                                             </td>
-                                            {{-- <td>{{ $slider->name }}</td> --}}
-                                            {{-- <td>{{ $slider->content ?? '' }}</td> --}}
-                                            {{-- <td>{{ $slider->link }}</td> --}}
                                             <td>
                                                 {{-- <label
                                                     class="badge badge-{{ $slider->status == '1' ? 'success' : 'danger' }}">
@@ -69,23 +70,23 @@
                                                     <div class="btn-group btn-group-toggle" data-toggle="buttons">
                                                         <label
                                                             class="btn btn-success {{ $product->status == 'illimite' ? 'active' : '' }}">
-                                                            <input type="radio" name="status" value="illimite"
-                                                                id="optionIllimite" autocomplete="off"
-                                                                {{ $product->status == 'illimite' ? 'checked' : '' }}>
+                                                            <input type="radio" name="status" value="0"
+                                                                id="optionIllimite" autocomplete="off" class="durum"
+                                                                {{ $product->status == '0' ? 'checked' : '' }}>
                                                             Illimité
                                                         </label>
                                                         <label
                                                             class="btn btn-warning {{ $product->status == 'en_stock' ? 'active' : '' }}">
-                                                            <input type="radio" name="status" value="en_stock"
-                                                                id="optionEnStock" autocomplete="off"
-                                                                {{ $product->status == 'en_stock' ? 'checked' : '' }}> En
+                                                            <input type="radio" name="status" value="1"
+                                                                id="optionEnStock" autocomplete="off" class="durum"
+                                                                {{ $product->status == '1' ? 'checked' : '' }}> En
                                                             stock
                                                         </label>
                                                         <label
                                                             class="btn btn-danger {{ $product->status == 'epuise' ? 'active' : '' }}">
-                                                            <input type="radio" name="status" value="epuise"
-                                                                id="optionEpuise" autocomplete="off"
-                                                                {{ $product->status == 'epuise' ? 'checked' : '' }}> Épuisé
+                                                            <input type="radio" name="status" value="2"
+                                                                id="optionEpuise" autocomplete="off" class="durum"
+                                                                {{ $product->status == '2' ? 'checked' : '' }}> Épuisé
                                                         </label>
                                                     </div>
                                                 </div>
@@ -145,15 +146,15 @@
                                         <td>
                                             <div class="btn-group btn-group-toggle" data-toggle="buttons">
                                                 <label class="btn btn-success">
-                                                    <input type="radio" name="status" id="illimite" value="illimite">
+                                                    <input type="radio" name="status" id="illimite" value="0">
                                                     Illimité
                                                 </label>
                                                 <label class="btn btn-warning">
-                                                    <input type="radio" name="status" id="en_stock" value="en_stock"> En
+                                                    <input type="radio" name="status" id="en_stock" value="1"> En
                                                     stock
                                                 </label>
                                                 <label class="btn btn-danger">
-                                                    <input type="radio" name="status" id="epuise" value="epuise">
+                                                    <input type="radio" name="status" id="epuise" value="2">
                                                     Épuisé
                                                 </label>
                                             </div>
@@ -174,13 +175,13 @@
                                                 </button>
                                             </form>
                                         </td>
-
-
-
                                     </tr>
                                 @endif
                             </tbody>
                         </table>
+                    </div>
+                    <div class="mt-3 d-flex justify-content-end">
+                        {{ $products->links('pagination::custom') }}
                     </div>
                 </div>
             </div>
@@ -190,12 +191,12 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 @section('customjs')
     <script>
-        // basmalı olduğu için change kullanıldı
-        // buton olsaydı click kullanılması gerekiyordu
+        //change a été utilisé car il s'agit d'un bouton-poussoir
+        //S'il y avait un bouton, il fallait utiliser le clic.
         $(document).on('change', '.durum', function(e) {
-            // alert('test')
             id = $(this).closest('.item').attr('item-id');
-            statu = $(this).prop('checked');
+            status = $(this).val();
+            //console.log(status);
             $.ajax({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -204,13 +205,15 @@
                 url: "{{ route('panel.product.status') }}",
                 data: {
                     id: id,
-                    statu: statu
+                    status: status
                 },
                 success: function(response) {
-                    if (response.status == 'true') {
-                        alertify.success("Status activated")
+                    if (response.status == '0') {
+                        alertify.success("Produit illimité")
+                    } else if (response.status == '1') {
+                        alertify.success('Produit en stock')
                     } else {
-                        alertify.error('Status deactivated')
+                        alertify.error('Produit épuisé')
                     }
                 }
             });

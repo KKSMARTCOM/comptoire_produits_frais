@@ -43,13 +43,17 @@
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>
-                            {{-- <div class="form-group row">
+                            <div class="form-group row">
                                 <div class="col-md-12">
                                     <label for="c_email" class="text-black">Email <span
                                             class="text-danger">*</span></label>
-                                    <input type="email" class="form-control" id="c_email" name="email" placeholder="">
+                                    <input type="email" class="form-control" id="c_email" name="email"
+                                        value="{{ old('email') }}" placeholder="">
                                 </div>
-                            </div> --}}
+                                @error('firstname')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
                             <div class="form-group row">
                                 <div class="col-md-12">
                                     <label for="c_subject" class="text-black">Objet <span

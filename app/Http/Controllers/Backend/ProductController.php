@@ -15,7 +15,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::with('productCategory')->orderBy('id', 'desc')->paginate(20);
+        $products = Product::with('productCategory')->orderBy('id', 'desc')->paginate(10);
         return view('backend.pages.product.index', compact('products'));
     }
 
@@ -119,10 +119,10 @@ class ProductController extends Controller
     public function status(Request $request)
     {
 
-        $update = $request->statu;
-        $updateCheck = $update == "false" ? '0' : '1';
+        $update = $request->status;
+        //$updateCheck = $update == "false" ? '0' : '1';
 
-        Product::where('id', $request->id)->update(['status' => $updateCheck]);
+        Product::where('id', $request->id)->update(['status' => $update]);
         return response(['error' => false, 'status' => $update]);
     }
 }
