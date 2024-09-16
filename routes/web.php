@@ -57,7 +57,7 @@ Route::post('/submit-order', [OrderController::class, 'submit'])->name('order.su
 // Route::get('/users', [UserController::class, 'index'])->name('users.index');
 
 // Routes pour les utilisateurs
-Route::prefix('panel/user')->group(function () {
+/* Route::prefix('panel/user')->group(function () {
     Route::get('/', [UserController::class, 'index'])->name('panel.user.index');      // Lister les utilisateurs
     // Route::get('/panel/user', [UserController::class, 'index'])->name('panel.user.index');
 
@@ -66,18 +66,8 @@ Route::prefix('panel/user')->group(function () {
     Route::get('/edit/{id}', [UserController::class, 'edit'])->name('panel.user.edit'); // Formulaire d'édition
     Route::put('/update/{id}', [UserController::class, 'update'])->name('panel.user.update'); // Mettre à jour l'utilisateur
     Route::delete('/destroy/{id}', [UserController::class, 'destroy'])->name('panel.user.destroy'); // Supprimer un utilisateur
-});
+}); */
 
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
-Route::group(['middleware' => 'admin'], function () {
-    Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
-    // autres routes pour les admins
-});
-
-Route::group(['middleware' => 'superadmin'], function () {
-    Route::get('/superadmin/dashboard', [SuperAdminController::class, 'index'])->name('superadmin.dashboard');
-    // autres routes pour les super admins
-});

@@ -1,4 +1,4 @@
-@extends('backend.layout.app')  <!-- Assurez-vous que ce layout existe -->
+@extends('backend.layout.app') <!-- Assurez-vous que ce layout existe -->
 
 @section('content')
     <h1>Liste des utilisateurs</h1>
@@ -15,32 +15,35 @@
             </tr>
         </thead>
         <tbody>
-            @if(isset($users) && $users->isNotEmpty())
-                @foreach($users as $user)
+            @if (isset($users) && $users->isNotEmpty())
+                @foreach ($users as $user)
                     <tr>
                         <td>{{ $user->id }}</td>
                         <td>{{ $user->name }}</td>
                         <td>{{ $user->email }}</td>
                         <td>
-                            @if($user->is_admin == 2)
+                            @if ($user->hasRole('superadmin'))
                                 Super Administrateur
-                            @elseif($user->is_admin == 1)
+                            @elseif($user->hasRole('admin'))
                                 Administrateur
                             @else
                                 Utilisateur
                             @endif
                         </td>
                         <td>
-                            <a href="{{ route('panel.user.edit', $user->id) }}" class="btn btn-warning">
-                                <i class="fas fa-edit"></i> <!-- Icône d'édition -->
-                            </a>
-                            <form action="{{ route('panel.user.destroy', $user->id) }}" method="POST" style="display:inline;">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-danger">
-                                    <i class="fas fa-trash-alt"></i> <!-- Icône de suppression -->
-                                </button>
-                            </form>
+                            @if ($user->hasRole('admin'))
+                                <a href="{{ route('panel.user.edit', $user->id) }}" class="btn btn-warning">
+                                    <i class="fas fa-edit"></i> <!-- Icône d'édition -->
+                                </a>
+                                <form action="{{ route('panel.user.destroy', $user->id) }}" method="POST"
+                                    style="display:inline;">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-danger">
+                                        <i class="fas fa-trash-alt"></i> <!-- Icône de suppression -->
+                                    </button>
+                                </form>
+                            @endif
                         </td>
                     </tr>
                 @endforeach

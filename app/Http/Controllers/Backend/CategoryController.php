@@ -86,8 +86,6 @@ class CategoryController extends Controller
     {
         $category = Category::where('id', $request->id)->firstOrFail();
 
-        dosyasil($category->image);
-
         $category->delete();
         return response(['error' => false, 'message' => 'Category deleted successfully']);
     }

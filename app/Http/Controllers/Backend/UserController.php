@@ -9,7 +9,7 @@ use App\Http\Controllers\Controller;
 
 class UserController extends Controller
 {
-    
+
     // Afficher la liste des utilisateurs  (index)
     public function index()
     {
@@ -31,7 +31,7 @@ class UserController extends Controller
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users',
-            'password' => 'required|string|min:8',
+            'password' => 'required|string|min:6',
             'is_admin' => 'required|integer', // Ajoutez une validation pour le rôle
         ]);
 
@@ -41,15 +41,17 @@ class UserController extends Controller
         $user->password = bcrypt($request->password);
 
         // Vérifiez et attribuez le bon rôle
-        if ($request->input('is_admin') == 2) {
+        /* if ($request->input('is_admin') == 2) {
             $user->is_admin = 2; // Super Administrateur
         } elseif ($request->input('is_admin') == 1) {
             $user->is_admin = 1; // Administrateur
         } else {
             $user->is_admin = 0; // Utilisateur simple
-        }
+        } */
 
         $user->save();
+
+        $user->assignRole('admin');
 
         return redirect()->route('panel.user.index')->with('success', 'Utilisateur créé avec succès.');
     }
@@ -150,9 +152,7 @@ class UserController extends Controller
     {
         $user = User::findOrFail($id);
         $user->delete();
-    
+
         return redirect()->route('panel.user.index')->with('success', 'Utilisateur supprimé avec succès.');
     }
-    
-
 }

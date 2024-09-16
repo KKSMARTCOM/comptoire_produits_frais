@@ -41,7 +41,7 @@ class LoginController extends Controller
     }
 
 
-    protected function authenticated(Request $request, $user)
+    /* protected function authenticated(Request $request, $user)
     {
         if ($user->isSuperAdmin()) {
             return redirect()->route('superadmin.dashboard');
@@ -49,15 +49,14 @@ class LoginController extends Controller
             return redirect()->route('admin.dashboard');
         }
         return redirect('/panel'); // ou une autre route par défaut
-    }
+    } */
 
     // Méthode de déconnexion personnalisée
     public function logout(Request $request)
     {
         Auth::logout();
-        
+
         // Rediriger vers la page de connexion après la déconnexion
         return redirect('/login');
     }
-
 }

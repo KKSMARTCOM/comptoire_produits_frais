@@ -24,13 +24,8 @@ class DatabaseSeeder extends Seeder
         // ]);
 
         $this->call([
-            SliderSeeder::class,
             CategorySeeder::class,
-            AboutSeeder::class,
-            SiteSettingSeeder::class,
-            ProductSeeder::class,
+            RoleSeeder::class,
         ]);
-
-        Product::factory(100)->create();
     }
 }
