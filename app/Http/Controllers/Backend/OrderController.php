@@ -71,7 +71,7 @@ class OrderController extends Controller
         OrderItem::where('order_no', $order->order_no)->delete();
 
         $order->delete();
-        return response(['error' => false, 'message' => 'Order deleted successfully']);
+        return response(['error' => false, 'message' => 'Commande supprimée avec succès !']);
     }
 
     public function status(Request $request)

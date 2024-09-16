@@ -7,7 +7,7 @@
                 <div class="card-body">
                     <h4 class="card-title">Liste des coffrets</h4>
                     <p class="card-description">
-                        <a href="{{ route('panel.product.create') }}" class="btn btn-primary"
+                        <a href="{{ route('panel.pack.create') }}" class="btn btn-primary"
                             style="background-color: #004200 !important">Ajouter</a>
                     </p>
 
@@ -77,7 +77,7 @@
                                                     <i class="fas fa-edit"></i>
                                                 </a>
                                                 <!-- Bouton pour supprimer avec une icône de corbeille -->
-                                                <button type="button" class="deleteBtn btn btn-danger">
+                                                <button type="submit" class="deleteBtn btn btn-danger">
                                                     <i class="fas fa-trash-alt"></i>
                                                 </button>
                                             </td>
@@ -88,6 +88,9 @@
                                 @endif
                             </tbody>
                         </table>
+                    </div>
+                    <div class="mt-3 d-flex justify-content-end">
+                        {{ $packs->links('pagination::custom') }}
                     </div>
                 </div>
             </div>
@@ -127,7 +130,7 @@
             id = item.attr('item-id');
 
             alertify.confirm("Etes vous sûre ?",
-                "Vous vous apprêtez à supprimer un produit, cette action est irréverssible !",
+                "Vous vous apprêtez à supprimer un coffret, cette action est irréverssible !",
                 function() {
 
                     $.ajax({

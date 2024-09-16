@@ -13,6 +13,7 @@ class Pack extends Model
         'name',
         'description',
         'price',
+        'image',
         'status',
     ];
 

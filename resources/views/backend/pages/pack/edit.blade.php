@@ -21,9 +21,9 @@
                         </div>
                     @endif
 
-                    @if (!empty($slider->id))
+                    @if (!empty($pack->id))
                         @php
-                            $routeLink = route('panel.pack.update', $slider->id);
+                            $routeLink = route('panel.pack.update', $pack->id);
                         @endphp
                     @else
                         @php
@@ -34,15 +34,15 @@
                     <form class="forms-sample" action="{{ $routeLink }}" method="POST" enctype="multipart/form-data">
                         @csrf
 
-                        @if (!empty($slider->id))
+                        @if (!empty($pack->id))
                             @method('PUT')
                         @endif
 
-                        @if (!empty($product->image))
+                        @if (!empty($pack->image))
                             <div class="form-group">
                                 <div class="input-group col-xs-12 d-flex justify-content-center">
                                     <div style="height: 310px; width:250px;overflow:hidden;">
-                                        <img src="{{ asset($product->image ?? 'img/noimage.webp') }}"
+                                        <img src="{{ asset($pack->image ?? 'img/noimage.webp') }}"
                                             style="height: 100%; width:100%; object-fit:cover;" alt="">
                                     </div>
                                 </div>
@@ -114,7 +114,7 @@
                             </select>
                         </div>
                         <button type="submit" class="btn btn-primary mr-2"
-                            style="background-color: #004200 !important">Enregistrer</button>
+                            style="background-color: #004200 !important">{{ isset($pack) ? 'Mettre à jour' : 'Enregistrer' }}</button>
                         <a href="{{ route('panel.pack.index') }}" class="btn btn-light">Fermer</a>
                     </form>
                 </div>
