@@ -9,6 +9,7 @@ use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\DashboardController;
 use App\Http\Controllers\Backend\OrderController;
 use App\Http\Controllers\Backend\ProductController;
+use App\Http\Controllers\Backend\PromotionController;
 
 Route::group([/* 'middleware' => ['panelsetting', 'auth'], */'prefix' => 'panel', 'as' => 'panel.'], function () {
     Route::get('/', [DashboardController::class, 'index'])->name('index');
@@ -48,6 +49,15 @@ Route::group([/* 'middleware' => ['panelsetting', 'auth'], */'prefix' => 'panel'
     Route::resource('/product', ProductController::class)->except('destroy');
     Route::delete('/product/destroy', [ProductController::class, 'destroy'])->name('product.destroy');
     Route::post('/product-status/update', [ProductController::class, 'status'])->name('product.status');
+    
+    // promotions route
+    Route::get('/promotions', [PromotionController::class, 'index'])->name('promotions.index');
+    Route::get('/promotions/create', [PromotionController::class, 'create'])->name('promotions.create');
+    Route::post('/promotions', [PromotionController::class, 'store'])->name('promotions.store'); // Changer `create` en `store`
+    Route::get('/promotions/{promotion}/edit', [PromotionController::class, 'edit'])->name('promotions.edit');
+    Route::put('/promotions/{promotion}', [PromotionController::class, 'update'])->name('promotions.update'); // Changer `delete` en `put`
+    Route::delete('/promotions/{promotion}', [PromotionController::class, 'destroy'])->name('promotions.destroy');
+    
     // order route
     Route::get('/order', [OrderController::class, 'index'])->name('order.index');
     Route::get('/order/{id}/edit', [OrderController::class, 'edit'])->name('order.edit');
