@@ -5,7 +5,7 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Shoppers Admin Panel</title>
+    <title>CPF Espace admin</title>
     <!-- plugins:css -->
     <link rel="stylesheet" href="{{ asset('backend') }}/vendors/feather/feather.css">
     <link rel="stylesheet" href="{{ asset('backend') }}/vendors/ti-icons/css/themify-icons.css">
@@ -38,7 +38,7 @@
         <!-- partial -->
         <div class="container-fluid page-body-wrapper">
             <!-- partial:partials/_settings-panel.html -->
-            <div class="theme-setting-wrapper">
+            {{-- <div class="theme-setting-wrapper">
                 <div id="settings-trigger"><i class="ti-settings"></i></div>
                 <div id="theme-settings" class="settings-panel">
                     <i class="settings-close ti-close"></i>
@@ -59,8 +59,8 @@
                         <div class="tiles default"></div>
                     </div>
                 </div>
-            </div>
-            <div id="right-sidebar" class="settings-panel">
+            </div> --}}
+            {{-- <div id="right-sidebar" class="settings-panel">
                 <i class="settings-close ti-close"></i>
                 <ul class="nav nav-tabs border-top" id="setting-panel" role="tablist">
                     <li class="nav-item">
@@ -161,7 +161,7 @@
                         </div>
                         <ul class="chat-list">
                             <li class="list active">
-                                <div class="profile"><img src="backend/images/faces/face1.jpg" alt="image"><span
+                                <div class="profile"><img src="backend/images/faces/face28.jpg" alt="image"><span
                                         class="online"></span></div>
                                 <div class="info">
                                     <p>Thomas Douglas</p>
@@ -170,7 +170,7 @@
                                 <small class="text-muted my-auto">19 min</small>
                             </li>
                             <li class="list">
-                                <div class="profile"><img src="backend/images/faces/face2.jpg" alt="image"><span
+                                <div class="profile"><img src="backend/images/faces/face28.jpg" alt="image"><span
                                         class="offline"></span></div>
                                 <div class="info">
                                     <div class="wrapper d-flex">
@@ -182,7 +182,7 @@
                                 <small class="text-muted my-auto">23 min</small>
                             </li>
                             <li class="list">
-                                <div class="profile"><img src="backend/images/faces/face3.jpg" alt="image"><span
+                                <div class="profile"><img src="backend/images/faces/face28.jpg" alt="image"><span
                                         class="online"></span></div>
                                 <div class="info">
                                     <p>Daniel Russell</p>
@@ -191,7 +191,7 @@
                                 <small class="text-muted my-auto">14 min</small>
                             </li>
                             <li class="list">
-                                <div class="profile"><img src="backend/images/faces/face4.jpg" alt="image"><span
+                                <div class="profile"><img src="backend/images/faces/face28.jpg" alt="image"><span
                                         class="offline"></span></div>
                                 <div class="info">
                                     <p>James Richardson</p>
@@ -200,7 +200,7 @@
                                 <small class="text-muted my-auto">2 min</small>
                             </li>
                             <li class="list">
-                                <div class="profile"><img src="backend/images/faces/face5.jpg" alt="image"><span
+                                <div class="profile"><img src="backend/images/faces/face28.jpg" alt="image"><span
                                         class="online"></span></div>
                                 <div class="info">
                                     <p>Madeline Kennedy</p>
@@ -209,7 +209,7 @@
                                 <small class="text-muted my-auto">5 min</small>
                             </li>
                             <li class="list">
-                                <div class="profile"><img src="backend/images/faces/face6.jpg" alt="image"><span
+                                <div class="profile"><img src="backend/images/faces/face28.jpg" alt="image"><span
                                         class="online"></span></div>
                                 <div class="info">
                                     <p>Sarah Graves</p>
@@ -221,7 +221,7 @@
                     </div>
                     <!-- chat tab ends -->
                 </div>
-            </div>
+            </div> --}}
             <!-- partial -->
             <!-- partial:partials/_sidebar.html -->
             @include('backend.inc.sidebar')

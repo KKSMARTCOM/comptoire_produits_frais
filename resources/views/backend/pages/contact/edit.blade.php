@@ -21,7 +21,7 @@
                         </div>
                     @endif
 
-                    <form class="forms-sample" action="{{ route('panel.contact.update', $contact->id) }}" method="POST"
+                    <form class="forms-sample" action="{{ route('panel.contact.update', 1) }}" method="POST"
                         enctype="multipart/form-data">
                         @csrf
                         @method('PUT')

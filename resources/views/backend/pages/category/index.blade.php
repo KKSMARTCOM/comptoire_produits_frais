@@ -5,9 +5,10 @@
         <div class="col-lg-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title">Basic Table</h4>
+                    <h4 class="card-title">Liste des catégories</h4>
                     <p class="card-description">
-                        <a href="{{ route('panel.category.create') }}" class="btn btn-primary">Add</a>
+                        <a href="{{ route('panel.category.create') }}" class="btn btn-primary"
+                            style="background-color: #004200 !important">Ajouter</a>
                     </p>
 
                     @if (session()->get('success'))
@@ -16,48 +17,42 @@
                         </div>
                     @endif
 
-                    <div class="table-responsive">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th>Image</th>
-                                    <th>Kategori</th>
-                                    <th>Alt Kategori</th>
-                                    <th>Status</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @if (!empty($categories) && $categories->count() > 0)
+                    @if (!empty($categories) && $categories->count() > 0)
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Libellé</th>
+                                        <th>Description</th>
+                                        <th>Catégorie</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
                                     @foreach ($categories as $category)
                                         <tr class="item" item-id="{{ $category->id }}">
-                                            <td class="py-1">
-                                                <img src="{{ asset($category->image) }}" alt="{{ $category->name }}" />
+                                            <td>{{ ucfirst($category->name) }}</td>
+                                            <td>{{ Str::limit($category->content ?? '/', 50) }}</td>
+                                            <td>{{ $category->category->name ?? '/' }}
                                             </td>
-                                            <td>{{ $category->name }}</td>
-                                            <td>{{ $category->category->name ?? '' }}</td>
-                                            <td>
-                                                <div class="checkbox">
-                                                    <label>
-                                                        <input type="checkbox" class="durum" data-on="Active"
-                                                            data-off="Passive" data-onstyle="success" data-offstyle="danger"
-                                                            data-toggle="toggle"
-                                                            {{ $category->status == '1' ? 'checked' : '' }}>
-                                                    </label>
-                                                </div>
-                                            </td>
+
                                             <td class="d-flex">
                                                 <a href="{{ route('panel.category.edit', $category->id) }}"
-                                                    class="btn btn-primary mr-2">Edit
+                                                    class="btn btn-primary mr-2">Modifier
                                                 </a>
-                                                <button type="button" class="deleteBtn btn btn-danger">Delete</button>
+                                                <button type="button" class="deleteBtn btn btn-danger"
+                                                    style="background-color: #FF281C !important">Supprimer</button>
                                             </td>
                                         </tr>
                                     @endforeach
-                                @endif
-                            </tbody>
-                        </table>
-                    </div>
+                                </tbody>
+                            </table>
+                        </div>
+                    @else
+                        <tr>
+                            <td colspan="4">Aucune catégorie disponible</td>
+                        </tr>
+                    @endif
                 </div>
             </div>
         </div>
@@ -97,7 +92,8 @@
             var item = $(this).closest('.item');
             id = item.attr('item-id');
 
-            alertify.confirm("Are you sure?", "You won't be able to revert this!",
+            alertify.confirm("Etes vous sûre ?",
+                "Vous vous apprêtez à supprimer une catégorie, cette action est irréverssible !",
                 function() {
 
                     $.ajax({
@@ -120,7 +116,7 @@
                     });
                 },
                 function() {
-                    alertify.error('Deletion canceled.');
+                    alertify.error('Suppression annulée.');
                 });
         });
     </script>

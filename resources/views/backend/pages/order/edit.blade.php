@@ -77,7 +77,7 @@
 
         .font-size-14 {
             font-size: 14px;
-            line-height: 4px;
+            line-height: 10px;
         }
 
         .bold-text {
@@ -86,6 +86,7 @@
 
         table.unstyledTable {
             width: 100%;
+            margin-top: 30px;
         }
 
         table {
@@ -101,7 +102,7 @@
 
         tbody tr {
             border-bottom: 1px solid #DCDCDC;
-            text-align: end;
+            text-align: start;
         }
 
         tbody tr td {
@@ -126,9 +127,9 @@
     <div class="row">
         <div class="col-12 grid-margin stretch-card">
             <div class="card">
-                <div class="card-body">
-                    <h4 class="card-title">Order</h4>
-
+                <div class="card-body d-flex justify-content-between">
+                    <h4 class="card-title">Commande</h4>
+                    <button class="btn btn-success" style="background-color: #004200;">Exporter</button>
                     @if ($errors)
                         @foreach ($errors->all() as $error)
                             <div class="alert alert-danger">
@@ -146,25 +147,23 @@
 
                 <div class="page">
                     <div class="subpage">
-                        <div class="header center"><img class="header-img" src="{{ asset($settings['logo']) }}" />
-                            <h2 class="font-weight-400">{{ $order->name ?? '' }}</h2>
+                        <div class="header center"><img class="header-img"
+                                src="{{ asset('backend/images/KKSMARTDESIGN_CPF_LOGO_prop9.svg') }}" />
+                            <h2 class="font-weight-400">{{ $order->Fullname ?? '' }}</h2>
                         </div>
 
                         <div class="invoice">
                             <div class="invoce-from">
-                                <p class="invoice-header">Order No</p>
+                                <p class="invoice-header">Commande</p>
                                 <div class="font-size-14">
-                                    <p>{{ isset($order->order_no) ?? '' }}</p>
+                                    <p>No : {{ $order->order_no ?? '' }}</p>
                                 </div>
                             </div>
                             <div class="font-size-14">
-                                {{-- <p class="bold-text">Order date:
-                                    {{ isset($order->created_at) ? Carbon::parse($order->created_at)->format('d-m-Y H:i:s') : '' }}
-                                </p> --}}
-                                <p class="bold-text">Order date:
+                                <p class="bold-text">Date de la commande :
                                     {{ isset($order->created_at) ? Carbon::parse($order->created_at)->format('d.m.Y H:i') : '' }}
                                 </p>
-                                <p>Confirmation Time:
+                                <p>Date de confirmation :
                                     {{ isset($order->updated_at) ? Carbon::parse($order->updated_at)->format('d.m.Y H:i') : '' }}
                                 </p>
                             </div>
@@ -177,61 +176,71 @@
                             <div class="font-size-14">
                                 <p>{{ $order->phone }}</p>
                                 <p>{{ $order->address }}</p>
-                                <p>{{ $order->email }}</p>
+                                {{-- <p> {{ $order->email }} </p> --}}
                             </div>
                         </div>
                     </div>
 
                     <div class="content">
-                        <h2 class="center font-weight-400">Invoice Information</h2>
+                        <h2 class="center font-weight-400">Détail de la commande</h2>
                         <p class="font-size-14">{{ $order->company_name ?? '' }}</p>
-                        <p class="font-size-14">{{ $order->country }}</p>
+                        <p class="font-size-14">{{ $order->country ?? 'Bénin' }}</p>
                         <p class="font-size-14">{{ $order->city }}</p>
                         <p class="font-size-14">{{ $order->district }}</p>
-                        <p class="font-size-14">{{ $order->note }}</p>
+                        <p class="font-size-14">{{ $order->note ?? 'Pas de note' }}
+                        </p>
 
                         <table class="unstyledTable">
                             <thead>
                                 <tr>
-                                    <th>Product Name</th>
-                                    <th>Qty</th>
-                                    <th>Unit Price</th>
-                                    <th>Rate of VAT</th>
-                                    <th>Unit Total</th>
+                                    <th>Produits</th>
+                                    <th>Quantité</th>
+                                    <th>Prix U</th>
+                                    {{--  <th>Rate of VAT</th> --}}
+                                    <th>Prix total</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @php
                                     $allTotal = 0;
                                 @endphp
-                                @if (!empty($order->orders))
-                                    @foreach ($order->orders as $item)
+                                @if (!empty($order->orderItems))
+                                    @foreach ($order->orderItems as $item)
                                         @php
-                                            $kdvOrani = $item['kdv'] ?? 0;
+                                            $vatRate = $item['vat'] ?? 0;
                                             $price = $item['price'];
-                                            $qty = $item['qty'];
+                                            $qty = $item['quantity'];
 
-                                            $kdvTutar = $price * $qty * ($kdvOrani / 100);
-                                            $toplamTutar = $price * $qty + $kdvTutar;
+                                            $vatAmount = $price * $qty * ($vatRate / 100);
+                                            $totalAmount = $price * $qty + $vatAmount;
                                         @endphp
-                                        <tr>
+                                        <tr data-id="{{ $item['product_id'] }}">
                                             <td>{{ $item['name'] }}</td>
-                                            <td>{{ $item['qty'] }}</td>
+                                            <td><input class="qty" style="width: 100%;height:100%;border:none;"
+                                                    type="number" id="quantity" value="{{ $item['quantity'] }}"
+                                                    data-id="{{ $item['product_id'] }}"></td>
                                             <td>{{ $item['price'] }}</td>
-                                            <td>{{ $item['kdv'] }}</td>
-                                            <td>${{ $toplamTutar }}</td>
+                                            {{-- <td>{{ $item['kdv'] }}</td> --}}
+                                            <td class="total">{{ $totalAmount }} FCFA</td>
                                             @php
-                                                $allTotal += $toplamTutar;
+                                                $allTotal += $totalAmount;
                                             @endphp
                                         </tr>
                                     @endforeach
+                                @else
+                                    <tr>
+                                        <td>Vin</td>
+                                        <td>2</td>
+                                        <td>15000 FCFA</td>
+                                        <td>30000 FCFA</td>
+                                    </tr>
                                 @endif
                             </tbody>
                             </tr>
                         </table>
 
                         <div class="footer">
-                            <h2 class="font-weight-400">Total : $ {{ $allTotal }}
+                            <h2 class="font-weight-400 allTotal">Total : {{ $allTotal ?? '10000' }} FCFA
                                 <h2 />
                         </div>
                     </div>
@@ -239,4 +248,50 @@
             </div>
         </div>
     </div>
+@endsection
+@section('customjs')
+    <script>
+        $(document).on('input', '.qty', function(e) {
+            var currentUrl = window.location.pathname.split('/');
+            const order_id = currentUrl[3];
+            const product_id = $(this).data('id');
+            const quantity = $(this).val();
+            var row = $(this).closest('tr');
+
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                type: "POST",
+                url: "{{ route('panel.order.change') }}",
+                data: {
+                    order_id: order_id,
+                    product_id: product_id,
+                    quantity: quantity
+                },
+                success: function(response) {
+                    //console.log(typeof(response.newTotal));
+                    if (response.newTotal) {
+                        row.find('.total').html(response.newTotal + ' FCFA')
+                        updateAllTotal();
+                    } else {
+                        row.find('.total').html('0 FCFA')
+                        updateAllTotal();
+                    }
+                }
+
+            })
+        })
+
+        function updateAllTotal() {
+            var newTotal = 0;
+
+            $('.total').each(function() {
+                var lineTotal = parseInt($(this).text().replace(' FCFA', ''));
+                newTotal += lineTotal;
+            })
+
+            $('.allTotal').html('Total : ' + newTotal + ' FCFA')
+        };
+    </script>
 @endsection

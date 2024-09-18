@@ -14,7 +14,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::with('category:id,cat_ust,name')->get();
+        $categories = Category::with('category:id,category_id,name')->get();
         return view('backend.pages.category.index', compact('categories'));
     }
 
@@ -23,7 +23,9 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        $categories = Category::where('cat_ust',null)->get();
+        // Obtenir toutes les catégories principales (sans parent)
+        $categories = Category::where('category_id', null)->get();
+
         return view('backend.pages.category.edit', compact('categories'));
     }
 
@@ -32,23 +34,14 @@ class CategoryController extends Controller
      */
     public function store(CategoryRequest $request)
     {
-        if ($request->hasFile('image')) {
-            $img = $request->file('image');
-            $folderName = $request->name;
-            $uploadFolder = 'img/category/';
-            folderOpen($uploadFolder);
-            $imgurl = resimyukle($img, $folderName, $uploadFolder);
-        }
 
         Category::create([
             'name' => $request->name,
-            'cat_ust' => $request->cat_ust,
-            'status' => $request->status,
             'content' => $request->content,
-            'image' => $imgurl ?? NULL,
+            'category_id' => $request->category_id,
         ]);
 
-        return back()->withSuccess('Category created successfully');
+        return back()->withSuccess('Nouvelle catégorie ajoutée avec succès');
     }
 
     /**
@@ -65,7 +58,7 @@ class CategoryController extends Controller
     public function edit(string $id)
     {
         $category = Category::where('id', $id)->first();
-        $categories = Category::get();
+        $categories = Category::where('category_id', null)->get();
         return view('backend.pages.category.edit', compact('category', 'categories'));
     }
 
@@ -76,25 +69,14 @@ class CategoryController extends Controller
     {
         $category = Category::where('id', $id)->firstOrFail();
 
-        if ($request->hasFile('image')) {
-            dosyasil($category->image);
-
-            $img = $request->file('image');
-            $folderName = $request->name;
-            $uploadFolder = 'img/category/';
-            folderOpen($uploadFolder);
-            $imgurl = resimyukle($img, $folderName, $uploadFolder);
-        }
 
         $category->update([
             'name' => $request->name,
-            'cat_ust' => $request->cat_ust,
-            'status' => $request->status,
-            'content' => $request->content,
-            'image' => $imgurl ?? $category->image,
+            'category_id' => $request->category_id,
+            'content' => $request->content ?? $category->content
         ]);
 
-        return back()->withSuccess('Category updated successfully');
+        return redirect()->route('panel.category.index');
     }
 
     /**
@@ -104,16 +86,15 @@ class CategoryController extends Controller
     {
         $category = Category::where('id', $request->id)->firstOrFail();
 
-        dosyasil($category->image);
-
         $category->delete();
-        return response(['error'=>false, 'message'=>'Category deleted successfully']);
+        return response(['error' => false, 'message' => 'Category deleted successfully']);
     }
 
-    public function status(Request $request){
+    public function status(Request $request)
+    {
         $update = $request->statu;
         $updateCheck = $update == "false" ? '0' : '1';
         Category::where('id', $request->id)->update(['status' => $updateCheck]);
-        return response(['error'=>false, 'status'=>$update]);
+        return response(['error' => false, 'status' => $update]);
     }
 }

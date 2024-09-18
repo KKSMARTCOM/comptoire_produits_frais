@@ -15,11 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->integer('is_admin')->default(0);
-            $table->enum('status', ['0','1'])->default(0);
-            $table->rememberToken();
             $table->timestamps();
         });
     }
@@ -31,4 +28,6 @@ return new class extends Migration
     {
         Schema::dropIfExists('users');
     }
+
+
 };

@@ -2,34 +2,7 @@
 
 @section('content')
     <div class="row">
-        <div class="col-md-12 grid-margin">
-            <div class="row">
-                <div class="col-12 col-xl-8 mb-4 mb-xl-0">
-                    <h3 class="font-weight-bold">Welcome Aamir</h3>
-                    <h6 class="font-weight-normal mb-0">All systems are running smoothly! You have <span
-                            class="text-primary">3 unread alerts!</span></h6>
-                </div>
-                <div class="col-12 col-xl-4">
-                    <div class="justify-content-end d-flex">
-                        <div class="dropdown flex-md-grow-1 flex-xl-grow-0">
-                            <button class="btn btn-sm btn-light bg-white dropdown-toggle" type="button"
-                                id="dropdownMenuDate2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                <i class="mdi mdi-calendar"></i> Today (10 Jan 2021)
-                            </button>
-                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuDate2">
-                                <a class="dropdown-item" href="#">January - March</a>
-                                <a class="dropdown-item" href="#">March - June</a>
-                                <a class="dropdown-item" href="#">June - August</a>
-                                <a class="dropdown-item" href="#">August - November</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-6 grid-margin stretch-card">
+        {{-- <div class="col-md-6 grid-margin stretch-card">
             <div class="card tale-bg">
                 <div class="card-people mt-auto">
                     <img src="backend/images/dashboard/people.svg" alt="people">
@@ -46,74 +19,98 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="col-md-6 grid-margin transparent">
+        </div> --}}
+        <div class="col-md-12 grid-margin transparent">
             <div class="row">
-                <div class="col-md-6 mb-4 stretch-card transparent">
+                <div class="col-md-3 mb-4 mb-lg-0 stretch-card transparent">
                     <div class="card card-tale">
-                        <div class="card-body">
-                            <p class="mb-4">Today’s Bookings</p>
-                            <p class="fs-30 mb-2">4006</p>
-                            <p>10.00% (30 days)</p>
+                        <div class="card-body d-flex flex-column justify-content-between">
+                            <p class="mb-4">Nombre de commandes</p>
+                            <p class="fs-30 mb-2">{{ $totalOrders }}</p>
+                            {{-- <p>30.00% (30 jours)</p> --}}
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6 mb-4 stretch-card transparent">
+                <div class="col-md-3 mb-4 mb-lg-0 stretch-card transparent">
                     <div class="card card-dark-blue">
-                        <div class="card-body">
-                            <p class="mb-4">Total Bookings</p>
-                            <p class="fs-30 mb-2">61344</p>
-                            <p>22.00% (30 days)</p>
+                        <div class="card-body d-flex flex-column justify-content-between">
+                            <p class="mb-4">Nombre de commandes traitées</p>
+                            <p class="fs-30 mb-2">{{ $processedOrders }}</p>
+                            <p>{{ $processedPercentage }}% (30 jours)</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-4 mb-lg-0 stretch-card transparent">
+                    <div class="card card-light-blue">
+                        <div class="card-body d-flex flex-column justify-content-between">
+                            <p class="mb-4">Nombre de commandes en attente</p>
+                            <p class="fs-30 mb-2">{{ $pendingOrders }}</p>
+                            <p>{{ $pendingPercentage }}% (30 jours)</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-4 mb-lg-0 stretch-card transparent">
+                    <div class="card card-light-danger">
+                        <div class="card-body d-flex flex-column justify-content-between">
+                            <p class="mb-4">Nombre d'utilisateurs</p>
+                            <p class="fs-30 mb-2">{{ $totalUsers }}</p>
+                            {{-- <p>60.22% (30 jours)</p> --}}
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="row">
+            {{-- <div class="row">
                 <div class="col-md-6 mb-4 mb-lg-0 stretch-card transparent">
                     <div class="card card-light-blue">
                         <div class="card-body">
                             <p class="mb-4">Number of Meetings</p>
                             <p class="fs-30 mb-2">34040</p>
-                            <p>2.00% (30 days)</p>
+                            <p>2.00% (30 jours)</p>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6 stretch-card transparent">
+                <div class="col-md-6 mb-4 mb-lg-0 stretch-card transparent">
                     <div class="card card-light-danger">
                         <div class="card-body">
                             <p class="mb-4">Number of Clients</p>
                             <p class="fs-30 mb-2">47033</p>
-                            <p>0.22% (30 days)</p>
+                            <p>0.22% (30 jours)</p>
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> --}}
         </div>
     </div>
     <div class="row">
         <div class="col-md-6 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
-                    <p class="card-title">Order Details</p>
-                    <p class="font-weight-500">The total number of sessions within the date range. It is the period time
-                        a user is actively engaged with your website, page or app, etc</p>
+                    <p class="card-title">Détails des commandes</p>
+                    {{-- <p class="font-weight-500">The total number of sessions within the date range. It is the period time
+                        a user is actively engaged with your website, page or app, etc</p> --}}
+                    <label for="year">Choisissez l'année :</label>
+                    <select id="year" name="year">
+                        @for ($i = 2023; $i <= date('Y'); $i++)
+                            <option value="{{ $i }}">{{ $i }}</option>
+                        @endfor
+                    </select>
                     <div class="d-flex flex-wrap mb-5">
-                        <div class="mr-5 mt-3">
-                            <p class="text-muted">Order value</p>
+                        <div class="mr-4 mt-3">
+                            <p class="text-muted">Valeur des commandes</p>
                             <h3 class="text-primary fs-30 font-weight-medium">12.3k</h3>
                         </div>
-                        <div class="mr-5 mt-3">
-                            <p class="text-muted">Orders</p>
+                        <div class="mr-4 mt-3">
+                            <p class="text-muted">Commandes</p>
                             <h3 class="text-primary fs-30 font-weight-medium">14k</h3>
                         </div>
-                        <div class="mr-5 mt-3">
-                            <p class="text-muted">Users</p>
+                        <div class="mr-4 mt-3">
+                            <p class="text-muted">Utilisateurs</p>
                             <h3 class="text-primary fs-30 font-weight-medium">71.56%</h3>
                         </div>
-                        <div class="mt-3">
+                        {{-- <div class="mt-3">
                             <p class="text-muted">Downloads</p>
                             <h3 class="text-primary fs-30 font-weight-medium">34040</h3>
-                        </div>
+                        </div> --}}
                     </div>
                     <canvas id="order-chart"></canvas>
                 </div>
@@ -123,18 +120,18 @@
             <div class="card">
                 <div class="card-body">
                     <div class="d-flex justify-content-between">
-                        <p class="card-title">Sales Report</p>
-                        <a href="#" class="text-info">View all</a>
+                        <p class="card-title">Rapport de ventes</p>
+                        {{-- <a href="#" class="text-info">View all</a> --}}
                     </div>
-                    <p class="font-weight-500">The total number of sessions within the date range. It is the period time
-                        a user is actively engaged with your website, page or app, etc</p>
+                    {{-- <p class="font-weight-500">The total number of sessions within the date range. It is the period time
+                        a user is actively engaged with your website, page or app, etc</p> --}}
                     <div id="sales-legend" class="chartjs-legend mt-4 mb-2"></div>
                     <canvas id="sales-chart"></canvas>
                 </div>
             </div>
         </div>
     </div>
-    <div class="row">
+    {{-- <div class="row">
         <div class="col-md-12 grid-margin stretch-card">
             <div class="card position-relative">
                 <div class="card-body">
@@ -145,9 +142,9 @@
                                 <div class="row">
                                     <div class="col-md-12 col-xl-3 d-flex flex-column justify-content-start">
                                         <div class="ml-xl-4 mt-3">
-                                            <p class="card-title">Detailed Reports</p>
-                                            <h1 class="text-primary">$34040</h1>
-                                            <h3 class="font-weight-500 mb-xl-4 text-primary">North America</h3>
+                                            <p class="card-title">Rapports détaillés</p>
+                                            <h1 class="text-primary">34040 FCFA</h1>
+                                            <h3 class="font-weight-500 mb-xl-4 text-primary">Nord Bénin</h3>
                                             <p class="mb-2 mb-xl-0">The total number of sessions within the date range.
                                                 It is the period time a user is actively engaged with your website, page
                                                 or app, etc</p>
@@ -162,10 +159,9 @@
                                                             <td class="text-muted">Illinois</td>
                                                             <td class="w-100 px-0">
                                                                 <div class="progress progress-md mx-4">
-                                                                    <div class="progress-bar bg-primary"
-                                                                        role="progressbar" style="width: 70%"
-                                                                        aria-valuenow="70" aria-valuemin="0"
-                                                                        aria-valuemax="100"></div>
+                                                                    <div class="progress-bar bg-primary" role="progressbar"
+                                                                        style="width: 70%" aria-valuenow="70"
+                                                                        aria-valuemin="0" aria-valuemax="100"></div>
                                                                 </div>
                                                             </td>
                                                             <td>
@@ -176,10 +172,9 @@
                                                             <td class="text-muted">Washington</td>
                                                             <td class="w-100 px-0">
                                                                 <div class="progress progress-md mx-4">
-                                                                    <div class="progress-bar bg-warning"
-                                                                        role="progressbar" style="width: 30%"
-                                                                        aria-valuenow="30" aria-valuemin="0"
-                                                                        aria-valuemax="100"></div>
+                                                                    <div class="progress-bar bg-warning" role="progressbar"
+                                                                        style="width: 30%" aria-valuenow="30"
+                                                                        aria-valuemin="0" aria-valuemax="100"></div>
                                                                 </div>
                                                             </td>
                                                             <td>
@@ -255,8 +250,8 @@
                                     <div class="col-md-12 col-xl-3 d-flex flex-column justify-content-start">
                                         <div class="ml-xl-4 mt-3">
                                             <p class="card-title">Detailed Reports</p>
-                                            <h1 class="text-primary">$34040</h1>
-                                            <h3 class="font-weight-500 mb-xl-4 text-primary">North America</h3>
+                                            <h1 class="text-primary">34040 FCFA</h1>
+                                            <h3 class="font-weight-500 mb-xl-4 text-primary">Nord bénin</h3>
                                             <p class="mb-2 mb-xl-0">The total number of sessions within the date range.
                                                 It is the period time a user is actively engaged with your website, page
                                                 or app, etc</p>
@@ -372,89 +367,63 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
     <div class="row">
-        <div class="col-md-7 grid-margin stretch-card">
+        <div class="col-md-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
-                    <p class="card-title mb-0">Top Products</p>
+                    <p class="card-title mb-0">Produits phares</p>
                     <div class="table-responsive">
                         <table class="table table-striped table-borderless">
                             <thead>
                                 <tr>
-                                    <th>Product</th>
-                                    <th>Price</th>
-                                    <th>Date</th>
+                                    <th>Produit</th>
+                                    <th>Prix</th>
+                                    <th>Quantité</th>
                                     <th>Status</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>Search Engine Marketing</td>
-                                    <td class="font-weight-bold">$362</td>
-                                    <td>21 Sep 2018</td>
-                                    <td class="font-weight-medium">
-                                        <div class="badge badge-success">Completed</div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Search Engine Optimization</td>
-                                    <td class="font-weight-bold">$116</td>
-                                    <td>13 Jun 2018</td>
-                                    <td class="font-weight-medium">
-                                        <div class="badge badge-success">Completed</div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Display Advertising</td>
-                                    <td class="font-weight-bold">$551</td>
-                                    <td>28 Sep 2018</td>
-                                    <td class="font-weight-medium">
-                                        <div class="badge badge-warning">Pending</div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Pay Per Click Advertising</td>
-                                    <td class="font-weight-bold">$523</td>
-                                    <td>30 Jun 2018</td>
-                                    <td class="font-weight-medium">
-                                        <div class="badge badge-warning">Pending</div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>E-Mail Marketing</td>
-                                    <td class="font-weight-bold">$781</td>
-                                    <td>01 Nov 2018</td>
-                                    <td class="font-weight-medium">
-                                        <div class="badge badge-danger">Cancelled</div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Referral Marketing</td>
-                                    <td class="font-weight-bold">$283</td>
-                                    <td>20 Mar 2018</td>
-                                    <td class="font-weight-medium">
-                                        <div class="badge badge-warning">Pending</div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Social media marketing</td>
-                                    <td class="font-weight-bold">$897</td>
-                                    <td>26 Oct 2018</td>
-                                    <td class="font-weight-medium">
-                                        <div class="badge badge-success">Completed</div>
-                                    </td>
-                                </tr>
+                                @if ($mostOrderedProducts && $mostOrderedProducts->count() > 0)
+                                    @foreach ($mostOrderedProducts as $item)
+                                        <tr>
+                                            <td>{{ ucfirst($item->product->name) }}</td>
+                                            <td class="font-weight-bold">{{ $item->product->price }} FCFA</td>
+                                            <td>{{ $item->product->quantity ?? 'Non renseigné' }}</td>
+                                            <td class="font-weight-medium">
+                                                @if ($item->product->status == '0')
+                                                    <div class="badge badge-success">Illimité</div>
+                                                @elseif ($item->product->status == '1')
+                                                    <div class="badge badge-success">En stock</div>
+                                                @else
+                                                    <div class="badge badge-success">Epuisé</div>
+                                                @endif
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                @else
+                                    <tr>
+                                        <td colspan="4" class="text-center">Aucun produit</td>
+                                    </tr>
+                                @endif
                             </tbody>
                         </table>
                     </div>
                 </div>
+                <div>
+                    @foreach ($monthlyTotals as $total)
+                        <h4>Année : {{ $total->year }}</h4>
+                        <h4>Mois : {{ $total->month_name }}</h4>
+                        <p>Total des Commandes : {{ $total->total_orders }}</p>
+                        <p>Total des Prix : {{ $total->total_price }}</p>
+                    @endforeach
+                </div>
             </div>
         </div>
-        <div class="col-md-5 grid-margin stretch-card">
+        {{-- <div class="col-md-5 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title">To Do Lists</h4>
+                    <h4 class="card-title">Listes de tâches</h4>
                     <div class="list-wrapper pt-2">
                         <ul class="d-flex flex-column-reverse todo-list todo-list-custom">
                             <li>
@@ -466,7 +435,7 @@
                                 </div>
                                 <i class="remove ti-close"></i>
                             </li>
-                            <li class="completed">
+                            <li class="Illimité">
                                 <div class="form-check form-check-flat">
                                     <label class="form-check-label">
                                         <input class="checkbox" type="checkbox" checked>
@@ -484,7 +453,7 @@
                                 </div>
                                 <i class="remove ti-close"></i>
                             </li>
-                            <li class="completed">
+                            <li class="Illimité">
                                 <div class="form-check form-check-flat">
                                     <label class="form-check-label">
                                         <input class="checkbox" type="checkbox" checked>
@@ -511,9 +480,9 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
     </div>
-    <div class="row">
+    {{-- <div class="row">
         <div class="col-md-4 stretch-card grid-margin">
             <div class="card">
                 <div class="card-body">
@@ -659,7 +628,7 @@
                     <ul class="icon-data-list">
                         <li>
                             <div class="d-flex">
-                                <img src="backend/images/faces/face1.jpg" alt="user">
+                                <img src="backend/images/faces/face28.jpg" alt="user">
                                 <div>
                                     <p class="text-info mb-1">Isabella Becker</p>
                                     <p class="mb-0">Sales dashboard have been created</p>
@@ -669,7 +638,7 @@
                         </li>
                         <li>
                             <div class="d-flex">
-                                <img src="backend/images/faces/face2.jpg" alt="user">
+                                <img src="backend/images/faces/face28.jpg" alt="user">
                                 <div>
                                     <p class="text-info mb-1">Adam Warren</p>
                                     <p class="mb-0">You have done a great job #TW111</p>
@@ -679,7 +648,7 @@
                         </li>
                         <li>
                             <div class="d-flex">
-                                <img src="backend/images/faces/face3.jpg" alt="user">
+                                <img src="backend/images/faces/face28.jpg" alt="user">
                                 <div>
                                     <p class="text-info mb-1">Leonard Thornton</p>
                                     <p class="mb-0">Sales dashboard have been created</p>
@@ -689,7 +658,7 @@
                         </li>
                         <li>
                             <div class="d-flex">
-                                <img src="backend/images/faces/face4.jpg" alt="user">
+                                <img src="backend/images/faces/face28.jpg" alt="user">
                                 <div>
                                     <p class="text-info mb-1">George Morrison</p>
                                     <p class="mb-0">Sales dashboard have been created</p>
@@ -699,7 +668,7 @@
                         </li>
                         <li>
                             <div class="d-flex">
-                                <img src="backend/images/faces/face5.jpg" alt="user">
+                                <img src="backend/images/faces/face28.jpg" alt="user">
                                 <div>
                                     <p class="text-info mb-1">Ryan Cortez</p>
                                     <p class="mb-0">Herbs are fun and easy to grow.</p>
@@ -711,8 +680,8 @@
                 </div>
             </div>
         </div>
-    </div>
-    <div class="row">
+    </div> --}}
+    {{-- <div class="row">
         <div class="col-md-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
@@ -740,5 +709,27 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
+@endsection
+@section('customjs')
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Fonction pour récupérer et formater la date actuelle
+            function getCurrentDate() {
+                const today = new Date();
+                const options = {
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric'
+                };
+                return today.toLocaleDateString('en-GB', options); // Ex: "10 Jan 2024"
+            }
+
+            // Mettre à jour le texte du bouton avec la date actuelle
+            document.getElementById('currentDate').textContent = "Today (" + getCurrentDate() + ")";
+
+            const ordersData = @json($monthlyTotals);
+
+        });
+    </script>
 @endsection

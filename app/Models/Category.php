@@ -10,35 +10,41 @@ class Category extends Model
 {
 
     use Sluggable;
+
     protected $fillable = [
-        'image',
-        'thumbnail',
         'name',
         'slug',
         'content',
-        'cat_ust',
-        'status'
+        'category_id'
     ];
 
-    public function items(){
+    // Relation pour obtenir les sous-catégories
+    public function subCategory()
+    {
+        return $this->hasMany(Category::class, 'category_id');
+    }
+
+    // Relation pour obtenir la catégorie parent
+    public function category()
+    {
+        return $this->belongsTo(Category::class, 'category_id');
+    }
+
+    // Relation avec les produits
+    public function products()
+    {
         return $this->hasMany(Product::class, 'category_id', 'id');
     }
 
-    public function subCategory(){
-        return $this->hasMany(Category::class, 'cat_ust', 'id');
-    }
 
-    public function category(){
-        return $this->hasOne(Category::class, 'id', 'cat_ust');
-    }
 
 
     public function getTotalProductCount()
     {
-        $total = $this->items()->count();
+        $total = $this->products()->count();
 
         foreach ($this->subcategory as $childCategory) {
-          $total += $childCategory->items()->count(); // Alt kategorilerdeki ürün sayısını totale ekle
+            $total += $childCategory->products()->count(); // Alt kategorilerdeki ürün sayısını totale ekle
         }
 
         return $total;

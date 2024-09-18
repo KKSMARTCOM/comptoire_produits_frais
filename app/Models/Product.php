@@ -14,18 +14,22 @@ class Product extends Model
         'slug',
         'image',
         'category_id',
-        'short_text',
         'price',
-        'size',
-        'color',
-        'qty',
-        'kdv',
+        'quantity',
         'status',
         'content',
     ];
 
-    public function category(){
-        return $this->hasOne(Category::class, 'id', 'category_id');
+    // Relation avec les catégories
+    public function productCategory()
+    {
+        return $this->belongsTo(Category::class, 'category_id');
+    }
+
+    // Relation avec les packs
+    public function packs()
+    {
+        return $this->belongsToMany(Pack::class, 'pack_product')->withPivot('quantity');
     }
 
     public function sluggable(): array

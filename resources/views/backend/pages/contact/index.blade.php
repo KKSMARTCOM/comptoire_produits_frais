@@ -5,7 +5,7 @@
         <div class="col-lg-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title">Basic Table</h4>
+                    <h4 class="card-title">Liste des contacts</h4>
 
                     @if (session()->get('success'))
                         <div class="alert alert-success">
@@ -17,12 +17,11 @@
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th>Name Surname</th>
-                                    <th>Emailt</th>
-                                    <th>Subject</th>
+                                    <th>Nom du client</th>
+                                    <th>Email</th>
+                                    <th>Objet</th>
                                     <th>Message</th>
                                     <th>Status</th>
-                                    <th>IP</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -32,7 +31,7 @@
                                         <tr class="item" item-id="{{ $contact->id }}">
                                             <td>{{ $contact->name }}</td>
                                             <td>{{ $contact->email ?? '' }}</td>
-                                            <td>{{ $contact->subject ?? '' }}</td>
+                                            <td>{{ $contact->objet ?? '' }}</td>
                                             <td>{!! strLimit($contact->message, 20, route('panel.contact.edit', $contact->id)) !!}</td>
                                             <td>
                                                 <div class="checkbox">
@@ -46,13 +45,38 @@
                                             </td>
                                             <td>{{ $contact->ip ?? '' }}</td>
                                             <td class="d-flex">
-                                                <a href="{{ route('panel.contact.edit', $contact->id) }}"
+                                                {{-- <a href="{{ route('panel.contact.edit', $contact->id) }}"
                                                     class="btn btn-primary mr-2">Edit
-                                                </a>
+                                                </a> --}}
                                                 <button type="button" class="deleteBtn btn btn-danger">Delete</button>
                                             </td>
                                         </tr>
                                     @endforeach
+                                @else
+                                    <tr class="item" item-id="1">
+                                        <td>toto</td>
+                                        <td>toto@gmail.com</td>
+                                        <td>Comment commander</td>
+                                        <td>{!! strLimit(
+                                            'Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste delectus nemo, odit excepturi quae pariatur esse odio deleniti. Nisi, veritatis.',
+                                            20,
+                                            route('panel.contact.edit', 1),
+                                        ) !!}</td>
+                                        <td>
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox" class="durum" data-on="Traité"
+                                                        data-off="Non traité" data-onstyle="success" data-offstyle="danger"
+                                                        data-toggle="toggle" checked>
+                                                </label>
+                                            </div>
+                                        </td>
+                                        <td class="d-flex">
+                                            {{-- <a href="{{ route('panel.contact.edit', 1) }}" class="btn btn-primary mr-2">Edit
+                                            </a> --}}
+                                            <button type="button" class="deleteBtn btn btn-danger">Delete</button>
+                                        </td>
+                                    </tr>
                                 @endif
                             </tbody>
                         </table>
@@ -60,7 +84,7 @@
 
                     <div class="row">
                         <div class="col-lg-12">
-                            {{ $contacts->links('pagination::custom') }}
+                            {{-- {{ $contacts->links('pagination::custom') }} --}}
                         </div>
                     </div>
 

@@ -11,21 +11,25 @@ use Illuminate\Http\Request;
 
 class SliderController extends Controller
 {
-    public function index(){
-        $sliders = Slider::all();
-        return view('backend.pages.slider.index', compact('sliders'));
+    public function index()
+    {
+        //$sliders = Slider::all();
+        return view('backend.pages.slider.index');
     }
 
-    public function create(){
+    public function create()
+    {
         return view('backend.pages.slider.edit');
     }
 
-    public function edit($id){
-        $slider = Slider::where('id', $id)->first();
-        return view('backend.pages.slider.edit', compact('slider'));
+    public function edit($id)
+    {
+        //$slider = Slider::where('id', $id)->first();
+        return view('backend.pages.slider.edit');
     }
 
-    public function store(SliderRequest $request){
+    public function store(SliderRequest $request)
+    {
 
         if ($request->hasFile('image')) {
             $img = $request->file('image');
@@ -47,7 +51,8 @@ class SliderController extends Controller
         // return $request->all();
     }
 
-    public function update(Request $request, $id){
+    public function update(Request $request, $id)
+    {
 
         $slider = Slider::where('id', $id)->firstOrFail();
 
@@ -73,7 +78,8 @@ class SliderController extends Controller
         // return $request->all();
     }
 
-    public function destroy(Request $request){
+    public function destroy(Request $request)
+    {
         $slider = Slider::where('id', $request->id)->firstOrFail();
 
         // bu kısmı helper.php dosyasında fonk oluşturuldu
@@ -86,13 +92,14 @@ class SliderController extends Controller
         dosyasil($slider->image);
 
         $slider->delete();
-        return response(['error'=>false, 'message'=>'Slider deleted successfully']);
+        return response(['error' => false, 'message' => 'Slider deleted successfully']);
     }
 
-    public function status(Request $request){
+    public function status(Request $request)
+    {
         $update = $request->statu;
         $updateCheck = $update == "false" ? '0' : '1';
         Slider::where('id', $request->id)->update(['status' => $updateCheck]);
-        return response(['error'=>false, 'status'=>$update]); // ajax kullanıldığı için response kullanıldı.
+        return response(['error' => false, 'status' => $update]); // ajax kullanıldığı için response kullanıldı.
     }
 }
