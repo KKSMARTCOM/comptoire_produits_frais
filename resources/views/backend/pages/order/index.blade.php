@@ -82,6 +82,9 @@
                                         </tr>
                                     @endforeach
                                 @else
+                                    <tr>
+                                        <td colspan="8">Aucune commande disponible</td>
+                                    </tr>
                                     <tr class="item" item-id="1">
                                         <td>23455678</td>
                                         <td>Toto</td>

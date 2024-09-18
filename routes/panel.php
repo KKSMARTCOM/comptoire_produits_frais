@@ -14,6 +14,7 @@ use App\Http\Controllers\Backend\UserController;
 
 Route::group(['middleware' => ['auth'], 'prefix' => 'panel', 'as' => 'panel.'], function () {
     Route::get('/', [DashboardController::class, 'index'])->name('index');
+    Route::get('/statistics', [DashboardController::class, 'getOrderStatistics'])->name('statistics');
 
     // pack route
     Route::get('/pack', [PackController::class, 'index'])->name('pack.index');

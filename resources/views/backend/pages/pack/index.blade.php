@@ -84,7 +84,9 @@
                                         </tr>
                                     @endforeach
                                 @else
-                                    <p>Aucun coffret disponible</p>
+                                    <tr>
+                                        <td colspan="5">Aucun coffret disponible</td>
+                                    </tr>
                                 @endif
                             </tbody>
                         </table>

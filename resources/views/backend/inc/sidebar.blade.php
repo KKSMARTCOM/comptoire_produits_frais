@@ -63,12 +63,12 @@
             </a>
         </li>
 
-        <li class="nav-item {{ request()->routeIs('panel.contact.index') ? 'active' : '' }}">
+        {{-- <li class="nav-item {{ request()->routeIs('panel.contact.index') ? 'active' : '' }}">
             <a class="nav-link" href="{{ route('panel.contact.index') }}">
                 <i class="icon-grid menu-icon"></i>
                 <span class="menu-title">Contact</span>
             </a>
-        </li>
+        </li> --}}
         {{-- <li
             class="nav-item {{ request()->routeIs('panel.setting.index') || request()->routeIs('panel.setting.create') ? 'active' : '' }}">
             <a class="nav-link" href="{{ route('panel.setting.index') }}">

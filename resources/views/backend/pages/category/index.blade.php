@@ -49,7 +49,9 @@
                             </table>
                         </div>
                     @else
-                        <h3 class="text-center">Aucune donnée</h3>
+                        <tr>
+                            <td colspan="4">Aucune catégorie disponible</td>
+                        </tr>
                     @endif
                 </div>
             </div>
