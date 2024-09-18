@@ -29,7 +29,7 @@
                 <i class="icon-layout menu-icon"></i>
                 <span class="menu-title">Promotions</span>
             </a>
-        </li> --}}
+        </li>
         <li
             class="nav-item {{ request()->routeIs('panel.pack.index') || request()->routeIs('panel.pack.edit') ? 'active' : '' }}">
             <a class="nav-link" href="{{ route('panel.pack.index') }}">
