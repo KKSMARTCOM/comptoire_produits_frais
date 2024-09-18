@@ -22,18 +22,12 @@
                 <span class="menu-title">Produits</span>
                 {{-- <i class="menu-arrow"></i> --}}
             </a>
-            {{-- <div class="collapse" id="ui-basic">
-                <ul class="nav flex-column sub-menu">
-                    <li class="nav-item"> <a class="nav-link" href="{{ route('panel.slider.index') }}">Slider</a></li>
-                    <li class="nav-item"> <a class="nav-link" href="{{ route('panel.slider.create') }}">Add Slider</a>
-                    </li>
-                </ul>
-            </div> --}}
         </li>
-        {{-- <li class="nav-item {{ request()->routeIs('panel.category.index') ? 'active' : '' }}">
-            <a class="nav-link" href="{{ route('panel.category.index') }}">
+
+        <li class="nav-item {{ request()->routeIs('panel.promotions.index') ? 'active' : '' }}">
+            <a class="nav-link" href="{{ route('panel.promotions.index') }}">
                 <i class="icon-layout menu-icon"></i>
-                <span class="menu-title">Produits</span>
+                <span class="menu-title">Promotions</span>
             </a>
         </li> --}}
         <li
@@ -50,12 +44,7 @@
                 <span class="menu-title">Commandes</span>
             </a>
         </li>
-        {{-- <li class="nav-item {{ request()->routeIs('panel.user.index') || request()->routeIs('panel.user.update') ? 'active' : '' }}">
-            <a class="nav-link" href="{{ route('panel.user.index') }}">
-                <i class="icon-grid menu-icon"></i>
-                <span class="menu-title">Utilisateurs</span>
-            </a>
-        </li> --}}
+
         <li class="nav-item {{ request()->routeIs('panel.user.index') ? 'active' : '' }}">
             <a class="nav-link" href="{{ route('panel.user.index') }}">
                 <i class="icon-layout menu-icon"></i>
