@@ -12,7 +12,7 @@
             <input type="number" name="pourcentage_reduction" class="form-control" min="0" max="100" required>
         </div>
 
-        <button type="submit" class="btn btn-success">Enregistrer</button>
+        <button type="submit" class="btn btn-success" style="background-color: #004200;">Enregistrer</button>
         <a href="{{ route('panel.promotions.index') }}" class="btn btn-light" style="background-color: #d8d8e4 !important;">Fermer</a>
     </form>
 </div>

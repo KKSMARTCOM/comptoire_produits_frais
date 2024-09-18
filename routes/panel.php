@@ -37,7 +37,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'panel', 'as' => 'panel.'], 
     Route::post('/user/store', [UserController::class, 'store'])->name('user.store');
     Route::get('/user/{id}/edit', [UserController::class, 'edit'])->name('user.edit');
     Route::get('/user/{id}/show', [UserController::class, 'show'])->name('user.show');
-    Route::post('/user{id}/update', [UserController::class, 'update'])->name('user.update');
+    Route::put('/user{id}/update', [UserController::class, 'update'])->name('user.update');
     Route::delete('/user{id}/destroy', [UserController::class, 'destroy'])->name('user.destroy');
 
     // contact route

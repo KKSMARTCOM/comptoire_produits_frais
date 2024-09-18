@@ -1,4 +1,5 @@
 <nav class="sidebar sidebar-offcanvas" id="sidebar">
+    
     <ul class="nav">
         <li class="nav-item {{ request()->routeIs('panel.index') ? 'active' : '' }}">
             <a class="nav-link" href="{{ route('panel.index') }}">
