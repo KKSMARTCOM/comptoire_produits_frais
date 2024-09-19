@@ -165,12 +165,12 @@
                                         </td>
                                         <td class="d-flex">
                                             <!-- Lien pour modifier avec une icône de crayon -->
-                                            <a href="{{ route('panel.slider.edit', 1) }}"
+                                            <a href="{{ route('panel.product.edit', 1) }}"
                                                 class="btn btn-primary mr-2 btn-icon">
                                                 <span class="fas fa-edit"></span>
                                             </a>
                                             <!-- Formulaire pour supprimer avec une icône de corbeille -->
-                                            <form action="{{ route('panel.slider.destroy', 1) }}" method="POST"
+                                            <form action="{{ route('panel.product.destroy', 1) }}" method="POST"
                                                 class="d-inline">
                                                 @csrf
                                                 @method('DELETE')

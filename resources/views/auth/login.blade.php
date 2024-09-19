@@ -11,50 +11,41 @@
                 <!-- Application Title -->
                 <span class="mt-2">{{ config('COMPTOIR DES PRODUITS FRAIS') }}</span>
             </a>
-
-            @if (session('error'))
-                <small style="color: red" class="alert alert-danger">
-                    {{ session('error') }}
-                </small>
-            @endif
-
+            <br>
             <div class="card-body">
                 <form method="POST" action="{{ route('login') }}">
                     @csrf
 
                     <!-- Email -->
                     <div class="form-group">
-                        <label for="email">{{ __('Email') }}</label>
-                        <div><input id="email" type="email" class="form-control @error('email') is-invalid @enderror"
-                                name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
-                        </div>
+                        <input id="email" type="email" class="form-control w-100 @error('email') is-invalid @enderror"
+                            name="email" value="{{ old('email') }}" required autocomplete="email" autofocus
+                            placeholder="Email">
                         @error('email')
-                            <small style="color: red" class="invalid-feedback">{{ $message }}</small>
+                            <span class="invalid-feedback">{{ $message }}</span>
                         @enderror
                     </div>
-
+                    <br>
                     <!-- Password -->
                     <div class="form-group">
-                        <label for="password">{{ __('Mot de passe') }}</label>
-                        <div><input id="password" type="password"
-                                class="form-control @error('password') is-invalid @enderror" name="password" required>
-                        </div>
+                        <input id="password" type="password"
+                            class="form-control w-100 @error('password') is-invalid @enderror" name="password" required
+                            placeholder="Mot de passe">
                         @error('password')
-                            <small style="color: red" class="invalid-feedback">{{ $message }}</small>
+                            <span class="invalid-feedback">{{ $message }}</span>
                         @enderror
                     </div>
 
-                    <!-- Remember Me -->
-                    <div class="form-group form-check">
-                        <input class="form-check-input" type="checkbox" name="remember" id="remember"
-                            {{ old('remember') ? 'checked' : '' }}>
-                        <label class="form-check-label" for="remember">
-                            {{ __('Se souvenir de moi') }}
-                        </label>
-                    </div>
+                    <!-- Remember Me and Forgot Password on the Same Line -->
+                    <div class="form-group d-flex justify-content-between align-items-center">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="remember" id="remember"
+                                {{ old('remember') ? 'checked' : '' }}>
+                            <label class="form-check-label" for="remember">
+                                {{ __('Se souvenir de moi') }}
+                            </label>
+                        </div>
 
-                    <!-- Forgot Password -->
-                    <div class="form-group">
                         @if (Route::has('password.request'))
                             <a class="btn btn-link" href="{{ route('password.request') }}">
                                 {{ __('Mot de passe oublié?') }}
@@ -63,45 +54,65 @@
                     </div>
 
                     <!-- Submit Button -->
-                    <button type="submit" class="btn btn-primary">
+                    <button type="submit" class="btn btn-primary mb-3" id="connecter">
                         {{ __('Se connecter') }}
                     </button>
                 </form>
             </div>
         </div>
-    </div>
 
-    <!-- Styles to center and style the login form -->
-    <style>
-        .login-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: #f4f4f4;
-        }
+        <!-- Styles to center and style the login form -->
+        <style>
+            .login-container {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+                background-color: #f4f4f4;
+            }
 
-        .card {
-            width: 100%;
-            max-width: 400px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
-            padding: 20px;
-            background-color: white;
-        }
+            .card {
+                width: 100%;
+                max-width: 400px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                border-radius: 8px;
+                padding: 20px;
+                background-color: white;
+            }
 
-        .navbar-brand {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
+            .navbar-brand {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
 
-        .form-group {
-            margin-bottom: 1rem;
-        }
+            .form-group {
+                margin-bottom: 1rem;
+                font-size: 22px;
+            }
 
-        .btn {
-            width: 100%;
-        }
-    </style>
-@endsection
+            .btn {
+                width: 100%;
+                font-size: 22px;
+            }
+
+            #email {
+                width: 100%;
+                font-size: 22px;
+                font-family: asen pro;
+            }
+
+            #password {
+                width: 100%;
+                font-size: 22px;
+                font-family: asen pro;
+            }
+
+            #connecter {
+                background-color: #004200;
+                border-radius: 10%;
+                color: white;
+                font-family: asen pro;
+            }
+        </style>
+    @endsection
