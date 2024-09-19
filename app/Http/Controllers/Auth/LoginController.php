@@ -41,15 +41,16 @@ class LoginController extends Controller
     }
 
 
-    /* protected function authenticated(Request $request, $user)
+    protected function authenticated(Request $request, $user)
     {
-        if ($user->isSuperAdmin()) {
-            return redirect()->route('superadmin.dashboard');
-        } elseif ($user->isAdmin()) {
-            return redirect()->route('admin.dashboard');
+        if ($user->status != 0) { // Assure-toi que 'is_active' est le nom de la colonne pour le statut de l'utilisateur
+            Auth::logout(); // Déconnecte l'utilisateur
+            return redirect('/login')->with('error', 'Votre compte est inactif. Veuillez contacter l\'administrateur.');
         }
-        return redirect('/panel'); // ou une autre route par défaut
-    } */
+
+        // Redirige vers la page prévue après la connexion
+        return redirect()->intended($this->redirectTo); // ou une autre route par défaut
+    }
 
     // Méthode de déconnexion personnalisée
     public function logout(Request $request)

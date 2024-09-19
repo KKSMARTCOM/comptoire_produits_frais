@@ -64,6 +64,23 @@
                                 caractères atteint</small>
                         </div>
 
+                        {{-- Un truc compliqué à faire ici --}}
+
+                        @if ($products)
+                            <div class="form-group">
+                                <label for="content">Catégorie</label>
+                                <select class="form-control" name="products[]">
+                                    <option value="">Sélectionner la catégorie</option>
+                                    @foreach ($products as $item)
+                                        <option value="{{ $item['id'] }}"
+                                            {{ isset($pack) && $pack->products->contains($item->id) ? 'selected' : '' }}>
+                                            {{ $item->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        @endif
+
                         @if ($products)
                             <div class="form-group">
                                 <label for="content">Produits</label>

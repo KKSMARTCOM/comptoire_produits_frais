@@ -76,7 +76,7 @@ class DashboardController extends Controller
             ->groupBy(DB::raw('MONTH(created_at)'))
             ->get()
             ->map(function ($item) {
-                $item->month_name = date('F', mktime(0, 0, 0, $item->month, 10)); // Nom du mois
+                $item->month_name = getMonthName($item->month); // Nom du mois
                 return $item;
             });
 

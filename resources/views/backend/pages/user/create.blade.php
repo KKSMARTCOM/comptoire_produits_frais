@@ -5,7 +5,7 @@
         <div class="col-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title">Créer un utilisateur</h4>
+                    <h4 class="card-title">Ajouter un utilisateur</h4>
 
                     @if ($errors->any())
                         <div class="alert alert-danger">
@@ -21,12 +21,14 @@
                         </div>
                     @endif
 
-                    <form class="forms-sample" action="{{ route('panel.user.store') }}" method="POST" enctype="multipart/form-data">
+                    <form class="forms-sample" action="{{ route('panel.user.store') }}" method="POST"
+                        enctype="multipart/form-data">
                         @csrf
 
                         <div class="form-group">
                             <label for="name">Nom d'utilisateur</label>
-                            <input type="text" class="form-control" id="name" name="name" placeholder="Nom d'utilisateur">
+                            <input type="text" class="form-control" id="name" name="name"
+                                placeholder="Nom d'utilisateur">
                         </div>
 
                         <div class="form-group">
@@ -36,15 +38,16 @@
 
                         <div class="form-group">
                             <label for="password">Mot de passe</label>
-                            <input type="password" class="form-control" id="password" name="password" placeholder="Mot de passe">
+                            <input type="password" class="form-control" id="password" name="password"
+                                placeholder="Mot de passe">
                         </div>
 
                         <div class="form-group">
                             <label for="is_admin">Rôle</label>
-                            <select class="form-control @error('is_admin') is-invalid @enderror" required id="is_admin" name="is_admin">
-                                <option value="0" {{ old('is_admin') == 0 ? 'selected' : '' }}>Utilisateur</option>
-                                <option value="1" {{ old('is_admin') == 1 ? 'selected' : '' }}>Administrateur</option>
-                                <option value="2" {{ old('is_admin') == 2 ? 'selected' : '' }}>Super Administrateur</option>
+                            <select class="form-control @error('is_admin') is-invalid @enderror" required id="is_admin"
+                                name="is_admin">
+                                <option value="0" {{ old('is_admin') == 0 ? 'selected' : '' }}>Administrateur</option>
+                                <option value="1" {{ old('is_admin') == 1 ? 'selected' : '' }}>Utilisateur</option>
                             </select>
                             @error('is_admin')
                                 <span class="invalid-feedback" role="alert">

@@ -29,40 +29,57 @@
                         </div>
                     @endif
 
-                    <form class="forms-sample" action="{{ isset($user) ? route('panel.user.update', $user->id) : route('panel.user.store') }}" method="POST" enctype="multipart/form-data">
-
+                    <form class="forms-sample" action="{{ route('panel.user.update', $user->id) }}" method="POST"
+                        enctype="multipart/form-data">
 
                         @csrf
-                        @if(isset($user))
+                        @if (isset($user))
                             @method('PUT') <!-- Utilisé pour les mises à jour -->
                         @endif
 
                         <div class="form-group">
                             <label for="name">Nom d'utilisateur</label>
-                            <input type="text" class="form-control" id="name" value="{{ $user->name ?? '' }}" name="name" placeholder="Nom d'utilisateur">
+                            <input type="text" class="form-control" id="name" value="{{ $user->name ?? '' }}"
+                                name="name" placeholder="Nom d'utilisateur">
                         </div>
 
                         <div class="form-group">
                             <label for="email">Email</label>
-                            <input type="email" class="form-control" id="email" value="{{ $user->email ?? '' }}" name="email" placeholder="Email">
+                            <input type="email" class="form-control" id="email" value="{{ $user->email ?? '' }}"
+                                name="email" placeholder="Email">
                         </div>
 
-                        @if(!isset($user)) 
+                        @if (!isset($user))
                             <div class="form-group">
                                 <label for="password">Mot de passe</label>
-                                <input type="password" class="form-control" id="password" name="password" placeholder="Mot de passe">
+                                <input type="password" class="form-control" id="password" name="password"
+                                    placeholder="Mot de passe">
                             </div>
                         @endif
 
                         <div class="form-group">
                             <label for="is_admin">Rôle</label>
                             <select class="form-control" id="is_admin" name="is_admin">
-                                <option value="0" {{ isset($user) && $user->is_admin == 0 ? 'selected' : '' }}>Admin</option>
-                                <option value="1" {{ isset($user) && $user->is_admin == 1 ? 'selected' : '' }}>Super Admin</option>
+                                <option value="0" {{ isset($user) && $user->is_admin == 0 ? 'selected' : '' }}>
+                                    Administrateur
+                                </option>
+                                <option value="1" {{ isset($user) && $user->is_admin == 1 ? 'selected' : '' }}>
+                                    Utilisateur</option>
                             </select>
                         </div>
 
-                        <button type="submit" class="btn btn-primary mr-2">Enregistrer</button>
+                        <div class="form-group">
+                            <label for="status">Statut</label>
+                            <select class="form-control" id="status" name="status">
+                                <option value="0" {{ isset($user) && $user->status == '0' ? 'selected' : '' }}>
+                                    Actif
+                                </option>
+                                <option value="1" {{ isset($user) && $user->status == '1' ? 'selected' : '' }}>
+                                    Inactif</option>
+                            </select>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary mr-2">Mettre à jour</button>
                         <a href="{{ route('panel.user.index') }}" class="btn btn-light">Fermer</a>
                     </form>
                 </div>

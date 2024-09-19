@@ -88,13 +88,13 @@
                     <p class="card-title">Détails des commandes</p>
                     {{-- <p class="font-weight-500">The total number of sessions within the date range. It is the period time
                         a user is actively engaged with your website, page or app, etc</p> --}}
-                    <label for="year">Choisissez l'année :</label>
-                    <select id="year" name="year">
+                    <label for="order-year">Choisissez l'année :</label>
+                    <select id="order-year" name="order-year">
                         @for ($i = 2023; $i <= date('Y'); $i++)
                             <option value="{{ $i }}">{{ $i }}</option>
                         @endfor
                     </select>
-                    <div class="d-flex flex-wrap mb-5">
+                    {{-- <div class="d-flex flex-wrap mb-5">
                         <div class="mr-4 mt-3">
                             <p class="text-muted">Valeur des commandes</p>
                             <h3 class="text-primary fs-30 font-weight-medium">12.3k</h3>
@@ -107,11 +107,7 @@
                             <p class="text-muted">Utilisateurs</p>
                             <h3 class="text-primary fs-30 font-weight-medium">71.56%</h3>
                         </div>
-                        {{-- <div class="mt-3">
-                            <p class="text-muted">Downloads</p>
-                            <h3 class="text-primary fs-30 font-weight-medium">34040</h3>
-                        </div> --}}
-                    </div>
+                    </div> --}}
                     <canvas id="order-chart"></canvas>
                 </div>
             </div>
@@ -123,9 +119,15 @@
                         <p class="card-title">Rapport de ventes</p>
                         {{-- <a href="#" class="text-info">View all</a> --}}
                     </div>
+                    <label for="sale-year">Choisissez l'année :</label>
+                    <select id="sale-year" name="sale-year">
+                        @for ($i = 2023; $i <= date('Y'); $i++)
+                            <option value="{{ $i }}">{{ $i }}</option>
+                        @endfor
+                    </select>
                     {{-- <p class="font-weight-500">The total number of sessions within the date range. It is the period time
                         a user is actively engaged with your website, page or app, etc</p> --}}
-                    <div id="sales-legend" class="chartjs-legend mt-4 mb-2"></div>
+                    {{-- <div id="sales-legend" class="chartjs-legend mt-4 mb-2"></div> --}}
                     <canvas id="sales-chart"></canvas>
                 </div>
             </div>
@@ -409,14 +411,6 @@
                             </tbody>
                         </table>
                     </div>
-                </div>
-                <div>
-                    @foreach ($monthlyTotals as $total)
-                        <h4>Année : {{ $total->year }}</h4>
-                        <h4>Mois : {{ $total->month_name }}</h4>
-                        <p>Total des Commandes : {{ $total->total_orders }}</p>
-                        <p>Total des Prix : {{ $total->total_price }}</p>
-                    @endforeach
                 </div>
             </div>
         </div>
@@ -728,8 +722,167 @@
             // Mettre à jour le texte du bouton avec la date actuelle
             document.getElementById('currentDate').textContent = "Today (" + getCurrentDate() + ")";
 
-            const ordersData = @json($monthlyTotals);
+
+
 
         });
+        const months = @json($monthlyTotals->pluck('month_name'));
+        const totalOrders = @json($monthlyTotals->pluck('total_orders'));
+        const totalPrices = @json($monthlyTotals->pluck('total_price'));
+
+        console.log(totalOrders);
+
+        if ($("#order-chart").length) {
+            var areaData = {
+                labels: ['Janvier', 'Fevrier', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre',
+                    'Octobre', 'Novembre', 'Décembre'
+                ],
+                datasets: [{
+                    label: 'Nombre de Commandes',
+                    data: [0, 20, 15, 35, 70, 54, 58, 12, 80, 25, 60, 45],
+                    borderColor: [
+                        '#4747A1'
+                    ],
+                    borderWidth: 2,
+                    fill: false,
+                }, ]
+            };
+
+            var areaOptions = {
+                responsive: true,
+                maintainAspectRatio: true,
+                plugins: {
+                    filler: {
+                        propagate: false
+                    }
+                },
+                scales: {
+                    xAxes: [{
+                        display: true,
+                        ticks: {
+                            display: true,
+                            padding: 10,
+                            fontColor: "#6C7383"
+                        },
+                        gridLines: {
+                            display: false,
+                            drawBorder: false,
+                            color: 'transparent',
+                            zeroLineColor: '#eeeeee'
+                        }
+                    }],
+                    yAxes: [{
+                        display: true,
+                        ticks: {
+                            display: true,
+                            autoSkip: false,
+                            maxRotation: 0,
+                            stepSize: 10,
+                            min: 0,
+                            max: 100,
+                            padding: 18,
+                            fontColor: "#6C7383"
+                        },
+                        gridLines: {
+                            display: true,
+                            color: "#f2f2f2",
+                            drawBorder: false
+                        }
+                    }]
+                },
+                legend: {
+                    display: false
+                },
+                tooltips: {
+                    enabled: true
+                },
+                elements: {
+                    line: {
+                        tension: .35
+                    },
+                    point: {
+                        radius: 0
+                    }
+                }
+            }
+
+            var ordersChartCanvas = $("#order-chart").get(0).getContext("2d");
+            var ordersChart = new Chart(ordersChartCanvas, {
+                type: 'line',
+                data: areaData,
+                options: areaOptions
+            });
+            document.getElementById('order-chart').innerHTML = ordersChart.generateLegend();
+        }
+
+        if ($("#sales-chart").length) {
+            var SalesChartCanvas = $("#sales-chart").get(0).getContext("2d");
+            var SalesChart = new Chart(SalesChartCanvas, {
+                type: 'bar',
+                data: {
+                    labels: ["Jan", "Feb", "Mar", "Apr", "May"],
+                    datasets: [{
+                        label: 'Chiffres d\'affaire',
+                        data: [480000, 230000, 470000, 210000, 330000],
+                        backgroundColor: '#98BDFF'
+                    }]
+                },
+                options: {
+                    cornerRadius: 5,
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    layout: {
+                        padding: {
+                            left: 0,
+                            right: 0,
+                            top: 20,
+                            bottom: 0
+                        }
+                    },
+                    scales: {
+                        yAxes: [{
+                            display: true,
+                            gridLines: {
+                                display: true,
+                                drawBorder: false,
+                                color: "#F2F2F2"
+                            },
+                            ticks: {
+                                display: true,
+                                min: 0,
+                                max: 800000,
+                                callback: function(value, index, values) {
+                                    return value + ' F';
+                                },
+                                autoSkip: true,
+                                maxTicksLimit: 10,
+                                fontColor: "#6C7383"
+                            }
+                        }],
+                        xAxes: [{
+                            stacked: false,
+                            ticks: {
+                                beginAtZero: true,
+                                fontColor: "#6C7383"
+                            },
+                            gridLines: {
+                                color: "rgba(0, 0, 0, 0)",
+                                display: false
+                            },
+                            barPercentage: 1
+                        }]
+                    },
+                    legend: {
+                        display: false
+                    },
+                    elements: {
+                        point: {
+                            radius: 0
+                        }
+                    }
+                },
+            });
+            document.getElementById('sales-legend').innerHTML = SalesChart.generateLegend();
+        }
     </script>
 @endsection

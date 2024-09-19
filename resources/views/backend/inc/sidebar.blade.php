@@ -23,22 +23,23 @@
                 {{-- <i class="menu-arrow"></i> --}}
             </a>
         </li>
-
-        <li class="nav-item {{ request()->routeIs('panel.promotions.index') ? 'active' : '' }}">
-            <a class="nav-link" href="{{ route('panel.promotions.index') }}">
-                <i class="icon-layout menu-icon"></i>
-                <span class="menu-title">Promotions</span>
-            </a>
-        </li>
+        @if (auth()->user()->hasRole('admin'))
+            <li class="nav-item {{ request()->routeIs('panel.promotions.index') ? 'active' : '' }}">
+                <a class="nav-link" href="{{ route('panel.promotions.index') }}">
+                    <i class="icon-layout menu-icon"></i>
+                    <span class="menu-title">Promotions</span>
+                </a>
+            </li>
+        @endif
         <li
-            class="nav-item {{ request()->routeIs('panel.pack.index') || request()->routeIs('panel.pack.edit') ? 'active' : '' }}">
+            class="nav-item {{ request()->routeIs('panel.pack.index') || request()->routeIs('panel.pack.edit') || request()->routeIs('panel.pack.create') ? 'active' : '' }}">
             <a class="nav-link" href="{{ route('panel.pack.index') }}">
                 <i class="icon-layout menu-icon"></i>
                 <span class="menu-title">Coffrets</span>
             </a>
         </li>
         <li
-            class="nav-item {{ request()->routeIs('panel.order.index') || request()->routeIs('panel.order.edit') ? 'active' : '' }}">
+            class="nav-item {{ request()->routeIs('panel.order.index') || request()->routeIs('panel.order.edit') || request()->routeIs('panel.order.show') ? 'active' : '' }}">
             <a class="nav-link" href="{{ route('panel.order.index') }}">
                 <i class="icon-layout menu-icon"></i>
                 <span class="menu-title">Commandes</span>

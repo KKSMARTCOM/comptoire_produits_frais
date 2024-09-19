@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Backend;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-
+use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
@@ -13,7 +13,7 @@ class UserController extends Controller
     // Afficher la liste des utilisateurs  (index)
     public function index()
     {
-        $users = User::all(); // Récupérer tous les utilisateurs
+        $users = User::where('email', '!=', 'superadmin@gmail.com')->get(); // Récupérer tous les utilisateurs
         return view('backend.pages.user.index', compact('users')); // Assurez-vous que le chemin de la vue est correct
     }
 
@@ -22,6 +22,7 @@ class UserController extends Controller
     // Afficher le formulaire de création (create)
     public function create()
     {
+        //$roles = Role::were('name', '=!', 'superadmin');
         return view('backend.pages.user.create');
     }
 
@@ -40,18 +41,14 @@ class UserController extends Controller
         $user->email = $request->email;
         $user->password = bcrypt($request->password);
 
-        // Vérifiez et attribuez le bon rôle
-        /* if ($request->input('is_admin') == 2) {
-            $user->is_admin = 2; // Super Administrateur
-        } elseif ($request->input('is_admin') == 1) {
-            $user->is_admin = 1; // Administrateur
-        } else {
-            $user->is_admin = 0; // Utilisateur simple
-        } */
 
         $user->save();
-
-        $user->assignRole('admin');
+        // Vérifiez et attribuez le bon rôle
+        if ($request->input('is_admin') == 0) {
+            $user->assignRole('admin'); // Administrateur
+        } else {
+            $user->assignRole('utilisateur'); // Utilisateur simple
+        }
 
         return redirect()->route('panel.user.index')->with('success', 'Utilisateur créé avec succès.');
     }
@@ -106,14 +103,15 @@ class UserController extends Controller
         $user = User::findOrFail($id);
         $user->name = $request->name;
         $user->email = $request->email;
+        $user->status = $request->status;
 
         // Vérifiez et mettez à jour le bon rôle
-        if ($request->input('is_admin') == 2) {
-            $user->is_admin = 2; // Super Administrateur
-        } elseif ($request->input('is_admin') == 1) {
-            $user->is_admin = 1; // Administrateur
+        if ($request->input('is_admin') == 0) {
+            $user->is_admin = 0;
+            $user->assignRole('admin'); // Super Administrateur
         } else {
-            $user->is_admin = 0; // Utilisateur simple
+            $user->is_admin = 1;
+            $user->assignRole('utilisateur'); // Utilisateur simple
         }
 
         if ($request->filled('password')) {

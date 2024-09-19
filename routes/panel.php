@@ -37,7 +37,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'panel', 'as' => 'panel.'], 
     Route::post('/user/store', [UserController::class, 'store'])->name('user.store');
     Route::get('/user/{id}/edit', [UserController::class, 'edit'])->name('user.edit');
     Route::get('/user/{id}/show', [UserController::class, 'show'])->name('user.show');
-    Route::post('/user{id}/update', [UserController::class, 'update'])->name('user.update');
+    Route::put('/user{id}/update', [UserController::class, 'update'])->name('user.update');
     Route::delete('/user{id}/destroy', [UserController::class, 'destroy'])->name('user.destroy');
 
     // contact route
@@ -71,6 +71,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'panel', 'as' => 'panel.'], 
     // order route
     Route::get('/order', [OrderController::class, 'index'])->name('order.index');
     Route::get('/order/{id}/edit', [OrderController::class, 'edit'])->name('order.edit');
+    Route::get('/order/{id}/show', [OrderController::class, 'show'])->name('order.show');
     Route::put('/order/{id}/update', [OrderController::class, 'update'])->name('order.update');
     Route::delete('/order/destroy', [OrderController::class, 'destroy'])->name('order.destroy');
     Route::post('/order-status/update', [OrderController::class, 'status'])->name('order.status');

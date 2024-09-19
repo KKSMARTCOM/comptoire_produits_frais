@@ -26,7 +26,7 @@
                                 <tr>
                                     <th>Nom</th>
                                     <th>Description</th>
-                                    <th>Libellé</th>
+                                    <th>Catégorie</th>
                                     <th>Prix</th>
                                     <th>Quantité</th>
                                     <th>Image</th>
@@ -43,7 +43,7 @@
                                         <tr class="item" item-id="{{ $product->id }}">
                                             <td>{{ ucfirst($product->name) }}</td>
                                             <td>{{ Str::Limit(ucfirst($product->content), 50) ?? '/' }}</td>
-                                            <td>{{ $product->productCategory->name }}</td>
+                                            <td>{{ ucfirst($product->productCategory->name) }}</td>
                                             <td>{{ $product->price }}</td>
                                             <td>{{ $product->quantity }}</td>
                                             <td class="">
@@ -66,8 +66,14 @@
                                                             {{ $slider->status == '1' ? 'checked' : '' }}>
                                                     </label>
                                                 </div> --}}
-                                                <div class="form-group">
-                                                    <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                                                @if ($product->status == '0')
+                                                    <div class="badge badge-success">Illimité</div>
+                                                @elseif ($product->status == '1')
+                                                    <div class="badge badge-warning">En stock</div>
+                                                @else
+                                                    <div class="badge badge-danger">Épuisé</div>
+                                                @endif
+                                                {{-- <div class="btn-group btn-group-toggle" data-toggle="buttons">
                                                         <label
                                                             class="btn btn-success {{ $product->status == 'illimite' ? 'active' : '' }}">
                                                             <input type="radio" name="status" value="0"
@@ -88,9 +94,7 @@
                                                                 id="optionEpuise" autocomplete="off" class="durum"
                                                                 {{ $product->status == '2' ? 'checked' : '' }}> Épuisé
                                                         </label>
-                                                    </div>
-                                                </div>
-
+                                                    </div> --}}
                                             </td>
                                             <td class="d-flex">
                                                 <!-- Lien pour modifier avec une icône de crayon -->

@@ -140,10 +140,11 @@
                             <select name="status" id="status" class="form-control">
                                 <option value="0" {{ $status == '0' ? 'selected' : '' }}>Illimité</option>
                                 <option value="1" {{ $status == '1' ? 'selected' : '' }}>En stock</option>
+                                <option value="2" {{ $status == '2' ? 'selected' : '' }}>Épuisé</option>
                             </select>
                         </div>
                         <button type="submit" class="btn btn-primary mr-2"
-                            style="background-color: #004200 !important">Enregistrer</button>
+                            style="background-color: #004200 !important">{{ isset($product) ? 'Mettre à jour' : 'Enregistrer' }}</button>
                         <a href="{{ route('panel.product.index') }}" class="btn btn-light">Fermer</a>
                     </form>
                 </div>

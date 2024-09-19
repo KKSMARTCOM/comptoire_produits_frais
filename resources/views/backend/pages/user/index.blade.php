@@ -6,25 +6,30 @@
             <div class="card">
                 <div class="card-body">
                     <h4 class="card-title">Liste des utilisateurs</h4>
-                    <p class="card-description">
-                        <a href="{{ route('panel.user.create') }}" class="btn btn-primary">Créer un utilisateur</a>
-                    </p>
+                    @if (auth()->user()->hasRole('admin') || auth()->user()->hasRole('superadmin'))
+                        <p class="card-description">
+                            <a href="{{ route('panel.user.create') }}" class="btn btn-primary">Ajouter un utilisateur</a>
+                        </p>
+                    @endif
                     <div class="table-responsive">
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th>ID</th>
+                                    {{-- <th>ID</th> --}}
                                     <th>Nom</th>
                                     <th>Email</th>
                                     <th>Rôle</th>
-                                    <th>Actions</th>
+                                    <th>Statut</th>
+                                    @if (auth()->user()->hasRole('admin'))
+                                        <th>Actions</th>
+                                    @endif
                                 </tr>
                             </thead>
                             <tbody>
                                 @if (isset($users) && $users->isNotEmpty())
                                     @foreach ($users as $user)
                                         <tr>
-                                            <td>{{ $user->id }}</td>
+                                            {{-- <td>{{ $user->id }}</td> --}}
                                             <td>{{ $user->name }}</td>
                                             <td>{{ $user->email }}</td>
                                             <td>
@@ -37,7 +42,14 @@
                                                 @endif
                                             </td>
                                             <td>
-                                                @if ($user->hasRole('admin'))
+                                                @if ($user->status == '0')
+                                                    <div class="badge badge-success">Actif</div>
+                                                @else
+                                                    <div class="badge badge-danger">Inactif</div>
+                                                @endif
+                                            </td>
+                                            <td>
+                                                @if (auth()->user()->hasRole('admin'))
                                                     <a href="{{ route('panel.user.edit', $user->id) }}"
                                                         class="btn btn-warning">
                                                         <i class="fas fa-edit"></i> <!-- Icône d'édition -->

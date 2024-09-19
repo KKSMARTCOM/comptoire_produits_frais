@@ -20573,6 +20573,7 @@ code {
   line-height: 1;
   padding: .375rem .5625rem;
   font-weight: normal;
+  width: 80px;
 }
 
 .badge.badge-pill {

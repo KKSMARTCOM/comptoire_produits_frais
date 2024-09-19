@@ -11,7 +11,7 @@ use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable; 
+    use HasApiTokens, HasFactory, Notifiable;
     use HasRoles;
 
     /**
@@ -52,7 +52,4 @@ class User extends Authenticatable
     {
         return $this->is_admin === 1;
     }
-
 }
-
-

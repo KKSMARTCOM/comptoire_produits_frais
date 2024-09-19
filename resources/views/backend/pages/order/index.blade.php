@@ -43,14 +43,11 @@
                                             <td>{!! strLimit($order->address, 20, route('panel.order.edit', $order->id)) !!}</td>
                                             <td>{{ $order->order_items_count ?? '' }}</td>
                                             <td>
-                                                <div class="checkbox">
-                                                    <label>
-                                                        <input type="checkbox" class="durum" data-on="Livrée"
-                                                            data-off="En cours" data-onstyle="success"
-                                                            data-offstyle="danger" data-toggle="toggle"
-                                                            {{ $order->status == '1' ? 'checked' : '' }}>
-                                                    </label>
-                                                </div>
+                                                @if ($order->status == '0')
+                                                    <div class="badge badge-warning">En cours</div>
+                                                @else
+                                                    <div class="badge badge-success">Livré</div>
+                                                @endif
                                             </td>
                                             {{-- <td>{{ $order->product }}</td> --}}
                                             {{-- <td>{{ $order->Qtite }}</td> --}}
@@ -68,10 +65,10 @@
                                                     <i class="fas fa-edit"></i>
                                                 </a>
                                                 <!-- Bouton pour afficher les détails avec une icône d'œil -->
-                                                {{-- <a href="{{ route('panel.order.edit', $order->id) }}"
+                                                <a href="{{ route('panel.order.show', $order->id) }}"
                                                     class="btn btn-info mr-2">
                                                     <i class="fas fa-eye"></i>
-                                                </a> --}}
+                                                </a>
                                                 <!-- Bouton pour supprimer avec une icône de corbeille -->
                                                 <button type="button" class="deleteBtn btn btn-danger">
                                                     <i class="fas fa-trash-alt"></i>

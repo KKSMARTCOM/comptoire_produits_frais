@@ -42,6 +42,9 @@ class OrderController extends Controller
     public function show(string $id)
     {
         //
+        $order = Order::where('id', $id)->with('orderItems')->firstOrFail();
+        //dd($order);
+        return view('backend.pages.order.show', compact('order'));
     }
 
     /**
@@ -50,7 +53,6 @@ class OrderController extends Controller
     public function edit(string $id)
     {
         $order = Order::where('id', $id)->with('orderItems')->firstOrFail();
-        //dd($order);
         return view('backend.pages.order.edit', compact('order'));
     }
 
@@ -60,6 +62,28 @@ class OrderController extends Controller
     public function update(Request $request, string $id)
     {
         //
+        $order = Order::where('order_no', $request->order_no)->get();
+
+        if ($order) {
+
+            /* foreach ($request->product_id as $index => $product_id) {
+                $quantity = $request->quantity[$index];
+
+                $orderItems = $order->orderItem->where('product_id', $product_id)->first();
+
+                if ($orderItems) {
+                    $orderItems->quantity = $quantity;
+                    $orderItems->save();
+                }
+            } */
+
+            $order->update([
+                'status' => $request->status ?? $order->status,
+            ]);
+
+            return redirect()->back()->with('success', 'Mise à jour éffectuée avec succès !');
+        }
+        //dd($id, $request->all());
     }
 
     /**
