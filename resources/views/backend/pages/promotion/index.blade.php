@@ -17,6 +17,8 @@
                             <tr>
                                 <th>Code Promo</th>
                                 <th>Pourcentage de Réduction</th>
+                                <th>Catégories</th>
+                                <th>Produits</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -25,6 +27,8 @@
                                 <tr>
                                     <td>{{ $promotion->codePromo }}</td>
                                     <td>{{ $promotion->pourcentage_reduction }}%</td>
+                                    <td>{{ $promotion->category ? $promotion->category->name : 'Aucune catégorie' }}</td>
+<td>{{ $promotion->product ? $promotion->product->name : 'Aucun produit' }}</td>
                                     <td>
                                         <!-- Bouton Modifier avec une icône -->
                                         <a href="{{ route('panel.promotions.edit', $promotion->id) }}"

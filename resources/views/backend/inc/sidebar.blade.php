@@ -16,7 +16,7 @@
         @endif
         <li class="nav-item {{ request()->routeIs('panel.product.index') || request()->routeIs('panel.product.create') || request()->routeIs('panel.product.edit') ? 'active' : '' }}">
             <a class="nav-link" href="{{ route('panel.product.index') }}">
-                <i class="icon-box menu-icon"></i>
+                <i class="icon-map menu-icon"></i>
                 <span class="menu-title">Produits</span>
             </a>
         </li>
@@ -35,31 +35,35 @@
         </li>
         <li class="nav-item {{ request()->routeIs('panel.order.index') || request()->routeIs('panel.order.edit') ? 'active' : '' }}">
             <a class="nav-link" href="{{ route('panel.order.index') }}">
-                <i class="icon-check menu-icon"></i>
+                <i class="icon-bag menu-icon"></i>
                 <span class="menu-title">Commandes</span>
             </a>
         </li>
 
         <li class="nav-item {{ request()->routeIs('panel.user.index') ? 'active' : '' }}">
             <a class="nav-link" href="{{ route('panel.user.index') }}">
-                <i class="icon-tag menu-icon"></i>
+                <i class="icon-eye menu-icon"></i>
                 <span class="menu-title">Utilisateurs</span>
             </a>
         </li>
 
         <li class="nav-item {{ request()->routeIs('panel.setting.index') ? 'active' : '' }}">
             <a class="nav-link" href="{{ route('panel.setting.index') }}" data-toggle="collapse" data-target="#parametresSubMenu" aria-expanded="false" aria-controls="parametresSubMenu">
-                <i class="icon-bag menu-icon"></i>
+                <i class="icon-cog menu-icon"></i>
                 <span class="menu-title">Paramètres</span>
             </a>
             <div class="collapse {{ !request()->routeIs('panel.setting.index') ? 'show' : '' }}" id="parametresSubMenu">
                 <ul class="nav flex-column sub-menu">
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('panel.setting.index') }}">Confidentialité</a>
+                        <a class="nav-link" href="#">Modifier mot de passe</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('panel.setting.index') }}">Historique</a>
+                        <a class="nav-link" href="#">Profil</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Logs</a>
+                    </li>
+                    
                 </ul>
             </div>
         </li>
