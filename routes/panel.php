@@ -1,9 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Backend\AboutController;
-use App\Http\Controllers\Backend\SliderController;
-use App\Http\Controllers\Backend\ContactController;
 use App\Http\Controllers\Backend\SettingController;
 use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\DashboardController;
@@ -40,13 +37,6 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'panel', 'as' => 'panel.'], 
     Route::put('/user{id}/update', [UserController::class, 'update'])->name('user.update');
     Route::delete('/user{id}/destroy', [UserController::class, 'destroy'])->name('user.destroy');
 
-    // contact route
-    Route::get('/contact', [ContactController::class, 'index'])->name('contact.index');
-    Route::get('/contact/{id}/edit', [ContactController::class, 'edit'])->name('contact.edit');
-    Route::put('/contact/{id}/update', [ContactController::class, 'update'])->name('contact.update');
-    Route::delete('/contact/destroy', [ContactController::class, 'destroy'])->name('contact.destroy');
-    Route::post('/contact-status/update', [ContactController::class, 'status'])->name('contact.status');
-
     // setting route
     Route::get('/setting', [SettingController::class, 'index'])->name('setting.index');
     Route::get('/setting/add', [SettingController::class, 'create'])->name('setting.create');
@@ -59,6 +49,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'panel', 'as' => 'panel.'], 
     Route::resource('/product', ProductController::class)->except('destroy');
     Route::delete('/product/destroy', [ProductController::class, 'destroy'])->name('product.destroy');
     Route::post('/product-status/update', [ProductController::class, 'status'])->name('product.status');
+    Route::get('/get-products/{categoryId}', [ProductController::class, 'productsByCategories'])->name('product.categories');
 
     // promotions route
     Route::get('/promotions', [PromotionController::class, 'index'])->name('promotions.index');

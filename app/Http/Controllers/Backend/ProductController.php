@@ -125,4 +125,16 @@ class ProductController extends Controller
         Product::where('id', $request->id)->update(['status' => $update]);
         return response(['error' => false, 'status' => $update]);
     }
+
+    public function productsByCategories($categoryId)
+    {
+        try {
+            //code...
+            $products = Product::where('category_id', $categoryId)->get();
+            //dd($products);
+            return response()->json($products);
+        } catch (\Exception $e) {
+            //throw $th;
+        }
+    }
 }

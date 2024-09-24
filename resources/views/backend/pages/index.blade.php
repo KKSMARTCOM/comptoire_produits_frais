@@ -396,9 +396,9 @@
                                                 @if ($item->product->status == '0')
                                                     <div class="badge badge-success">Illimité</div>
                                                 @elseif ($item->product->status == '1')
-                                                    <div class="badge badge-success">En stock</div>
+                                                    <div class="badge badge-warning">En stock</div>
                                                 @else
-                                                    <div class="badge badge-success">Epuisé</div>
+                                                    <div class="badge badge-danger">Epuisé</div>
                                                 @endif
                                             </td>
                                         </tr>

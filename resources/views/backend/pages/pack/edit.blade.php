@@ -66,30 +66,14 @@
 
                         {{-- Un truc compliqué à faire ici --}}
 
-                        @if ($products)
+                        @if ($categories)
                             <div class="form-group">
-                                <label for="content">Catégorie</label>
-                                <select class="form-control" name="products[]">
-                                    <option value="">Sélectionner la catégorie</option>
-                                    @foreach ($products as $item)
-                                        <option value="{{ $item['id'] }}"
-                                            {{ isset($pack) && $pack->products->contains($item->id) ? 'selected' : '' }}>
-                                            {{ $item->name }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        @endif
-
-                        @if ($products)
-                            <div class="form-group">
-                                <label for="content">Produits</label>
-                                <select class="form-control" name="products[]" multiple>
-                                    <option value="">Sélectionner les produits</option>
-                                    @foreach ($products as $item)
-                                        <option value="{{ $item['id'] }}"
-                                            {{ isset($pack) && $pack->products->contains($item->id) ? 'selected' : '' }}>
-                                            {{ $item->name }}
+                                <label for="category">Catégorie</label>
+                                <select id="category" class="form-control">
+                                    <option value="">Selectionner une catégorie</option>
+                                    @foreach ($categories as $item)
+                                        <option value="{{ $item['id'] }}">
+                                            {{ ucfirst($item->name) }}
                                         </option>
                                     @endforeach
                                 </select>
@@ -97,15 +81,55 @@
                         @endif
 
                         <div class="form-group">
+                            <label for="products">Produits</label>
+                            <select class="form-control" id="products" name="">
+                                <option value="">Sélectionner les produits</option>
+                            </select>
+                        </div>
+
+                        <div class="table-responsive mb-4">
+                            <table id="selected-products" class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Produits sélectionnés</th>
+                                        <th>Prix</th>
+                                        <th>Quantités</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="product-table-body">
+                                    @if (!empty($pack->id))
+                                        @foreach ($pack->products as $item)
+                                            <tr class="item">
+                                                <td><input type="text" class="form-control text-capitalize"
+                                                        id="product_id" value="{{ $item->name }}" readonly>
+                                                    <input type="hidden" name="product_id[]"
+                                                        value="{{ $item->pivot->product_id }}">
+                                                </td>
+                                                <td>{{ $item->price }} FCFA
+                                                </td>
+                                                <td><input type="number" class="form-control text-capitalize"
+                                                        id="quantity" value="{{ $item->pivot->quantity }}"
+                                                        name="quantity[]">
+                                                </td>
+                                                <td>
+                                                    <button type="button"
+                                                        class="btn btn-danger remove-product">Supprimer</button>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    @endif
+                                </tbody>
+                            </table>
+
+                        </div>
+
+                        <div class="form-group">
                             <label for="link">Prix</label>
                             <input type="text" class="form-control" id="link" name="price"
                                 value="{{ old('price', $pack->price ?? '') }}" placeholder="Prix du coffret">
                         </div>
-                        {{-- <div class="form-group">
-                            <label for="qty">Qtité</label>
-                            <input type="text" class="form-control" id="qty" value="{{ $slider->qty ?? '' }}"
-                                name="qty" placeholder="Qtité en stock">
-                        </div> --}}
+
                         <div class="form-group">
                             <label>Image</label>
                             <input type="file" name="image" class="file-upload-default" id="imageInput"
@@ -141,6 +165,87 @@
 @endsection
 @section('customjs')
     <script>
+        $(document).ready(function() {
+            $('.select2').select2({
+                placeholder: 'Selectionner les produits',
+                theme: 'classic',
+            })
+
+            $('#category').on('change', function() {
+                var categorieId = $(this).val();
+                //console.log(categorieId);
+                if (categorieId) {
+                    $.ajax({
+                        url: '/panel/get-products/' + categorieId,
+                        type: 'GET',
+                        success: function(response) {
+                            //console.log(response);
+                            $('#products').empty().append(
+                                '<option value="">Sélectionner un produit</option>');
+                            $.each(response, function(key, product) {
+                                $('#products').append('<option value="' + product.id +
+                                    '" data-price="' + product.price + '">' +
+                                    product.name + '</option>');
+                            });
+
+                        }
+                    })
+                }
+            })
+
+            $('#products').on('change', function() {
+                var productId = $(this).val();
+                var productName = $('#products option:selected').text()
+                var quantity = 1
+                var price = $('#products option:selected').data('price');
+
+                // Récupérer le prix du produit
+                var productExists = false;
+
+                $('#selected-products tbody tr').each(function() {
+                    var existingProductId = $(this).find('input[name="product_id[]"]').val().trim();
+
+                    console.log(existingProductId);
+                    if (existingProductId == productId) {
+                        productExists = true;
+                    }
+                });
+
+                if (productExists) {
+                    alertify.error('Produit déjà ajouté')
+                } else if (productId) {
+                    var newRow = `
+                                        <tr class="item">
+                                            <td>
+                                                <input type="text" class="form-control" value="${productName}" readonly>
+                                                <input type="hidden" name="product_id[]" value="${productId}">
+                                            </td>
+                                            <td>
+                                                ${price} FCFA
+                                            </td>
+                                            <td>
+                                                <input type="number" class="form-control" value="${quantity}" name="quantity[]">
+                                            </td>
+                                            <td>
+                                                <button type="button" class="btn btn-danger remove-product">Supprimer</button>
+                                            </td>
+                                        </tr>
+                                    `;
+
+                    $('#product-table-body').append(newRow);
+
+                    // Réinitialiser les champs
+                    //$('#quantity').val('');
+                }
+
+            })
+
+            // Supprimer un produit du tableau
+            $(document).on('click', '.remove-product', function() {
+                $(this).closest('tr').remove(); // Supprimer la ligne du tableau
+            });
+        })
+
         document.addEventListener('DOMContentLoaded', function() {
             const descriptionField = document.getElementById('description');
             const charLimitMessage = document.getElementById('charLimitMessage');

@@ -144,32 +144,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
     <script>
-        //change a été utilisé car il s'agit d'un bouton-poussoir
-        //S'il y avait un bouton, il fallait utiliser le clic.
-        $(document).on('change', '.durum', function(e) {
-            // alert('test')
-            id = $(this).closest('.item').attr('item-id');
-            statu = $(this).prop('checked');
-            $.ajax({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                type: "POST",
-                url: "{{ route('panel.order.status') }}",
-                data: {
-                    id: id,
-                    statu: statu
-                },
-                success: function(response) {
-                    if (response.status == 'true') {
-                        alertify.success("Commande livrée")
-                    } else {
-                        alertify.error('Livraison en cours')
-                    }
-                }
-            });
-        });
-
         $(document).on('click', '.deleteBtn', function(e) {
             e.preventDefault();
             var item = $(this).closest('.item');

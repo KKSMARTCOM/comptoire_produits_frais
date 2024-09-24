@@ -22,7 +22,7 @@
                             name="email" value="{{ old('email') }}" required autocomplete="email" autofocus
                             placeholder="Email">
                         @error('email')
-                            <span class="invalid-feedback">{{ $message }}</span>
+                            <small style="color: red" class="invalid-feedback">{{ $message }}</small>
                         @enderror
                     </div>
                     <br>
@@ -32,7 +32,7 @@
                             class="form-control w-100 @error('password') is-invalid @enderror" name="password" required
                             placeholder="Mot de passe">
                         @error('password')
-                            <span class="invalid-feedback">{{ $message }}</span>
+                            <small style="color: red" class="invalid-feedback">{{ $message }}</small>
                         @enderror
                     </div>
 

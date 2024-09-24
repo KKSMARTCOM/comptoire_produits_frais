@@ -7,6 +7,7 @@ use App\Models\Invoice;
 use App\Models\Order;
 use App\Models\OrderItem;
 use Illuminate\Http\Request;
+use PhpParser\Node\Stmt\TryCatch;
 
 class OrderController extends Controller
 {
@@ -62,28 +63,33 @@ class OrderController extends Controller
     public function update(Request $request, string $id)
     {
         //
-        $order = Order::where('order_no', $request->order_no)->get();
+        try {
+            //code...
+            $order = Order::where('order_no', $request->order_no)->first();
 
-        if ($order) {
+            if ($order) {
 
-            /* foreach ($request->product_id as $index => $product_id) {
-                $quantity = $request->quantity[$index];
+                foreach ($request->product_id as $index => $product_id) {
+                    $quantity = $request->quantity[$index];
 
-                $orderItems = $order->orderItem->where('product_id', $product_id)->first();
+                    $orderItems = $order->orderItems->where('product_id', $product_id)->first();
 
-                if ($orderItems) {
-                    $orderItems->quantity = $quantity;
-                    $orderItems->save();
+                    if ($orderItems) {
+                        $orderItems->quantity = $quantity;
+                        $orderItems->save();
+                    }
                 }
-            } */
 
-            $order->update([
-                'status' => $request->status ?? $order->status,
-            ]);
+                $order->update([
+                    'status' => $request->status,
+                ]);
 
-            return redirect()->back()->with('success', 'Mise à jour éffectuée avec succès !');
+                return redirect()->back()->with('success', 'Mise à jour éffectuée avec succès !');
+            }
+        } catch (\Exception $e) {
+            dd($e);
+            //throw $th;
         }
-        //dd($id, $request->all());
     }
 
     /**

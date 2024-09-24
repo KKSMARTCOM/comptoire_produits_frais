@@ -55,7 +55,7 @@
         <li class="nav-item {{ request()->routeIs('panel.setting.index') ? 'active' : '' }}">
             <a class="nav-link" href="{{ route('panel.setting.index') }}" data-toggle="collapse"
                 data-target="#parametresSubMenu" aria-expanded="false" aria-controls="parametresSubMenu">
-                <i class="icon-bag menu-icon"></i>
+                <i class="icon-cog menu-icon"></i>
                 <span class="menu-title">Paramètres</span>
             </a>
             <div class="collapse {{ !request()->routeIs('panel.setting.index') ? 'show' : '' }}"

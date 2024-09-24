@@ -183,16 +183,6 @@
     </script>
 
     {{-- <script>
-        document.getElementById('imagePlaceholder').addEventListener('click', function() {
-            document.getElementById('imageInput').click();
-        });
-
-        document.querySelector('.file-upload-browse').addEventListener('click', function() {
-            document.getElementById('imageInput').click();
-        });
-    </script> --}}
-
-    {{-- <script>
         const option = {
             // language: 'tr',
             heading: {

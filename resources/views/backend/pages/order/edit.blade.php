@@ -85,7 +85,7 @@
                                     <thead>
                                         <tr>
                                             <th>No</th>
-                                            <th>Quantités</th>
+                                            <th>Nom</th>
                                             <th>Quantités</th>
                                         </tr>
                                     </thead>

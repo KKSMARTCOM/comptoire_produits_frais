@@ -54,18 +54,7 @@
                                                 </div>
                                             </td>
                                             <td>
-                                                {{-- <label
-                                                    class="badge badge-{{ $slider->status == '1' ? 'success' : 'danger' }}">
-                                                    {{ $slider->status == '1' ? 'Active' : 'Passive' }}
-                                                </label> --}}
-                                                {{-- <div class="checkbox">
-                                                    <label>
-                                                        <input type="checkbox" class="durum" data-on="Illimité"
-                                                            data-off="Epuisé" data-onstyle="success" data-offstyle="danger"
-                                                            data-toggle="toggle"
-                                                            {{ $slider->status == '1' ? 'checked' : '' }}>
-                                                    </label>
-                                                </div> --}}
+
                                                 @if ($product->status == '0')
                                                     <div class="badge badge-success">Illimité</div>
                                                 @elseif ($product->status == '1')
@@ -73,28 +62,6 @@
                                                 @else
                                                     <div class="badge badge-danger">Épuisé</div>
                                                 @endif
-                                                {{-- <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                                                        <label
-                                                            class="btn btn-success {{ $product->status == 'illimite' ? 'active' : '' }}">
-                                                            <input type="radio" name="status" value="0"
-                                                                id="optionIllimite" autocomplete="off" class="durum"
-                                                                {{ $product->status == '0' ? 'checked' : '' }}>
-                                                            Illimité
-                                                        </label>
-                                                        <label
-                                                            class="btn btn-warning {{ $product->status == 'en_stock' ? 'active' : '' }}">
-                                                            <input type="radio" name="status" value="1"
-                                                                id="optionEnStock" autocomplete="off" class="durum"
-                                                                {{ $product->status == '1' ? 'checked' : '' }}> En
-                                                            stock
-                                                        </label>
-                                                        <label
-                                                            class="btn btn-danger {{ $product->status == 'epuise' ? 'active' : '' }}">
-                                                            <input type="radio" name="status" value="2"
-                                                                id="optionEpuise" autocomplete="off" class="durum"
-                                                                {{ $product->status == '2' ? 'checked' : '' }}> Épuisé
-                                                        </label>
-                                                    </div> --}}
                                             </td>
                                             <td class="d-flex">
                                                 <!-- Lien pour modifier avec une icône de crayon -->
@@ -195,34 +162,6 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 @section('customjs')
     <script>
-        //change a été utilisé car il s'agit d'un bouton-poussoir
-        //S'il y avait un bouton, il fallait utiliser le clic.
-        $(document).on('change', '.durum', function(e) {
-            id = $(this).closest('.item').attr('item-id');
-            status = $(this).val();
-            //console.log(status);
-            $.ajax({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                type: "POST",
-                url: "{{ route('panel.product.status') }}",
-                data: {
-                    id: id,
-                    status: status
-                },
-                success: function(response) {
-                    if (response.status == '0') {
-                        alertify.success("Produit illimité")
-                    } else if (response.status == '1') {
-                        alertify.success('Produit en stock')
-                    } else {
-                        alertify.error('Produit épuisé')
-                    }
-                }
-            });
-        });
-
         $(document).on('click', '.deleteBtn', function(e) {
             e.preventDefault();
             var item = $(this).closest('.item');

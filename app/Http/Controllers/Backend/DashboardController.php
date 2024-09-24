@@ -23,7 +23,7 @@ class DashboardController extends Controller
         $pendingOrders = $totalOrders - $processedOrders;
 
         // Nombre d'utilisateurs
-        $totalUsers = User::count();
+        $totalUsers = User::where('email', '!=', 'superadmin@gmail.com')->count();
 
         //Produits les plus commandés
         $mostOrderedProducts = OrderItem::select('product_id', DB::raw('SUM(quantity) as total_quantity'))

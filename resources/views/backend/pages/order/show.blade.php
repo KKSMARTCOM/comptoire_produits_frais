@@ -216,9 +216,7 @@
                                         @endphp
                                         <tr data-id="{{ $item['product_id'] }}">
                                             <td>{{ $item['name'] }}</td>
-                                            <td>{{ $item['quantity'] }}{{-- <input class="qty" style="width: 100%;height:100%;border:none;"
-                                                    type="number" id="quantity" value="{{ $item['quantity'] }}"
-                                                    data-id="{{ $item['product_id'] }}"> --}}</td>
+                                            <td>{{ $item['quantity'] }}</td>
                                             <td>{{ $item['price'] }}</td>
                                             {{-- <td>{{ $item['kdv'] }}</td> --}}
                                             <td class="total">{{ $totalAmount }} FCFA</td>
@@ -248,50 +246,4 @@
             </div>
         </div>
     </div>
-@endsection
-@section('customjs')
-    <script>
-        $(document).on('input', '.qty', function(e) {
-            var currentUrl = window.location.pathname.split('/');
-            const order_id = currentUrl[3];
-            const product_id = $(this).data('id');
-            const quantity = $(this).val();
-            var row = $(this).closest('tr');
-
-            $.ajax({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                type: "POST",
-                url: "{{ route('panel.order.change') }}",
-                data: {
-                    order_id: order_id,
-                    product_id: product_id,
-                    quantity: quantity
-                },
-                success: function(response) {
-                    //console.log(typeof(response.newTotal));
-                    if (response.newTotal) {
-                        row.find('.total').html(response.newTotal + ' FCFA')
-                        updateAllTotal();
-                    } else {
-                        row.find('.total').html('0 FCFA')
-                        updateAllTotal();
-                    }
-                }
-
-            })
-        })
-
-        function updateAllTotal() {
-            var newTotal = 0;
-
-            $('.total').each(function() {
-                var lineTotal = parseInt($(this).text().replace(' FCFA', ''));
-                newTotal += lineTotal;
-            })
-
-            $('.allTotal').html('Total : ' + newTotal + ' FCFA')
-        };
-    </script>
 @endsection
