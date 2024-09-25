@@ -17,6 +17,8 @@
                             <tr>
                                 <th>Code Promo</th>
                                 <th>Pourcentage de Réduction</th>
+                                <th>Catégories</th>
+                                <th>Produits</th> <!-- Ajouter une colonne pour les produits -->
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -25,6 +27,18 @@
                                 <tr>
                                     <td>{{ $promotion->codePromo }}</td>
                                     <td>{{ $promotion->pourcentage_reduction }}%</td>
+                                    <td>{{ $promotion->category ? $promotion->category->name : 'Aucune catégorie' }}</td>
+                                    <td>
+                                        @if ($promotion->products->isNotEmpty())
+                                            <ul>
+                                                @foreach ($promotion->products as $product)
+                                                    <li>{{ $product->name }}</li> <!-- Lister les produits associés -->
+                                                @endforeach
+                                            </ul>
+                                        @else
+                                            Aucun produit
+                                        @endif
+                                    </td>
                                     <td>
                                         <!-- Bouton Modifier avec une icône -->
                                         <a href="{{ route('panel.promotions.edit', $promotion->id) }}"
@@ -42,7 +56,6 @@
                                             </button>
                                         </form>
                                     </td>
-
                                 </tr>
                             @endforeach
                         </tbody>
