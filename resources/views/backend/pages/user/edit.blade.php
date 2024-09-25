@@ -40,22 +40,14 @@
                         <div class="form-group">
                             <label for="name">Nom d'utilisateur</label>
                             <input type="text" class="form-control" id="name" value="{{ $user->name ?? '' }}"
-                                name="name" placeholder="Nom d'utilisateur">
+                                name="name" placeholder="Nom d'utilisateur" readonly>
                         </div>
 
                         <div class="form-group">
                             <label for="email">Email</label>
                             <input type="email" class="form-control" id="email" value="{{ $user->email ?? '' }}"
-                                name="email" placeholder="Email">
+                                name="email" placeholder="Email" readonly>
                         </div>
-
-                        @if (!isset($user))
-                            <div class="form-group">
-                                <label for="password">Mot de passe</label>
-                                <input type="password" class="form-control" id="password" name="password"
-                                    placeholder="Mot de passe">
-                            </div>
-                        @endif
 
                         <div class="form-group">
                             <label for="is_admin">Rôle</label>

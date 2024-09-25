@@ -45,7 +45,8 @@
             </a>
         </li>
 
-        <li class="nav-item {{ request()->routeIs('panel.user.index') ? 'active' : '' }}">
+        <li
+            class="nav-item {{ request()->routeIs('panel.user.index') || request()->routeIs('panel.user.edit') || request()->routeIs('panel.user.create') ? 'active' : '' }}">
             <a class="nav-link" href="{{ route('panel.user.index') }}">
                 <i class="icon-tag menu-icon"></i>
                 <span class="menu-title">Utilisateurs</span>
@@ -62,7 +63,7 @@
                 id="parametresSubMenu">
                 <ul class="nav flex-column sub-menu">
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('panel.setting.index') }}">Confidentialité</a>
+                        <a class="nav-link" href="{{ route('panel.setting.index') }}">Profil</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('panel.setting.index') }}">Historique</a>

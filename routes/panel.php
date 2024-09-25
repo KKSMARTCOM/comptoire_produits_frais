@@ -42,7 +42,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'panel', 'as' => 'panel.'], 
     Route::get('/setting/add', [SettingController::class, 'create'])->name('setting.create');
     Route::get('/setting/{id}/edit', [SettingController::class, 'edit'])->name('setting.edit');
     Route::post('/setting/store', [SettingController::class, 'store'])->name('setting.store');
-    Route::put('/setting/{id}/update', [SettingController::class, 'update'])->name('setting.update');
+    Route::put('/setting/update', [SettingController::class, 'update'])->name('setting.update');
     Route::delete('/setting/destroy', [SettingController::class, 'destroy'])->name('setting.destroy');
 
     // product route

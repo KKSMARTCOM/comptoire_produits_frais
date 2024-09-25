@@ -1,14 +1,27 @@
 @extends('backend.layout.app')
 
+@section('customcss')
+    <style>
+        .ck-content {
+            height: 300px !important;
+        }
+    </style>
+@endsection
+
 @section('content')
     <div class="row">
-        <div class="col-lg-12 grid-margin stretch-card">
+        <div class="col-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title">Paramètres</h4>
-                    <p class="card-description">
-                        <a href="{{ route('panel.setting.create') }}" class="btn btn-primary">Ajouter</a>
-                    </p>
+                    <h4 class="card-title">Modifier profil</h4>
+
+                    {{-- @if ($errors->any())
+                        <div class="alert alert-danger">
+                            @foreach ($errors->all() as $error)
+                                <p>{{ $error }}</p>
+                            @endforeach
+                        </div>
+                    @endif --}}
 
                     @if (session()->get('success'))
                         <div class="alert alert-success">
@@ -16,79 +29,71 @@
                         </div>
                     @endif
 
-                    <div class="table-responsive">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th>Key</th>
-                                    <th>Value</th>
-                                    <th>Key Type</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @if (!empty($settings) && $settings->count() > 0)
-                                    @foreach ($settings as $setting)
-                                        <tr class="item" item-id="{{ $setting->id }}">
-                                            <td>{{ $setting->name }}</td>
-                                            <td>
-                                                @if ($setting->set_type == 'image')
-                                                    <img src="{{ asset($setting->data) }}" alt="img" />
-                                                @else
-                                                    {!! strLimit($setting->data, 20, route('panel.setting.edit', $setting->id)) !!}
-                                                @endif
-                                            </td>
-                                            <td>{{ $setting->set_type }}</td>
-                                            <td class="d-flex">
-                                                <a href="{{ route('panel.setting.edit', $setting->id) }}"
-                                                    class="btn btn-primary mr-2">Edit
-                                                </a>
-                                                <button type="button" class="deleteBtn btn btn-danger">Delete</button>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                @endif
-                            </tbody>
-                        </table>
-                    </div>
+                    <form class="forms-sample" action="{{ route('panel.setting.update') }}" method="POST"
+                        enctype="multipart/form-data">
+                        @csrf
+                        @method('PUT') <!-- Utilisé pour les mises à jour -->
+
+                        <div class="form-group">
+                            <label for="name">Nom d'utilisateur</label>
+                            <input type="text" class="form-control" id="name" value="{{ $user->name }}"
+                                name="name" placeholder="Nom d'utilisateur">
+                            @error('name')
+                                <p class="text-danger fs-6">{{ $message }}</p>
+                            @enderror
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" class="form-control" id="email" value="{{ $user->email }}"
+                                name="email" placeholder="Email">
+                            @error('email')
+                                <p class="text-danger fs-6">{{ $message }}</p>
+                            @enderror
+                        </div>
+
+                        <div class="form-group">
+                            <label for="password">Mot de passe actuel</label>
+                            <input type="password" class="form-control" id="password" name="old_password"
+                                placeholder="Veuillez entrer votre mot de passe actuel">
+                            @error('old_password')
+                                <p class="text-danger fs-6">{{ $message }}</p>
+                            @enderror
+                        </div>
+
+                        <div class="form-group">
+                            <label for="password">Nouveau mot de passe</label>
+                            <input type="password" class="form-control" id="password" name="password"
+                                placeholder="Veuillez entrer votre nouveau mot de passe">
+                            @error('password')
+                                <p class="text-danger fs-6">{{ $message }}</p>
+                            @enderror
+                        </div>
+
+                        <div class="form-group">
+                            <label for="password">Confirmer nouveau mot de passe</label>
+                            <input type="password" class="form-control" id="password" name="password_confirmation"
+                                placeholder="Veuillez confirmer votre nouveau mot de passe">
+                            @error('password_confirmation')
+                                <p class="text-danger fs-6">{{ $message }}</p>
+                            @enderror
+                        </div>
+
+
+                        <button type="submit" class="btn btn-primary mr-2">Modifier</button>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
 @endsection
-
 @section('customjs')
+    <script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js"></script>
     <script>
-        $(document).on('click', '.deleteBtn', function(e) {
-            e.preventDefault();
-            var item = $(this).closest('.item');
-            id = item.attr('item-id');
-
-            alertify.confirm("Are you sure?", "You won't be able to revert this!",
-                function() {
-
-                    $.ajax({
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        },
-                        type: "DELETE",
-                        url: "{{ route('panel.setting.destroy') }}",
-                        data: {
-                            id: id,
-                        },
-                        success: function(response) {
-                            if (response.error == false) {
-                                item.remove();
-                                alertify.success(response.message)
-                            } else {
-                                alertify.error("Something went wrong");
-                            }
-                        }
-                    });
-                },
-                function() {
-                    alertify.error('Deletion canceled.');
-                });
-        });
+        ClassicEditor
+            .create(document.querySelector('#editor'), option)
+            .catch(error => {
+                console.error(error);
+            });
     </script>
 @endsection

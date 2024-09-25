@@ -4,84 +4,81 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use App\Models\SiteSetting;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class SettingController extends Controller
 {
     public function index()
     {
-        //$settings = SiteSetting::get();
-        return view('backend.pages.setting.index');
+        $user = Auth()->user();
+        return view('backend.pages.setting.index', compact('user'));
     }
 
-    public function create()
+    public function create() {}
+
+    public function store(Request $request) {}
+
+    public function edit() {}
+
+    public function update(Request $request)
     {
-        return view('backend.pages.setting.edit');
-    }
+        //code...
+        $user = User::where('email', Auth()->user()->email)->firstOrFail();
 
-    public function store(Request $request)
-    {
-        $key = $request->name;
-        SiteSetting::firstOrCreate(
-            [
-                'name' => $key,
-            ],
-            [
-                'name' => $key,
-                'data' => $request->data,
-                'set_type' => $request->set_type
-            ]
-        );
+        $request->validate([
+            'name' => 'required|min:2',
+            'email' => ['required', 'email', function ($attribute, $value, $fail) use ($user) {
+                // Si l'utilisateur entre un nouvel email
+                if ($value !== $user->email) {
+                    // Vérification de l'unicité de l'email
+                    if (User::where('email', $value)->exists()) {
+                        $fail('Cet email est déjà utilisé.');
+                    }
+                }
+            }],
+            'old_password' => 'required_with:password',
+            'password' => 'nullable|min:6|confirmed',
+        ], [
+            'name.required' => 'Le nom est obligatoire',
+            'email.required' => 'L\'email est obligatoire',
+            'email.email' => 'Vous devez entrer une adresse email valide',
+            'password.confirmed' => 'Vous devez confirmer avec le même mot de passe',
+            'old_password.required_with' => 'Vous devez entrez l\'ancien mot de passe pour changer le mot de passe',
+        ]);
 
-        return back()->withSuccess('Setting created successfully');
-    }
+        // Vérification de l'ancien mot de passe
+        try {
+            if ($request->filled('old_password')) {
+                if (!Hash::check($request->old_password, $user->password)) {
+                    return back()->withErrors([
+                        'old_password' => 'L\'ancien mot de passe est incorrect.'
+                    ]);
+                }
+            }
 
-    public function edit($id)
-    {
-        $setting = SiteSetting::where('id', $id)->first();
-        return view('backend.pages.setting.edit', compact('setting'));
-    }
+            //dd($request->all());
 
-    public function update(Request $request, $id)
-    {
-        $setting = SiteSetting::where('id', $id)->first();
+            // Si l'ancien mot de passe est correct, et un nouveau mot de passe est fourni, on peut le mettre à jour
+            if ($request->filled('password')) {
+                $user->password = Hash::make($request->password);
+            }
 
-        $key = $request->name;
+            $user->update(
+                [
+                    'name' => $request->name,
+                    'email' => $request->email,
+                ]
+            );
 
-        if ($request->hasFile('data')) {
-            dosyasil($setting->data);
-
-            $img = $request->file('data');
-            $folderName = $key;
-            $uploadFolder = 'img/setting/';
-            folderOpen($uploadFolder);
-            $imgurl = resimyukle($img, $folderName, $uploadFolder);
+            return redirect()->back()->with('success', 'Profil mis à jour avec succès.');
+        } catch (\Exception $e) {
+            //dd($e);
+            //throw $th;
         }
-
-        if ($request->set_type == 'file' || $request->set_type == 'image') {
-            $dataImage = $imgurl ?? $setting->data;
-        } else {
-            $dataImage = $request->data ?? $setting->data;
-        }
-
-        $setting->update(
-            [
-                'name' => $key,
-                'data' => $dataImage,
-                'set_type' => $request->set_type
-            ]
-        );
-
-        return back()->withSuccess('Setting updated successfully');
     }
 
-    public function destroy(Request $request)
-    {
-        $setting = SiteSetting::where('id', $request->id)->firstOrFail();
-
-        dosyasil($setting->data);
-
-        $setting->delete();
-        return response(['error' => false, 'message' => 'Setting deleted successfully']);
-    }
+    public function destroy(Request $request) {}
 }
