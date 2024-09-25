@@ -9,50 +9,71 @@ use Illuminate\Support\Str;
 use App\Models\Category;
 use App\Models\Product;
 
-
 class PromotionController extends Controller
 {
     // Afficher la liste des promotions
     public function index()
     {
-        $promotions = Promotion::all();
+        // Charger les promotions avec les catégories et produits associés
+        $promotions = Promotion::with('category', 'products')->get();
         $categories = Category::all();
         $products = Product::all();
+
         return view('backend.pages.promotion.index', compact('promotions', 'categories', 'products'));
     }
+
+
+    public function getAllProducts()
+    {
+        // Récupérer tous les produits
+        $products = Product::all();
+        return response()->json($products);
+    }
+
+    public function getProductsByCategory($categoryId)
+    {
+        // Récupérer les produits de la catégorie sélectionnée
+        $products = Product::where('category_id', $categoryId)->get();
+        return response()->json($products);
+    }
+
+
 
     // Afficher le formulaire de création
     public function create()
     {
-        $categories = Category::all();
+        /* $categories = Category::all();
         $products = Product::all();
+        return view('backend.pages.promotion.create', compact('categories', 'products')); */
+        $categories = Category::all();
+        $products = Product::all(); // Récupérer tous les produits
         return view('backend.pages.promotion.create', compact('categories', 'products'));
     }
 
     // Stocker une nouvelle promotion
     public function store(Request $request)
-{
-    $request->validate([
-        'pourcentage_reduction' => 'required|numeric|min:0|max:100',
-        'codePromo' => 'nullable|string|unique:promotions,codePromo', // Le code promo est optionnel
-        'category_id' => 'required|exists:categories,id',
-        'product_id' => 'required|exists:products,id',
-    ]);
-
-    $promotion = new Promotion;
-    $promotion->pourcentage_reduction = $request->pourcentage_reduction;
-    // Si l'utilisateur fournit un code promo, on l'utilise, sinon on le génère
-    $promotion->codePromo = $request->codePromo ?: 'CPFPROMO-' . strtoupper(Str::random(8));
-    $promotion->category_id = $request->category_id; // Lier à la catégorie
-    $promotion->product_id = $request->product_id;   // Lier au produit
-    $promotion->save();
-
-    return redirect()->route('panel.promotions.index')->with('success', 'Promotion créée avec succès.');
-}
-
-
-
-
+    {
+        $request->validate([
+            'pourcentage_reduction' => 'required|numeric|min:0|max:100',
+            'codePromo' => 'nullable|string|unique:promotions,codePromo',
+            'category_id' => 'required|exists:categories,id',
+            'products' => 'array', // Validation pour un tableau de produits
+            'products.*' => 'exists:products,id', // Validation pour chaque produit
+        ]);
+    
+        $promotion = new Promotion;
+        $promotion->pourcentage_reduction = $request->pourcentage_reduction;
+        $promotion->codePromo = $request->codePromo ?: 'CPFPROMO-' . strtoupper(Str::random(8));
+        $promotion->category_id = $request->category_id; // Assigner la catégorie
+        $promotion->save();
+    
+        // Attacher les produits à la promotion
+        if ($request->products) {
+            $promotion->products()->attach($request->products);
+        }
+    
+        return redirect()->route('panel.promotions.index')->with('success', 'Promotion créée avec succès.');
+    }
 
     // Afficher le formulaire d'édition
     public function edit(Promotion $promotion)
@@ -64,26 +85,26 @@ class PromotionController extends Controller
 
     // Mettre à jour une promotion
     public function update(Request $request, Promotion $promotion)
-{
-    $request->validate([
-        'pourcentage_reduction' => 'required|numeric|min:0|max:100',
-        'codePromo' => 'nullable|string|unique:promotions,codePromo,' . $promotion->id,
-        'category_id' => 'required|exists:categories,id',
-        'product_id' => 'required|exists:products,id',
-    ]);
+    {
+        $request->validate([
+            'pourcentage_reduction' => 'required|numeric|min:0|max:100',
+            'codePromo' => 'nullable|string|unique:promotions,codePromo,' . $promotion->id,
+            'category_id' => 'required|exists:categories,id',
+            'products' => 'array', // Validation pour un tableau de produits
+            'products.*' => 'exists:products,id', // Validation pour chaque produit
+        ]);
 
-    $promotion->update([
-        'pourcentage_reduction' => $request->pourcentage_reduction,
-        'codePromo' => $request->codePromo ?: $promotion->codePromo,
-        'category_id' => $request->category_id, // Mise à jour de la catégorie
-        'product_id' => $request->product_id,   // Mise à jour du produit
-    ]);
+        $promotion->update([
+            'pourcentage_reduction' => $request->pourcentage_reduction,
+            'codePromo' => $request->codePromo ?: $promotion->codePromo,
+            'category_id' => $request->category_id,
+        ]);
 
-    return redirect()->route('promotions.index')->with('success', 'Promotion mise à jour avec succès.');
-}
+        // Synchroniser les produits sélectionnés
+        $promotion->products()->sync($request->products);
 
-
-
+        return redirect()->route('panel.promotions.index')->with('success', 'Promotion mise à jour avec succès.');
+    }
 
     // Supprimer une promotion
     public function destroy(Promotion $promotion)

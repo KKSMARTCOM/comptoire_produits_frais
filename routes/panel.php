@@ -12,6 +12,9 @@ use App\Http\Controllers\Backend\PackController;
 use App\Http\Controllers\Backend\ProductController;
 use App\Http\Controllers\Backend\UserController;
 use App\Http\Controllers\Backend\PromotionController;
+use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\Auth\ResetPasswordController;
+use App\Http\Controllers\LogController;
 
 Route::group(['middleware' => ['auth'], 'prefix' => 'panel', 'as' => 'panel.'], function () {
     Route::get('/', [DashboardController::class, 'index'])->name('index');
@@ -67,6 +70,9 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'panel', 'as' => 'panel.'], 
     Route::get('/promotions/{promotion}/edit', [PromotionController::class, 'edit'])->name('promotions.edit');
     Route::put('/promotions/{promotion}', [PromotionController::class, 'update'])->name('promotions.update'); // Changer `delete` en `put`
     Route::delete('/promotions/{promotion}', [PromotionController::class, 'destroy'])->name('promotions.destroy');
+    
+    Route::get('/get-products/{category_id}', [PromotionController::class, 'getProducts'])->name('get-products');
+
 
     // order route
     Route::get('/order', [OrderController::class, 'index'])->name('order.index');
@@ -75,4 +81,25 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'panel', 'as' => 'panel.'], 
     Route::delete('/order/destroy', [OrderController::class, 'destroy'])->name('order.destroy');
     Route::post('/order-status/update', [OrderController::class, 'status'])->name('order.status');
     Route::post('/order-quantity/update', [OrderController::class, 'change'])->name('order.change');
+
+    
+    /* Route::get('password/reset', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('panel.password.request');
+    Route::post('password/email', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('panel.password.email');
+    Route::get('password/reset/{token}', [ResetPasswordController::class, 'showResetForm'])->name('panel.password.reset');
+
+ */
+    
+    // Afficher le formulaire de réinitialisation de mot de passe
+    Route::get('password/reset', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
+
+    // Envoyer l'e-mail de réinitialisation de mot de passe
+    Route::post('password/email', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
+
+    // Afficher le formulaire de réinitialisation de mot de passe avec token
+    Route::get('password/reset/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.reset');
+
+    // Réinitialiser le mot de passe
+    Route::post('password/reset', [ResetPasswordController::class, 'reset'])->name('password.update');
+
+    Route::get('/logs', [LogController::class, 'index'])->name('logs.index')->middleware('auth');
 });

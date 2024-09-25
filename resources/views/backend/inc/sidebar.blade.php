@@ -52,21 +52,24 @@
                 <i class="icon-cog menu-icon"></i>
                 <span class="menu-title">Paramètres</span>
             </a>
-            <div class="collapse {{ !request()->routeIs('panel.setting.index') ? 'show' : '' }}" id="parametresSubMenu">
+            <div class="collapse" id="parametresSubMenu">
                 <ul class="nav flex-column sub-menu">
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Modifier mot de passe</a>
+                        <a class="nav-link" href="{{ route('panel.password.request') }}">Changer<br>mot de passe</a>
                     </li>
+                    
+                    
                     <li class="nav-item">
                         <a class="nav-link" href="#">Profil</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Logs</a>
+                        <a class="nav-link" href="{{ route('panel.logs.index') }}">Logs</a>
                     </li>
                     
                 </ul>
             </div>
         </li>
+        
     </ul>
 </nav>
 
