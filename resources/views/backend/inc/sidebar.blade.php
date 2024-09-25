@@ -54,47 +54,31 @@
         </li>
 
         <li class="nav-item {{ request()->routeIs('panel.setting.index') ? 'active' : '' }}">
-            <<<<<<< HEAD <a class="nav-link" href="{{ route('panel.setting.index') }}" data-toggle="collapse"
+            <a class="nav-link" href="{{ route('panel.setting.index') }}" data-toggle="collapse"
                 data-target="#parametresSubMenu" aria-expanded="false" aria-controls="parametresSubMenu">
                 <i class="icon-cog menu-icon"></i>
                 <span class="menu-title">Paramètres</span>
-                </a>
+            </a>
+            <div class="collapse" id="parametresSubMenu">
                 <div class="collapse {{ !request()->routeIs('panel.setting.index') ? 'show' : '' }}"
                     id="parametresSubMenu">
                     <ul class="nav flex-column sub-menu">
                         <li class="nav-item">
+                            <a class="nav-link" href="{{ route('panel.password.request') }}">Changer<br>mot de
+                                passe</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link" href="{{ route('panel.setting.index') }}">Profil</a>
-                            =======
-                            <a class="nav-link" href="{{ route('panel.setting.index') }}" data-toggle="collapse"
-                                data-target="#parametresSubMenu" aria-expanded="false"
-                                aria-controls="parametresSubMenu">
-                                <i class="icon-cog menu-icon"></i>
-                                <span class="menu-title">Paramètres</span>
-                            </a>
-                            <div class="collapse" id="parametresSubMenu">
-                                <div class="collapse {{ !request()->routeIs('panel.setting.index') ? 'show' : '' }}"
-                                    id="parametresSubMenu">
-                                    <ul class="nav flex-column sub-menu">
-                                        <li class="nav-item">
-                                            <a class="nav-link"
-                                                href="{{ route('panel.password.request') }}">Changer<br>mot de
-                                                passe</a>
-                                        </li>
-
-
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="#">Profil</a>
-                                            >>>>>>> c137c7ab669f75817f8c505b1d988fc43c070277
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="{{ route('panel.logs.index') }}">Logs</a>
-                                        </li>
-
-                                    </ul>
-                                </div>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('panel.logs.index') }}">Logs</a>
                         </li>
 
                     </ul>
+                </div>
+        </li>
+
+    </ul>
 </nav>
 
 <script>
