@@ -30,9 +30,6 @@
                                     <th>Prix</th>
                                     <th>Quantité</th>
                                     <th>Image</th>
-                                    {{-- <th>Title</th> --}}
-                                    {{-- <th>Content</th> --}}
-                                    {{-- <th>Link</th> --}}
                                     <th>Status</th>
                                     <th>Action</th>
                                 </tr>
@@ -78,74 +75,8 @@
                                         </tr>
                                     @endforeach
                                 @else
-                                    <tr class="item" item-id="1">
-                                        <td>Poulet Fermier</td>
-                                        <td>Le Poulet Fermier est une option de choix pour ceux qui recherchent une viande
-                                            de meilleure qualité, tant sur le plan gustatif que nutritionnel.</td>
-                                        <td>Volailles</td>
-                                        <td>1250.00 FCFA</td>
-                                        <td>125</td>
-                                        <td class="py-1">
-                                            <img src="{{ asset('backend/images/carousel/banner_1.jpg') }}"
-                                                alt="" />
-                                        </td>
-                                        {{-- <td>Lorem, ipsum.</td> --}}
-                                        {{-- <td>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum, ipsum?</td>
-                                        <td>http://Loremipsumdolor</td> --}}
-                                        {{-- <td>
-                                            <div class="checkbox">
-                                                <label>
-                                                    <input type="checkbox" class="durum" data-on="Disponible"
-                                                        data-off="Indisponible" data-onstyle="success" data-offstyle="danger"
-                                                        data-toggle="toggle" checked>
-                                                </label>
-                                            </div>
-                                        </td> --}}
-                                        {{-- <td>
-                                            <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                                                <label class="btn btn-success {{ $status == 'illimite' ? 'active' : '' }}">
-                                                    <input type="radio" name="status" id="illimite" value="illimite" {{ $status == 'illimite' ? 'checked' : '' }}> Illimité
-                                                </label>
-                                                <label class="btn btn-warning {{ $status == 'en_stock' ? 'active' : '' }}">
-                                                    <input type="radio" name="status" id="en_stock" value="en_stock" {{ $status == 'en_stock' ? 'checked' : '' }}> En stock
-                                                </label>
-                                                <label class="btn btn-danger {{ $status == 'epuise' ? 'active' : '' }}">
-                                                    <input type="radio" name="status" id="epuise" value="epuise" {{ $status == 'epuise' ? 'checked' : '' }}> Épuisé
-                                                </label>
-                                            </div>
-                                        </td> --}}
-                                        <td>
-                                            <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                                                <label class="btn btn-success">
-                                                    <input type="radio" name="status" id="illimite" value="0">
-                                                    Illimité
-                                                </label>
-                                                <label class="btn btn-warning">
-                                                    <input type="radio" name="status" id="en_stock" value="1"> En
-                                                    stock
-                                                </label>
-                                                <label class="btn btn-danger">
-                                                    <input type="radio" name="status" id="epuise" value="2">
-                                                    Épuisé
-                                                </label>
-                                            </div>
-                                        </td>
-                                        <td class="d-flex">
-                                            <!-- Lien pour modifier avec une icône de crayon -->
-                                            <a href="{{ route('panel.product.edit', 1) }}"
-                                                class="btn btn-primary mr-2 btn-icon">
-                                                <span class="fas fa-edit"></span>
-                                            </a>
-                                            <!-- Formulaire pour supprimer avec une icône de corbeille -->
-                                            <form action="{{ route('panel.product.destroy', 1) }}" method="POST"
-                                                class="d-inline">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-danger btn-icon">
-                                                    <span class="fas fa-trash-alt"></span>
-                                                </button>
-                                            </form>
-                                        </td>
+                                    <tr>
+                                        <td colspan="8" class="text-center">Aucun produit disponible</td>
                                     </tr>
                                 @endif
                             </tbody>

@@ -26,7 +26,7 @@ class RoleSeeder extends Seeder
             $superAdmin = User::create([
                 'name' => 'Super Admin',
                 'email' => 'superadmin@gmail.com',
-                'password' => bcrypt('supadmin'), // Utilise un mot de passe sécurisé
+                'password' => bcrypt('superadmin'), // Utilise un mot de passe sécurisé
             ]);
         }
 

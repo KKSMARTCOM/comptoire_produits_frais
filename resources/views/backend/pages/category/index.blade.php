@@ -17,18 +17,18 @@
                         </div>
                     @endif
 
-                    @if (!empty($categories) && $categories->count() > 0)
-                        <div class="table-responsive">
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th>Libellé</th>
-                                        <th>Description</th>
-                                        <th>Catégorie</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Libellé</th>
+                                    <th>Description</th>
+                                    <th>Catégorie</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (!empty($categories) && $categories->count() > 0)
                                     @foreach ($categories as $category)
                                         <tr class="item" item-id="{{ $category->id }}">
                                             <td>{{ ucfirst($category->name) }}</td>
@@ -45,14 +45,17 @@
                                             </td>
                                         </tr>
                                     @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-                    @else
-                        <tr>
-                            <td colspan="4">Aucune catégorie disponible</td>
-                        </tr>
-                    @endif
+                                @else
+                                    <tr>
+                                        <td colspan="4">Aucune catégorie disponible</td>
+                                    </tr>
+                                @endif
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="mt-3 d-flex justify-content-end">
+                        {{ $categories->links('pagination::custom') }}
+                    </div>
                 </div>
             </div>
         </div>

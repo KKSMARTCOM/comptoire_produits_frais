@@ -19,7 +19,7 @@
                                     <th>Email</th>
                                     <th>Rôle</th>
                                     <th>Statut</th>
-                                    @if (auth()->user()->hasRole('admin'))
+                                    @if (auth()->user()->hasRole('admin') || auth()->user()->hasRole('superadmin'))
                                         <th>Actions</th>
                                     @endif
                                 </tr>
@@ -66,7 +66,7 @@
                                     @endforeach
                                 @else
                                     <tr>
-                                        <td colspan="5">Aucun utilisateur trouvé</td>
+                                        <td colspan="5" class="text-center">Aucun utilisateur trouvé</td>
                                     </tr>
                                 @endif
                             </tbody>

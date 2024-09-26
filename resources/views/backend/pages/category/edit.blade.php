@@ -72,6 +72,21 @@
                             </select>
                         </div>
 
+                        <div class="form-group">
+                            <label for="content">Sous-catégorie (A selectionner si vous ajoutez une sous-catégorie)</label>
+                            <select class="form-control" name="sub_cat" id="sub_cat">
+                                <option value="">Selectionner le type de sous-catégorie</option>
+                                <option value="type"
+                                    {{ isset($category) && $category->sub_cat == 'type' ? 'selected' : '' }}>
+                                    Type
+                                </option>
+                                <option value="region"
+                                    {{ isset($category) && $category->sub_cat == 'region' ? 'selected' : '' }}>
+                                    Région
+                                </option>
+                            </select>
+                        </div>
+
                         <button type="submit" class="btn text-light mr-2"
                             style="background-color: #004200 !important">Enregistrer</button>
                         <a href="{{ route('panel.category.index') }}" class="btn btn-light">Annuler</a>

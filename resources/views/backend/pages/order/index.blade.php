@@ -80,48 +80,7 @@
                                     @endforeach
                                 @else
                                     <tr>
-                                        <td colspan="8">Aucune commande disponible</td>
-                                    </tr>
-                                    <tr class="item" item-id="1">
-                                        <td>23455678</td>
-                                        <td>Toto</td>
-                                        <td>23-08-2024</td>
-                                        <td>toto@email.com</td>
-                                        <td>96241841</td>
-                                        <td>Cotonou</td>
-                                        <td>Chateau Rouge, dinde</td>
-                                        <td>5</td>
-                                        <td>45.000FCFA</td>
-                                        <td>
-                                            <div class="checkbox">
-                                                <label>
-                                                    <input type="checkbox" class="durum" data-on="Livrée"
-                                                        data-off="En cours" data-onstyle="success" data-offstyle="danger"
-                                                        data-toggle="toggle" checked>
-                                                </label>
-                                            </div>
-                                        </td>
-                                        {{-- <td class="d-flex">
-                                            <a href="{{ route('panel.order.edit', 1) }}" class="btn btn-primary mr-2">Modifier
-                                            </a>
-                                            <button type="button" class="deleteBtn btn btn-danger">Supprimer</button>
-                                        </td> --}}
-                                        <td class="d-flex">
-                                            <!-- Lien pour modifier avec une icône de crayon -->
-                                            <a href="{{ route('panel.order.edit', 1) }}" class="btn btn-primary mr-2">
-                                                <i class="fas fa-edit"></i>
-                                            </a>
-                                            <!-- Lien pour afficher les détails avec une icône d'œil -->
-                                            <a href="{{ route('panel.order.edit', 1) }}" class="btn btn-info mr-2">
-                                                <i class="fas fa-eye"></i>
-                                            </a>
-                                            <!-- Bouton pour supprimer avec une icône de corbeille -->
-                                            <button type="button" class="deleteBtn btn btn-danger">
-                                                <i class="fas fa-trash-alt"></i>
-                                            </button>
-                                        </td>
-
-
+                                        <td colspan="8" class="text-center">Aucune commande disponible</td>
                                     </tr>
                                 @endif
                             </tbody>

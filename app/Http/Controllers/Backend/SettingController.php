@@ -7,7 +7,9 @@ use App\Models\SiteSetting;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 
 class SettingController extends Controller
 {
@@ -81,4 +83,56 @@ class SettingController extends Controller
     }
 
     public function destroy(Request $request) {}
+
+    public function logs()
+    {
+        $logPath = storage_path('logs/laravel.log');
+        $logs = [];
+
+        if (File::exists($logPath)) {
+            $logFile = File::get($logPath);
+            $logLines = explode("\n", $logFile);
+
+            foreach ($logLines as $line) {
+                if (preg_match('/\[(.*)\]\s(\w+)\.(\w+):\s(.*)/', $line, $matches)) {
+                    // Exemple pour capturer les informations supplémentaires (comme l'utilisateur)
+                    if (preg_match('/user_id=(\d+), user_name=(.*), action=(.*), email=(.*)/', $matches[4], $userMatches)) {
+                        $logs[] = [
+                            'date' => $matches[1],
+                            'env' => $matches[2],
+                            'level' => $matches[3],
+                            'message' => $userMatches[3],
+                            'user_id' => $userMatches[1],
+                            'user_name' => $userMatches[2],
+                            'email' => $userMatches[4],
+                        ];
+                    } else {
+                        $logs[] = [
+                            'date' => $matches[1],
+                            'env' => $matches[2],
+                            'level' => $matches[3],
+                            'message' => $matches[4],
+                        ];
+                    }
+                }
+            }
+        }
+
+        return view('backend.pages.setting.logs', compact('logs'));
+    }
+
+    public function someAction()
+    {
+        $user = Auth::user();
+
+        // Exemple de log avec des informations sur l'utilisateur
+        Log::info('Action effectuée', [
+            'user_id' => $user->id,
+            'user_name' => $user->name,
+            'action' => 'Some action description',
+            'email' => $user->email,
+        ]);
+
+        // Logique de l'action ici...
+    }
 }

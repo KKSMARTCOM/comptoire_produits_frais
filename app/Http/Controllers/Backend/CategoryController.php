@@ -14,7 +14,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::with('category:id,category_id,name')->get();
+        $categories = Category::with('category:id,category_id,name')->paginate(10);
         return view('backend.pages.category.index', compact('categories'));
     }
 
@@ -23,10 +23,16 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        // Obtenir toutes les catégories principales (sans parent)
-        $categories = Category::where('category_id', null)->get();
+        try {
+            //code...
+            // Obtenir toutes les catégories principales (sans parent)
+            $categories = Category::where('category_id', null)->get();
 
-        return view('backend.pages.category.edit', compact('categories'));
+            return view('backend.pages.category.edit', compact('categories'));
+        } catch (\Exception $e) {
+            dd($e);
+            //throw $th;
+        }
     }
 
     /**
@@ -38,6 +44,7 @@ class CategoryController extends Controller
         Category::create([
             'name' => $request->name,
             'content' => $request->content,
+            'sub_cat' => $request->sub_cat,
             'category_id' => $request->category_id,
         ]);
 

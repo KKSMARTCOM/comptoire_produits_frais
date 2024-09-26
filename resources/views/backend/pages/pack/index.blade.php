@@ -59,7 +59,7 @@
                                     @endforeach
                                 @else
                                     <tr>
-                                        <td colspan="5">Aucun coffret disponible</td>
+                                        <td colspan="5" class="text-center">Aucun coffret disponible</td>
                                     </tr>
                                 @endif
                             </tbody>

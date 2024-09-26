@@ -18,8 +18,10 @@ return new class extends Migration
             $table->string('image');
             $table->longText('content')->nullable();
             $table->double('price', 8, 2);
-            $table->integer('quantity');
+            $table->integer('quantity')->nullable();
             $table->enum('status', ['0', '1', '2'])->default('0');
+            $table->string('type')->nullable();
+            $table->string('region')->nullable();
             $table->foreignId('category_id')->constrained('categories')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });

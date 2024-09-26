@@ -47,6 +47,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'panel', 'as' => 'panel.'], 
     Route::post('/setting/store', [SettingController::class, 'store'])->name('setting.store');
     Route::put('/setting/update', [SettingController::class, 'update'])->name('setting.update');
     Route::delete('/setting/destroy', [SettingController::class, 'destroy'])->name('setting.destroy');
+    Route::get('/logs', [SettingController::class, 'logs'])->name('setting.logs');
 
     // product route
     Route::resource('/product', ProductController::class)->except('destroy');
@@ -61,7 +62,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'panel', 'as' => 'panel.'], 
     Route::get('/promotions/{promotion}/edit', [PromotionController::class, 'edit'])->name('promotions.edit');
     Route::put('/promotions/{promotion}', [PromotionController::class, 'update'])->name('promotions.update'); // Changer `delete` en `put`
     Route::delete('/promotions/{promotion}', [PromotionController::class, 'destroy'])->name('promotions.destroy');
-    
+
     Route::get('/get-products/{category_id}', [PromotionController::class, 'getProducts'])->name('get-products');
 
 
@@ -74,13 +75,13 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'panel', 'as' => 'panel.'], 
     Route::post('/order-status/update', [OrderController::class, 'status'])->name('order.status');
     Route::post('/order-quantity/update', [OrderController::class, 'change'])->name('order.change');
 
-    
+
     /* Route::get('password/reset', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('panel.password.request');
     Route::post('password/email', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('panel.password.email');
     Route::get('password/reset/{token}', [ResetPasswordController::class, 'showResetForm'])->name('panel.password.reset');
 
  */
-    
+
     // Afficher le formulaire de réinitialisation de mot de passe
     Route::get('password/reset', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
 
@@ -92,6 +93,4 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'panel', 'as' => 'panel.'], 
 
     // Réinitialiser le mot de passe
     Route::post('password/reset', [ResetPasswordController::class, 'reset'])->name('password.update');
-
-    Route::get('/logs', [LogController::class, 'index'])->name('logs.index')->middleware('auth');
 });

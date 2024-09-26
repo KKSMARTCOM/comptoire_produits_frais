@@ -15,6 +15,7 @@ class Category extends Model
         'name',
         'slug',
         'content',
+        'sub_cat',
         'category_id'
     ];
 

@@ -81,7 +81,8 @@
                     <!-- Afficher le nom de l'utilisateur connecté -->
                     <a class="dropdown-item">
                         <i class="ti-user text-primary"></i>
-                        {{ Auth::user()->name }} <!-- Affiche le nom de l'utilisateur -->
+                        {{ Auth::user()->name }} : {{ Auth()->user()->role == 0 ? 'Administrateur' : 'Utilisateur' }}
+                        <!-- Affiche le nom et le rôle de l'utilisateur -->
                     </a>
 
                     <!-- Afficher la date et l'heure de connexion -->

@@ -18,6 +18,8 @@ class Product extends Model
         'quantity',
         'status',
         'content',
+        'type',
+        'region'
     ];
 
     // Relation avec les catégories

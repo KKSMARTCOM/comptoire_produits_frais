@@ -48,7 +48,7 @@
         <li
             class="nav-item {{ request()->routeIs('panel.user.index') || request()->routeIs('panel.user.edit') || request()->routeIs('panel.user.create') ? 'active' : '' }}">
             <a class="nav-link" href="{{ route('panel.user.index') }}">
-                <i class="icon-eye menu-icon"></i>
+                <i class="ti-user menu-icon"></i>
                 <span class="menu-title">Utilisateurs</span>
             </a>
         </li>
@@ -60,18 +60,18 @@
                 <span class="menu-title">Paramètres</span>
             </a>
             <div class="collapse" id="parametresSubMenu">
-                <div class="collapse {{ !request()->routeIs('panel.setting.index') ? 'show' : '' }}"
+                <div class="collapse {{ request()->routeIs('panel.setting.index') || request()->routeIs('panel.setting.logs') ? 'show' : '' }}"
                     id="parametresSubMenu">
-                    <ul class="nav flex-column sub-menu">
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('panel.password.request') }}">Changer<br>mot de
+                    <ul style="padding: 0px 0px 0px 30px" class="nav flex-column sub-menu">
+                        {{-- <li class="nav-item">
+                            <a class="nav-link" href="{{ route('panel.password.request') }}">Changer mot de
                                 passe</a>
-                        </li>
+                        </li> --}}
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('panel.setting.index') }}">Profil</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('panel.logs.index') }}">Logs</a>
+                            <a class="nav-link" href="{{ route('panel.setting.logs') }}">Historique</a>
                         </li>
 
                     </ul>
