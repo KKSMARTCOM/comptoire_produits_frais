@@ -13,6 +13,17 @@ class SliderController extends Controller
 {
     public function index()
     {
+
+        $user = Auth::user();
+        $userName = $user->name;
+        $role = $user->isSuperAdmin() ? 'Super-Admin' : 'Admin';
+
+        // Enregistrer l'action d'accès à la liste des sliders
+        activity()
+            ->causedBy($user)
+            ->withProperties(['menu' => 'Sliders', 'action' => 'Accès à la liste'])
+            ->log("{$userName} ({$role}) a accédé à la liste des sliders.");
+
         //$sliders = Slider::all();
         return view('backend.pages.slider.index');
     }
@@ -24,6 +35,18 @@ class SliderController extends Controller
 
     public function edit($id)
     {
+
+        $user = Auth::user();
+        $userName = $user->name;
+        $role = $user->isSuperAdmin() ? 'Super-Admin' : 'Admin';
+
+        // Enregistrer l'action d'édition d'un slider
+        activity()
+            ->causedBy($user)
+            ->performedOn($slider)
+            ->withProperties(['menu' => 'Sliders', 'action' => 'Édition'])
+            ->log("{$userName} ({$role}) a accédé à la modification du slider : {$slider->title}.");
+
         //$slider = Slider::where('id', $id)->first();
         return view('backend.pages.slider.edit');
     }
@@ -46,6 +69,18 @@ class SliderController extends Controller
             'status' => $request->status,
             'image' => $imgurl ?? NULL,
         ]);
+
+
+        $user = Auth::user();
+        $userName = $user->name;
+        $role = $user->isSuperAdmin() ? 'Super-Admin' : 'Admin';
+
+        // Enregistrer l'action de création d'un slider
+        activity()
+            ->causedBy($user)
+            ->performedOn($slider)
+            ->withProperties(['menu' => 'Sliders', 'action' => 'Création'])
+            ->log("{$userName} ({$role}) a créé un slider : {$slider->title}.");
 
         return back()->withSuccess('Slider created successfully');
         // return $request->all();
@@ -74,6 +109,18 @@ class SliderController extends Controller
             'image' => $imgurl ?? $slider->image,
         ]);
 
+
+        $user = Auth::user();
+        $userName = $user->name;
+        $role = $user->isSuperAdmin() ? 'Super-Admin' : 'Admin';
+
+        // Enregistrer l'action de mise à jour d'un slider
+        activity()
+            ->causedBy($user)
+            ->performedOn($slider)
+            ->withProperties(['menu' => 'Sliders', 'action' => 'Mise à jour'])
+            ->log("{$userName} ({$role}) a mis à jour le slider : {$slider->title}.");
+
         return back()->withSuccess('Slider updated successfully');
         // return $request->all();
     }
@@ -92,6 +139,18 @@ class SliderController extends Controller
         dosyasil($slider->image);
 
         $slider->delete();
+
+        $user = Auth::user();
+        $userName = $user->name;
+        $role = $user->isSuperAdmin() ? 'Super-Admin' : 'Admin';
+
+        // Enregistrer l'action de suppression d'un slider
+        activity()
+            ->causedBy($user)
+            ->performedOn($slider)
+            ->withProperties(['menu' => 'Sliders', 'action' => 'Suppression'])
+            ->log("{$userName} ({$role}) a supprimé le slider : {$sliderTitle}.");
+
         return response(['error' => false, 'message' => 'Slider deleted successfully']);
     }
 

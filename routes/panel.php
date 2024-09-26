@@ -83,12 +83,6 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'panel', 'as' => 'panel.'], 
     Route::post('/order-quantity/update', [OrderController::class, 'change'])->name('order.change');
 
     
-    /* Route::get('password/reset', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('panel.password.request');
-    Route::post('password/email', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('panel.password.email');
-    Route::get('password/reset/{token}', [ResetPasswordController::class, 'showResetForm'])->name('panel.password.reset');
-
- */
-    
     // Afficher le formulaire de réinitialisation de mot de passe
     Route::get('password/reset', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
 

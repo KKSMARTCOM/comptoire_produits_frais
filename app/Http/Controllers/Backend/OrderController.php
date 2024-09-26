@@ -7,6 +7,7 @@ use App\Models\Invoice;
 use App\Models\Order;
 use App\Models\OrderItem;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
 {
@@ -15,8 +16,18 @@ class OrderController extends Controller
      */
     public function index()
     {
+
+        $user = Auth::user();
+        $userName = $user->name;
+        $role = $user->isSuperAdmin() ? 'Super-Admin' : 'Admin';
+    
+        // Enregistrer l'action de l'utilisateur
+        activity()
+            ->causedBy($user)
+            ->withProperties(['menu' => 'Commandes', 'action' => 'Accès à la liste'])
+            ->log("{$userName} ({$role}) a accédé à la liste des commandes.");
+            
         $orders = Order::withCount('orderItems')->paginate(20);
-        //dd($orders);
         return view('backend.pages.order.index', compact('orders'));
     }
 
@@ -50,7 +61,17 @@ class OrderController extends Controller
     public function edit(string $id)
     {
         $order = Order::where('id', $id)->with('orderItems')->firstOrFail();
-        //dd($order);
+        $user = Auth::user();
+        $userName = $user->name;
+        $role = $user->isSuperAdmin() ? 'Super-Admin' : 'Admin';
+
+        // Enregistrer l'action de l'utilisateur
+        activity()
+            ->causedBy($user)
+            ->performedOn($order)
+            ->withProperties(['menu' => 'Commandes', 'action' => 'Édition'])
+            ->log("{$userName} ({$role}) est en train de modifier la commande : {$order->id}.");
+        
         return view('backend.pages.order.edit', compact('order'));
     }
 
@@ -71,6 +92,18 @@ class OrderController extends Controller
         OrderItem::where('order_no', $order->order_no)->delete();
 
         $order->delete();
+
+        $user = Auth::user();
+        $userName = $user->name;
+        $role = $user->isSuperAdmin() ? 'Super-Admin' : 'Admin';
+
+        // Enregistrer l'action de l'utilisateur
+        activity()
+            ->causedBy($user)
+            ->performedOn($order)
+            ->withProperties(['menu' => 'Commandes', 'action' => 'Suppression'])
+            ->log("{$userName} ({$role}) a supprimé la commande : {$order->id}.");
+
         return response(['error' => false, 'message' => 'Commande supprimée avec succès !']);
     }
 

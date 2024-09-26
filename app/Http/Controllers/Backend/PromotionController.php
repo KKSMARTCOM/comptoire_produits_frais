@@ -8,12 +8,24 @@ use App\Models\Promotion;
 use Illuminate\Support\Str;
 use App\Models\Category;
 use App\Models\Product;
+use Illuminate\Support\Facades\Auth;
 
 class PromotionController extends Controller
 {
     // Afficher la liste des promotions
     public function index()
     {
+
+        $user = Auth::user();
+        $userName = $user->name;
+        $role = $user->isSuperAdmin() ? 'Super-Admin' : 'Admin';
+
+        // Enregistrer l'action d'accès à la liste des promotions
+        activity()
+            ->causedBy($user)
+            ->withProperties(['menu' => 'Promotions', 'action' => 'Accès à la liste'])
+            ->log("{$userName} ({$role}) a accédé à la liste des promotions.");
+
         // Charger les promotions avec les catégories et produits associés
         $promotions = Promotion::with('category', 'products')->get();
         $categories = Category::all();
@@ -72,6 +84,18 @@ class PromotionController extends Controller
             $promotion->products()->attach($request->products);
         }
     
+
+        $user = Auth::user();
+        $userName = $user->name;
+        $role = $user->isSuperAdmin() ? 'Super-Admin' : 'Admin';
+
+        // Enregistrer l'action de création d'une promotion
+        activity()
+            ->causedBy($user)
+            ->performedOn($promotion)
+            ->withProperties(['menu' => 'Promotions', 'action' => 'Création'])
+            ->log("{$userName} ({$role}) a créé une promotion : {$promotion->name}.");
+
         return redirect()->route('panel.promotions.index')->with('success', 'Promotion créée avec succès.');
     }
 
@@ -80,6 +104,18 @@ class PromotionController extends Controller
     {
         $categories = Category::all();
         $products = Product::all();
+
+        $user = Auth::user();
+        $userName = $user->name;
+        $role = $user->isSuperAdmin() ? 'Super-Admin' : 'Admin';
+
+        // Enregistrer l'action d'édition d'une promotion
+        activity()
+            ->causedBy($user)
+            ->performedOn($promotion)
+            ->withProperties(['menu' => 'Promotions', 'action' => 'Édition'])
+            ->log("{$userName} ({$role}) a accédé à la modification de la promotion : {$promotion->name}.");
+
         return view('backend.pages.promotion.edit', compact('promotion', 'categories', 'products'));
     }
 
@@ -103,6 +139,18 @@ class PromotionController extends Controller
         // Synchroniser les produits sélectionnés
         $promotion->products()->sync($request->products);
 
+
+        $user = Auth::user();
+        $userName = $user->name;
+        $role = $user->isSuperAdmin() ? 'Super-Admin' : 'Admin';
+
+        // Enregistrer l'action de mise à jour d'une promotion
+        activity()
+            ->causedBy($user)
+            ->performedOn($promotion)
+            ->withProperties(['menu' => 'Promotions', 'action' => 'Mise à jour'])
+            ->log("{$userName} ({$role}) a mis à jour la promotion : {$promotion->name}.");
+
         return redirect()->route('panel.promotions.index')->with('success', 'Promotion mise à jour avec succès.');
     }
 
@@ -110,6 +158,18 @@ class PromotionController extends Controller
     public function destroy(Promotion $promotion)
     {
         $promotion->delete();
+
+        $user = Auth::user();
+        $userName = $user->name;
+        $role = $user->isSuperAdmin() ? 'Super-Admin' : 'Admin';
+
+        // Enregistrer l'action de suppression d'une promotion
+        activity()
+            ->causedBy($user)
+            ->performedOn($promotion)
+            ->withProperties(['menu' => 'Promotions', 'action' => 'Suppression'])
+            ->log("{$userName} ({$role}) a supprimé la promotion : {$promotionName}.");
+
         return redirect()->route('panel.promotions.index')->with('success', 'Promotion supprimée avec succès.');
     }
 }

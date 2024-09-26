@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Pack;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PackController extends Controller
 {
@@ -14,7 +15,16 @@ class PackController extends Controller
      */
     public function index()
     {
-        //
+        $user = Auth::user();
+        $userName = $user->name;
+        $role = $user->isSuperAdmin() ? 'Super-Admin' : 'Admin';
+
+        // Enregistrer l'action d'accès à la liste des packs
+        activity()
+            ->causedBy($user)
+            ->withProperties(['menu' => 'Packs', 'action' => 'Accès à la liste'])
+            ->log("{$userName} ({$role}) a accédé à la liste des packs.");
+
         $packs = Pack::orderBy('id', 'desc')->paginate(10);
         return view('backend.pages.pack.index', compact('packs'));
     }
@@ -69,6 +79,17 @@ class PackController extends Controller
             $pack->products()->attach($productId, /* ['quantity' => $validated['quantities'][$key]] */);
         }
 
+        $user = Auth::user();
+        $userName = $user->name;
+        $role = $user->isSuperAdmin() ? 'Super-Admin' : 'Admin';
+
+        // Enregistrer l'action de création d'un pack
+        activity()
+            ->causedBy($user)
+            ->performedOn($pack)
+            ->withProperties(['menu' => 'Packs', 'action' => 'Création'])
+            ->log("{$userName} ({$role}) a créé un pack : {$pack->name}.");
+
         return back()->withSuccess('Ajout éffectué avec succès !');
     }
 
@@ -88,6 +109,18 @@ class PackController extends Controller
         //
         $pack = Pack::where('id', $id)->first();
         $products = Product::get();
+
+        $user = Auth::user();
+        $userName = $user->name;
+        $role = $user->isSuperAdmin() ? 'Super-Admin' : 'Admin';
+
+        // Enregistrer l'action d'édition d'un pack
+        activity()
+            ->causedBy($user)
+            ->performedOn($pack)
+            ->withProperties(['menu' => 'Packs', 'action' => 'Édition'])
+            ->log("{$userName} ({$role}) a accédé à la modification du pack : {$pack->name}.");
+
         return view('backend.pages.pack.edit', compact('products', 'pack'));
     }
 
@@ -136,6 +169,17 @@ class PackController extends Controller
             $pack->products()->attach($productId);
         }
 
+        $user = Auth::user();
+        $userName = $user->name;
+        $role = $user->isSuperAdmin() ? 'Super-Admin' : 'Admin';
+
+        // Enregistrer l'action de mise à jour du pack
+        activity()
+            ->causedBy($user)
+            ->performedOn($pack)
+            ->withProperties(['menu' => 'Packs', 'action' => 'Mise à jour'])
+            ->log("{$userName} ({$role}) a mis à jour le pack : {$pack->name}.");
+
         return back()->withSuccess('Mise à jour éffectuée avec succès !');
     }
 
@@ -150,6 +194,17 @@ class PackController extends Controller
         deleteFile($pack->image);
 
         $pack->delete();
+
+        $user = Auth::user();
+        $userName = $user->name;
+        $role = $user->isSuperAdmin() ? 'Super-Admin' : 'Admin';
+
+        // Enregistrer l'action de suppression d'un pack
+        activity()
+            ->causedBy($user)
+            ->performedOn($pack)
+            ->withProperties(['menu' => 'Packs', 'action' => 'Suppression'])
+            ->log("{$userName} ({$role}) a supprimé le pack : {$packName}.");
 
         return response(['error' => false, 'message' => 'Coffret supprimé avec succès !']);
     }
