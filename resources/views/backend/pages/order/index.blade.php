@@ -87,10 +87,8 @@
                         </table>
                     </div>
 
-                    <div class="row mt-3">
-                        <div class="col-lg-12">
-                            {{ $orders->links('pagination::custom') }}
-                        </div>
+                    <div class="mt-3 d-flex justify-content-end">
+                        {{ $orders->links('pagination::custom') }}
                     </div>
 
                 </div>

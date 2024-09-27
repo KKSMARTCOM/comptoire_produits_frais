@@ -16,16 +16,6 @@ class PackController extends Controller
      */
     public function index()
     {
-        $user = Auth::user();
-        $userName = $user->name;
-        $role = $user->isSuperAdmin() ? 'Super-Admin' : 'Admin';
-
-        // Enregistrer l'action d'accès à la liste des packs
-        activity()
-            ->causedBy($user)
-            ->withProperties(['menu' => 'Packs', 'action' => 'Accès à la liste'])
-            ->log("{$userName} ({$role}) a accédé à la liste des packs.");
-
         $packs = Pack::orderBy('id', 'desc')->paginate(10);
         return view('backend.pages.pack.index', compact('packs'));
     }
@@ -86,17 +76,14 @@ class PackController extends Controller
             }
 
             $user = Auth::user();
-            $userName = $user->name;
-            $role = $user->isSuperAdmin() ? 'Super-Admin' : 'Admin';
+            $role = $user->role == '0' || '1' ? 'Administrateur' : 'Utilisateur';
 
             // Enregistrer l'action de création d'un pack
             activity()
                 ->causedBy($user)
                 ->performedOn($pack)
-                ->withProperties(['menu' => 'Packs', 'action' => 'Création'])
-                ->log("{$userName} ({$role}) a créé un pack : {$pack->name}.");
-
-            return back()->withSuccess('Ajout éffectué avec succès !');
+                ->withProperties(['menu' => 'Coffret', 'action' => 'Création'])
+                ->log("{$user->name} ({$role}) a créé un coffret : {$pack->name}.");
 
             return back()->withSuccess('Ajout éffectué avec succès !');
         } catch (\Exception $e) {
@@ -124,17 +111,6 @@ class PackController extends Controller
             $pack = Pack::where('id', $id)->with('products')->first();
             $categories = Category::all();
             $products = Product::get();
-
-            $user = Auth::user();
-            $userName = $user->name;
-            $role = $user->isSuperAdmin() ? 'Super-Admin' : 'Admin';
-
-            // Enregistrer l'action d'édition d'un pack
-            activity()
-                ->causedBy($user)
-                ->performedOn($pack)
-                ->withProperties(['menu' => 'Packs', 'action' => 'Édition'])
-                ->log("{$userName} ({$role}) a accédé à la modification du pack : {$pack->name}.");
 
             return view('backend.pages.pack.edit', compact('products', 'categories', 'pack'));
         } catch (\Exception $e) {
@@ -193,15 +169,14 @@ class PackController extends Controller
             $pack->products()->sync($products);
 
             $user = Auth::user();
-            $userName = $user->name;
-            $role = $user->isSuperAdmin() ? 'Super-Admin' : 'Admin';
+            $role = $user->role == '0' || '1' ? 'Administrateur' : 'Utilisateur';
 
             // Enregistrer l'action de mise à jour du pack
             activity()
                 ->causedBy($user)
                 ->performedOn($pack)
-                ->withProperties(['menu' => 'Packs', 'action' => 'Mise à jour'])
-                ->log("{$userName} ({$role}) a mis à jour le pack : {$pack->name}.");
+                ->withProperties(['menu' => 'Coffret', 'action' => 'Mise à jour'])
+                ->log("{$user->name} ({$role}) a mis à jour le coffret : {$pack->name}.");
 
             return back()->withSuccess('Mise à jour éffectuée avec succès !');
         } catch (\Exception $e) {
@@ -223,26 +198,15 @@ class PackController extends Controller
         $pack->delete();
 
         $user = Auth::user();
-        $userName = $user->name;
-        $role = $user->isSuperAdmin() ? 'Super-Admin' : 'Admin';
+        $role = $user->role == '0' || '1' ? 'Administrateur' : 'Utilisateur';
 
         // Enregistrer l'action de suppression d'un pack
         activity()
             ->causedBy($user)
             ->performedOn($pack)
-            ->withProperties(['menu' => 'Packs', 'action' => 'Suppression'])
-            ->log("{$userName} ({$role}) a supprimé le pack : {$pack->name}.");
+            ->withProperties(['menu' => 'Coffret', 'action' => 'Suppression'])
+            ->log("{$user->name} ({$role}) a supprimé le coffret : {$pack->name}.");
 
         return response(['error' => false, 'message' => 'Coffret supprimé avec succès !']);
-    }
-
-    public function status(Request $request)
-    {
-
-        $update = $request->status;
-        //$updateCheck = $update == "false" ? '0' : '1';
-
-        Pack::where('id', $request->id)->update(['status' => $update]);
-        return response(['error' => false, 'status' => $update]);
     }
 }

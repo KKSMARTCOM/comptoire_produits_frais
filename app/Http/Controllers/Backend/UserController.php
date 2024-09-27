@@ -18,16 +18,6 @@ class UserController extends Controller
 
         $users = User::where('email', '!=', 'superadmin@gmail.com')->get(); // Récupérer tous les utilisateurs
 
-        $user = Auth::user();
-        $userName = $user->name;
-        $role = $user->isSuperAdmin() ? 'Super-Admin' : 'Admin';
-
-        // Enregistrer l'action d'accès à la liste des utilisateurs
-        activity()
-            ->causedBy($user)
-            ->withProperties(['menu' => 'Utilisateurs', 'action' => 'Accès à la liste'])
-            ->log("{$userName} ({$role}) a accédé à la liste des utilisateurs.");
-
         return view('backend.pages.user.index', compact('users')); // Assurez-vous que le chemin de la vue est correct
     }
 
@@ -36,7 +26,6 @@ class UserController extends Controller
     // Afficher le formulaire de création (create)
     public function create()
     {
-        //$roles = Role::were('name', '=!', 'superadmin');
         return view('backend.pages.user.create');
     }
 
@@ -65,16 +54,16 @@ class UserController extends Controller
         }
 
 
-        $user = Auth::user();
-        $userName = $user->name;
-        $role = $user->isSuperAdmin() ? 'Super-Admin' : 'Admin';
+        $userAuth = Auth::user();
+        $role = $userAuth->role == '0' || '1' ? 'Administrateur' : 'Utilisateur';
+
 
         // Enregistrer l'action de création d'un utilisateur
         activity()
-            ->causedBy($user)
-            ->performedOn($userName)
+            ->causedBy($userAuth)
+            ->performedOn($user)
             ->withProperties(['menu' => 'Utilisateurs', 'action' => 'Création'])
-            ->log("{$userName} ({$role}) a créé un utilisateur : {$userName}.");
+            ->log("{$userAuth->name} ({$role}) a créé un utilisateur : {$user->name}.");
 
         return redirect()->route('panel.user.index')->with('success', 'Utilisateur créé avec succès.');
     }
@@ -114,19 +103,8 @@ class UserController extends Controller
     public function edit(string $id)
     {
         $user = User::findOrFail($id);
-
-        $user = Auth::user();
-        $userName = $user->name;
-        $role = $user->isSuperAdmin() ? 'Super-Admin' : 'Admin';
-
-        // Enregistrer l'action d'édition d'un utilisateur
-        activity()
-            ->causedBy($user)
-            ->performedOn($userName)
-            ->withProperties(['menu' => 'Utilisateurs', 'action' => 'Édition'])
-            ->log("{$userName} ({$role}) a accédé à la modification de l'utilisateur : {$userName}.");
-
-        return view('backend.pages.user.edit', compact('user'));
+        $roles = Role::were('name', '=!', 'superadmin');
+        return view('backend.pages.user.edit', compact('user', 'roles'));
     }
 
     // Mettre à jour un utilisateur (update)
@@ -160,16 +138,16 @@ class UserController extends Controller
 
             $user->save();
 
-            $user = Auth::user();
-            $userName = $user->name;
-            $role = $user->isSuperAdmin() ? 'Super-Admin' : 'Admin';
+            $userAuth = Auth::user();
+            $role = $userAuth->role == '0' || '1' ? 'Administrateur' : 'Utilisateur';
+
 
             // Enregistrer l'action de mise à jour d'un utilisateur
             activity()
-                ->causedBy($user)
-                ->performedOn($userName)
+                ->causedBy($userAuth)
+                ->performedOn($user)
                 ->withProperties(['menu' => 'Utilisateurs', 'action' => 'Mise à jour'])
-                ->log("{$userName} ({$role}) a mis à jour l'utilisateur : {$userName}.");
+                ->log("{$userAuth->name} ({$role}) a mis à jour l'utilisateur : {$user->name}.");
 
             return redirect()->route('panel.user.index')->with('success', 'Utilisateur mis à jour avec succès.');
         } catch (\Exception $e) {
@@ -207,16 +185,15 @@ class UserController extends Controller
         $user->delete();
 
 
-        $user = Auth::user();
-        $userName = $user->name;
-        $role = $user->isSuperAdmin() ? 'Super-Admin' : 'Admin';
+        $userAuth = Auth::user();
+        $role = $userAuth->role == '0' || '1' ? 'Administrateur' : 'Utilisateur';
 
         // Enregistrer l'action de suppression d'un utilisateur
         activity()
-            ->causedBy($user)
-            ->performedOn($userName)
+            ->causedBy($userAuth)
+            ->performedOn($user)
             ->withProperties(['menu' => 'Utilisateurs', 'action' => 'Suppression'])
-            ->log("{$userName} ({$role}) a supprimé l'utilisateur : {$userName}.");
+            ->log("{$userAuth->name} ({$role}) a supprimé l'utilisateur : {$user->name}.");
 
         return redirect()->route('panel.user.index')->with('success', 'Utilisateur supprimé avec succès.');
     }

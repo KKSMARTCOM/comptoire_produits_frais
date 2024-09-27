@@ -71,6 +71,9 @@
                                 @endif
                             </tbody>
                         </table>
+                        <div class="mt-3 d-flex justify-content-end">
+                            {{ $users->links('pagination::custom') }}
+                        </div>
                     </div>
                 </div>
             </div>

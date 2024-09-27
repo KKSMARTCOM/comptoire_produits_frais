@@ -17,16 +17,6 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $user = Auth::user();
-        $userName = $user->name;
-        $role = $user->isSuperAdmin() ? 'Super-Admin' : 'Admin';
-
-        // Enregistrer l'accès au menu
-        activity()
-            ->causedBy($user)
-            ->withProperties(['menu' => 'Produits'])
-            ->log("{$userName} a accédé au menu Produits");
-
         $products = Product::with('productCategory')->orderBy('id', 'desc')->paginate(10);
         return view('backend.pages.product.index', compact('products'));
     }
@@ -74,14 +64,13 @@ class ProductController extends Controller
 
         // Enregistrer l'action de l'utilisateur lors de la création
         $user = Auth::user();
-        $userName = $user->name;
-        $role = $user->isSuperAdmin() ? 'Super-Admin' : 'Admin';
+        $role = $user->role == '0' || '1' ? 'Administrateur' : 'Utilisateur';
 
         activity()
             ->causedBy($user)
             ->performedOn($product)
             ->withProperties(['menu' => 'Produits', 'action' => 'Création'])
-            ->log("{$userName} a créé un produit : {$product->name}");
+            ->log("{$user->name} ({$role}) a créé un produit : {$product->name}");
 
         return back()->withSuccess('Ajout éffectué avec succès !');
     }
@@ -137,14 +126,13 @@ class ProductController extends Controller
 
         // Enregistrer l'action de l'utilisateur lors de la modification
         $user = Auth::user();
-        $userName = $user->name;
-        $role = $user->isSuperAdmin() ? 'Super-Admin' : 'Admin';
+        $role = $user->role == '0' || '1' ? 'Administrateur' : 'Utilisateur';
 
         activity()
             ->causedBy($user)
             ->performedOn($product)
             ->withProperties(['menu' => 'Produits', 'action' => 'Modification'])
-            ->log("{$userName} a modifié le produit : {$product->name}");
+            ->log("{$user->name} ({$role}) a modifié le produit : {$product->name}");
 
         return back()->withSuccess('Mise à jour éffectuée avec succès !');
     }
@@ -161,27 +149,16 @@ class ProductController extends Controller
 
         // Enregistrer l'action de l'utilisateur lors de la suppression
         $user = Auth::user();
-        $userName = $user->name;
-        $role = $user->isSuperAdmin() ? 'Super-Admin' : 'Admin';
+        $role = $user->role == '0' || '1' ? 'Administrateur' : 'Utilisateur';
 
         activity()
             ->causedBy($user)
             ->performedOn($product)
             ->withProperties(['menu' => 'Produits', 'action' => 'Suppression'])
-            ->log("{$userName} a supprimé le produit : {$product->name}");
+            ->log("{$user->name} ({$role}) a supprimé le produit : {$product->name}");
 
         $product->delete();
         return response(['error' => false, 'message' => 'Produit supprimé avec succès.']);
-    }
-
-    public function status(Request $request)
-    {
-
-        $update = $request->status;
-        //$updateCheck = $update == "false" ? '0' : '1';
-
-        Product::where('id', $request->id)->update(['status' => $update]);
-        return response(['error' => false, 'status' => $update]);
     }
 
     public function productsByCategories($categoryId)

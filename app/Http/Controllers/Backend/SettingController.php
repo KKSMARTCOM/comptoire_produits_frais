@@ -10,24 +10,14 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
+use Spatie\Activitylog\Models\Activity;
 
 class SettingController extends Controller
 {
     public function index()
     {
-
-        $user = Auth::user();
-        $userName = $user->name;
-        $role = $user->isSuperAdmin() ? 'Super-Admin' : 'Admin';
-
-        // Enregistrer l'action d'accès à la liste des paramètres
-        activity()
-            ->causedBy($user)
-            ->withProperties(['menu' => 'Paramètres', 'action' => 'Accès à la liste'])
-            ->log("{$userName} ({$role}) a accédé à la liste des paramètres.");
-
-        //$settings = SiteSetting::get();
-        return view('backend.pages.setting.index');
+        $user = Auth()->user();
+        return view('backend.pages.setting.index', compact('user'));
     }
 
     public function create() {}
@@ -86,6 +76,16 @@ class SettingController extends Controller
                 ]
             );
 
+            $userAuth = Auth::user();
+            $role = $userAuth->role == '0' || '1' ? 'Administrateur' : 'Utilisateur';
+
+            // Enregistrer l'action de suppression d'une promotion
+            activity()
+                ->causedBy($userAuth)/* 
+                ->performedOn($user) */
+                ->withProperties(['menu' => 'Profil', 'action' => 'Mise à jour'])
+                ->log("{$user->name} ({$role}) a modifié son profil.");
+
             return redirect()->back()->with('success', 'Profil mis à jour avec succès.');
         } catch (\Exception $e) {
             //dd($e);
@@ -97,21 +97,10 @@ class SettingController extends Controller
 
     public function logs()
     {
-        $logPath = storage_path('logs/laravel.log');
-        $logs = [];
-    }
+        // Récupérer les activités avec le causer (l'utilisateur qui a causé l'action)
+        $activities = Activity::with('causer')->latest()->paginate(10);
 
-
-    public function someAction()
-    {
-        $user = Auth::user();
-
-        // Exemple de log avec des informations sur l'utilisateur
-        Log::info('Action effectuée', [
-            'user_id' => $user->id,
-            'user_name' => $user->name,
-            'action' => 'Some action description',
-            'email' => $user->email,
-        ]);
+        // Retourner la vue avec les activités
+        return view('backend.pages.setting.logs', compact('activities'));
     }
 }
