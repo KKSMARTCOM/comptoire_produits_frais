@@ -5,49 +5,32 @@
     <div class="col-lg-12 grid-margin stretch-card">
         <div class="card">
             <div class="card-body">
-    <h4 class="my-4">Logs du Système</h4>
-
-    @if (count($logs) > 0)
-    <!-- Conteneur avec défilement horizontal -->
+    <h4 class="my-4">Logs des actions des utilisateurs</h4>
     <div class="table-responsive">
-        <table class="table table-bordered">
+        <table class="table">
             <thead>
                 <tr>
-                    <th>Date</th>
-                    <th>Environnement</th>
-                    <th>Niveau</th>
-                    <th>Message</th>
                     <th>Utilisateur</th>
-                    <th>Email</th>
+                    <th>Rôle</th>
+                    <th>Menu</th>
+                    <th>Action</th>
+                    <th>Date</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach ($logs as $log)
-                <tr>
-                    <td>{{ $log['date'] }}</td>
-                    <td>{{ $log['env'] }}</td>
-                    <td>
-                        <span class="badge badge-{{ $log['level'] == 'error' ? 'danger' : ($log['level'] == 'warning' ? 'warning' : 'info') }}">
-                            {{ strtoupper($log['level']) }}
-                        </span>
-                    </td>
-                    <td>{{ $log['message'] }}</td>
-                    @if(isset($log['user_id']))
-                        <td>{{ $log['user_name'] }} (ID: {{ $log['user_id'] }})</td>
-                        <td>{{ $log['email'] }}</td>
-                    @else
-                        <td colspan="2">Information utilisateur non disponible</td>
-                    @endif
-                </tr>
+                @foreach($activities as $activity)
+                    <tr>
+                        <td>{{ $activity->causer->name }}</td>
+                        <td>{{ $activity->causer->isSuperAdmin() ? 'Super-Admin' : 'Admin' }}</td>
+                        <td>{{ $activity->properties['menu'] ?? 'N/A' }}</td>
+                        <td>{{ $activity->description }}</td>
+                        <td>{{ $activity->created_at->format('d/m/Y H:i:s') }}</td>
+                    </tr>
                 @endforeach
             </tbody>
         </table>
     </div>
-    @else
-    <div class="alert alert-info">
-        Aucun log disponible.
-    </div>
-    @endif
+
 </div>
 </div>
 </div>

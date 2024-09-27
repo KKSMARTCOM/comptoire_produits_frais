@@ -7,6 +7,7 @@ use App\Models\Category;
 use App\Models\Pack;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PackController extends Controller
 {
@@ -15,7 +16,16 @@ class PackController extends Controller
      */
     public function index()
     {
-        //
+        $user = Auth::user();
+        $userName = $user->name;
+        $role = $user->isSuperAdmin() ? 'Super-Admin' : 'Admin';
+
+        // Enregistrer l'action d'accès à la liste des packs
+        activity()
+            ->causedBy($user)
+            ->withProperties(['menu' => 'Packs', 'action' => 'Accès à la liste'])
+            ->log("{$userName} ({$role}) a accédé à la liste des packs.");
+
         $packs = Pack::orderBy('id', 'desc')->paginate(10);
         return view('backend.pages.pack.index', compact('packs'));
     }
@@ -36,29 +46,29 @@ class PackController extends Controller
      */
     public function store(Request $request)
     {
+        if ($request->hasFile('image')) {
+            $img = $request->file('image');
+            $folderName = $request->name;
+            $uploadFolder = 'img/packs/';
+            folderOpen($uploadFolder);
+            $imgurl = uploadImage($img, $folderName, $uploadFolder);
+        }
+
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'price' => 'required|numeric|min:0',
+            'product_id' => 'required|array',
+            'quantity' => 'required|array',
+        ], [
+            'name.required' => 'Vous devez remplir obligatoirement le champs.',
+            'price.required' => 'Vous devez remplir obligatoirement le champs.',
+            'product_id.required' => 'Vous devez choisir un produit.',
+            'quantity.required' => 'Vous devez entrer une quantité du produit choisis.',
+        ]);
+        //dd($validated);
         try {
             //code...
-            if ($request->hasFile('image')) {
-                $img = $request->file('image');
-                $folderName = $request->name;
-                $uploadFolder = 'img/packs/';
-                folderOpen($uploadFolder);
-                $imgurl = uploadImage($img, $folderName, $uploadFolder);
-            }
-
-            $validated = $request->validate([
-                'name' => 'required|string|max:255',
-                'description' => 'nullable|string',
-                'price' => 'required|numeric|min:0',
-                'product_id' => 'required|array',
-                'quantity' => 'required|array',
-            ], [
-                'name.required' => 'Vous devez remplir obligatoirement le champs.',
-                'price.required' => 'Vous devez remplir obligatoirement le champs.',
-                'product_id.required' => 'Vous devez choisir un produit.',
-                'quantity.required' => 'Vous devez entrer une quantité du produit choisis.',
-            ]);
-            //dd($validated);
 
             $pack = Pack::create([
                 'name' => $request->name,
@@ -74,6 +84,19 @@ class PackController extends Controller
             foreach ($validated['product_id'] as $key => $productId) {
                 $pack->products()->attach($productId, ['quantity' => $validated['quantity'][$key]]);
             }
+
+            $user = Auth::user();
+            $userName = $user->name;
+            $role = $user->isSuperAdmin() ? 'Super-Admin' : 'Admin';
+
+            // Enregistrer l'action de création d'un pack
+            activity()
+                ->causedBy($user)
+                ->performedOn($pack)
+                ->withProperties(['menu' => 'Packs', 'action' => 'Création'])
+                ->log("{$userName} ({$role}) a créé un pack : {$pack->name}.");
+
+            return back()->withSuccess('Ajout éffectué avec succès !');
 
             return back()->withSuccess('Ajout éffectué avec succès !');
         } catch (\Exception $e) {
@@ -101,6 +124,18 @@ class PackController extends Controller
             $pack = Pack::where('id', $id)->with('products')->first();
             $categories = Category::all();
             $products = Product::get();
+
+            $user = Auth::user();
+            $userName = $user->name;
+            $role = $user->isSuperAdmin() ? 'Super-Admin' : 'Admin';
+
+            // Enregistrer l'action d'édition d'un pack
+            activity()
+                ->causedBy($user)
+                ->performedOn($pack)
+                ->withProperties(['menu' => 'Packs', 'action' => 'Édition'])
+                ->log("{$userName} ({$role}) a accédé à la modification du pack : {$pack->name}.");
+
             return view('backend.pages.pack.edit', compact('products', 'categories', 'pack'));
         } catch (\Exception $e) {
             dd($e);
@@ -157,6 +192,17 @@ class PackController extends Controller
             }
             $pack->products()->sync($products);
 
+            $user = Auth::user();
+            $userName = $user->name;
+            $role = $user->isSuperAdmin() ? 'Super-Admin' : 'Admin';
+
+            // Enregistrer l'action de mise à jour du pack
+            activity()
+                ->causedBy($user)
+                ->performedOn($pack)
+                ->withProperties(['menu' => 'Packs', 'action' => 'Mise à jour'])
+                ->log("{$userName} ({$role}) a mis à jour le pack : {$pack->name}.");
+
             return back()->withSuccess('Mise à jour éffectuée avec succès !');
         } catch (\Exception $e) {
             dd($e);
@@ -175,6 +221,17 @@ class PackController extends Controller
         deleteFile($pack->image);
 
         $pack->delete();
+
+        $user = Auth::user();
+        $userName = $user->name;
+        $role = $user->isSuperAdmin() ? 'Super-Admin' : 'Admin';
+
+        // Enregistrer l'action de suppression d'un pack
+        activity()
+            ->causedBy($user)
+            ->performedOn($pack)
+            ->withProperties(['menu' => 'Packs', 'action' => 'Suppression'])
+            ->log("{$userName} ({$role}) a supprimé le pack : {$pack->name}.");
 
         return response(['error' => false, 'message' => 'Coffret supprimé avec succès !']);
     }

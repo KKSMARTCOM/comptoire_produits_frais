@@ -6,6 +6,8 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\Auth;
+
 
 class UserController extends Controller
 {
@@ -13,7 +15,19 @@ class UserController extends Controller
     // Afficher la liste des utilisateurs  (index)
     public function index()
     {
+
         $users = User::where('email', '!=', 'superadmin@gmail.com')->get(); // Récupérer tous les utilisateurs
+
+        $user = Auth::user();
+        $userName = $user->name;
+        $role = $user->isSuperAdmin() ? 'Super-Admin' : 'Admin';
+
+        // Enregistrer l'action d'accès à la liste des utilisateurs
+        activity()
+            ->causedBy($user)
+            ->withProperties(['menu' => 'Utilisateurs', 'action' => 'Accès à la liste'])
+            ->log("{$userName} ({$role}) a accédé à la liste des utilisateurs.");
+
         return view('backend.pages.user.index', compact('users')); // Assurez-vous que le chemin de la vue est correct
     }
 
@@ -49,6 +63,18 @@ class UserController extends Controller
         } else {
             $user->assignRole('utilisateur'); // Utilisateur simple
         }
+
+
+        $user = Auth::user();
+        $userName = $user->name;
+        $role = $user->isSuperAdmin() ? 'Super-Admin' : 'Admin';
+
+        // Enregistrer l'action de création d'un utilisateur
+        activity()
+            ->causedBy($user)
+            ->performedOn($userName)
+            ->withProperties(['menu' => 'Utilisateurs', 'action' => 'Création'])
+            ->log("{$userName} ({$role}) a créé un utilisateur : {$userName}.");
 
         return redirect()->route('panel.user.index')->with('success', 'Utilisateur créé avec succès.');
     }
@@ -88,6 +114,18 @@ class UserController extends Controller
     public function edit(string $id)
     {
         $user = User::findOrFail($id);
+
+        $user = Auth::user();
+        $userName = $user->name;
+        $role = $user->isSuperAdmin() ? 'Super-Admin' : 'Admin';
+
+        // Enregistrer l'action d'édition d'un utilisateur
+        activity()
+            ->causedBy($user)
+            ->performedOn($userName)
+            ->withProperties(['menu' => 'Utilisateurs', 'action' => 'Édition'])
+            ->log("{$userName} ({$role}) a accédé à la modification de l'utilisateur : {$userName}.");
+
         return view('backend.pages.user.edit', compact('user'));
     }
 
@@ -121,6 +159,17 @@ class UserController extends Controller
             }
 
             $user->save();
+
+            $user = Auth::user();
+            $userName = $user->name;
+            $role = $user->isSuperAdmin() ? 'Super-Admin' : 'Admin';
+
+            // Enregistrer l'action de mise à jour d'un utilisateur
+            activity()
+                ->causedBy($user)
+                ->performedOn($userName)
+                ->withProperties(['menu' => 'Utilisateurs', 'action' => 'Mise à jour'])
+                ->log("{$userName} ({$role}) a mis à jour l'utilisateur : {$userName}.");
 
             return redirect()->route('panel.user.index')->with('success', 'Utilisateur mis à jour avec succès.');
         } catch (\Exception $e) {
@@ -156,6 +205,18 @@ class UserController extends Controller
     {
         $user = User::findOrFail($id);
         $user->delete();
+
+
+        $user = Auth::user();
+        $userName = $user->name;
+        $role = $user->isSuperAdmin() ? 'Super-Admin' : 'Admin';
+
+        // Enregistrer l'action de suppression d'un utilisateur
+        activity()
+            ->causedBy($user)
+            ->performedOn($userName)
+            ->withProperties(['menu' => 'Utilisateurs', 'action' => 'Suppression'])
+            ->log("{$userName} ({$role}) a supprimé l'utilisateur : {$userName}.");
 
         return redirect()->route('panel.user.index')->with('success', 'Utilisateur supprimé avec succès.');
     }

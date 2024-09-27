@@ -15,13 +15,24 @@ class SettingController extends Controller
 {
     public function index()
     {
-        $user = Auth()->user();
-        return view('backend.pages.setting.index', compact('user'));
+
+        $user = Auth::user();
+        $userName = $user->name;
+        $role = $user->isSuperAdmin() ? 'Super-Admin' : 'Admin';
+
+        // Enregistrer l'action d'accès à la liste des paramètres
+        activity()
+            ->causedBy($user)
+            ->withProperties(['menu' => 'Paramètres', 'action' => 'Accès à la liste'])
+            ->log("{$userName} ({$role}) a accédé à la liste des paramètres.");
+
+        //$settings = SiteSetting::get();
+        return view('backend.pages.setting.index');
     }
 
     public function create() {}
 
-    public function store(Request $request) {}
+    public function store() {}
 
     public function edit() {}
 
@@ -88,38 +99,8 @@ class SettingController extends Controller
     {
         $logPath = storage_path('logs/laravel.log');
         $logs = [];
-
-        if (File::exists($logPath)) {
-            $logFile = File::get($logPath);
-            $logLines = explode("\n", $logFile);
-
-            foreach ($logLines as $line) {
-                if (preg_match('/\[(.*)\]\s(\w+)\.(\w+):\s(.*)/', $line, $matches)) {
-                    // Exemple pour capturer les informations supplémentaires (comme l'utilisateur)
-                    if (preg_match('/user_id=(\d+), user_name=(.*), action=(.*), email=(.*)/', $matches[4], $userMatches)) {
-                        $logs[] = [
-                            'date' => $matches[1],
-                            'env' => $matches[2],
-                            'level' => $matches[3],
-                            'message' => $userMatches[3],
-                            'user_id' => $userMatches[1],
-                            'user_name' => $userMatches[2],
-                            'email' => $userMatches[4],
-                        ];
-                    } else {
-                        $logs[] = [
-                            'date' => $matches[1],
-                            'env' => $matches[2],
-                            'level' => $matches[3],
-                            'message' => $matches[4],
-                        ];
-                    }
-                }
-            }
-        }
-
-        return view('backend.pages.setting.logs', compact('logs'));
     }
+
 
     public function someAction()
     {
@@ -132,7 +113,5 @@ class SettingController extends Controller
             'action' => 'Some action description',
             'email' => $user->email,
         ]);
-
-        // Logique de l'action ici...
     }
 }
