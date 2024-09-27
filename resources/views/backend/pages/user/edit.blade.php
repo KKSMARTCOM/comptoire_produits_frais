@@ -63,10 +63,10 @@
                         <div class="form-group">
                             <label for="status">Statut</label>
                             <select class="form-control" id="status" name="status">
-                                <option value="0" {{ isset($user) && $user->status == '0' ? 'selected' : '' }}>
+                                <option value="1" {{ isset($user) && $user->status == '1' ? 'selected' : '' }}>
                                     Actif
                                 </option>
-                                <option value="1" {{ isset($user) && $user->status == '1' ? 'selected' : '' }}>
+                                <option value="0" {{ isset($user) && $user->status == '0' ? 'selected' : '' }}>
                                     Inactif</option>
                             </select>
                         </div>

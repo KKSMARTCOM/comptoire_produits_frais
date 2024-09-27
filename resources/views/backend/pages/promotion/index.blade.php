@@ -23,41 +23,48 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($promotions as $promotion)
-                                <tr>
-                                    <td>{{ $promotion->codePromo }}</td>
-                                    <td>{{ $promotion->pourcentage_reduction }}%</td>
-                                    <td>{{ $promotion->category ? $promotion->category->name : 'Aucune catégorie' }}</td>
-                                    <td>
-                                        @if ($promotion->products->isNotEmpty())
-                                            <ul>
-                                                @foreach ($promotion->products as $product)
-                                                    <li>{{ $product->name }}</li> <!-- Lister les produits associés -->
-                                                @endforeach
-                                            </ul>
-                                        @else
-                                            Aucun produit
-                                        @endif
-                                    </td>
-                                    <td>
-                                        <!-- Bouton Modifier avec une icône -->
-                                        <a href="{{ route('panel.promotions.edit', $promotion->id) }}"
-                                            class="btn btn-warning">
-                                            <i class="fas fa-edit"></i>
-                                        </a>
+                            @if ($promotions && $promotions->count() > 0)
+                                @foreach ($promotions as $promotion)
+                                    <tr>
+                                        <td>{{ $promotion->codePromo }}</td>
+                                        <td>{{ $promotion->pourcentage_reduction }}%</td>
+                                        <td>{{ $promotion->category ? $promotion->category->name : 'Aucune catégorie' }}
+                                        </td>
+                                        <td>
+                                            @if ($promotion->products->isNotEmpty())
+                                                <ul>
+                                                    @foreach ($promotion->products as $product)
+                                                        <li>{{ $product->name }}</li> <!-- Lister les produits associés -->
+                                                    @endforeach
+                                                </ul>
+                                            @else
+                                                Aucun produit
+                                            @endif
+                                        </td>
+                                        <td>
+                                            <!-- Bouton Modifier avec une icône -->
+                                            <a href="{{ route('panel.promotions.edit', $promotion->id) }}"
+                                                class="btn btn-warning">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
 
-                                        <!-- Bouton Supprimer avec une icône -->
-                                        <form action="{{ route('panel.promotions.destroy', $promotion->id) }}"
-                                            method="POST" class="d-inline">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-danger">
-                                                <i class="fas fa-trash-alt"></i>
-                                            </button>
-                                        </form>
-                                    </td>
+                                            <!-- Bouton Supprimer avec une icône -->
+                                            <form action="{{ route('panel.promotions.destroy', $promotion->id) }}"
+                                                method="POST" class="d-inline">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-danger">
+                                                    <i class="fas fa-trash-alt"></i>
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            @else
+                                <tr>
+                                    <td colspan="5" class="text-center">Aucune promotion disponible</td>
                                 </tr>
-                            @endforeach
+                            @endif
                         </tbody>
                     </table>
                 </div>

@@ -10,12 +10,14 @@ use App\Http\Controllers\Backend\ProductController;
 use App\Http\Controllers\Backend\UserController;
 use App\Http\Controllers\Backend\PromotionController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\LogController;
 
 Route::group(['middleware' => ['auth'], 'prefix' => 'panel', 'as' => 'panel.'], function () {
     Route::get('/', [DashboardController::class, 'index'])->name('index');
     Route::get('/statistics', [DashboardController::class, 'getOrderStatistics'])->name('statistics');
+    Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
     // pack route
     Route::get('/pack', [PackController::class, 'index'])->name('pack.index');

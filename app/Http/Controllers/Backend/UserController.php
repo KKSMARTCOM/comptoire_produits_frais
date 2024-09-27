@@ -105,22 +105,28 @@ class UserController extends Controller
         $user->email = $request->email;
         $user->status = $request->status;
 
-        // Vérifiez et mettez à jour le bon rôle
-        if ($request->input('is_admin') == 0) {
-            $user->is_admin = 0;
-            $user->assignRole('admin'); // Super Administrateur
-        } else {
-            $user->is_admin = 1;
-            $user->assignRole('utilisateur'); // Utilisateur simple
+        try {
+            //code...
+            // Vérifiez et mettez à jour le bon rôle
+            if ($request->input('is_admin') == 0) {
+                $user->is_admin = 0;
+                $user->assignRole('admin'); // Super Administrateur
+            } else {
+                $user->is_admin = 1;
+                $user->assignRole('utilisateur'); // Utilisateur simple
+            }
+
+            if ($request->filled('password')) {
+                $user->password = bcrypt($request->password);
+            }
+
+            $user->save();
+
+            return redirect()->route('panel.user.index')->with('success', 'Utilisateur mis à jour avec succès.');
+        } catch (\Exception $e) {
+            dd($e);
+            //throw $th;
         }
-
-        if ($request->filled('password')) {
-            $user->password = bcrypt($request->password);
-        }
-
-        $user->save();
-
-        return redirect()->route('panel.user.index')->with('success', 'Utilisateur mis à jour avec succès.');
     }
     /* public function update(Request $request, string $id)
     {

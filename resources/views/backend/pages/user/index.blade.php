@@ -40,14 +40,14 @@
                                                 @endif
                                             </td>
                                             <td>
-                                                @if ($user->status == '0')
+                                                @if ($user->status == '1')
                                                     <div class="badge badge-success">Actif</div>
                                                 @else
                                                     <div class="badge badge-danger">Inactif</div>
                                                 @endif
                                             </td>
                                             <td>
-                                                @if (auth()->user()->hasRole('admin'))
+                                                @if (auth()->user()->hasRole('admin') || auth()->user()->hasRole('superadmin'))
                                                     <a href="{{ route('panel.user.edit', $user->id) }}"
                                                         class="btn btn-warning">
                                                         <i class="fas fa-edit"></i> <!-- Icône d'édition -->

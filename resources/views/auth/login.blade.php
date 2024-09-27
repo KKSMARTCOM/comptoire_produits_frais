@@ -12,6 +12,11 @@
                 <span class="mt-2">{{ config('COMPTOIR DES PRODUITS FRAIS') }}</span>
             </a>
             <br>
+            @if (session()->get('error'))
+                <div class="alert alert-danger" style="color: red; margin-bottom:10px;">
+                    {{ session()->get('error') }}
+                </div>
+            @endif
             <div class="card-body">
                 <form method="POST" action="{{ route('login') }}">
                     @csrf

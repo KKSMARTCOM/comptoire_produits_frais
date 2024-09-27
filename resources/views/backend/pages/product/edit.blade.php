@@ -83,7 +83,7 @@
 
                         <div class="form-group">
                             <label for="category_id">Categorie</label>
-                            <select class="form-control" name="category_id" id="">
+                            <select class="form-control" name="category_id" id="category_id">
                                 <option value="">Selectionner la categorie</option>
                                 @if ($categories)
                                     @foreach ($categories as $item)
@@ -98,6 +98,43 @@
                                 <p class="text-danger fs-6">{{ $message }}</p>
                             @enderror
                         </div>
+
+                        <div class="form-group type" style="display: none">
+                            <label for="type">Type</label>
+                            <select class="form-control" name="type" id="type">
+                                <option value="">Selectionner le type</option>
+                                @if ($types)
+                                    @foreach ($types as $item)
+                                        <option value="{{ $item->id }}"
+                                            {{ isset($product) && $product->type == $item->id ? 'selected' : '' }}>
+                                            {{ ucfirst($item->name) }}
+                                        </option>
+                                    @endforeach
+                                @endif
+                            </select>
+                            @error('type')
+                                <p class="text-danger fs-6">{{ $message }}</p>
+                            @enderror
+                        </div>
+
+                        <div class="form-group region" style="display: none">
+                            <label for="region">Région</label>
+                            <select class="form-control" name="region" id="region">
+                                <option value="">Selectionner la région</option>
+                                @if ($regions)
+                                    @foreach ($regions as $item)
+                                        <option value="{{ $item->id }}"
+                                            {{ isset($product) && $product->region == $item->id ? 'selected' : '' }}>
+                                            {{ ucfirst($item->name) }}
+                                        </option>
+                                    @endforeach
+                                @endif
+                            </select>
+                            @error('category_id')
+                                <p class="text-danger fs-6">{{ $message }}</p>
+                            @enderror
+                        </div>
+
                         <div class="form-group">
                             <label for="price">Prix</label>
                             <input type="number" class="form-control" id="price" name="price"
@@ -180,6 +217,28 @@
             var fileName = this.files[0].name;
             document.getElementById('imagePlaceholder').value = fileName;
         });
+
+        $(document).ready(function() {
+            $('#category_id').on('change', function() {
+                $category = $(this).val();
+                if ($category == 4) {
+                    $('.type').css({
+                        'display': 'block'
+                    })
+                    $('.region').css({
+                        'display': 'block'
+                    })
+                } else {
+                    $('.type').css({
+                        'display': 'none'
+                    })
+                    $('.region').css({
+                        'display': 'none'
+                    })
+                }
+
+            })
+        })
     </script>
 
     {{-- <script>

@@ -43,7 +43,7 @@ class LoginController extends Controller
 
     protected function authenticated(Request $request, $user)
     {
-        if ($user->status != 0) { // Assure-toi que 'is_active' est le nom de la colonne pour le statut de l'utilisateur
+        if ($user->status != '1') { // Assure-toi que 'is_active' est le nom de la colonne pour le statut de l'utilisateur
             Auth::logout(); // Déconnecte l'utilisateur
             return redirect('/login')->with('error', 'Votre compte est inactif. Veuillez contacter l\'administrateur.');
         }

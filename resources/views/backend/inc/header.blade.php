@@ -92,16 +92,11 @@
                         {{ \Carbon\Carbon::now()->format('H:i') }}
                     </a>
 
-                    <!-- Bouton de déconnexion -->
-                    <a class="dropdown-item" href="{{ route('logout') }}"
-                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                        <i class="ti-power-off text-primary"></i>
-                        Se déconnecter
-                    </a>
-
                     <!-- Formulaire de déconnexion -->
-                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                    <form class="dropdown-item" id="logout-form" action="{{ route('logout') }}" method="POST">
                         @csrf
+                        <i class="ti-power-off text-primary"></i>
+                        <button style="background: none;border:none" type="submit">Se déconnecter</button>
                     </form>
                 </div>
             </li>

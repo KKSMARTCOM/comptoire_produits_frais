@@ -24,8 +24,15 @@ class ProductController extends Controller
      */
     public function create()
     {
-        $categories = Category::get();
-        return view('backend.pages.product.edit', compact('categories'));
+        try {
+            //code...
+            $categories = Category::where('category_id', null)->get();
+            $types = Category::where('sub_cat', 'type')->get();
+            $regions = Category::where('sub_cat', 'region')->get();
+            return view('backend.pages.product.edit', compact('categories', 'types', 'regions'));
+        } catch (\Exception $e) {
+            //throw $th;
+        }
     }
 
     /**
@@ -48,6 +55,8 @@ class ProductController extends Controller
             'price' => $request->price,
             'quantity' => $request->quantity,
             'status' => $request->status,
+            'type' => $request->type ?? NULL,
+            'region' => $request->region ?? NULL,
             'image' => $imgurl ?? NULL,
         ]);
 
@@ -68,8 +77,10 @@ class ProductController extends Controller
     public function edit(string $id)
     {
         $product = Product::where('id', $id)->first();
-        $categories = Category::get();
-        return view('backend.pages.product.edit', compact('product', 'categories'));
+        $types = Category::where('sub_cat', 'type')->get();
+        $regions = Category::where('sub_cat', 'region')->get();
+        $categories = Category::where('category_id', null)->get();
+        return view('backend.pages.product.edit', compact('product', 'categories', 'types', 'regions'));
     }
 
     /**
@@ -96,6 +107,8 @@ class ProductController extends Controller
             'price' => $request->price ?? $product->price,
             'quantity' => $request->quantity,
             'status' => $request->status ?? $product->status,
+            'type' => $request->type,
+            'region' => $request->region,
             'image' => $imgurl ?? $product->image
         ]);
 

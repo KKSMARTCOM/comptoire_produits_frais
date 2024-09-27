@@ -16,7 +16,7 @@ class PromotionController extends Controller
     {
         // Charger les promotions avec les catégories et produits associés
         $promotions = Promotion::with('category', 'products')->get();
-        $categories = Category::all();
+        $categories = Category::where('category_id', null)->get();
         $products = Product::all();
 
         return view('backend.pages.promotion.index', compact('promotions', 'categories', 'products'));
@@ -45,7 +45,7 @@ class PromotionController extends Controller
         /* $categories = Category::all();
         $products = Product::all();
         return view('backend.pages.promotion.create', compact('categories', 'products')); */
-        $categories = Category::all();
+        $categories = Category::where('category_id', null)->get();
         $products = Product::all(); // Récupérer tous les produits
         return view('backend.pages.promotion.create', compact('categories', 'products'));
     }
@@ -60,25 +60,25 @@ class PromotionController extends Controller
             'products' => 'array', // Validation pour un tableau de produits
             'products.*' => 'exists:products,id', // Validation pour chaque produit
         ]);
-    
+
         $promotion = new Promotion;
         $promotion->pourcentage_reduction = $request->pourcentage_reduction;
         $promotion->codePromo = $request->codePromo ?: 'CPFPROMO-' . strtoupper(Str::random(8));
         $promotion->category_id = $request->category_id; // Assigner la catégorie
         $promotion->save();
-    
+
         // Attacher les produits à la promotion
         if ($request->products) {
             $promotion->products()->attach($request->products);
         }
-    
+
         return redirect()->route('panel.promotions.index')->with('success', 'Promotion créée avec succès.');
     }
 
     // Afficher le formulaire d'édition
     public function edit(Promotion $promotion)
     {
-        $categories = Category::all();
+        $categories = Category::where('category_id', null)->get();
         $products = Product::all();
         return view('backend.pages.promotion.edit', compact('promotion', 'categories', 'products'));
     }
