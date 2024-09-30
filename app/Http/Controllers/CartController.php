@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Coupon;
 use App\Models\Invoice;
 use App\Models\Order;
@@ -21,13 +22,15 @@ class CartController extends Controller
             'active' => 'Pannier'
         ];
 
+        $categories = Category::where('category_id', null)->get();
+
         // Récupère le panier de la session
         $cart = session()->get('cart', []);
 
         // Calcul du prix total du panier
         $totalCartPrice = array_sum(array_column($cart, 'total'));
 
-        return view('frontend.pages.cart', compact('cart', 'totalCartPrice', 'breadcrumb'));
+        return view('frontend.pages.cart', compact('cart', 'totalCartPrice', 'breadcrumb', 'categories'));
     }
 
     public function add(Request $request)
@@ -38,7 +41,7 @@ class CartController extends Controller
         //decrypte l'id crypté
         $productId = decryptData($request->product_id);
         //recherche le produit par son id
-        $product = $this->getProductById($productId);
+        $product = Product::where('id', $productId)->firstOrFail();
 
         if ($product) {
             //verifie si le produit est deja dans le panier
@@ -154,9 +157,11 @@ class CartController extends Controller
             'active' => 'Commande'
         ];
 
+        $categories = Category::where('category_id', null)->get();
+
         $cartItem = session()->get('cart', []);
         //return $cartItem;
-        return view('frontend.pages.cartform', compact('breadcrumb', 'cartItem'));
+        return view('frontend.pages.cartform', compact('breadcrumb', 'categories'));
     }
 
     /* public function generateKod()

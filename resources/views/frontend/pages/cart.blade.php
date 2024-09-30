@@ -38,12 +38,12 @@
                                     <tr class="orderItem" data-id="{{ $key }}">
                                         <td class="product-thumbnail">
                                             <div class="product-thumbnail-image">
-                                                <img src="{{ asset('images/' . $cartItem['product']['image']) }}"
+                                                <img src="{{ asset($cartItem['product']['image']) }}"
                                                     alt="{{ $cartItem['product']['name'] }}">
                                             </div>
                                         </td>
                                         <td class="product-name">
-                                            <h2 class="h5 text-black">{{ $cartItem['product']['name'] ?? '' }}</h2>
+                                            <h2 class="h5 text-black">{{ ucfirst($cartItem['product']['name']) ?? '' }}</h2>
                                         </td>
                                         <td>{{ $cartItem['product']['price'] }} FCFA</td>
                                         <td>
@@ -94,13 +94,13 @@
                                 data-id="{{ $key }}">
                                 <div class="product-mobile-thumbnail">
                                     <div class="product-thumbnail-image">
-                                        <img src="{{ asset('images/' . $cartItem['product']['image']) }}"
+                                        <img src="{{ asset($cartItem['product']['image']) }}"
                                             alt="{{ $cartItem['product']['name'] }}">
                                     </div>
                                 </div>
                                 <div class="flex-grow-1">
                                     <div class="product-mobile-cart-text">
-                                        <h2>{{ $cartItem['product']['name'] ?? '' }}</h2>
+                                        <h2>{{ ucfirst($cartItem['product']['name']) ?? '' }}</h2>
                                         <p>{{ $cartItem['product']['price'] }} FCFA</p>
                                     </div>
                                     <div class="d-flex justify-content-between align-items-center">

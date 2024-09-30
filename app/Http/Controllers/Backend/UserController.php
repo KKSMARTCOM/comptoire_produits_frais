@@ -16,7 +16,7 @@ class UserController extends Controller
     public function index()
     {
 
-        $users = User::where('email', '!=', 'superadmin@gmail.com')->get(); // Récupérer tous les utilisateurs
+        $users = User::where('email', '!=', 'superadmin@gmail.com')->paginate(10); // Récupérer tous les utilisateurs
 
         return view('backend.pages.user.index', compact('users')); // Assurez-vous que le chemin de la vue est correct
     }

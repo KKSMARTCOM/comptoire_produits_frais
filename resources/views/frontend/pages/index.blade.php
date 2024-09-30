@@ -5,7 +5,7 @@
         <div class="container">
             <div class="row web-category">
                 <div class="col-lg-3 col-md-6 mt-4 mt-lg-0" data-aos="fade-up" data-aos-delay="">
-                    <a href="{{ route('product') }}" class="site-category-card">
+                    <a href="/categorie/volailles" class="site-category-card">
                         <div class="site-category-card-image">
                             <img src="{{ asset('images/poultry.png') }}" alt="">
                         </div>
@@ -13,7 +13,7 @@
                     </a>
                 </div>
                 <div class="col-lg-3 col-md-6 mt-4 mt-lg-0" data-aos="fade-up" data-aos-delay="100">
-                    <a href="{{ route('product') }}" class="site-category-card">
+                    <a href="/categorie/poissons" class="site-category-card">
                         <div class="site-category-card-image">
                             <img src="{{ asset('images/fish.png') }}" alt="">
                         </div>
@@ -21,7 +21,7 @@
                     </a>
                 </div>
                 <div class="col-lg-3 col-md-6 mt-4 mt-lg-0" data-aos="fade-up" data-aos-delay="300">
-                    <a href="{{ route('product') }}" class="site-category-card">
+                    <a href="/categorie/autres-viandes" class="site-category-card">
                         <div class="site-category-card-image">
                             <img src="{{ asset('images/viandes.png') }}" alt="">
                         </div>
@@ -29,7 +29,7 @@
                     </a>
                 </div>
                 <div class="col-lg-3 col-md-6 mt-4 mt-lg-0" data-aos="fade-up" data-aos-delay="200">
-                    <a href="{{ route('product') }}" class="site-category-card">
+                    <a href="/categorie/fruits-legumes" class="site-category-card">
                         <div class="site-category-card-image">
                             <img src="{{ asset('images/fruit.png') }}" alt="">
                         </div>
@@ -42,7 +42,7 @@
                 <div class="owl-carousel owl-theme">
                     <div class="item">
                         <div class="" data-aos="fade-up" data-aos-delay="">
-                            <a href="{{ route('product') }}" class="site-category-card">
+                            <a href="/categorie/volailles" class="site-category-card">
                                 <div class="site-category-card-image">
                                     <img src="{{ asset('images/poultry.png') }}" alt="">
                                 </div>
@@ -52,7 +52,7 @@
                     </div>
                     <div class="item">
                         <div class="" data-aos="fade-up" data-aos-delay="100">
-                            <a href="{{ route('product') }}" class="site-category-card">
+                            <a href="/categorie/poissons" class="site-category-card">
                                 <div class="site-category-card-image">
                                     <img src="{{ asset('images/fish.png') }}" alt="">
                                 </div>
@@ -62,7 +62,7 @@
                     </div>
                     <div class="item">
                         <div class="" data-aos="fade-up" data-aos-delay="300">
-                            <a href="{{ route('product') }}" class="site-category-card">
+                            <a href="/categorie/autres-viandes" class="site-category-card">
                                 <div class="site-category-card-image">
                                     <img src="{{ asset('images/viandes.png') }}" alt="">
                                 </div>
@@ -72,7 +72,7 @@
                     </div>
                     <div class="item">
                         <div class="" data-aos="fade-up" data-aos-delay="200">
-                            <a href="{{ route('product') }}" class="site-category-card">
+                            <a href="/categorie/fruits-legumes" class="site-category-card">
                                 <div class="site-category-card-image">
                                     <img src="{{ asset('images/fruit.png') }}" alt="">
                                 </div>
@@ -94,7 +94,7 @@
                 <p>Découvrez notre cave en ligne, où vins, champagnes et spiritueux d'exception vous attendent. Chaque
                     bouteille est sélectionnée avec soin pour offrir une expérience unique, que ce soit pour un repas ou une
                     célébration. Laissez-vous séduire par notre gamme de produits raffinés et authentiques.</p>
-                <a href="{{ route('product') }}">Découvrir</a>
+                <a href="/categorie/la-cave">Découvrir</a>
             </div>
         </div>
     </div>
@@ -119,7 +119,7 @@
                         chaque article est choisi pour garantir une expérience culinaire exceptionnelle. Appréciez des
                         produits frais, locaux et soigneusement sélectionnés pour toutes vos envies.
                     </p>
-                    <a href="{{ route('product') }}">Découvrir</a>
+                    <a href="/categorie/cpf-store">Découvrir</a>
                 </div>
             </div>
         </div>

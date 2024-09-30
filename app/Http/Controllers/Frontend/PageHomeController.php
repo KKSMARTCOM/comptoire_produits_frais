@@ -25,6 +25,8 @@ class PageHomeController extends Controller
             ->limit(10)
             ->get(); */
 
-        return view('frontend.pages.index');
+        $categories = Category::where('category_id', null)->get();
+
+        return view('frontend.pages.index', compact('categories'));
     }
 }
