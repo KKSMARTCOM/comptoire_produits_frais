@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Backend;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Auth;
 
 
@@ -16,8 +15,18 @@ class UserController extends Controller
     public function index()
     {
 
-        $users = User::where('email', '!=', 'superadmin@gmail.com')->get(); // Récupérer tous les utilisateurs
+        $user = Auth::user();
+        $userName = $user->name;
+        $role = $user->isSuperAdmin() ? 'Super-Admin' : 'Admin';
 
+        // Enregistrer l'action d'accès à la liste des utilisateurs
+        activity()
+            ->causedBy($user)
+            ->withProperties(['menu' => 'Utilisateurs', 'action' => 'Accès à la liste'])
+            ->log("{$userName} ({$role}) a accédé à la liste des utilisateurs.");
+
+        $users = User::all(); // Récupérer tous les utilisateurs
+        $users = User::paginate(10);
         return view('backend.pages.user.index', compact('users')); // Assurez-vous que le chemin de la vue est correct
     }
 
@@ -44,26 +53,30 @@ class UserController extends Controller
         $user->email = $request->email;
         $user->password = bcrypt($request->password);
 
+        // Vérifiez et attribuez le bon rôle
+        /* if ($request->input('is_admin') == 2) {
+            $user->is_admin = 2; // Super Administrateur
+        } elseif ($request->input('is_admin') == 1) {
+            $user->is_admin = 1; // Administrateur
+        } else {
+            $user->is_admin = 0; // Utilisateur simple
+        } */
 
         $user->save();
-        // Vérifiez et attribuez le bon rôle
-        if ($request->input('is_admin') == 0) {
-            $user->assignRole('admin'); // Administrateur
-        } else {
-            $user->assignRole('utilisateur'); // Utilisateur simple
-        }
+
+        $user->assignRole('admin');
 
 
-        $userAuth = Auth::user();
-        $role = $userAuth->role == '0' || '1' ? 'Administrateur' : 'Utilisateur';
-
+        $user = Auth::user();
+        $userName = $user->name;
+        $role = $user->isSuperAdmin() ? 'Super-Admin' : 'Admin';
 
         // Enregistrer l'action de création d'un utilisateur
         activity()
-            ->causedBy($userAuth)
-            ->performedOn($user)
+            ->causedBy($user)
+            ->performedOn($userCreated)
             ->withProperties(['menu' => 'Utilisateurs', 'action' => 'Création'])
-            ->log("{$userAuth->name} ({$role}) a créé un utilisateur : {$user->name}.");
+            ->log("{$userName} ({$role}) a créé un utilisateur : {$userCreated->name}.");
 
         return redirect()->route('panel.user.index')->with('success', 'Utilisateur créé avec succès.');
     }
@@ -103,8 +116,19 @@ class UserController extends Controller
     public function edit(string $id)
     {
         $user = User::findOrFail($id);
-        $roles = Role::were('name', '=!', 'superadmin');
-        return view('backend.pages.user.edit', compact('user', 'roles'));
+
+        $user = Auth::user();
+        $userName = $user->name;
+        $role = $user->isSuperAdmin() ? 'Super-Admin' : 'Admin';
+
+        // Enregistrer l'action d'édition d'un utilisateur
+        activity()
+            ->causedBy($user)
+            ->performedOn($userToEdit)
+            ->withProperties(['menu' => 'Utilisateurs', 'action' => 'Édition'])
+            ->log("{$userName} ({$role}) a accédé à la modification de l'utilisateur : {$userToEdit->name}.");
+
+        return view('backend.pages.user.edit', compact('user'));
     }
 
     // Mettre à jour un utilisateur (update)
@@ -119,41 +143,35 @@ class UserController extends Controller
         $user = User::findOrFail($id);
         $user->name = $request->name;
         $user->email = $request->email;
-        $user->status = $request->status;
 
-        try {
-            //code...
-            // Vérifiez et mettez à jour le bon rôle
-            if ($request->input('is_admin') == 0) {
-                $user->is_admin = 0;
-                $user->assignRole('admin'); // Super Administrateur
-            } else {
-                $user->is_admin = 1;
-                $user->assignRole('utilisateur'); // Utilisateur simple
-            }
-
-            if ($request->filled('password')) {
-                $user->password = bcrypt($request->password);
-            }
-
-            $user->save();
-
-            $userAuth = Auth::user();
-            $role = $userAuth->role == '0' || '1' ? 'Administrateur' : 'Utilisateur';
-
-
-            // Enregistrer l'action de mise à jour d'un utilisateur
-            activity()
-                ->causedBy($userAuth)
-                ->performedOn($user)
-                ->withProperties(['menu' => 'Utilisateurs', 'action' => 'Mise à jour'])
-                ->log("{$userAuth->name} ({$role}) a mis à jour l'utilisateur : {$user->name}.");
-
-            return redirect()->route('panel.user.index')->with('success', 'Utilisateur mis à jour avec succès.');
-        } catch (\Exception $e) {
-            dd($e);
-            //throw $th;
+        // Vérifiez et mettez à jour le bon rôle
+        if ($request->input('is_admin') == 2) {
+            $user->is_admin = 2; // Super Administrateur
+        } elseif ($request->input('is_admin') == 1) {
+            $user->is_admin = 1; // Administrateur
+        } else {
+            $user->is_admin = 0; // Utilisateur simple
         }
+
+        if ($request->filled('password')) {
+            $user->password = bcrypt($request->password);
+        }
+
+        $user->save();
+
+
+        $user = Auth::user();
+        $userName = $user->name;
+        $role = $user->isSuperAdmin() ? 'Super-Admin' : 'Admin';
+
+        // Enregistrer l'action de mise à jour d'un utilisateur
+        activity()
+            ->causedBy($user)
+            ->performedOn($userToUpdate)
+            ->withProperties(['menu' => 'Utilisateurs', 'action' => 'Mise à jour'])
+            ->log("{$userName} ({$role}) a mis à jour l'utilisateur : {$userToUpdate->name}.");
+
+        return redirect()->route('panel.user.index')->with('success', 'Utilisateur mis à jour avec succès.');
     }
     /* public function update(Request $request, string $id)
     {
@@ -185,15 +203,16 @@ class UserController extends Controller
         $user->delete();
 
 
-        $userAuth = Auth::user();
-        $role = $userAuth->role == '0' || '1' ? 'Administrateur' : 'Utilisateur';
+        $user = Auth::user();
+        $userName = $user->name;
+        $role = $user->isSuperAdmin() ? 'Super-Admin' : 'Admin';
 
         // Enregistrer l'action de suppression d'un utilisateur
         activity()
-            ->causedBy($userAuth)
-            ->performedOn($user)
+            ->causedBy($user)
+            ->performedOn($userToDelete)
             ->withProperties(['menu' => 'Utilisateurs', 'action' => 'Suppression'])
-            ->log("{$userAuth->name} ({$role}) a supprimé l'utilisateur : {$user->name}.");
+            ->log("{$userName} ({$role}) a supprimé l'utilisateur : {$userNameToDelete}.");
 
         return redirect()->route('panel.user.index')->with('success', 'Utilisateur supprimé avec succès.');
     }
