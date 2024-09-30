@@ -23,13 +23,19 @@
                                 <h2>A propos</h2>
                             </li>
                             <li><a href="{{ route('index') }}">Acceuil</a></li>
-                            <li><a href="{{ route('product') }}">Volailles</a></li>
-                            <li><a href="{{ route('product') }}">Poissons & Fruits de mer</a></li>
-                            <li><a href="{{ route('product') }}">Autres viandes</a></li>
-                            <li><a href="{{ route('product') }}">Fruits & Légumes</a></li>
-                            <li><a href="{{ route('product') }}">La cave</a></li>
-                            <li><a href="{{ route('product') }}">Coffrets & Paniers</a></li>
-                            <li><a href="{{ route('product') }}">CPF Store</a></li>
+                            @if ($categories && $categories->count() > 0)
+                                @foreach ($categories as $item)
+                                    <li><a href="{{ route('categories', $item->slug) }}">{{ $item->name }}</a></li>
+                                @endforeach
+                            @else
+                                <li><a href="{{ route('product') }}">Volailles</a></li>
+                                <li><a href="{{ route('product') }}">Poissons & Fruits de mer</a></li>
+                                <li><a href="{{ route('product') }}">Autres viandes</a></li>
+                                <li><a href="{{ route('product') }}">Fruits & Légumes</a></li>
+                                <li><a href="{{ route('product') }}">La cave</a></li>
+                                <li><a href="{{ route('product') }}">Coffrets & Paniers</a></li>
+                                <li><a href="{{ route('product') }}">CPF Store</a></li>
+                            @endif
                         </ul>
                     </div>
                     <div class="col-lg-6 col-md-6">

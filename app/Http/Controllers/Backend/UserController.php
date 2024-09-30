@@ -14,19 +14,8 @@ class UserController extends Controller
     // Afficher la liste des utilisateurs  (index)
     public function index()
     {
+        $users = User::where('email', '!=', 'superadmin@gmail.com')->get(); // Récupérer tous les utilisateurs
 
-        $user = Auth::user();
-        $userName = $user->name;
-        $role = $user->isSuperAdmin() ? 'Super-Admin' : 'Admin';
-
-        // Enregistrer l'action d'accès à la liste des utilisateurs
-        activity()
-            ->causedBy($user)
-            ->withProperties(['menu' => 'Utilisateurs', 'action' => 'Accès à la liste'])
-            ->log("{$userName} ({$role}) a accédé à la liste des utilisateurs.");
-
-        $users = User::all(); // Récupérer tous les utilisateurs
-        $users = User::paginate(10);
         return view('backend.pages.user.index', compact('users')); // Assurez-vous que le chemin de la vue est correct
     }
 

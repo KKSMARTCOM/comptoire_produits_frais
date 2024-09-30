@@ -26,12 +26,18 @@ Route::group(['middleware' => 'sitesetting'], function () {
     Route::get('/contact', [PageController::class, 'contact'])->name('contact');
     Route::get('/finish', [PageController::class, 'finish'])->name('finish');
     Route::post('/contact/save', [AjaxController::class, 'contactsave'])->name('contact.save');
-    Route::get('/product', [PageController::class, 'product'])->name('product');
+
+    Route::get('/product', [PageController::class, 'allProduct'])->name('all.product');
+
+    Route::get('/categorie/{slug?}', [PageController::class, 'product'])->name('categories');
+
     Route::get('/men/{slug?}', [PageController::class, 'product'])->name('menproduct');
     Route::get('/women/{slug?}', [PageController::class, 'product'])->name('womenproduct');
     Route::get('/children/{slug?}', [PageController::class, 'product'])->name('childrenproduct');
     Route::get('/sales', [PageController::class, 'saleproduct'])->name('sale-product');
+
     Route::get('/product/{slug}', [PageController::class, 'productdetail'])->name('productdetail');
+
     Route::get('/cart', [CartController::class, 'index'])->name('cart');
     Route::post('/cart/add', [CartController::class, 'add'])->name('cartadd');
     Route::post('/cart/remove', [CartController::class, 'remove'])->name('cartremove');

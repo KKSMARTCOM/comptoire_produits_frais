@@ -16,7 +16,7 @@ class PromotionController extends Controller
     public function index()
     {
         // Charger les promotions avec les catégories et produits associés
-        $promotions = Promotion::with('category', 'products')->get();
+        $promotions = Promotion::with('category', 'products')->paginate(10);
         $categories = Category::where('category_id', null)->get();
         $products = Product::all();
 

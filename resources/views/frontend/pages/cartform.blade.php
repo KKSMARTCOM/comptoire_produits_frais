@@ -158,7 +158,7 @@
                                                     @endphp
 
                                                     <tr>
-                                                        <td>{{ $cart['product']['name'] }} <strong
+                                                        <td>{{ ucfirst($cart['product']['name']) }} <strong
                                                                 class="mx-2">x</strong>
                                                             {{ $cart['quantity'] }}</td>
                                                         <td>{{ $toplamTutar }} FCFA</td>
@@ -170,7 +170,8 @@
                                                 <td class="text-black font-weight-bold"><strong>Prix du coupon</strong>
                                                 </td>
                                                 <td class="text-black font-weight-bold">
-                                                    <strong>{{ session()->get('couponPrice') ?? 0 }} FCFA</strong></td>
+                                                    <strong>{{ session()->get('couponPrice') ?? 0 }} FCFA</strong>
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td class="text-black font-weight-bold"><strong>Total de la
