@@ -98,7 +98,7 @@ class SettingController extends Controller
     public function logs()
     {
         // Récupérer les activités avec le causer (l'utilisateur qui a causé l'action)
-        $activities = Activity::with('causer')->latest()->paginate(10);
+        $activities = Activity::with('causer')->latest()->paginate(15);
 
         // Retourner la vue avec les activités
         return view('backend.pages.setting.logs', compact('activities'));

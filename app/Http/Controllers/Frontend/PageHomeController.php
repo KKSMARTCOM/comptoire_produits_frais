@@ -8,6 +8,7 @@ use App\Models\Product;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Pack;
 
 class PageHomeController extends Controller
 {
@@ -26,7 +27,8 @@ class PageHomeController extends Controller
             ->get(); */
 
         $categories = Category::where('category_id', null)->get();
+        $packs = Pack::paginate(3);
 
-        return view('frontend.pages.index', compact('categories'));
+        return view('frontend.pages.index', compact('categories', 'packs'));
     }
 }

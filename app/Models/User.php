@@ -42,6 +42,7 @@ class User extends Authenticatable implements CanResetPassword
         'email',
         'is_admin',
         'status',
+        'profile_image', // Nouveau champ ajouté
     ];
 
     /**

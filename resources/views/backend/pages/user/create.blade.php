@@ -56,7 +56,11 @@
                             @enderror
                         </div>
 
-
+                        <div class="form-group">
+                            <label for="profile_image">Image de profil</label>
+                            <input type="file" class="form-control" id="profile_image" name="profile_image">
+                        </div>
+                        
                         <button type="submit" class="btn btn-primary mr-2">Enregistrer</button>
                         <a href="{{ route('panel.user.index') }}" class="btn btn-light">Fermer</a>
                     </form>

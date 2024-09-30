@@ -133,7 +133,45 @@
                 </div>
             </div>
             <div class="row p-2 gap-4 mb-4 justify-content-center">
-                <div class="col-lg-4 col-md-6 site-section-box-container">
+                @if ($packs && $packs->count() > 0)
+                    @foreach ($packs as $item)
+                        <div class="col-lg-4 col-md-6 site-section-box-container">
+                            <div class="site-section-box-image">
+                                <img src="{{ asset($item->image) }}" alt="">
+                            </div>
+                            <div class="site-section-box-bottom">
+                                <div class="site-section-box-bottom-text">
+                                    <h3>{{ ucfirst($item->name) }}</h3>
+                                    <p>{{ $item->price }} FCFA</p>
+                                    <p>{{ strLimit($item->description, 70) }}</p>
+
+                                </div>
+                                @php
+                                    $encrypt = encryptData($item->id);
+                                @endphp
+                                <div class="site-section-box-bottom-link">
+                                    {{-- <a href="{{ route('cart') }}"><span class="mdi mdi-eye-outline"></span></a> --}}
+                                    <form id="addForm" method="POST" action="{{ route('cartadd', $encrypt) }}">
+                                        @csrf
+                                        <input type="hidden" name="pack_id" value={{ $encrypt }}>
+                                        <p>
+                                            <button type="submit" id="panier" class="border-0 bg-transparent">
+                                                <span class="mdi mdi-eye-outline"></span>
+                                            </button>
+                                        </p>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="mt-4 d-flex align-items-end justify-content-end">
+                                <a href="javascript:void(0)" class="button-link">Commander</a>
+                            </div>
+                        </div>
+                    @endforeach
+                    <div class="mt-3 d-flex justify-content-center">
+                        {{ $packs->links('pagination::custom') }}
+                    </div>
+                @endif
+                {{-- <div class="col-lg-4 col-md-6 site-section-box-container">
                     <div class="site-section-box-image">
                         <img src="{{ asset('images/coffret1.jpg') }}" alt="">
                     </div>
@@ -190,19 +228,21 @@
                     <div class="mt-4 d-flex align-items-end justify-content-end">
                         <a href="javascript:void(0)" class="button-link">Commander</a>
                     </div>
-                </div>
+                </div> --}}
+            </div>
+            <div>
+
             </div>
             <div class="row gap-4 mb-4 justify-content-center more-coffret">
-                <div class="col-lg-4 col-md-6 site-section-box-container">
+                {{-- <div class="col-lg-4 col-md-6 site-section-box-container">
                     <div class="site-section-box-image">
                         <img src="{{ asset('images/coffret1.jpg') }}" alt="">
                     </div>
                     <div class="site-section-box-bottom">
                         <div class="site-section-box-bottom-text">
-                            <h3>Coffret Gourmet</h3>
+                            <h3>Coffret Gourmand</h3>
                             <p>20 000 FCFA</p>
-                            <p>Découvrez une sélection premium de produits fins pour une expérience culinaire
-                                exceptionnelle...</p>
+                            <p>Savourez un mélange exquis de délices sucrés et salés dans notre coffret gourmet...</p>
 
                         </div>
                         <div class="site-section-box-bottom-link">
@@ -251,7 +291,7 @@
                     <div class="mt-4 d-flex align-items-end justify-content-end">
                         <a href="javascript:void(0)" class="button-link">Commander</a>
                     </div>
-                </div>
+                </div> --}}
             </div>
             <div class="site-section-box-more">
                 <a class="site-section-box-more-button" href="">Voir plus</a>

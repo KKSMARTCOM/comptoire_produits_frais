@@ -5,20 +5,20 @@
 
     <div class="site-section">
         <div class="container">
-            @if ($cart && count($cart) > 0)
-                <div class="row">
-                    <div class="col-lg-12 mb-5 d-flex justify-content-center">
-                        @if (session()->get('success'))
-                            <div class="alert alert-success">{{ session()->get('success') }}</div>
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                        @endif
+            <div class="row">
+                <div class="col-lg-12 mb-5 d-flex justify-content-center">
+                    @if (session()->get('success'))
+                        <div class="alert alert-success">{{ session()->get('success') }}</div>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    @endif
 
-                        @if (session()->get('error'))
-                            <div class="alert alert-danger">{{ session()->get('error') }}</div>
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                        @endif
-                    </div>
+                    @if (session()->get('error'))
+                        <div class="alert alert-danger">{{ session()->get('error') }}</div>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    @endif
                 </div>
+            </div>
+            @if (!empty(session('cart')['products']) && count($cart['products']) > 0)
                 {{-- WEB --}}
                 <div class="row mb-5 d-none d-lg-block">
                     <div class="col-lg-12 site-blocks-table">
@@ -34,7 +34,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($cart as $key => $cartItem)
+                                @foreach ($cart['products'] as $key => $cartItem)
                                     <tr class="orderItem" data-id="{{ $key }}">
                                         <td class="product-thumbnail">
                                             <div class="product-thumbnail-image">
@@ -86,10 +86,11 @@
                         </table>
                     </div>
                 </div>
+
                 {{-- MOBILE --}}
                 <div class="row p-2 mb-5 d-block d-lg-none">
                     <ul>
-                        @foreach ($cart as $key => $cartItem)
+                        @foreach ($cart['products'] as $key => $cartItem)
                             <li class="orderItem h-24 align-items-center d-flex gap-4 border-bottom border-dark-subtle"
                                 data-id="{{ $key }}">
                                 <div class="product-mobile-thumbnail">
@@ -144,76 +145,113 @@
                     <a href="{{ route('cart') }}" class="buy-now btn btn-primary border-0"> <span
                             class="mdi mdi-plus"></span>Ajouter
                     </a>
-                    {{-- <p class="mb-5">Vous n'avez pas tous les produits désirés dans le panier ? <a
-                            href="{{ route('product') }}">cliquez ici</a> pour ajouter
-                        plus !</p> --}}
+                </div>
+            @else
+                <div>
+                    <h3 class="text-dark">Votre panier est actuellement vide ! Veuillez <a class="text-primary"
+                            href="{{ route('all.product') }}">cliquer ici</a>
+                        pour ajouter des produits.</h3>
+                </div>
+            @endif
+            {{-- Presentation des coffrets --}}
+            @if (!empty(session('cart')['packs']))
+                <div class="mb-4">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Coffret</th>
+                                <th>Produits</th>
+
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (session('cart')['packs'] as $packId => $pack)
+                                <tr>
+                                    <td>{{ ucfirst($pack['pack']->name) }}</td>
+                                    <td>
+                                        <ul>
+                                            @foreach ($pack['products'] as $product)
+                                                <li>{{ ucfirst($product['name']) }} (x{{ $product['quantity'] }})</li>
+                                            @endforeach
+                                        </ul>
+                                    </td>
+
+                                    <td>
+                                        <form class="removeItem" method="POST">
+                                            @csrf
+                                            @php
+                                                $encrypt = encryptData($packId);
+                                            @endphp
+
+                                            <input type="hidden" name="product_id" value="{{ $encrypt }}">
+                                            <button type="submit" class="btn btn-danger btn-sm border-0"><span
+                                                    style="font-size: 16px" class="mdi mdi-delete"></span></button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            @else
+                <div>
+                    <h3 class="text-dark">Votre panier est actuellement vide ! Veuillez <a class="text-primary"
+                            href="{{ route('all.product') }}">cliquer ici</a>
+                        pour ajouter des produits.</h3>
+                </div>
+            @endif
+            <div class="row">
+                <div class="col-md-6">
+                    <form action="{{ route('coupon.check') }}" method="POST">
+                        @csrf
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label class="text-black h4" for="coupon">Coupon</label>
+                                <p>Veuillez entrez le code de votre coupon ici si vous en avez un.</p>
+                            </div>
+                            <div class="col-md-8 mb-3 mb-md-0">
+                                <input type="text" class="form-control py-3" name="coupon_name"
+                                    value="{{ session()->get('couponCode') ?? '' }}" id="coupon"
+                                    placeholder="Coupon Code">
+                            </div>
+                            <div class="col-md-4">
+                                <button type="submit" class="btn btn-primary btn-sm border-0">Appliquer</button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
 
-                <div class="row">
-                    <div class="col-md-6">
-                        <form action="{{ route('coupon.check') }}" method="POST">
-                            @csrf
+                <div class="col-md-6 pl-5">
+                    <div class="row justify-content-end">
+                        <div class="col-md-7 mt-4 mt-md-0">
                             <div class="row">
-                                <div class="col-md-12">
-                                    <label class="text-black h4" for="coupon">Coupon</label>
-                                    <p>Veuillez entrez le code de votre coupon ici si vous en avez un.</p>
-                                </div>
-                                <div class="col-md-8 mb-3 mb-md-0">
-                                    <input type="text" class="form-control py-3" name="coupon_name"
-                                        value="{{ session()->get('couponCode') ?? '' }}" id="coupon"
-                                        placeholder="Coupon Code">
-                                </div>
-                                <div class="col-md-4">
-                                    <button type="submit" class="btn btn-primary btn-sm border-0">Appliquer</button>
+                                <div class="col-md-12 text-right border-bottom mb-4">
+                                    <h3 class="text-black text-nowrap h4 text-uppercase">Total du panier </h3>
                                 </div>
                             </div>
-                        </form>
-                    </div>
-
-                    <div class="col-md-6 pl-5">
-                        <div class="row justify-content-end">
-                            <div class="col-md-7 mt-4 mt-md-0">
-                                <div class="row">
-                                    <div class="col-md-12 text-right border-bottom mb-5">
-                                        <h3 class="text-black text-nowrap h4 text-uppercase">Total du panier </h3>
-                                    </div>
-                                </div>
-                                {{-- <div class="row mb-3">
+                            <div class="row mb-4">
                                 <div class="col-md-6">
-                                    <span class="text-black">Sous-total</span>
+                                    <span class="text-black">Total</span>
                                 </div>
                                 <div class="col-md-6 text-right">
-                                    <strong class="text-black">{{ $totalCartPrice }}.00 FCFA</strong>
+                                    <strong class="newTotalPrice text-black text-nowrap">
+                                        {{ $totalCartPrice + collect(session('cart')['packs'] ?? [])->sum('total_price') }}
+                                        FCFA</strong>
                                 </div>
-                            </div> --}}
-                                <div class="row mb-5">
-                                    <div class="col-md-6">
-                                        <span class="text-black">Total</span>
-                                    </div>
-                                    <div class="col-md-6 text-right">
-                                        <strong class="newTotalPrice text-black text-nowrap">
-                                            {{ $totalCartPrice }}.00 FCFA</strong>
-                                    </div>
-                                </div>
+                            </div>
 
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <button
-                                            class="paymentButton btn btn-primary btn-lg py-3 btn-block text-nowrap border-0">Passer
-                                            commande</button>
-                                    </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <button
+                                        class="paymentButton btn btn-primary btn-lg py-3 btn-block text-nowrap border-0">Passer
+                                        commande</button>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            @else
-                <div>
-                    <h3 class="text-dark">Votre panier est actuellement vide ! Veuillez <a class="text-primary"
-                            href="{{ route('product') }}">cliquer ici</a>
-                        pour ajouter des produits.</h3>
-                </div>
-            @endif
+            </div>
         </div>
     </div>
 @endsection

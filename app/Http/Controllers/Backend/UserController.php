@@ -35,12 +35,19 @@ class UserController extends Controller
             'email' => 'required|email|unique:users',
             'password' => 'required|string|min:6',
             'is_admin' => 'required|integer', // Ajoutez une validation pour le rôle
+            'profile_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validation de l'image
         ]);
 
         $user = new User;
         $user->name = $request->name;
         $user->email = $request->email;
         $user->password = bcrypt($request->password);
+
+        if ($request->hasFile('profile_image')) {
+            $imageName = time() . '.' . $request->profile_image->extension();
+            $request->profile_image->move(public_path('images/profiles'), $imageName);
+            $user->profile_image = $imageName;
+        }
 
         // Vérifiez et attribuez le bon rôle
         /* if ($request->input('is_admin') == 2) {
@@ -105,19 +112,8 @@ class UserController extends Controller
     public function edit(string $id)
     {
         $user = User::findOrFail($id);
-
-        $user = Auth::user();
-        $userName = $user->name;
-        $role = $user->isSuperAdmin() ? 'Super-Admin' : 'Admin';
-
-        // Enregistrer l'action d'édition d'un utilisateur
-        activity()
-            ->causedBy($user)
-            ->performedOn($userToEdit)
-            ->withProperties(['menu' => 'Utilisateurs', 'action' => 'Édition'])
-            ->log("{$userName} ({$role}) a accédé à la modification de l'utilisateur : {$userToEdit->name}.");
-
-        return view('backend.pages.user.edit', compact('user'));
+        $roles = Role::where('name', '=!', 'superadmin');
+        return view('backend.pages.user.edit', compact('user', 'roles'));
     }
 
     // Mettre à jour un utilisateur (update)
@@ -127,6 +123,7 @@ class UserController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email,' . $id,
             'is_admin' => 'required|integer', // Validez également le rôle ici
+            'profile_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validation de l'image
         ]);
 
         $user = User::findOrFail($id);
@@ -146,6 +143,16 @@ class UserController extends Controller
             $user->password = bcrypt($request->password);
         }
 
+        if ($request->hasFile('profile_image')) {
+            // Supprimer l'ancienne image si elle existe
+            if ($user->profile_image && file_exists(public_path('images/profiles/' . $user->profile_image))) {
+                unlink(public_path('images/profiles/' . $user->profile_image));
+            }
+    
+            $imageName = time() . '.' . $request->profile_image->extension();
+            $request->profile_image->move(public_path('images/profiles'), $imageName);
+            $user->profile_image = $imageName;
+        }
         $user->save();
 
 

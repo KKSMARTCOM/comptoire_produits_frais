@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('password');
             $table->boolean('is_admin')->default(0);
             $table->enum('status', ['0', '1'])->default('1');
+            $table->string('profile_image')->nullable(); // Nouveau champ pour l'image de profil
             $table->timestamps();
         });
     }

@@ -71,6 +71,16 @@
                             </select>
                         </div>
 
+                        <div class="form-group">
+                            <label for="profile_image">Image de profil</label>
+                            <input type="file" class="form-control" id="profile_image" name="profile_image">
+                        </div>
+                        
+                        @if($user->profile_image)
+                            <img src="{{ asset('images/profiles/' . $user->profile_image) }}" alt="Profile Image" width="150">
+                        @endif
+                        
+
                         <button type="submit" class="btn btn-primary mr-2">Mettre à jour</button>
                         <a href="{{ route('panel.user.index') }}" class="btn btn-light">Fermer</a>
                     </form>
