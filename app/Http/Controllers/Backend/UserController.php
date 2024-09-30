@@ -103,7 +103,7 @@ class UserController extends Controller
     public function edit(string $id)
     {
         $user = User::findOrFail($id);
-        $roles = Role::were('name', '=!', 'superadmin');
+        $roles = Role::where('name', '=!', 'superadmin');
         return view('backend.pages.user.edit', compact('user', 'roles'));
     }
 

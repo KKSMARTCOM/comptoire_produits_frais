@@ -19,16 +19,22 @@ class SiteSettingMiddleware
     {
         // key - value şeklinde array oluşturur
         //$settings = SiteSetting::pluck('data', 'name')->toArray();
-        //$categories = Category::where('status', '1')->with('subCategory')->withCount('items')->get();
+        $categories = Category::where('category_id', null)->get();
 
         $countQty = 0;
-        $cartItem = session('cart', []);
+        $cartItem = session('cart')['products'] ?? [];
 
-        foreach ($cartItem as $cart) {
-            $countQty += $cart['quantity'];
+        $cartPack = session('cart')['packs'] ?? [];
+
+        if (isset($cartItem)) {
+            foreach ($cartItem as $cart) {
+                $countQty += $cart['quantity'];
+            }
+        } else if ($cartPack) {
+            $countQty = 0;
         }
 
-        view()->share([/* 'settings'=>$settings, 'categories'=>$categories, */'countQty' => $countQty]);
+        view()->share([/* 'settings'=>$settings,*/'categories' => $categories, 'countQty' => $countQty]);
 
         return $next($request);
     }

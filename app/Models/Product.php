@@ -34,6 +34,12 @@ class Product extends Model
         return $this->belongsToMany(Pack::class, 'pack_product')->withPivot('quantity');
     }
 
+    // Relation avec les promotions
+    public function promotions()
+    {
+        return $this->belongsToMany(Promotion::class, 'product_promotion');
+    }
+
     public function sluggable(): array
     {
         return [

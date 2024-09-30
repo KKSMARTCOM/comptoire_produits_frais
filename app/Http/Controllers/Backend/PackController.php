@@ -26,7 +26,7 @@ class PackController extends Controller
     public function create()
     {
         //
-        $categories = Category::all();
+        $categories = Category::where('category_id', null)->get();
         //$products = Product::all();
         return view('backend.pages.pack.edit', compact('categories'));
     }
@@ -109,7 +109,7 @@ class PackController extends Controller
         try {
             //code...
             $pack = Pack::where('id', $id)->with('products')->first();
-            $categories = Category::all();
+            $categories = Category::where('category_id', null)->get();
             $products = Product::get();
 
             return view('backend.pages.pack.edit', compact('products', 'categories', 'pack'));
