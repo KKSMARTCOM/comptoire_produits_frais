@@ -31,19 +31,26 @@ class PromotionController extends Controller
         return response()->json($products);
     }
 
-    public function getProductsByCategory($categoryId)
+    public function productsByCategories($categoryId)
     {
-        // Récupérer les produits de la catégorie sélectionnée
-        $products = Product::where('category_id', $categoryId)->get();
-        return response()->json($products);
+        try {
+            //code...
+            $products = Product::where('category_id', $categoryId)->get();
+            //dd($products);
+            return response()->json($products);
+        } catch (\Exception $e) {
+            //throw $th;
+        }
     }
+    
+
 
 
 
     // Afficher le formulaire de création
     public function create()
     {
-        $categories = Category::where('category_id', null)->get();
+        $categories = Category::all();
         $products = Product::all(); // Récupérer tous les produits
         return view('backend.pages.promotion.create', compact('categories', 'products'));
     }

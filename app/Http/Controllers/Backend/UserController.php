@@ -15,7 +15,7 @@ class UserController extends Controller
     public function index()
     {
         $users = User::where('email', '!=', 'superadmin@gmail.com')->get(); // Récupérer tous les utilisateurs
-
+        $users = User::paginate(10);
         return view('backend.pages.user.index', compact('users')); // Assurez-vous que le chemin de la vue est correct
     }
 
@@ -58,14 +58,14 @@ class UserController extends Controller
 
         $user = Auth::user();
         $userName = $user->name;
-        $role = $user->isSuperAdmin() ? 'Super-Admin' : 'Admin';
+
 
         // Enregistrer l'action de création d'un utilisateur
         activity()
             ->causedBy($user)
             ->performedOn($userCreated)
             ->withProperties(['menu' => 'Utilisateurs', 'action' => 'Création'])
-            ->log("{$userName} ({$role}) a créé un utilisateur : {$userCreated->name}.");
+            ->log("{$userName} a créé un utilisateur : {$userCreated->name}.");
 
         return redirect()->route('panel.user.index')->with('success', 'Utilisateur créé avec succès.');
     }

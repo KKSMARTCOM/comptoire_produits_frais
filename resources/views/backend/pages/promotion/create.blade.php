@@ -52,57 +52,39 @@
 </div>
 
 <script>
-    document.getElementById('category').addEventListener('change', function () {
-        var categoryId = this.value;
-        var productsDropdown = document.getElementById('products');
+    $(document).ready(function() {
+        $('.select2').select2({
+            placeholder: 'Sélectionner les produits',
+            theme: 'classic',
+        });
 
-        // Réinitialiser la liste des produits
-        productsDropdown.innerHTML = '';
-
-        // Si aucune catégorie n'est sélectionnée (ou 'Toutes les catégories'), charger tous les produits
-        if (categoryId === 'all') {
-            fetch('/get-products')
-                .then(response => response.json())
-                .then(data => {
-                    data.forEach(function (product) {
-                        var option = document.createElement('option');
-                        option.value = product.id;
-                        option.text = product.name;
-                        productsDropdown.appendChild(option);
-                    });
-                })
-                .catch(error => console.error('Erreur:', error));
-        } else {
-            // Requête AJAX pour récupérer les produits selon la catégorie
-            fetch('/get-products/' + categoryId)
-                .then(response => response.json())
-                .then(data => {
-                    data.forEach(function (product) {
-                        var option = document.createElement('option');
-                        option.value = product.id;
-                        option.text = product.name;
-                        productsDropdown.appendChild(option);
-                    });
-                })
-                .catch(error => console.error('Erreur:', error));
-        }
-    });
-
-    // Charger tous les produits au chargement de la page
-    window.addEventListener('DOMContentLoaded', (event) => {
-        var productsDropdown = document.getElementById('products');
-        fetch('/get-products')
-            .then(response => response.json())
-            .then(data => {
-                data.forEach(function (product) {
-                    var option = document.createElement('option');
-                    option.value = product.id;
-                    option.text = product.name;
-                    productsDropdown.appendChild(option);
+        $('#category').on('change', function() {
+            var categoryId = $(this).val();
+            if (categoryId) {
+                $.ajax({
+                    url: '/panel/get-products/' + categoryId,
+                    type: 'GET',
+                    success: function(response) {
+                        $('#products').empty().append(
+                            '<option value="">Sélectionner un produit</option>'
+                        );
+                        $.each(response, function(key, product) {
+                            $('#products').append('<option value="' + product.id + '">' +
+                                product.name + '</option>');
+                        });
+                    },
+                    error: function(xhr) {
+                        console.error('Erreur:', xhr);
+                    }
                 });
-            })
-            .catch(error => console.error('Erreur:', error));
+            } else {
+                $('#products').empty().append(
+                    '<option value="">Sélectionner un produit</option>'
+                );
+            }
+        });
     });
 </script>
+
 
 @endsection
