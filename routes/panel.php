@@ -55,6 +55,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'panel', 'as' => 'panel.'], 
     Route::delete('/product/destroy', [ProductController::class, 'destroy'])->name('product.destroy');
     Route::post('/product-status/update', [ProductController::class, 'status'])->name('product.status');
     Route::get('/get-products/{categoryId}', [ProductController::class, 'productsByCategories'])->name('product.categories');
+    
 
     // promotions route
     Route::get('/promotions', [PromotionController::class, 'index'])->name('promotions.index');
@@ -64,7 +65,6 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'panel', 'as' => 'panel.'], 
     Route::put('/promotions/{promotion}', [PromotionController::class, 'update'])->name('promotions.update'); // Changer `delete` en `put`
     Route::delete('/promotions/{promotion}', [PromotionController::class, 'destroy'])->name('promotions.destroy');
 
-    Route::get('/get-products/{category_id}', [PromotionController::class, 'getProducts'])->name('get-products');
 
 
     // order route

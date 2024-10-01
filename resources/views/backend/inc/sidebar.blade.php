@@ -18,14 +18,14 @@
         <li
             class="nav-item {{ request()->routeIs('panel.product.index') || request()->routeIs('panel.product.create') || request()->routeIs('panel.product.edit') ? 'active' : '' }}">
             <a class="nav-link" href="{{ route('panel.product.index') }}">
-                <i class="icon-map menu-icon"></i>
+                <i class="icon-folder menu-icon"></i>
                 <span class="menu-title">Produits</span>
             </a>
         </li>
         @if (auth()->user()->hasRole('admin'))
             <li class="nav-item {{ request()->routeIs('panel.promotions.index') ? 'active' : '' }}">
                 <a class="nav-link" href="{{ route('panel.promotions.index') }}">
-                    <i class="icon-layout menu-icon"></i>
+                    <i class="icon-zoom-out menu-icon"></i>
                     <span class="menu-title">Promotions</span>
                 </a>
             </li>

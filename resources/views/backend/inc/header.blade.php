@@ -75,11 +75,12 @@
             </li>
             <li class="nav-item nav-profile dropdown">
                 <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
-                    <img src="{{ asset('backend/images/faces/face28.jpg') }}" alt="profile" />
+                    <img src="{{ asset('images/profiles/' . $user->avatar) }}" alt="profile" />
                 </a>
+                
                 <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
                     <!-- Afficher le nom de l'utilisateur connecté -->
-                    <a class="dropdown-item">
+                    <a class="dropdown-item" href="{{ route('panel.setting.index') }}">
                         <i class="ti-user text-primary"></i>
                         {{ Auth::user()->name }} : {{ Auth()->user()->role == 0 ? 'Administrateur' : 'Utilisateur' }}
                         <!-- Affiche le nom et le rôle de l'utilisateur -->

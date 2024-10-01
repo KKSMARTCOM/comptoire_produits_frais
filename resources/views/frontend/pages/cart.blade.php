@@ -142,7 +142,7 @@
                 </div>
 
                 <div class="mb-5">
-                    <a href="{{ route('all.product') }}" class="buy-now btn btn-primary border-0"> <span
+                    <a href="{{ route('cart') }}" class="buy-now btn btn-primary border-0"> <span
                             class="mdi mdi-plus"></span>Ajouter
                     </a>
                 </div>
