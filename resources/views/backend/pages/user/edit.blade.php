@@ -72,12 +72,12 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="profile_image">Image de profil</label>
-                            <input type="file" class="form-control" id="profile_image" name="profile_image">
+                            <label for="avatar">Avatar</label>
+                            <input type="file" class="form-control" id="avatar" name="avatar">
                         </div>
                         
-                        @if($user->profile_image)
-                            <img src="{{ asset('images/profiles/' . $user->profile_image) }}" alt="Profile Image" width="150">
+                        @if($user->avatar)
+                            <img src="{{ asset('images/profiles/' . $user->avatar) }}" alt="Profile Image" width="150">
                         @endif
                         
 

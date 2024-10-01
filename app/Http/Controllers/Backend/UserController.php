@@ -35,7 +35,7 @@ class UserController extends Controller
             'email' => 'required|email|unique:users',
             'password' => 'required|string|min:6',
             'is_admin' => 'required|integer', // Ajoutez une validation pour le rôle
-            'profile_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validation de l'image
+            'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validation de l'image
         ]);
 
         $user = new User;
@@ -43,10 +43,10 @@ class UserController extends Controller
         $user->email = $request->email;
         $user->password = bcrypt($request->password);
 
-        if ($request->hasFile('profile_image')) {
-            $imageName = time() . '.' . $request->profile_image->extension();
-            $request->profile_image->move(public_path('images/profiles'), $imageName);
-            $user->profile_image = $imageName;
+        if ($request->hasFile('avatar')) {
+            $imageName = time() . '.' . $request->avatar->extension();
+            $request->avatar->move(public_path('images/profiles'), $imageName);
+            $user->avatar = $imageName;
         }
 
         // Vérifiez et attribuez le bon rôle
@@ -66,6 +66,12 @@ class UserController extends Controller
         $user = Auth::user();
         $userName = $user->name;
 
+        // Création de l'utilisateur
+        $userCreated = User::create([
+            'name' => $validatedData['name'],
+            'email' => $validatedData['email'],
+            'password' => bcrypt($validatedData['password']),
+        ]);
 
         // Enregistrer l'action de création d'un utilisateur
         activity()
@@ -123,7 +129,7 @@ class UserController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email,' . $id,
             'is_admin' => 'required|integer', // Validez également le rôle ici
-            'profile_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validation de l'image
+            'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validation de l'image
         ]);
 
         $user = User::findOrFail($id);
@@ -143,15 +149,15 @@ class UserController extends Controller
             $user->password = bcrypt($request->password);
         }
 
-        if ($request->hasFile('profile_image')) {
+        if ($request->hasFile('avatar')) {
             // Supprimer l'ancienne image si elle existe
-            if ($user->profile_image && file_exists(public_path('images/profiles/' . $user->profile_image))) {
-                unlink(public_path('images/profiles/' . $user->profile_image));
+            if ($user->avatar && file_exists(public_path('images/profiles/' . $user->avatar))) {
+                unlink(public_path('images/profiles/' . $user->avatar));
             }
     
-            $imageName = time() . '.' . $request->profile_image->extension();
-            $request->profile_image->move(public_path('images/profiles'), $imageName);
-            $user->profile_image = $imageName;
+            $imageName = time() . '.' . $request->avatar->extension();
+            $request->avatar->move(public_path('images/profiles'), $imageName);
+            $user->avatar = $imageName;
         }
         $user->save();
 

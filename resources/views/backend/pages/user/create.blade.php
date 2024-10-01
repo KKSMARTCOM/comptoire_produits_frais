@@ -57,8 +57,8 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="profile_image">Image de profil</label>
-                            <input type="file" class="form-control" id="profile_image" name="profile_image">
+                            <label for="avatar">Avatar</label>
+                            <input type="file" class="form-control" id="avatar" name="avatar">
                         </div>
                         
                         <button type="submit" class="btn btn-primary mr-2">Enregistrer</button>

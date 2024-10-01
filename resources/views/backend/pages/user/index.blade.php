@@ -19,7 +19,7 @@
                                     <th>Email</th>
                                     <th>Rôle</th>
                                     <th>Statut</th>
-                                    <th>Image</th>
+                                    <th>Avatar</th>
                                     @if (auth()->user()->hasRole('admin') || auth()->user()->hasRole('superadmin'))
                                         <th>Actions</th>
                                     @endif
@@ -48,10 +48,10 @@
                                                 @endif
                                             </td>
                                             <td>
-                                                @if($user->profile_image)
-                                                    <img src="{{ asset('images/profiles/' . $user->profile_image) }}" alt="Profile Image" width="50">
+                                                @if($user->avatar)
+                                                    <img src="{{ asset('images/profiles/' . $user->avatar) }}" alt="Avatar" width="50">
                                                 @else
-                                                    <img src="{{ asset('images/profiles/default.png') }}" alt="Default Image" width="50">
+                                                    <img src="{{ asset('images/profiles/default.png') }}" alt="Default Avatar" width="50">
                                                 @endif
                                             </td>
                                             
