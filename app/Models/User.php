@@ -71,6 +71,7 @@ class User extends Authenticatable implements CanResetPassword
     {
         return $this->is_admin === 1;
     }
+
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()

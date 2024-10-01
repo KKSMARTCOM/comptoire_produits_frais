@@ -12,7 +12,6 @@ use App\Http\Controllers\Backend\PromotionController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\ResetPasswordController;
-use App\Http\Controllers\LogController;
 
 Route::group(['middleware' => ['auth'], 'prefix' => 'panel', 'as' => 'panel.'], function () {
     Route::get('/', [DashboardController::class, 'index'])->name('index');
