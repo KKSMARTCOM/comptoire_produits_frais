@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Backend;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Auth;
 
 
@@ -15,9 +14,8 @@ class UserController extends Controller
     // Afficher la liste des utilisateurs  (index)
     public function index()
     {
-
-        $users = User::where('email', '!=', 'superadmin@gmail.com')->paginate(10); // Récupérer tous les utilisateurs
-
+        $users = User::where('email', '!=', 'superadmin@gmail.com')->get(); // Récupérer tous les utilisateurs
+        $users = User::paginate(10);
         return view('backend.pages.user.index', compact('users')); // Assurez-vous que le chemin de la vue est correct
     }
 
@@ -37,6 +35,7 @@ class UserController extends Controller
             'email' => 'required|email|unique:users',
             'password' => 'required|string|min:6',
             'is_admin' => 'required|integer', // Ajoutez une validation pour le rôle
+            'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validation de l'image
         ]);
 
         $user = new User;
@@ -44,26 +43,42 @@ class UserController extends Controller
         $user->email = $request->email;
         $user->password = bcrypt($request->password);
 
-
-        $user->save();
-        // Vérifiez et attribuez le bon rôle
-        if ($request->input('is_admin') == 0) {
-            $user->assignRole('admin'); // Administrateur
-        } else {
-            $user->assignRole('utilisateur'); // Utilisateur simple
+        if ($request->hasFile('avatar')) {
+            $imageName = time() . '.' . $request->avatar->extension();
+            $request->avatar->move(public_path('images/profiles'), $imageName);
+            $user->avatar = $imageName;
         }
 
+        // Vérifiez et attribuez le bon rôle
+        /* if ($request->input('is_admin') == 2) {
+            $user->is_admin = 2; // Super Administrateur
+        } elseif ($request->input('is_admin') == 1) {
+            $user->is_admin = 1; // Administrateur
+        } else {
+            $user->is_admin = 0; // Utilisateur simple
+        } */
 
-        $userAuth = Auth::user();
-        $role = $userAuth->role == '0' || '1' ? 'Administrateur' : 'Utilisateur';
+        $user->save();
 
+        $user->assignRole('admin');
+
+
+        $user = Auth::user();
+        $userName = $user->name;
+
+        // Création de l'utilisateur
+        $userCreated = User::create([
+            'name' => $validatedData['name'],
+            'email' => $validatedData['email'],
+            'password' => bcrypt($validatedData['password']),
+        ]);
 
         // Enregistrer l'action de création d'un utilisateur
         activity()
-            ->causedBy($userAuth)
-            ->performedOn($user)
+            ->causedBy($user)
+            ->performedOn($userCreated)
             ->withProperties(['menu' => 'Utilisateurs', 'action' => 'Création'])
-            ->log("{$userAuth->name} ({$role}) a créé un utilisateur : {$user->name}.");
+            ->log("{$userName} a créé un utilisateur : {$userCreated->name}.");
 
         return redirect()->route('panel.user.index')->with('success', 'Utilisateur créé avec succès.');
     }
@@ -114,46 +129,51 @@ class UserController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email,' . $id,
             'is_admin' => 'required|integer', // Validez également le rôle ici
+            'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validation de l'image
         ]);
 
         $user = User::findOrFail($id);
         $user->name = $request->name;
         $user->email = $request->email;
-        $user->status = $request->status;
 
-        try {
-            //code...
-            // Vérifiez et mettez à jour le bon rôle
-            if ($request->input('is_admin') == 0) {
-                $user->is_admin = 0;
-                $user->assignRole('admin'); // Super Administrateur
-            } else {
-                $user->is_admin = 1;
-                $user->assignRole('utilisateur'); // Utilisateur simple
-            }
-
-            if ($request->filled('password')) {
-                $user->password = bcrypt($request->password);
-            }
-
-            $user->save();
-
-            $userAuth = Auth::user();
-            $role = $userAuth->role == '0' || '1' ? 'Administrateur' : 'Utilisateur';
-
-
-            // Enregistrer l'action de mise à jour d'un utilisateur
-            activity()
-                ->causedBy($userAuth)
-                ->performedOn($user)
-                ->withProperties(['menu' => 'Utilisateurs', 'action' => 'Mise à jour'])
-                ->log("{$userAuth->name} ({$role}) a mis à jour l'utilisateur : {$user->name}.");
-
-            return redirect()->route('panel.user.index')->with('success', 'Utilisateur mis à jour avec succès.');
-        } catch (\Exception $e) {
-            dd($e);
-            //throw $th;
+        // Vérifiez et mettez à jour le bon rôle
+        if ($request->input('is_admin') == 2) {
+            $user->is_admin = 2; // Super Administrateur
+        } elseif ($request->input('is_admin') == 1) {
+            $user->is_admin = 1; // Administrateur
+        } else {
+            $user->is_admin = 0; // Utilisateur simple
         }
+
+        if ($request->filled('password')) {
+            $user->password = bcrypt($request->password);
+        }
+
+        if ($request->hasFile('avatar')) {
+            // Supprimer l'ancienne image si elle existe
+            if ($user->avatar && file_exists(public_path('images/profiles/' . $user->avatar))) {
+                unlink(public_path('images/profiles/' . $user->avatar));
+            }
+    
+            $imageName = time() . '.' . $request->avatar->extension();
+            $request->avatar->move(public_path('images/profiles'), $imageName);
+            $user->avatar = $imageName;
+        }
+        $user->save();
+
+
+        $user = Auth::user();
+        $userName = $user->name;
+        $role = $user->isSuperAdmin() ? 'Super-Admin' : 'Admin';
+
+        // Enregistrer l'action de mise à jour d'un utilisateur
+        activity()
+            ->causedBy($user)
+            ->performedOn($userToUpdate)
+            ->withProperties(['menu' => 'Utilisateurs', 'action' => 'Mise à jour'])
+            ->log("{$userName} ({$role}) a mis à jour l'utilisateur : {$userToUpdate->name}.");
+
+        return redirect()->route('panel.user.index')->with('success', 'Utilisateur mis à jour avec succès.');
     }
     /* public function update(Request $request, string $id)
     {
@@ -185,15 +205,16 @@ class UserController extends Controller
         $user->delete();
 
 
-        $userAuth = Auth::user();
-        $role = $userAuth->role == '0' || '1' ? 'Administrateur' : 'Utilisateur';
+        $user = Auth::user();
+        $userName = $user->name;
+        $role = $user->isSuperAdmin() ? 'Super-Admin' : 'Admin';
 
         // Enregistrer l'action de suppression d'un utilisateur
         activity()
-            ->causedBy($userAuth)
-            ->performedOn($user)
+            ->causedBy($user)
+            ->performedOn($userToDelete)
             ->withProperties(['menu' => 'Utilisateurs', 'action' => 'Suppression'])
-            ->log("{$userAuth->name} ({$role}) a supprimé l'utilisateur : {$user->name}.");
+            ->log("{$userName} ({$role}) a supprimé l'utilisateur : {$userNameToDelete}.");
 
         return redirect()->route('panel.user.index')->with('success', 'Utilisateur supprimé avec succès.');
     }

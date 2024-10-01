@@ -19,6 +19,7 @@
                                     <th>Email</th>
                                     <th>Rôle</th>
                                     <th>Statut</th>
+                                    <th>Avatar</th>
                                     @if (auth()->user()->hasRole('admin') || auth()->user()->hasRole('superadmin'))
                                         <th>Actions</th>
                                     @endif
@@ -47,6 +48,14 @@
                                                 @endif
                                             </td>
                                             <td>
+                                                @if($user->avatar)
+                                                    <img src="{{ asset('images/profiles/' . $user->avatar) }}" alt="Avatar" width="50">
+                                                @else
+                                                    <img src="{{ asset('images/profiles/default.png') }}" alt="Default Avatar" width="50">
+                                                @endif
+                                            </td>
+                                            
+                                            <td>
                                                 @if (auth()->user()->hasRole('admin') || auth()->user()->hasRole('superadmin'))
                                                     <a href="{{ route('panel.user.edit', $user->id) }}"
                                                         class="btn btn-warning">
@@ -62,6 +71,7 @@
                                                     </form>
                                                 @endif
                                             </td>
+                                            
                                         </tr>
                                     @endforeach
                                 @else
