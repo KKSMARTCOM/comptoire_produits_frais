@@ -139,14 +139,14 @@
                             <div class="col-md-12">
                                 <h2 class="h3 mb-3 text-black">Votre commande</h2>
                                 <div class="p-3 p-lg-5 border">
-                                    <table class="table site-block-order-table mb-5">
-                                        <thead>
-                                            <th>Produit</th>
-                                            <th>Total</th>
-                                        </thead>
-                                        <tbody>
+                                    @if (session()->get('cart'))
+                                        <table class="table site-block-order-table mb-5">
+                                            <thead>
+                                                <th>Produit</th>
+                                                <th>Total</th>
+                                            </thead>
+                                            <tbody>
 
-                                            @if (session()->get('cart'))
                                                 @foreach (session()->get('cart') as $key => $cart)
                                                     @php
                                                         $kdvOrani = $cart['kdv'] ?? 0;
@@ -164,26 +164,37 @@
                                                         <td>{{ $toplamTutar }} FCFA</td>
                                                     </tr>
                                                 @endforeach
-                                            @endif
 
-                                            <tr>
-                                                <td class="text-black font-weight-bold"><strong>Prix du coupon</strong>
-                                                </td>
-                                                <td class="text-black font-weight-bold">
-                                                    <strong>{{ session()->get('couponPrice') ?? 0 }} FCFA</strong>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-black font-weight-bold"><strong>Total de la
-                                                        commande</strong></td>
-                                                <td class="text-black font-weight-bold"><strong>
-                                                        {{ array_sum(array_column(session()->get('cart'), 'total')) ?? 0 }}
-                                                        FCFA</strong>
-                                                </td>
-                                            </tr>
+                                                <tr>
+                                                    <td class="text-black font-weight-bold"><strong>Prix du coupon</strong>
+                                                    </td>
+                                                    <td class="text-black font-weight-bold">
+                                                        <strong>{{ session()->get('couponPrice') ?? 0 }} FCFA</strong>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-black font-weight-bold"><strong>Total de la
+                                                            commande</strong></td>
+                                                    <td class="text-black font-weight-bold"><strong>
+                                                            {{ array_sum(array_column(session()->get('cart'), 'total')) ?? 0 }}
+                                                            FCFA</strong>
+                                                    </td>
+                                                </tr>
 
-                                        </tbody>
-                                    </table>
+                                            </tbody>
+                                        </table>
+                                    @elseif ($pack)
+                                        <h3>{{ $pack->name }}</h3>
+                                        <h4>Produits</h4>
+                                        <ul>
+                                            @foreach ($pack->products as $product)
+                                                <li>{{ ucfirst($product['name']) }} (x{{ $product->pivot->quantity }})
+                                                </li>
+                                            @endforeach
+                                        </ul>
+                                        <input type="hidden" name="pack_id" value="{{ $pack->id }}">
+                                        <p>Total de la commande : {{ $pack->price }} FCFA</p>
+                                    @endif
 
                                     <div class="form-group">
                                         <button type="submit"

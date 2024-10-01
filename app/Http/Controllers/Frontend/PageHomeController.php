@@ -12,23 +12,25 @@ use App\Models\Pack;
 
 class PageHomeController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        // $slider = Slider::where('status', '1')->get();
-        //$slider = Slider::where('status', '1')->first(); // tek veri gönderildiği zaman kullanılabilir
+        //$categories = Category::where('category_id', null)->get();
+        $limit = 3;
+        $offset = $request->input('offset', 0);
 
-        //$about = About::where("id", 1)->first();
+        // Récupère les coffrets avec une pagination personnalisée
+        $packs = Pack::where('status', '1')->skip($offset)->take($limit)->get();
 
-        /* $lastProducts = Product::where('status', '1')
-            ->select(['id', 'name', 'slug', 'size', 'color', 'price', 'category_id', 'image'])
-            ->with('category')
-            ->orderBy('id', 'desc')
-            ->limit(10)
-            ->get(); */
+        // Vérifie s'il reste d'autres coffrets à charger
+        $remaining = Pack::count() > ($offset + $limit);
 
-        $categories = Category::where('category_id', null)->get();
-        $packs = Pack::paginate(3);
+        if ($request->ajax()) {
+            return response()->json([
+                'packs' => view('frontend.ajax.packList', compact('packs'))->render(),
+                'remaining' => $remaining
+            ]);
+        }
 
-        return view('frontend.pages.index', compact('categories', 'packs'));
+        return view('frontend.pages.index', compact('packs', 'remaining'));
     }
 }

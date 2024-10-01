@@ -7,6 +7,7 @@ use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Models\Pack;
 use Illuminate\Support\Facades\File;
 
 class PageController extends Controller
@@ -61,43 +62,41 @@ class PageController extends Controller
     public function product(Request $request, $slug = null)
     {
         $categories = Category::where('category_id', null)->get();
-        $category = Category::where('slug', $slug)->firstOrFail();
+
+        $category = $slug ? Category::where('slug', $slug)->firstOrFail() : null;
 
 
         $types = Category::where('sub_cat', 'type')->get();
         $regions = Category::where('sub_cat', 'region')->get();
+
         $productCat = $request->input('productCat');
         $wineType = $request->input('wineType');
         $wineRegion = $request->input('wineRegion');
 
         $products = Product::query();
 
-        /* if ($category) {
-            $products->where('category_id', $category->id);
-        } */
-
         // Si une catégorie est passée dans l'URL
-        if ($slug && $slug !== '') {
-            $products->whereHas('productCategory', function ($query) use ($slug) {
-                $query->where('slug', $slug);
-            });
+        if ($category) {
+            $products->where('category_id', $category->id);
         }
 
 
         // Filtrer par type
-        if ($request->filled('wineType')) {
-            $products->where('type', $wineType);
+        if ($request->filled('wine_type')) {
+            $products->where('type', $request->wine_type);
         }
+
 
         // Filtrer par région
-        if ($request->filled('wineRegion')) {
-            $products->where('region', $wineRegion);
+        if ($request->filled('wine_region')) {
+            $products->where('region', $request->wine_region);
         }
+        //dd($products);
 
         // Filtrer par prix (min_price et max_price)
-        if ($request->filled('minPrice') || $request->filled('maxPrice')) {
-            $minPrice = $request->input('minPrice', 0);
-            $maxPrice = $request->input('maxPrice', PHP_INT_MAX);
+        if ($request->filled('min_price') || $request->filled('max_price')) {
+            $minPrice = $request->input('min_price', 0);
+            $maxPrice = $request->input('max_price', PHP_INT_MAX);
 
             // Appliquer les filtres de prix
             $products->whereBetween('price', [$minPrice, $maxPrice]);
@@ -128,12 +127,12 @@ class PageController extends Controller
         // Obtenir les produits filtrés
         $products = $products->get();
 
-
         $breadcrumb = [
             'pages' => [],
             'active' => 'Produits'
         ];
 
+        //dd($products);
         // Si la requête est une requête AJAX, renvoyer les produits filtrés au format JSON
         if ($request->ajax()) {
             $data['products'] = view('frontend.ajax.productList', ['products' => $products])->render();
@@ -202,6 +201,25 @@ class PageController extends Controller
         } catch (\Exception $e) {
             dd($e);
             //throw $th;
+        }
+    }
+
+    public function showPackItem(Request $request)
+    {
+        try {
+            $packId = decryptData($request->pack_id);
+            //dd($packId);
+            $pack = Pack::where('id', $packId)->firstOrFail();
+            //dd($pack);
+            $breadcrumb = [
+                'pages' => [],
+                'active' => 'Coffret '
+            ];
+
+            return view('frontend.pages.pack', compact('pack', 'breadcrumb'));
+        } catch (\Exception $e) {
+            //throw $th;
+            dd($e);
         }
     }
 }

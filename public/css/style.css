@@ -333,6 +333,9 @@ ul {
   padding: 10px;
   border: 1px solid #807e7e;
   width: 350px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .site-section-box-image{
@@ -345,6 +348,7 @@ ul {
 }
 
 .site-section-box-bottom{
+  height: 160px;
   padding-top: 20px;
   color: #000;
   display: flex;

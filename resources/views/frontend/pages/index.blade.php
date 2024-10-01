@@ -132,109 +132,13 @@
                     <h2>NOS COFFRETS & PANIERS DE FÊTES</h2>
                 </div>
             </div>
-            <div class="row p-2 gap-4 mb-4 justify-content-center">
-                @if ($packs && $packs->count() > 0)
-                    @foreach ($packs as $item)
-                        <div class="col-lg-4 col-md-6 site-section-box-container">
-                            <div class="site-section-box-image">
-                                <img src="{{ asset($item->image) }}" alt="">
-                            </div>
-                            <div class="site-section-box-bottom">
-                                <div class="site-section-box-bottom-text">
-                                    <h3>{{ ucfirst($item->name) }}</h3>
-                                    <p>{{ $item->price }} FCFA</p>
-                                    <p>{{ strLimit($item->description, 70) }}</p>
-
-                                </div>
-                                @php
-                                    $encrypt = encryptData($item->id);
-                                @endphp
-                                <div class="site-section-box-bottom-link">
-                                    {{-- <a href="{{ route('cart') }}"><span class="mdi mdi-eye-outline"></span></a> --}}
-                                    <form id="addForm" method="POST" action="{{ route('cartadd', $encrypt) }}">
-                                        @csrf
-                                        <input type="hidden" name="pack_id" value={{ $encrypt }}>
-                                        <p>
-                                            <button type="submit" id="panier" class="border-0 bg-transparent">
-                                                <span class="mdi mdi-eye-outline"></span>
-                                            </button>
-                                        </p>
-                                    </form>
-                                </div>
-                            </div>
-                            <div class="mt-4 d-flex align-items-end justify-content-end">
-                                <a href="javascript:void(0)" class="button-link">Commander</a>
-                            </div>
-                        </div>
-                    @endforeach
-                    <div class="mt-3 d-flex justify-content-center">
-                        {{ $packs->links('pagination::custom') }}
-                    </div>
-                @endif
-                {{-- <div class="col-lg-4 col-md-6 site-section-box-container">
-                    <div class="site-section-box-image">
-                        <img src="{{ asset('images/coffret1.jpg') }}" alt="">
-                    </div>
-                    <div class="site-section-box-bottom">
-                        <div class="site-section-box-bottom-text">
-                            <h3>Coffret Gourmand</h3>
-                            <p>20 000 FCFA</p>
-                            <p>Savourez un mélange exquis de délices sucrés et salés dans notre coffret gourmet...</p>
-
-                        </div>
-                        <div class="site-section-box-bottom-link">
-                            <a href="{{ route('cart') }}"><span class="mdi mdi-eye-outline"></span></a>
-                        </div>
-                    </div>
-                    <div class="mt-4 d-flex align-items-end justify-content-end">
-                        <a href="javascript:void(0)" class="button-link">Commander</a>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 site-section-box-container">
-                    <div class="site-section-box-image">
-                        <img src="{{ asset('images/coffret2.jpg') }}" alt="">
-                    </div>
-                    <div class="site-section-box-bottom">
-                        <div class="site-section-box-bottom-text">
-                            <h3>Panier de Fruits Frais</h3>
-                            <p>20 000 FCFA</p>
-                            <p>Offrez-vous ou vos proches un assortiment de fruits frais et de saison...</p>
-
-                        </div>
-                        <div class="site-section-box-bottom-link">
-                            <a href="{{ route('cart') }}"><span class="mdi mdi-eye-outline"></span></a>
-                        </div>
-                    </div>
-                    <div class="mt-4 d-flex align-items-end justify-content-end">
-                        <a href="javascript:void(0)" class="button-link">Commander</a>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 site-section-box-container">
-                    <div class="site-section-box-image">
-                        <img src="{{ asset('images/coffret3.jpg') }}" alt="">
-                    </div>
-                    <div class="site-section-box-bottom">
-                        <div class="site-section-box-bottom-text">
-                            <h3>Coffret Vin et Fromages</h3>
-                            <p>20 000 FCFA</p>
-                            <p>Combinez les meilleurs vins avec une sélection de fromages raffinés pour une expérience
-                                inoubliable...</p>
-
-                        </div>
-                        <div class="site-section-box-bottom-link">
-                            <a href="{{ route('cart') }}"><span class="mdi mdi-eye-outline"></span></a>
-                        </div>
-                    </div>
-                    <div class="mt-4 d-flex align-items-end justify-content-end">
-                        <a href="javascript:void(0)" class="button-link">Commander</a>
-                    </div>
-                </div> --}}
+            <div class="row p-2 gap-4 mb-4 justify-content-center" id="packList">
+                @include('frontend.ajax.packList', ['packs' => $packs])
             </div>
-            <div>
 
-            </div>
-            <div class="row gap-4 mb-4 justify-content-center more-coffret">
-                {{-- <div class="col-lg-4 col-md-6 site-section-box-container">
+        </div>
+        <div class="row gap-4 mb-4 justify-content-center more-coffret">
+            {{-- <div class="col-lg-4 col-md-6 site-section-box-container">
                     <div class="site-section-box-image">
                         <img src="{{ asset('images/coffret1.jpg') }}" alt="">
                     </div>
@@ -292,11 +196,13 @@
                         <a href="javascript:void(0)" class="button-link">Commander</a>
                     </div>
                 </div> --}}
-            </div>
-            <div class="site-section-box-more">
-                <a class="site-section-box-more-button" href="">Voir plus</a>
-            </div>
         </div>
+        @if ($remaining)
+            <div class="site-section-box-more">
+                <a class="site-section-box-more-button" id="loadMoreBtn" href="">Voir plus</a>
+            </div>
+        @endif
+    </div>
     </div>
 @endsection
 @section('customjs')
@@ -318,6 +224,41 @@
                     items: 3
                 }
             }
+        })
+
+        $(document).ready(function() {
+            let offset = 3;
+            $('#loadMoreBtn').on('click', function(e) {
+                e.preventDefault();
+                $.ajax({
+                    url: "{{ route('index') }}",
+                    type: 'GET',
+                    data: {
+                        offset: offset,
+                    },
+                    beforeSend: function() {
+                        $('#loadMoreBtn').prop('disabled', true).text('Chargement...');
+                    },
+                    success: function(response) {
+                        $('#packList').append(response.packs)
+
+                        offset += 3;
+
+                        // Cacher le bouton "Voir plus" s'il n'y a plus de coffrets à charger
+                        if (!response.remaining) {
+                            $('#loadMoreWrapper').hide();
+                        } else {
+                            // Réactiver le bouton et remettre le texte par défaut
+                            $('#loadMoreBtn').prop('disabled', false).text('Voir plus');
+                        }
+                    },
+                    error: function(xhr) {
+                        console.log(xhr.responseText);
+                        // Réactiver le bouton en cas d'erreur
+                        $('#loadMoreBtn').prop('disabled', false).text('Voir plus');
+                    }
+                })
+            })
         })
     </script>
 @endsection

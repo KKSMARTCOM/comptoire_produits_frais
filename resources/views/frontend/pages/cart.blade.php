@@ -18,7 +18,7 @@
                     @endif
                 </div>
             </div>
-            @if (!empty(session('cart')['products']) && count($cart['products']) > 0)
+            @if (!empty(session('cart')) && count($cart) > 0)
                 {{-- WEB --}}
                 <div class="row mb-5 d-none d-lg-block">
                     <div class="col-lg-12 site-blocks-table">
@@ -34,7 +34,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($cart['products'] as $key => $cartItem)
+                                @foreach ($cart as $key => $cartItem)
                                     <tr class="orderItem" data-id="{{ $key }}">
                                         <td class="product-thumbnail">
                                             <div class="product-thumbnail-image">
@@ -90,11 +90,11 @@
                 {{-- MOBILE --}}
                 <div class="row p-2 mb-5 d-block d-lg-none">
                     <ul>
-                        @foreach ($cart['products'] as $key => $cartItem)
+                        @foreach ($cart as $key => $cartItem)
                             <li class="orderItem h-24 align-items-center d-flex gap-4 border-bottom border-dark-subtle"
                                 data-id="{{ $key }}">
                                 <div class="product-mobile-thumbnail">
-                                    <div class="product-thumbnail-image">
+                                    <div class="product-thumbnail-image p-2">
                                         <img src="{{ asset($cartItem['product']['image']) }}"
                                             alt="{{ $cartItem['product']['name'] }}">
                                     </div>
@@ -148,26 +148,27 @@
                 </div>
             @else
                 <div>
-                    <h3 class="text-dark">Votre panier est actuellement vide ! Veuillez <a class="text-primary"
-                            href="{{ route('all.product') }}">cliquer ici</a>
-                        pour ajouter des produits.</h3>
+                    <h3 class="text-dark text-center mb-4">Veuillez <a class="text-primary"
+                            href="{{ route('all.product') }}">cliquer
+                            ici</a>
+                        pour ajouter des produits !</h3>
                 </div>
             @endif
             {{-- Presentation des coffrets --}}
-            @if (!empty(session('cart')['packs']))
-                <div class="mb-4">
+            {{-- @if (!empty(session('cart')['packs']) && count($cart['packs']) > 0)
+                <div class="mb-5">
                     <table class="table">
                         <thead>
                             <tr>
                                 <th>Coffret</th>
                                 <th>Produits</th>
-
+                                <th>Prix</th>
                                 <th></th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach (session('cart')['packs'] as $packId => $pack)
-                                <tr>
+                                <tr class="orderItem" data-id="{{ $packId }}">
                                     <td>{{ ucfirst($pack['pack']->name) }}</td>
                                     <td>
                                         <ul>
@@ -176,7 +177,7 @@
                                             @endforeach
                                         </ul>
                                     </td>
-
+                                    <td>{{ $pack['total_price'] }} FCFA</td>
                                     <td>
                                         <form class="removeItem" method="POST">
                                             @csrf
@@ -184,7 +185,7 @@
                                                 $encrypt = encryptData($packId);
                                             @endphp
 
-                                            <input type="hidden" name="product_id" value="{{ $encrypt }}">
+                                            <input type="hidden" name="pack_id" value="{{ $encrypt }}">
                                             <button type="submit" class="btn btn-danger btn-sm border-0"><span
                                                     style="font-size: 16px" class="mdi mdi-delete"></span></button>
                                         </form>
@@ -194,13 +195,7 @@
                         </tbody>
                     </table>
                 </div>
-            @else
-                <div>
-                    <h3 class="text-dark">Votre panier est actuellement vide ! Veuillez <a class="text-primary"
-                            href="{{ route('all.product') }}">cliquer ici</a>
-                        pour ajouter des produits.</h3>
-                </div>
-            @endif
+            @endif --}}
             <div class="row">
                 <div class="col-md-6">
                     <form action="{{ route('coupon.check') }}" method="POST">
@@ -236,7 +231,7 @@
                                 </div>
                                 <div class="col-md-6 text-right">
                                     <strong class="newTotalPrice text-black text-nowrap">
-                                        {{ $totalCartPrice + collect(session('cart')['packs'] ?? [])->sum('total_price') }}
+                                        {{ $totalCartPrice }}
                                         FCFA</strong>
                                 </div>
                             </div>
@@ -309,7 +304,11 @@
         $(document).on('click', '.removeItem', function(e) {
             e.preventDefault();
             const formData = $(this).serialize();
+
+            console.log(formData)
             var item = $(this);
+            console.log(item)
+
             $.ajax({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

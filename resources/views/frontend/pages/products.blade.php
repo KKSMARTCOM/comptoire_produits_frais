@@ -52,7 +52,7 @@
                                             </div>
                                             <div class="price_range_input">
                                                 <label for="max_price">Max</label>
-                                                <input type="number" id="max_price" name="max_price" value=""
+                                                <input type="number" id="max_price" name="max_price" value="700000"
                                                     placeholder="700000">
                                             </div>
                                         </div>
@@ -61,7 +61,7 @@
                                     <div id="subcategories" style="visibility: hidden" class="d-flex gap-3">
                                         <!-- Filtre par type de vin -->
                                         <div class="filterOption mt-3 mt-lg-0">
-                                            <select class="form-select border-0" id="wine_type">
+                                            <select class="form-select border-0" id="wine_type" name="wine_type">
                                                 <option value="">Type de vin</option>
                                                 @if ($types && $types->count() > 0)
                                                     @foreach ($types as $item)
@@ -80,7 +80,7 @@
 
                                         <!-- Filtre par région de vin -->
                                         <div class="filterOption mt-3 mt-lg-0">
-                                            <select class="form-select border-0" id="wine_region">
+                                            <select class="form-select border-0" id="wine_region" name="wine_region">
                                                 <option value="">Région</option>
                                                 @if ($regions && $regions->count() > 0)
                                                     @foreach ($regions as $item)
@@ -135,6 +135,13 @@
                         </ul>
                     </div>
 
+                    <!-- Loader caché par défaut -->
+                    <div style="display:flex;justify-content:center;">
+                        <div id="loader" style="width: 150px;height:150px; display:none">
+                            <img src="{{ asset('images/svg/tube-spinner.svg') }}" alt="Chargement en cours..." />
+                        </div>
+                    </div>
+
 
                     <div class="row mb-3 productContent" id="productList">
 
@@ -177,7 +184,7 @@
             let priceRangeLabel = document.getElementById('price_range_label');
             var filtersList = document.getElementById('filtersList');
 
-
+            //Chaque changement déclenche le filtre
             $(document).on('change', '#filterForm', function(event) {
                 //console.log(event.target.value)
                 fetchProduct()
@@ -198,6 +205,7 @@
                 }
             })
 
+            //Affichage des prix après filtre
             minPriceInput.addEventListener('input', function() {
                 fetchProduct();
                 priceRangeLabel.textContent = `${minPriceInput.value} FCFA - ${maxPriceInput.value} FCFA`
@@ -249,31 +257,32 @@
                 let wineRegion = $('#wine_region').val();
                 let sort = $('#sort').val();
 
-                //console.log(winType, winRegion);
+                //console.log();
 
-                let newUrl = slug !== '' ? '/categorie/' + slug : '/categorie/';
+                //let newUrl = slug !== '' ? '/categorie/' + slug : '/product';
 
                 $.ajax({
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
+                    url: slug ? `/categorie/${slug}` : '/categorie',
                     type: "GET",
-                    data: {
-                        wineType: wineType,
-                        wineRegion: wineRegion,
-                        sort: sort,
-                        minPrice: minPrice,
-                        maxPrice: maxPrice
+                    data: $('#filterForm').serialize(),
+                    beforeSend: function() {
+                        $('#loader').show()
                     },
-                    url: newUrl,
                     success: function(response) {
-                        console.log(response)
+                        //console.log(response)
                         $('.productContent').html(response.products);
                         // Si besoin, mettre à jour la pagination ici
                         // $('.paginateButtons').html(response.paginate);
                     },
+                    complete: function() {
+                        $('#loader').hide()
+                    },
                     error: function(xhr) {
                         console.log(xhr.responseText);
+                        $('#loader').hide()
                     }
                 });
             }

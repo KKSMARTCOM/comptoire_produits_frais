@@ -46,6 +46,8 @@ Route::group(['middleware' => 'sitesetting'], function () {
     Route::get('/cart/form', [CartController::class, 'cartform'])->name('cart.form');
     Route::post('/cart/save', [CartController::class, 'cartSave'])->name('cart.save');
 
+    Route::get('/pack/item', [PageController::class, 'showPackItem'])->name('pack.item');
+
     Auth::routes();
     //Route::get('/logout', [AjaxController::class, 'logout'])->name('logout');
 });

@@ -46,7 +46,6 @@
                         <p><button type="submit" class="buy-now btn btn-sm btn-primary border-0">Ajouter au panier</button>
                         </p>
                     </form>
-
                 </div>
             </div>
         </div>

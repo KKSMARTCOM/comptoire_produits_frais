@@ -22,6 +22,7 @@ class SiteSettingMiddleware
         $categories = Category::where('category_id', null)->get();
 
         $countQty = 0;
+
         $cartItem = session('cart')['products'] ?? [];
 
         $cartPack = session('cart')['packs'] ?? [];
@@ -30,8 +31,6 @@ class SiteSettingMiddleware
             foreach ($cartItem as $cart) {
                 $countQty += $cart['quantity'];
             }
-        } else if ($cartPack) {
-            $countQty = 0;
         }
 
         view()->share([/* 'settings'=>$settings,*/'categories' => $categories, 'countQty' => $countQty]);

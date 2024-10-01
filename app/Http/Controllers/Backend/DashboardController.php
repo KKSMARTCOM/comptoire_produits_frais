@@ -28,6 +28,7 @@ class DashboardController extends Controller
 
             //Produits les plus commandés
             $mostOrderedProducts = OrderItem::select('product_id', DB::raw('SUM(quantity) as total_quantity'))
+                ->where('product_id', '!=', null)
                 ->groupBy('product_id')
                 ->orderBy('total_quantity', 'desc')
                 ->take(10)
