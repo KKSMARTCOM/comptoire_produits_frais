@@ -75,9 +75,10 @@
             </li>
             <li class="nav-item nav-profile dropdown">
                 <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
-                    <img src="{{ asset('images/profiles/' . $user->avatar) }}" alt="profile" />
+                    <img src="{{ asset(Auth()->user()->avatar ?? 'backend/images/faces/face28.jpg') }}"
+                        alt="profile" />
                 </a>
-                
+
                 <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
                     <!-- Afficher le nom de l'utilisateur connecté -->
                     <a class="dropdown-item" href="{{ route('panel.setting.index') }}">

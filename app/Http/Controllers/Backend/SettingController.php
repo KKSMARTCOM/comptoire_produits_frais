@@ -52,6 +52,16 @@ class SettingController extends Controller
             'old_password.required_with' => 'Vous devez entrez l\'ancien mot de passe pour changer le mot de passe',
         ]);
 
+        if ($request->hasFile('avatar')) {
+            deleteFile(Auth()->user()->avatar);
+
+            $img = $request->file('avatar');
+            $folderName = $request->name;
+            $uploadFolder = 'img/avatar/';
+            folderOpen($uploadFolder);
+            $imgurl = uploadImage($img, $folderName, $uploadFolder);
+        }
+
         // Vérification de l'ancien mot de passe
         try {
             if ($request->filled('old_password')) {
@@ -73,11 +83,12 @@ class SettingController extends Controller
                 [
                     'name' => $request->name,
                     'email' => $request->email,
+                    'avatar' => $imgurl ?? Auth()->user()->avatar,
                 ]
             );
 
             $userAuth = Auth::user();
-            $role = $userAuth->role == '0' || '1' ? 'Administrateur' : 'Utilisateur';
+            $role = $userAuth->is_admin == 0 ? 'Administrateur' : 'Utilisateur';
 
             // Enregistrer l'action de suppression d'une promotion
             activity()

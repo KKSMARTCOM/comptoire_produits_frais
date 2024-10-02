@@ -58,7 +58,7 @@
                         @endif
 
                         <div class="form-group">
-                            <label for="name">Nom</label>
+                            <label for="name">Nom</label><span style="color: red"> *</span>
                             <input type="text" class="form-control text-capitalize" id="name"
                                 value="{{ $product->name ?? old('name') }}" name="name" placeholder="Nom du produit">
                             @error('name')
@@ -82,7 +82,7 @@
                         </div> --}}
 
                         <div class="form-group">
-                            <label for="category_id">Categorie</label>
+                            <label for="category_id">Categorie</label><span style="color: red"> *</span>
                             <select class="form-control" name="category_id" id="category_id">
                                 <option value="">Selectionner la categorie</option>
                                 @if ($categories)
@@ -136,7 +136,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="price">Prix</label>
+                            <label for="price">Prix</label><span style="color: red"> *</span>
                             <input type="number" class="form-control" id="price" name="price"
                                 value="{{ $product->price ?? old('price') }}" placeholder="Prix du produit">
                             @error('price')
@@ -153,7 +153,7 @@
                             @enderror
                         </div>
                         <div class="form-group">
-                            <label>Image</label>
+                            <label>Image</label><span style="color: red"> *</span>
                             <input type="file" name="image" class="file-upload-default" id="imageInput"
                                 style="display:none;">
                             <div class="input-group col-xs-12">

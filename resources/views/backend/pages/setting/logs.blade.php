@@ -20,8 +20,8 @@
                             <tbody>
                                 @foreach ($activities as $activity)
                                     <tr>
-                                        <td>{{ $activity->causer->name}}</td>
-                                        <td>{{ $activity->causer->role == '0' || '1' ? 'Administrateur' : 'Utilisateur' }}
+                                        <td>{{ $activity->causer->name }}</td>
+                                        <td>{{ $activity->causer->is_admin == 0 ? 'Administrateur' : 'Utilisateur' }}
                                         </td>
                                         <td>{{ $activity->properties['menu'] ?? 'N/A' }}</td>
                                         <td>{{ $activity->description }}</td>

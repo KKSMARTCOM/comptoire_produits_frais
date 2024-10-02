@@ -169,7 +169,7 @@ class CartController extends Controller
         $productNumber = count($cart);
 
         // Calcul du prix total du panier
-        $totalCartPrice = array_sum(array_column($cart['products'], 'total'));
+        $totalCartPrice = array_sum(array_column($cart, 'total'));
 
         if ($request->ajax()) {
             return response()->json(['totalCartPrice' => $totalCartPrice, 'productNumber' => $productNumber, 'message' => 'Produit supprimé du panier avec succès !']);

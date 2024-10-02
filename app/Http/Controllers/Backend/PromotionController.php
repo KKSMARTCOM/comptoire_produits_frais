@@ -42,7 +42,7 @@ class PromotionController extends Controller
             //throw $th;
         }
     }
-    
+
 
 
 
@@ -79,7 +79,7 @@ class PromotionController extends Controller
 
 
         $user = Auth::user();
-        $role = $user->role == '0' || '1' ? 'Administrateur' : 'Utilisateur';
+        $role = $user->is_admin == 0 ? 'Administrateur' : 'Utilisateur';
 
         // Enregistrer l'action de création d'une promotion
         activity()
@@ -122,7 +122,7 @@ class PromotionController extends Controller
 
 
         $user = Auth::user();
-        $role = $user->role == '0' || '1' ? 'Administrateur' : 'Utilisateur';
+        $role = $user->is_admin == 0 ? 'Administrateur' : 'Utilisateur';
 
         // Enregistrer l'action de mise à jour d'une promotion
         activity()
@@ -140,7 +140,7 @@ class PromotionController extends Controller
         $promotion->delete();
 
         $user = Auth::user();
-        $role = $user->role == '0' || '1' ? 'Administrateur' : 'Utilisateur';
+        $role = $user->is_admin == 0 ? 'Administrateur' : 'Utilisateur';
 
         // Enregistrer l'action de suppression d'une promotion
         activity()

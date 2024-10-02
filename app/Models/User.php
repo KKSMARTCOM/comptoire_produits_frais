@@ -26,11 +26,6 @@ class User extends Authenticatable implements CanResetPassword
     /**
      * Définir une description personnalisée pour chaque log
      */
-    public function getDescriptionForEvent(string $eventName): string
-    {
-        $role = $this->isSuperAdmin() ? 'Super-Admin' : 'Admin';
-        return "Le {$role} {$this->name} a réalisé une action de type {$eventName}";
-    }
 
     /**
      * The attributes that are mass assignable.
@@ -62,16 +57,6 @@ class User extends Authenticatable implements CanResetPassword
     protected $casts = [
         'password' => 'hashed',
     ];
-
-    public function isAdmin()
-    {
-        return $this->is_admin === 0;
-    }
-
-    public function isSuperAdmin()
-    {
-        return $this->is_admin === 1;
-    }
 
     public function getActivitylogOptions(): LogOptions
     {

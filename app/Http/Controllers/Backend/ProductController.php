@@ -64,7 +64,7 @@ class ProductController extends Controller
 
         // Enregistrer l'action de l'utilisateur lors de la création
         $user = Auth::user();
-        $role = $user->role == '0' || '1' ? 'Administrateur' : 'Utilisateur';
+        $role = $user->is_admin == 0 ? 'Administrateur' : 'Utilisateur';
 
         activity()
             ->causedBy($user)
@@ -126,7 +126,7 @@ class ProductController extends Controller
 
         // Enregistrer l'action de l'utilisateur lors de la modification
         $user = Auth::user();
-        $role = $user->role == '0' || '1' ? 'Administrateur' : 'Utilisateur';
+        $role = $user->is_admin == 0 ? 'Administrateur' : 'Utilisateur';
 
         activity()
             ->causedBy($user)
@@ -149,7 +149,7 @@ class ProductController extends Controller
 
         // Enregistrer l'action de l'utilisateur lors de la suppression
         $user = Auth::user();
-        $role = $user->role == '0' || '1' ? 'Administrateur' : 'Utilisateur';
+        $role = $user->is_admin == 0 ? 'Administrateur' : 'Utilisateur';
 
         activity()
             ->causedBy($user)

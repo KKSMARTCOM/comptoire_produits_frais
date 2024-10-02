@@ -37,6 +37,15 @@
                             @method('PUT') <!-- Utilisé pour les mises à jour -->
                         @endif
 
+                        @if ($user->avatar)
+                            <div style="display: flex;justify-content:center">
+                                <div style="width: 200px;height:250px;overflow:hidden">
+                                    <img src="{{ asset($user->avatar) }}" alt="Profile Image"
+                                        style="height: 100%;width:100%;object-fit:cover">
+                                </div>
+                            </div>
+                        @endif
+
                         <div class="form-group">
                             <label for="name">Nom d'utilisateur</label>
                             <input type="text" class="form-control" id="name" value="{{ $user->name ?? '' }}"
@@ -70,16 +79,6 @@
                                     Inactif</option>
                             </select>
                         </div>
-
-                        <div class="form-group">
-                            <label for="avatar">Avatar</label>
-                            <input type="file" class="form-control" id="avatar" name="avatar">
-                        </div>
-                        
-                        @if($user->avatar)
-                            <img src="{{ asset('images/profiles/' . $user->avatar) }}" alt="Profile Image" width="150">
-                        @endif
-                        
 
                         <button type="submit" class="btn btn-primary mr-2">Mettre à jour</button>
                         <a href="{{ route('panel.user.index') }}" class="btn btn-light">Fermer</a>

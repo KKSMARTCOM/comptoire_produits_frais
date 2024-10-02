@@ -34,6 +34,15 @@
                         @csrf
                         @method('PUT') <!-- Utilisé pour les mises à jour -->
 
+                        @if (Auth()->user()->avatar)
+                            <div style="display: flex;justify-content:center">
+                                <div style="width: 200px;height:250px;overflow:hidden">
+                                    <img src="{{ asset(Auth()->user()->avatar) }}" alt="Profile Image"
+                                        style="height: 100%;width:100%;object-fit:cover">
+                                </div>
+                            </div>
+                        @endif
+
                         <div class="form-group">
                             <label for="name">Nom d'utilisateur</label>
                             <input type="text" class="form-control" id="name" value="{{ $user->name }}"
@@ -75,6 +84,23 @@
                             <input type="password" class="form-control" id="password" name="password_confirmation"
                                 placeholder="Veuillez confirmer votre nouveau mot de passe">
                             @error('password_confirmation')
+                                <p class="text-danger fs-6">{{ $message }}</p>
+                            @enderror
+                        </div>
+
+                        <div class="form-group">
+                            <label>Photo de profil</label>
+                            <input type="file" name="avatar" class="file-upload-default" id="imageInput"
+                                style="display:none;">
+                            <div class="input-group col-xs-12">
+                                <input type="text" class="form-control file-upload-info" id="imagePlaceholder"
+                                    placeholder="Télécharger une photo de profil" readonly>
+                                <span class="input-group-append">
+                                    <button class="file-upload-browse btn btn-primary" type="button"
+                                        style="background-color: #004200 !important">Télécharger</button>
+                                </span>
+                            </div>
+                            @error('avatar')
                                 <p class="text-danger fs-6">{{ $message }}</p>
                             @enderror
                         </div>

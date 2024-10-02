@@ -111,6 +111,15 @@
                         </div>
 
                         <div class="form-group">
+                            <label for="motif">Motif (à renseigner en cas de modification de la commande)</label>
+                            <input type="text" class="form-control" id="motif"
+                                value="{{ $product->content ?? old('motif') }}" name="motif"
+                                placeholder="Veuillez entrer le motif de la modification de la commande" maxlength="100">
+                            <small id="charLimitMessage" class="form-text text-danger" style="display: none;">Nombre de
+                                caractères atteint</small>
+                        </div>
+
+                        <div class="form-group">
                             <label for="status">Statut</label>
                             <select class="form-control" name="status" id="status">
                                 <option value="0" {{ isset($order) && $order->status == '0' ? 'selected' : '' }}>En

@@ -81,10 +81,11 @@ class OrderController extends Controller
 
                 $order->update([
                     'status' => $request->status,
+                    'motif' => $request->motif,
                 ]);
 
                 $user = Auth::user();
-                $role = $user->role == '0' || '1' ? 'Administrateur' : 'Utilisateur';
+                $role = $user->is_admin == 0 ? 'Administrateur' : 'Utilisateur';
 
                 // Enregistrer l'action de l'utilisateur
                 activity()
@@ -111,7 +112,7 @@ class OrderController extends Controller
 
         $order->delete();
         $user = Auth::user();
-        $role = $user->role == '0' || '1' ? 'Administrateur' : 'Utilisateur';
+        $role = $user->is_admin == 0 ? 'Administrateur' : 'Utilisateur';
 
         // Enregistrer l'action de l'utilisateur
         activity()

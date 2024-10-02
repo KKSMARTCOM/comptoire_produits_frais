@@ -51,9 +51,9 @@ class PackController extends Controller
             'product_id' => 'required|array',
             'quantity' => 'required|array',
         ], [
-            'name.required' => 'Vous devez remplir obligatoirement le champs.',
-            'price.required' => 'Vous devez remplir obligatoirement le champs.',
-            'product_id.required' => 'Vous devez choisir un produit.',
+            'name.required' => 'Vous devez remplir obligatoirement le champs nom',
+            'price.required' => 'Vous devez remplir obligatoirement le champs prix',
+            'product_id.required' => 'Vous devez choisir un ou plusieurs produit(s).',
             'quantity.required' => 'Vous devez entrer une quantité du produit choisis.',
         ]);
         //dd($validated);

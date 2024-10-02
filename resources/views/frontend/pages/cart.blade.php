@@ -142,14 +142,65 @@
                 </div>
 
                 <div class="mb-5">
-                    <a href="{{ route('cart') }}" class="buy-now btn btn-primary border-0"> <span
+                    <a href="{{ route('categories') }}" class="buy-now btn btn-primary border-0"> <span
                             class="mdi mdi-plus"></span>Ajouter
                     </a>
                 </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <form action="{{ route('coupon.check') }}" method="POST">
+                            @csrf
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <label class="text-black h4" for="coupon">Coupon</label>
+                                    <p>Veuillez entrez le code de votre coupon ici si vous en avez un.</p>
+                                </div>
+                                <div class="col-md-8 mb-3 mb-md-0">
+                                    <input type="text" class="form-control py-3" name="coupon_name"
+                                        value="{{ session()->get('couponCode') ?? '' }}" id="coupon"
+                                        placeholder="Coupon Code">
+                                </div>
+                                <div class="col-md-4">
+                                    <button type="submit" class="btn btn-primary btn-sm border-0">Appliquer</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="col-md-6 pl-5">
+                        <div class="row justify-content-end">
+                            <div class="col-md-7 mt-4 mt-md-0">
+                                <div class="row">
+                                    <div class="col-md-12 text-right border-bottom mb-4">
+                                        <h3 class="text-black text-nowrap h4 text-uppercase">Total du panier </h3>
+                                    </div>
+                                </div>
+                                <div class="row mb-4">
+                                    <div class="col-md-6">
+                                        <span class="text-black">Total</span>
+                                    </div>
+                                    <div class="col-md-6 text-right">
+                                        <strong class="newTotalPrice text-black text-nowrap">
+                                            {{ $totalCartPrice }}
+                                            FCFA</strong>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <button
+                                            class="paymentButton btn btn-primary btn-lg py-3 btn-block text-nowrap border-0">Passer
+                                            commande</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             @else
                 <div>
-                    <h3 class="text-dark text-center mb-4">Veuillez <a class="text-primary"
-                            href="{{ route('all.product') }}">cliquer
+                    <h3 class="text-dark text-center mb-4">Votre panier est actuellement vide. Veuillez <a
+                            class="text-primary" href="{{ route('all.product') }}">cliquer
                             ici</a>
                         pour ajouter des produits !</h3>
                 </div>
@@ -196,57 +247,6 @@
                     </table>
                 </div>
             @endif --}}
-            <div class="row">
-                <div class="col-md-6">
-                    <form action="{{ route('coupon.check') }}" method="POST">
-                        @csrf
-                        <div class="row">
-                            <div class="col-md-12">
-                                <label class="text-black h4" for="coupon">Coupon</label>
-                                <p>Veuillez entrez le code de votre coupon ici si vous en avez un.</p>
-                            </div>
-                            <div class="col-md-8 mb-3 mb-md-0">
-                                <input type="text" class="form-control py-3" name="coupon_name"
-                                    value="{{ session()->get('couponCode') ?? '' }}" id="coupon"
-                                    placeholder="Coupon Code">
-                            </div>
-                            <div class="col-md-4">
-                                <button type="submit" class="btn btn-primary btn-sm border-0">Appliquer</button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-
-                <div class="col-md-6 pl-5">
-                    <div class="row justify-content-end">
-                        <div class="col-md-7 mt-4 mt-md-0">
-                            <div class="row">
-                                <div class="col-md-12 text-right border-bottom mb-4">
-                                    <h3 class="text-black text-nowrap h4 text-uppercase">Total du panier </h3>
-                                </div>
-                            </div>
-                            <div class="row mb-4">
-                                <div class="col-md-6">
-                                    <span class="text-black">Total</span>
-                                </div>
-                                <div class="col-md-6 text-right">
-                                    <strong class="newTotalPrice text-black text-nowrap">
-                                        {{ $totalCartPrice }}
-                                        FCFA</strong>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <button
-                                        class="paymentButton btn btn-primary btn-lg py-3 btn-block text-nowrap border-0">Passer
-                                        commande</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 @endsection

@@ -36,7 +36,7 @@
                                                     Super Administrateur
                                                 @elseif($user->hasRole('admin'))
                                                     Administrateur
-                                                @else
+                                                @elseif($user->hasRole('utilisateur'))
                                                     Utilisateur
                                                 @endif
                                             </td>
@@ -48,13 +48,14 @@
                                                 @endif
                                             </td>
                                             <td>
-                                                @if($user->avatar)
-                                                    <img src="{{ asset('images/profiles/' . $user->avatar) }}" alt="Avatar" width="50">
+                                                @if ($user->avatar)
+                                                    <img src="{{ asset($user->avatar) }}" alt="Avatar" width="50">
                                                 @else
-                                                    <img src="{{ asset('images/profiles/default.png') }}" alt="Default Avatar" width="50">
+                                                    <img src="{{ asset('images/profiles/default.png') }}"
+                                                        alt="Default Avatar" width="50">
                                                 @endif
                                             </td>
-                                            
+
                                             <td>
                                                 @if (auth()->user()->hasRole('admin') || auth()->user()->hasRole('superadmin'))
                                                     <a href="{{ route('panel.user.edit', $user->id) }}"
@@ -71,7 +72,7 @@
                                                     </form>
                                                 @endif
                                             </td>
-                                            
+
                                         </tr>
                                     @endforeach
                                 @else

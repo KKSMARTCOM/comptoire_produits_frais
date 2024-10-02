@@ -51,7 +51,7 @@
 
 
                         <div class="form-group">
-                            <label for="name">Nom</label>
+                            <label for="name">Nom</label><span style="color: red"> *</span>
                             <input type="text" class="form-control" id="name"
                                 value="{{ old('name', $pack->name ?? '') }}" name="name" placeholder="Nom du coffret">
                         </div>
@@ -68,7 +68,7 @@
 
                         @if ($categories)
                             <div class="form-group">
-                                <label for="category">Catégorie</label>
+                                <label for="category">Catégorie</label><span style="color: red"> *</span>
                                 <select id="category" class="form-control">
                                     <option value="">Selectionner une catégorie</option>
                                     @foreach ($categories as $item)
@@ -81,7 +81,7 @@
                         @endif
 
                         <div class="form-group">
-                            <label for="products">Produits</label>
+                            <label for="products">Produits</label><span style="color: red"> *</span>
                             <select class="form-control" id="products" name="">
                                 <option value="">Sélectionner les produits</option>
                             </select>
@@ -106,7 +106,7 @@
                                                     <input type="hidden" name="product_id[]"
                                                         value="{{ $item->pivot->product_id }}">
                                                 </td>
-                                                <td>{{ $item->price }} FCFA
+                                                <td class="price">{{ $item->price }} FCFA
                                                 </td>
                                                 <td><input type="number" class="form-control text-capitalize"
                                                         id="quantity" value="{{ $item->pivot->quantity }}"
@@ -125,13 +125,13 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="link">Prix</label>
-                            <input type="text" class="form-control" id="link" name="price"
+                            <label for="link">Prix</label><span style="color: red"> *</span>
+                            <input type="text" class="form-control" id="price" name="price"
                                 value="{{ old('price', $pack->price ?? '') }}" placeholder="Prix du coffret">
                         </div>
 
                         <div class="form-group">
-                            <label>Image</label>
+                            <label>Image</label><span style="color: red"> *</span>
                             <input type="file" name="image" class="file-upload-default" id="imageInput"
                                 style="display:none;">
                             <div class="input-group col-xs-12">
@@ -193,6 +193,26 @@
                 }
             })
 
+            function calculateTotal() {
+                let total = 0;
+
+                // Parcourir chaque ligne de produit
+                $('tr.item').each(function() {
+                    const price = parseFloat($(this).find('.price').text()); // Prix du produit
+                    const quantity = parseFloat($(this).find('input[name="quantity[]"]').val()); // Quantité
+                    console.log(price, quantity);
+
+
+                    // Ajouter au total
+                    if (!isNaN(price) && !isNaN(quantity)) {
+                        total += price * quantity;
+                    }
+                });
+
+                // Mettre à jour l'affichage du total général
+                $('#price').val(total.toFixed(2));
+            }
+
             $('#products').on('change', function() {
                 var productId = $(this).val();
                 var productName = $('#products option:selected').text()
@@ -220,7 +240,7 @@
                                                 <input type="text" class="form-control" value="${productName}" readonly>
                                                 <input type="hidden" name="product_id[]" value="${productId}">
                                             </td>
-                                            <td>
+                                            <td class="price">
                                                 ${price} FCFA
                                             </td>
                                             <td>
@@ -233,6 +253,7 @@
                                     `;
 
                     $('#product-table-body').append(newRow);
+                    calculateTotal();
 
                     // Réinitialiser les champs
                     //$('#quantity').val('');
@@ -240,9 +261,15 @@
 
             })
 
+            // Calculer le total quand la quantité d'un produit change
+            $(document).on('input', 'input[name="quantity[]"]', function() {
+                calculateTotal();
+            });
+
             // Supprimer un produit du tableau
             $(document).on('click', '.remove-product', function() {
                 $(this).closest('tr').remove(); // Supprimer la ligne du tableau
+                calculateTotal();
             });
         })
 
