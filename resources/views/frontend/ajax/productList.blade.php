@@ -3,17 +3,17 @@
         <div class="col-sm-6 col-lg-3 mb-4 aos-init aos-animate" data-aos="fade-up">
             <div class="block-4 text-center">
                 <div class="block-4-image">
-                    <a class="block-4-image-content" href={{ route('productdetail', $product['id']) }}><img
-                            src="{{ asset('images/' . $product['image']) }}" alt="{{ $product['name'] }}"></a>
+                    <a class="block-4-image-content" href={{ route('productdetail', $product->slug) }}><img
+                            src="{{ asset($product->image) }}" alt="{{ $product->name }}"></a>
                 </div>
                 <div class="block-4-text p-4">
-                    <h3 class="text-dark">{{ strtoupper($product['category']) }}</h3>
-                    <h2><a href={{ route('productdetail', $product['id']) }}
-                            class="text-dark font-weight-bold">{{ ucfirst($product['name']) }}</a></h2>
+                    <h3 class="text-dark">{{ strtoupper($product->productCategory->name) }}</h3>
+                    <h2><a href={{ route('productdetail', $product->slug) }}
+                            class="text-dark font-weight-bold">{{ ucfirst($product->name) }}</a></h2>
                     <p class="text-dark font-weight-bold">
-                        {{ $product['price'] }} FCFA</p>
+                        {{ $product->price }} FCFA</p>
                     @php
-                        $encrypt = encryptData($product['id']);
+                        $encrypt = encryptData($product->id);
                     @endphp
                     <div class="d-flex gap-2 justify-content-center align-items-center">
                         <form id="addForm" method="POST" action="{{ route('cartadd', $encrypt) }}">

@@ -13,53 +13,110 @@ class CategorySeeder extends Seeder
      */
     public function run(): void
     {
-        $women = Category::create([
-            'image' => null,
-            'thumbnail' => null,
-            'cat_ust' => null,
-            'name' => 'Women',
-            'content' => 'Women Product',
-            'status' => '1'
+        $poultry = Category::create([
+            'name' => 'Volailles',
+            'content' => null,
+
         ]);
+
+        $fish = Category::create([
+            'name' => 'Poissons',
+            'content' => null,
+        ]);
+
+        $otherMeats = Category::create([
+            'name' => 'Autres Viandes',
+            'content' => null,
+        ]);
+
+        $cellar = Category::create([
+            'name' => 'La Cave',
+            'content' => null,
+        ]);
+
         Category::create([
-            'image' => null,
-            'thumbnail' => null,
-            'cat_ust' => $women->id,
-            'name' => 'Women Jean',
-            'content' => 'Women Jean Product',
-            'status' => '1'
+            'name' => 'Vin Rouge',
+            'content' => null,
+            'sub_cat' => 'type',
+            'category_id' => $cellar->id
         ]);
-        $men = Category::create([
-            'image' => null,
-            'thumbnail' => null,
-            'cat_ust' => null,
-            'name' => 'Men',
-            'content' => 'Men Product',
-            'status' => '1'
-        ]);
+
         Category::create([
-            'image' => null,
-            'thumbnail' => null,
-            'cat_ust' => $men->id,
-            'name' => 'Men Jean',
-            'content' => 'Men Jean Product',
-            'status' => '1'
+            'name' => 'Vin Blanc',
+            'content' => null,
+            'sub_cat' => 'type',
+            'category_id' => $cellar->id
         ]);
-        $children = Category::create([
-            'image' => null,
-            'thumbnail' => null,
-            'cat_ust' => null,
-            'name' => 'Children',
-            'content' => 'Children Product',
-            'status' => '1'
-        ]);
+
         Category::create([
-            'image' => null,
-            'thumbnail' => null,
-            'cat_ust' => $children->id,
-            'name' => 'Children Jean',
-            'content' => 'Children Jean Product',
-            'status' => '1'
+            'name' => 'Vin Rosé',
+            'content' => null,
+            'sub_cat' => 'type',
+            'category_id' => $cellar->id
+        ]);
+
+        Category::create([
+            'name' => 'Champagne',
+            'content' => null,
+            'sub_cat' => 'type',
+            'category_id' => $cellar->id
+        ]);
+
+        Category::create([
+            'name' => 'Spiritieux',
+            'content' => null,
+            'sub_cat' => 'type',
+            'category_id' => $cellar->id
+        ]);
+
+        Category::create([
+            'name' => 'Bordeaux',
+            'content' => null,
+            'sub_cat' => 'region',
+            'category_id' => $cellar->id
+        ]);
+
+        Category::create([
+            'name' => 'Bourgogne',
+            'content' => null,
+            'sub_cat' => 'region',
+            'category_id' => $cellar->id
+        ]);
+
+        Category::create([
+            'name' => 'Provence',
+            'content' => null,
+            'sub_cat' => 'region',
+            'category_id' => $cellar->id
+        ]);
+
+        Category::create([
+            'name' => 'Piémont',
+            'content' => null,
+            'sub_cat' => 'region',
+            'category_id' => $cellar->id
+        ]);
+
+        Category::create([
+            'name' => 'Vallée du Rhône',
+            'content' => null,
+            'sub_cat' => 'region',
+            'category_id' => $cellar->id
+        ]);
+
+        $fruit = Category::create([
+            'name' => 'Fruits & Légumes',
+            'content' => null,
+        ]);
+
+        $pack = Category::create([
+            'name' => 'Coffrets & Paniers',
+            'content' => null,
+        ]);
+
+        $store = Category::create([
+            'name' => 'CPF Store',
+            'content' => null,
         ]);
     }
 }

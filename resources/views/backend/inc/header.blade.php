@@ -75,13 +75,16 @@
             </li>
             <li class="nav-item nav-profile dropdown">
                 <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
-                    <img src="{{ asset('backend/images/faces/face28.jpg') }}" alt="profile" />
+                    <img src="{{ asset(Auth()->user()->avatar ?? 'backend/images/faces/face28.jpg') }}"
+                        alt="profile" />
                 </a>
+
                 <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
                     <!-- Afficher le nom de l'utilisateur connecté -->
-                    <a class="dropdown-item">
+                    <a class="dropdown-item" href="{{ route('panel.setting.index') }}">
                         <i class="ti-user text-primary"></i>
-                        {{ Auth::user()->name }} <!-- Affiche le nom de l'utilisateur -->
+                        {{ Auth::user()->name }} : {{ Auth()->user()->role == 0 ? 'Administrateur' : 'Utilisateur' }}
+                        <!-- Affiche le nom et le rôle de l'utilisateur -->
                     </a>
 
                     <!-- Afficher la date et l'heure de connexion -->
@@ -91,16 +94,11 @@
                         {{ \Carbon\Carbon::now()->format('H:i') }}
                     </a>
 
-                    <!-- Bouton de déconnexion -->
-                    <a class="dropdown-item" href="{{ route('logout') }}"
-                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                        <i class="ti-power-off text-primary"></i>
-                        Se déconnecter
-                    </a>
-
                     <!-- Formulaire de déconnexion -->
-                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                    <form class="dropdown-item" id="logout-form" action="{{ route('logout') }}" method="POST">
                         @csrf
+                        <i class="ti-power-off text-primary"></i>
+                        <button style="background: none;border:none" type="submit">Se déconnecter</button>
                     </form>
                 </div>
             </li>

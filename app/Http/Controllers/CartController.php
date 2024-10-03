@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Coupon;
 use App\Models\Invoice;
 use App\Models\Order;
 use App\Models\OrderItem;
+use App\Models\Pack;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
@@ -13,13 +15,43 @@ use Illuminate\Support\Facades\Mail;
 
 class CartController extends Controller
 {
+    public function cartList()
+    {
+        $cartItem = session()->get('cart') ?? [];
+        $totalPrice = 0;
+
+        foreach ($cartItem as $cart) {
+            $kdvOrani = $cart['kdv'] ?? 0;
+            $kdvTutar = ($cart['price'] * $cart['qty']) * ($kdvOrani / 100);
+            $toplamTutar = $cart['price'] * $cart['qty'] + $kdvTutar;
+            $totalPrice += $toplamTutar;
+        }
+
+        if (session()->get('couponCode') && $totalPrice != 0) {
+            $coupon = Coupon::where('name', session()->get('couponCode'))->where('status', '1')->first();
+            $couponPrice = $coupon->price ?? 0;
+            $totalPrice -= $couponPrice;
+        } else {
+            $totalPrice = $totalPrice;
+        }
+
+        session()->put('totalPrice', $totalPrice);
+
+        if (count(session()->get('cart')) == 0) {
+            session()->forget('couponCode');
+        }
+
+        return $cartItem;
+    }
 
     public function index()
     {
         $breadcrumb = [
             'pages' => [],
-            'active' => 'Pannier'
+            'active' => 'Panier'
         ];
+
+        $categories = Category::where('category_id', null)->get();
 
         // Récupère le panier de la session
         $cart = session()->get('cart', []);
@@ -27,18 +59,46 @@ class CartController extends Controller
         // Calcul du prix total du panier
         $totalCartPrice = array_sum(array_column($cart, 'total'));
 
-        return view('frontend.pages.cart', compact('cart', 'totalCartPrice', 'breadcrumb'));
+        return view('frontend.pages.cart', compact('cart', 'totalCartPrice', 'breadcrumb', 'categories'));
     }
 
     public function add(Request $request)
     {
-        //dd($request->quantity);
+        //dd($request->pack_id);
         //recupere le panier depuis la session ou initialise un tableau vide
         $cart = session()->get('cart', []);
+
         //decrypte l'id crypté
-        $productId = decryptData($request->product_id);
-        //recherche le produit par son id
-        $product = $this->getProductById($productId);
+        if ($request->product_id) {
+            $productId = decryptData($request->product_id);
+            $product = Product::where('id', $productId)->firstOrFail();
+        }
+
+        /* if ($request->pack_id) {
+            $packId = decryptData($request->pack_id);
+            $pack = Pack::with('products')->findOrFail($packId);
+            if ($pack) {
+
+                if (isset($cart['packs'][$packId])) {
+                    return redirect()->back()->with('error', 'Ce coffret est déjà dans votre panier.');
+                }
+
+                $cart['packs'][$packId] = [
+                    'pack' => $pack,
+                    'total_price' => $pack->price,
+                    'products' => $pack->products->map(function ($product) {
+                        return [
+                            'name' => $product->name,
+                            'quantity' => $product->pivot->quantity,
+                        ];
+                    })->toArray(),
+                ];
+
+                session()->put('cart', $cart);
+
+                return redirect()->route('cart')->with('success', 'Coffret ajouté au panier !');
+            }
+        } */
 
         if ($product) {
             //verifie si le produit est deja dans le panier
@@ -73,30 +133,49 @@ class CartController extends Controller
 
     public function remove(Request $request)
     {
-        // return $request->all();
-
-        $productId = decryptData($request->product_id);
-
         $cart = session()->get('cart', []);
 
-        if (isset($cart[$productId])) {
+        /* if ($request->pack_id) {
+            $packId = decryptData($request->pack_id);
 
-            unset($cart[$productId]);
+
+            if (isset($cart['packs'][$packId])) {
+
+                unset($cart['packs'][$packId]);
+            }
 
             session()->put('cart', $cart);
 
-            $productNumber = count($cart);
+            $productNumber = count($cart['products']) + count($cart['packs']);
 
-            // Calcul du prix total du panier
-            $totalCartPrice = array_sum(array_column($cart, 'total'));
-            $productNumber = count($cart);
+            $totalCartPrice = array_sum(array_column($cart['products'], 'total')) ? $totalCartPrice = array_sum(array_column($cart['products'], 'total')) + collect(session('cart')['packs'])->sum('total_price') : collect(session('cart')['packs'])->sum('total_price');
 
             if ($request->ajax()) {
                 return response()->json(['totalCartPrice' => $totalCartPrice, 'productNumber' => $productNumber, 'message' => 'Produit supprimé du panier avec succès !']);
             }
 
             return redirect()->back()->with('success', 'Produit supprimé du panier avec succès !');
+        } */
+
+        $productId = decryptData($request->product_id);
+
+        if (isset($cart[$productId])) {
+
+            unset($cart[$productId]);
         }
+
+        session()->put('cart', $cart);
+
+        $productNumber = count($cart);
+
+        // Calcul du prix total du panier
+        $totalCartPrice = array_sum(array_column($cart, 'total'));
+
+        if ($request->ajax()) {
+            return response()->json(['totalCartPrice' => $totalCartPrice, 'productNumber' => $productNumber, 'message' => 'Produit supprimé du panier avec succès !']);
+        }
+
+        return redirect()->back()->with('success', 'Coffret supprimé du panier avec succès !');
     }
 
     public function updateCart(Request $request)
@@ -131,7 +210,7 @@ class CartController extends Controller
         ]);
     }
 
-    /* public function couponcheck(Request $request)
+    public function couponcheck(Request $request)
     {
         $coupon = Coupon::where('name', $request->coupon_name)->where('status', '1')->first();
 
@@ -145,18 +224,27 @@ class CartController extends Controller
         $this->cartList();
 
         return back()->withSuccess('Coupon applied successfully.');
-    } */
+    }
 
-    public function cartform()
+    public function cartform(Request $request)
     {
         $breadcrumb = [
             'pages' => [],
             'active' => 'Commande'
         ];
 
+        if ($request->pack_id) {
+            $packId = decryptData($request->pack_id);
+            $pack = Pack::where('id', $packId)->firstOrFail();
+            //dd($pack);
+            if ($pack) {
+                return view('frontend.pages.cartform', compact('breadcrumb', 'pack'));
+            }
+        }
+
         $cartItem = session()->get('cart', []);
         //return $cartItem;
-        return view('frontend.pages.cartform', compact('breadcrumb', 'cartItem'));
+        return view('frontend.pages.cartform', compact('breadcrumb'));
     }
 
     /* public function generateKod()
@@ -176,6 +264,7 @@ class CartController extends Controller
 
     public function cartSave(Request $request)
     {
+        //dd($request->all());
 
         $request->validate([
             'lastname' => 'required|string|min:2',
@@ -208,9 +297,15 @@ class CartController extends Controller
             "note" => $request->note ?? null,
         ]);
 
-        $cart = session()->get('cart') ?? [];
+        if ($request->pack_id) {
+            OrderItem::create([
+                'order_no' => $invoice['order_no'],
+                'pack_id' => $request->pack_id,
+            ]);
+            return redirect()->route('finish')->with('success', 'Commande effectué !');
+        }
 
-        $totalCartPrice = array_sum(array_column($cart, 'total'));
+        $cart = session()->get('cart') ?? [];
 
         foreach ($cart as $key => $item) {
             OrderItem::create([
@@ -223,50 +318,10 @@ class CartController extends Controller
             ]);
         }
 
-        /* Mail::send(
-            'frontend.pages.mails.order',
-            [
-                'order_no' => $invoice['order_no'],
-                'lastname' => $invoice['lastname'],
-                'firstname' => $invoice['firstname'],
-                'company_name' => $invoice['company_name'],
-                'city' => $invoice['city'],
-                'address' => $invoice['address'],
-                'district' => $invoice['district'],
-                'phone' => $invoice['phone'],
-                'note' => $invoice['note'],
-                'totalCartPrice' => $totalCartPrice,
-                'cart' => $cart,
-            ],
-            function ($message) {
-
-                $config = config('mail');
-
-                $message->subject("Nouvelle commande reçue !")
-                    ->from($config['from']['address'], $config['from']['name'])
-                    ->to('arso@yopmail.com');
-            }
-        ); */
-
         session()->forget('cart');
+
         return redirect()->route('finish')->with('success', 'Commande effectué !');
     }
-
-    private function getProductById($productId)
-    {
-        $path = storage_path('app/data.json');
-        $json = File::get($path);
-        $products = json_decode($json, true);
-
-        foreach ($products as $product) {
-            if ($product['id'] == $productId) {
-                return $product;
-            }
-        }
-
-        return null;
-    }
-
 
     function generateCode()
     {

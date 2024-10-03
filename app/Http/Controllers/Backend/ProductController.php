@@ -6,7 +6,9 @@ use App\Models\Product;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\ProductRequest;
+use Spatie\Activitylog\Models\Activity;
 
 class ProductController extends Controller
 {
@@ -24,8 +26,15 @@ class ProductController extends Controller
      */
     public function create()
     {
-        $categories = Category::get();
-        return view('backend.pages.product.edit', compact('categories'));
+        try {
+            //code...
+            $categories = Category::where('category_id', null)->get();
+            $types = Category::where('sub_cat', 'type')->get();
+            $regions = Category::where('sub_cat', 'region')->get();
+            return view('backend.pages.product.edit', compact('categories', 'types', 'regions'));
+        } catch (\Exception $e) {
+            //throw $th;
+        }
     }
 
     /**
@@ -48,8 +57,20 @@ class ProductController extends Controller
             'price' => $request->price,
             'quantity' => $request->quantity,
             'status' => $request->status,
+            'type' => $request->type ?? NULL,
+            'region' => $request->region ?? NULL,
             'image' => $imgurl ?? NULL,
         ]);
+
+        // Enregistrer l'action de l'utilisateur lors de la création
+        $user = Auth::user();
+        $role = $user->is_admin == 0 ? 'Administrateur' : 'Utilisateur';
+
+        activity()
+            ->causedBy($user)
+            ->performedOn($product)
+            ->withProperties(['menu' => 'Produits', 'action' => 'Création'])
+            ->log("{$user->name} ({$role}) a créé un produit : {$product->name}");
 
         return back()->withSuccess('Ajout éffectué avec succès !');
     }
@@ -68,8 +89,10 @@ class ProductController extends Controller
     public function edit(string $id)
     {
         $product = Product::where('id', $id)->first();
-        $categories = Category::get();
-        return view('backend.pages.product.edit', compact('product', 'categories'));
+        $types = Category::where('sub_cat', 'type')->get();
+        $regions = Category::where('sub_cat', 'region')->get();
+        $categories = Category::where('category_id', null)->get();
+        return view('backend.pages.product.edit', compact('product', 'categories', 'types', 'regions'));
     }
 
     /**
@@ -96,8 +119,20 @@ class ProductController extends Controller
             'price' => $request->price ?? $product->price,
             'quantity' => $request->quantity,
             'status' => $request->status ?? $product->status,
+            'type' => $request->type,
+            'region' => $request->region,
             'image' => $imgurl ?? $product->image
         ]);
+
+        // Enregistrer l'action de l'utilisateur lors de la modification
+        $user = Auth::user();
+        $role = $user->is_admin == 0 ? 'Administrateur' : 'Utilisateur';
+
+        activity()
+            ->causedBy($user)
+            ->performedOn($product)
+            ->withProperties(['menu' => 'Produits', 'action' => 'Modification'])
+            ->log("{$user->name} ({$role}) a modifié le produit : {$product->name}");
 
         return back()->withSuccess('Mise à jour éffectuée avec succès !');
     }
@@ -112,17 +147,29 @@ class ProductController extends Controller
 
         deleteFile($product->image);
 
+        // Enregistrer l'action de l'utilisateur lors de la suppression
+        $user = Auth::user();
+        $role = $user->is_admin == 0 ? 'Administrateur' : 'Utilisateur';
+
+        activity()
+            ->causedBy($user)
+            ->performedOn($product)
+            ->withProperties(['menu' => 'Produits', 'action' => 'Suppression'])
+            ->log("{$user->name} ({$role}) a supprimé le produit : {$product->name}");
+
         $product->delete();
         return response(['error' => false, 'message' => 'Produit supprimé avec succès.']);
     }
 
-    public function status(Request $request)
+    public function productsByCategories($categoryId)
     {
-
-        $update = $request->status;
-        //$updateCheck = $update == "false" ? '0' : '1';
-
-        Product::where('id', $request->id)->update(['status' => $update]);
-        return response(['error' => false, 'status' => $update]);
+        try {
+            //code...
+            $products = Product::where('category_id', $categoryId)->get();
+            //dd($products);
+            return response()->json($products);
+        } catch (\Exception $e) {
+            //throw $th;
+        }
     }
 }

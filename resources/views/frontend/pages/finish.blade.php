@@ -18,7 +18,7 @@
                             <p>Votre commande vous sera livrée dans les plus brefs délais. En attendant, si vous avez besoin
                                 de produits supplémentaires, vous pouvez consulter la liste des produits.</p>
                             <div class="text-center">
-                                <a href="{{ route('product') }}">ICI</a>
+                                <a href="/categorie">ICI</a>
                             </div>
                         </div>
                     </div>

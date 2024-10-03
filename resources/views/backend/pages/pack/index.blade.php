@@ -35,39 +35,13 @@
                                             <td>{{ $pack->name }}</td>
                                             <td>{{ $pack->description ?? '' }}</td>
                                             <td>{{ $pack->price ?? '' }} FCFA</td>
-                                            {{-- <td class="py-1">
-                                                <img src="{{ asset($pack->image) }}" alt="{{ $pack->name }}" />
-                                            </td> --}}
                                             <td>
-                                                {{-- <label
-                                                    class="badge badge-{{ $slider->status == '1' ? 'success' : 'danger' }}">
-                                                    {{ $slider->status == '1' ? 'Active' : 'Passive' }}
-                                                </label> --}}
-                                                {{-- <div class="checkbox">
-                                                    <label>
-                                                        <input type="checkbox" class="durum" data-on="Illimité"
-                                                            data-off="Epuisé" data-onstyle="success" data-offstyle="danger"
-                                                            data-toggle="toggle"
-                                                            {{ $slider->status == '1' ? 'checked' : '' }}>
-                                                    </label>
-                                                </div> --}}
-                                                <div class="form-group">
-                                                    <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                                                        <label
-                                                            class="btn btn-warning {{ $pack->status == '0' ? 'active' : '' }}">
-                                                            <input type="radio" name="status" value="0"
-                                                                id="optionIllimite" autocomplete="off" class="durum"
-                                                                {{ $pack->status == '0' ? 'checked' : '' }}>
-                                                            Indisponible
-                                                        </label>
-                                                        <label
-                                                            class="btn btn-success {{ $pack->status == '1' ? 'active' : '' }}">
-                                                            <input type="radio" name="status" value="1"
-                                                                id="optionEnStock" autocomplete="off" class="durum"
-                                                                {{ $pack->status == '1' ? 'checked' : '' }}> Disponible
-                                                        </label>
-                                                    </div>
-                                                </div>
+
+                                                @if ($pack->status == '0')
+                                                    <div class="badge badge-danger">Indisponible</div>
+                                                @else
+                                                    <div class="badge badge-success">Disponible</div>
+                                                @endif
 
                                             </td>
                                             <td class="d-flex">
@@ -85,7 +59,7 @@
                                     @endforeach
                                 @else
                                     <tr>
-                                        <td colspan="5">Aucun coffret disponible</td>
+                                        <td colspan="5" class="text-center">Aucun coffret disponible</td>
                                     </tr>
                                 @endif
                             </tbody>
@@ -102,30 +76,6 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 @section('customjs')
     <script>
-        $(document).on('change', '.durum', function(e) {
-            // alert('test')
-            id = $(this).closest('.item').attr('item-id');
-            status = $(this).val();
-            $.ajax({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                type: "POST",
-                url: "{{ route('panel.pack.status') }}",
-                data: {
-                    id: id,
-                    status: status
-                },
-                success: function(response) {
-                    if (response.status == '1') {
-                        alertify.success("Coffret disponible")
-                    } else {
-                        alertify.error('Coffret indisponible')
-                    }
-                }
-            });
-        });
-
         $(document).on('click', '.deleteBtn', function(e) {
             e.preventDefault();
             var item = $(this).closest('.item');

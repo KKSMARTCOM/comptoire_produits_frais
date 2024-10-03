@@ -18,6 +18,8 @@ class Product extends Model
         'quantity',
         'status',
         'content',
+        'type',
+        'region'
     ];
 
     // Relation avec les catégories
@@ -30,6 +32,12 @@ class Product extends Model
     public function packs()
     {
         return $this->belongsToMany(Pack::class, 'pack_product')->withPivot('quantity');
+    }
+
+    // Relation avec les promotions
+    public function promotions()
+    {
+        return $this->belongsToMany(Promotion::class, 'product_promotion');
     }
 
     public function sluggable(): array

@@ -7,6 +7,7 @@ use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Models\Pack;
 use Illuminate\Support\Facades\File;
 
 class PageController extends Controller
@@ -37,96 +38,101 @@ class PageController extends Controller
             'pages' => [],
             'active' => 'Merci'
         ];
-        return view('frontend.pages.finish', compact('breadcrumb'));
+
+        $categories = Category::where('category_id', null)->get();
+
+        return view('frontend.pages.finish', compact('breadcrumb', 'categories'));
     }
 
-    public function getProducts()
+    public function allProduct()
     {
-        //Récupération des produits à partir du fichier json
-        $path = storage_path('app/data.json');
-        $json = File::get($path);
-        $products = json_decode($json, true);
-
-        return $products;
-    }
-
-    public function product(Request $request, $slug = null)
-    {
-
-        $products = $this->getProducts();
-
-        $category = $request->input('category');
-        $wineType = $request->input('wineType');
-        $wineRegion = $request->input('wineRegion');
-
-        // Appliquer les filtres
-        if ($request->has('category') && $request->category) {
-            $products = array_filter($products, function ($product) use ($request) {
-                return $product['category'] == $request->category;
-            });
-        }
-
-        if ($request->has('min_price') && $request->has('max_price')) {
-            $minPrice = (int)$request->min_price;
-            $maxPrice = (int)$request->max_price;
-            $products = array_filter($products, function ($product) use ($minPrice, $maxPrice) {
-                return $product['price'] >= $minPrice && $product['price'] <= $maxPrice;
-            });
-        }
-
-        /* Trie */
-        if ($request->has('sort') && $request->sort) {
-            if ($request->sort === 'price_asc') {
-                usort($products, function ($a, $b) {
-                    return $a['price'] - $b['price'];
-                });
-            } elseif ($request->sort === 'price_desc') {
-                usort($products, function ($a, $b) {
-                    return $b['price'] - $a['price'];
-                });
-            } elseif ($request->sort === 'alpha_asc') {
-                usort($products, function ($a, $b) {
-                    return strcasecmp($a['name'], $b['name']);
-                });
-            } elseif ($request->sort === 'alpha_desc') {
-                usort($products, function ($a, $b) {
-                    return strcasecmp($b['name'], $a['name']);
-                });
-            } elseif ($request->sort === 'promotion') {
-                usort($products, function ($a, $b) {
-                    return ($b['promotion'] ? 1 : 0) - ($a['promotion'] ? 1 : 0);
-                });
-            }
-        }
-
-        // Filtrage par type de vin si la catégorie est 'cave'
-        if ($category === 'la cave' && $wineType) {
-            $products = array_filter($products, function ($product) use ($wineType) {
-                return isset($product['subcategories']['type']) && $product['subcategories']['type'] === $wineType;
-            });
-        }
-
-        // Filtrage par région si la catégorie est 'cave'
-        if ($category === 'la cave' && $wineRegion) {
-            $products = array_filter($products, function ($product) use ($wineRegion) {
-                return isset($product['subcategories']['region']) && $product['subcategories']['region'] === $wineRegion;
-            });
-        }
-
-        //La recherche
-        if ($request->has('search')) {
-            $search = strtolower($request->input('search'));
-            $products = array_filter($products, function ($product) use ($search) {
-                return strpos(strtolower($product['name']), $search) !== false;
-            });
-        }
-
+        $products = Product::all();
+        $categories = Category::where('category_id', null)->get();
+        $types = Category::where('sub_cat', 'type')->get();
+        $regions = Category::where('sub_cat', 'region')->get();
 
         $breadcrumb = [
             'pages' => [],
             'active' => 'Produits'
         ];
 
+        return view('frontend.pages.products', compact('products', 'breadcrumb', 'categories', 'types', 'regions'));
+    }
+
+    public function product(Request $request, $slug = null)
+    {
+        $categories = Category::where('category_id', null)->get();
+
+        $category = $slug ? Category::where('slug', $slug)->firstOrFail() : null;
+
+
+        $types = Category::where('sub_cat', 'type')->get();
+        $regions = Category::where('sub_cat', 'region')->get();
+
+        $productCat = $request->input('productCat');
+        $wineType = $request->input('wineType');
+        $wineRegion = $request->input('wineRegion');
+
+        $products = Product::query();
+
+        // Si une catégorie est passée dans l'URL
+        if ($category) {
+            $products->where('category_id', $category->id);
+        }
+
+
+        // Filtrer par type
+        if ($request->filled('wine_type')) {
+            $products->where('type', $request->wine_type);
+        }
+
+
+        // Filtrer par région
+        if ($request->filled('wine_region')) {
+            $products->where('region', $request->wine_region);
+        }
+        //dd($products);
+
+        // Filtrer par prix (min_price et max_price)
+        if ($request->filled('min_price') || $request->filled('max_price')) {
+            $minPrice = $request->input('min_price', 0);
+            $maxPrice = $request->input('max_price', PHP_INT_MAX);
+
+            // Appliquer les filtres de prix
+            $products->whereBetween('price', [$minPrice, $maxPrice]);
+        }
+
+        // Trier les résultats
+        if ($request->filled('sort')) {
+            switch ($request->sort) {
+                case 'price_asc':
+                    $products->orderBy('price', 'asc');
+                    break;
+                case 'price_desc':
+                    $products->orderBy('price', 'desc');
+                    break;
+                case 'alpha_asc':
+                    $products->orderBy('name', 'asc');
+                    break;
+                case 'alpha_desc':
+                    $products->orderBy('name', 'desc');
+                    break;
+                case 'promotion':
+                    $products->where('promotion', true);
+                    break;
+            }
+        }
+
+
+        // Obtenir les produits filtrés
+        $products = $products->get();
+
+        $breadcrumb = [
+            'pages' => [],
+            'active' => 'Produits'
+        ];
+
+        //dd($products);
         // Si la requête est une requête AJAX, renvoyer les produits filtrés au format JSON
         if ($request->ajax()) {
             $data['products'] = view('frontend.ajax.productList', ['products' => $products])->render();
@@ -147,7 +153,7 @@ class PageController extends Controller
         } */
 
 
-        return view('frontend.pages.products', compact('breadcrumb', 'products'));
+        return view('frontend.pages.products', compact('breadcrumb', 'products', 'categories', 'category', 'types', 'regions'));
     }
 
     public function saleproduct()
@@ -162,43 +168,58 @@ class PageController extends Controller
 
     public function productdetail($slug)
     {
-        $products = $this->getProducts();
+        try {
+            //code...
+            //$product = Product::where('slug', $slug)->firstOrFail();
+            $categories = Category::where('category_id', null)->get();
+            $product = Product::where("slug", $slug)->firstOrFail();
 
-        $productFiltered = array_filter($products, function ($item) use ($slug) {
-            return $item['id'] === intval($slug);
-        });
+            if ($product) {
 
-        $product = array_values($productFiltered);
+                $category = Category::where('id', $product->category_id)->first();
 
+                $productFeatures = Product::where('id', '!=', $product->id)
+                    ->where('category_id', $product->category_id)
+                    ->limit('6')
+                    ->orderBy('id', 'desc')
+                    ->get();
 
-        //$product = Product::where("slug", $slug)->where('status', '1')->firstOrFail();
+                $breadcrumb = [
+                    'pages' => [],
+                    'active' =>  $product->name
+                ];
 
-        /* $products = Product::where('id', '!=', $product->id)
-        ->where('category_id', $product->category_id) // ürünün kategorisiyle aynı olan ürünleri getir
-        ->where('status', '1')
-        ->limit('6')
-        ->orderBy('id', 'desc')
-        ->get(); */
+                if (!empty($category)) {
+                    $breadcrumb['pages'][] = [
+                        'link' => route('categories', $category->slug),
+                        'name' => $category->name
+                    ];
+                }
 
-
-        $category = $product[0]['category'];
-
-        $productFeatures = array_filter($products, function ($item) use ($category) {
-            return $item['category'] == $category;
-        });
-
-        $breadcrumb = [
-            'pages' => [],
-            'active' =>  $slug
-        ];
-
-        if (!empty($category)) {
-            $breadcrumb['pages'][] = [
-                'link' => route('men' . 'product'),
-                'name' => $category
-            ];
+                return view('frontend.pages.product', compact('breadcrumb', 'product', 'productFeatures', 'categories'));
+            }
+        } catch (\Exception $e) {
+            dd($e);
+            //throw $th;
         }
+    }
 
-        return view('frontend.pages.product', compact('breadcrumb', 'product', 'products', 'productFeatures'));
+    public function showPackItem(Request $request)
+    {
+        try {
+            $packId = decryptData($request->pack_id);
+            //dd($packId);
+            $pack = Pack::where('id', $packId)->firstOrFail();
+            //dd($pack);
+            $breadcrumb = [
+                'pages' => [],
+                'active' => 'Coffret '
+            ];
+
+            return view('frontend.pages.pack', compact('pack', 'breadcrumb'));
+        } catch (\Exception $e) {
+            //throw $th;
+            dd($e);
+        }
     }
 }

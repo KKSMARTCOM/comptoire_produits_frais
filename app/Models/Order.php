@@ -20,6 +20,7 @@ class Order extends Model
         'district',
         'note',
         'status',
+        'motif',
     ];
 
     public function orderItems()

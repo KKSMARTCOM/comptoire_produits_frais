@@ -25,8 +25,27 @@ class ProductRequest extends FormRequest
             'name' => 'required|string|min:3',
             'image' => 'sometimes|required|max:5120',
             'price' => 'required|integer',
+            'status' => 'required|in:0,1,2',
             'category_id' => 'required',
-            'quantity' => ['required_if:status,1|integer'],
+            'quantity' => [
+                'sometimes',
+                function ($attribute, $value, $fail) {
+
+                    $status = $this->input('status');
+
+                    if ($status === '1' && (!$value || $value <= 0)) {
+                        $fail('La quantité est obligatoire lorsque le produit est en stock.');
+                    }
+
+                    if ($status == '0' && $value) {
+                        $fail('La quantité ne doit pas être renseignée pour un produit illimité.');
+                    }
+
+                    if ($status == '2' && $value) {
+                        $fail('La quantité ne doit pas être renseignée pour un produit épuisé.');
+                    }
+                },
+            ],
         ];
     }
 
@@ -40,8 +59,9 @@ class ProductRequest extends FormRequest
             'category_id.required' => 'Le champs est requis',
             'quantity.required_if' => 'Le champs est requis',
             'name.min' => 'Le nom du produit doit être au moins de 3 caractères',
-            'price.numeric' => 'Le prix du produit doit être un nombre',
-            'quantity.numeric' => 'La quantité du produit doit être un nombre',
+            'price.integer' => 'Le prix du produit doit être un nombre',
+            'quantity.integer' => 'La quantité du produit doit être un nombre',
+            'quantity.min' => 'La quantité du produit doit être supérieure à 0',
 
         ];
     }

@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('slug');
             $table->string('content')->nullable();
+            $table->enum('sub_cat', ['type', 'region'])->nullable();
             $table->foreignId('category_id')->nullable()->constrained('categories')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });

@@ -1,12 +1,11 @@
 (function ($) {
   'use strict';
 
-
   $(function () {
 
-    $(document).on('change', '#year', function (e) {
+    $(document).on('change', '#order-year', function (e) {
       e.preventDefault();
-      var year = $('#year').val();
+      var year = $('#order-year').val();
 
       $.ajax({
         headers: {
@@ -21,33 +20,6 @@
           if (response) {
             const months = response.data.map(item => item.month_name)
             const totalOrders = response.data.map(item => item.total_orders)
-            const totalPrices = response.data.map(item => item.total_price)
-            //console.log(months);
-
-            // Mise à jour du graphique pour le nombre de commandes
-            //if (ordersChart) ordersChart.destroy();
-
-            //const ctxOrders = document.getElementById('orderchart').getContext('2d');
-            /* ordersChart = new Chart(ctxOrders, {
-              type: 'line',
-              data: {
-                labels: months,
-                datasets: [{
-                  label: 'Nombre de Commandes',
-                  data: totalOrders,
-                  borderColor: 'rgb(75, 192, 192)',
-                  tension: 0.1
-                }]
-              },
-              options: {
-                responsive: true,
-                scales: {
-                  y: {
-                    beginAtZero: true
-                  }
-                }
-              }
-            }); */
 
             if ($("#order-chart").length) {
               var areaData = {
@@ -55,7 +27,7 @@
                 datasets: [
                   {
                     label: 'Nombre de Commandes',
-                    data: totalOrders,
+                    data: [0, 5],
                     borderColor: [
                       '#4747A1'
                     ],
@@ -94,9 +66,9 @@
                       display: true,
                       autoSkip: false,
                       maxRotation: 0,
-                      stepSize: 200,
-                      min: 200,
-                      max: 1200,
+                      stepSize: 10,
+                      min: 0,
+                      max: 100,
                       padding: 18,
                       fontColor: "#6C7383"
                     },
@@ -123,13 +95,106 @@
                 }
               }
 
-              var revenueChartCanvas = $("#order-chart").get(0).getContext("2d");
-              var revenueChart = new Chart(revenueChartCanvas, {
+              var ordersChartCanvas = $("#order-chart").get(0).getContext("2d");
+              var ordersChart = new Chart(ordersChartCanvas, {
                 type: 'line',
                 data: areaData,
                 options: areaOptions
               });
-              document.getElementById('order-chart').innerHTML = revenueChart.generateLegend();
+              document.getElementById('order-chart').innerHTML = ordersChart.generateLegend();
+            }
+          }
+        }
+      });
+    });
+
+    $(document).on('change', '#sale-year', function (e) {
+      e.preventDefault();
+      var year = $('#sale-year').val();
+
+      $.ajax({
+        headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        type: "GET",
+        url: " panel/statistics",
+        data: {
+          year: year,
+        },
+        success: function (response) {
+          if (response) {
+            const months = response.data.map(item => item.month_name)
+            const totalPrices = response.data.map(item => item.total_price)
+
+            if ($("#sales-chart").length) {
+              var SalesChartCanvas = $("#sales-chart").get(0).getContext("2d");
+              var SalesChart = new Chart(SalesChartCanvas, {
+                type: 'bar',
+                data: {
+                  labels: months,
+                  datasets: [{
+                    label: 'Chiffres d\'affaire',
+                    data: totalPrices,
+                    backgroundColor: '#98BDFF'
+                  }
+                  ]
+                },
+                options: {
+                  cornerRadius: 5,
+                  responsive: true,
+                  maintainAspectRatio: true,
+                  layout: {
+                    padding: {
+                      left: 0,
+                      right: 0,
+                      top: 20,
+                      bottom: 0
+                    }
+                  },
+                  scales: {
+                    yAxes: [{
+                      display: true,
+                      gridLines: {
+                        display: true,
+                        drawBorder: false,
+                        color: "#F2F2F2"
+                      },
+                      ticks: {
+                        display: true,
+                        min: 0,
+                        max: 800000,
+                        callback: function (value, index, values) {
+                          return value + ' F';
+                        },
+                        autoSkip: true,
+                        maxTicksLimit: 10,
+                        fontColor: "#6C7383"
+                      }
+                    }],
+                    xAxes: [{
+                      stacked: false,
+                      ticks: {
+                        beginAtZero: true,
+                        fontColor: "#6C7383"
+                      },
+                      gridLines: {
+                        color: "rgba(0, 0, 0, 0)",
+                        display: false
+                      },
+                      barPercentage: 1
+                    }]
+                  },
+                  legend: {
+                    display: false
+                  },
+                  elements: {
+                    point: {
+                      radius: 0
+                    }
+                  }
+                },
+              });
+              document.getElementById('sales-legend').innerHTML = SalesChart.generateLegend();
             }
           }
         }
@@ -227,7 +292,7 @@
       });
     }
 
-    if ($("#sales-chart").length) {
+    /* if ($("#sales-chart").length) {
       var SalesChartCanvas = $("#sales-chart").get(0).getContext("2d");
       var SalesChart = new Chart(SalesChartCanvas, {
         type: 'bar',
@@ -301,8 +366,9 @@
         },
       });
       document.getElementById('sales-legend').innerHTML = SalesChart.generateLegend();
-    }
-    if ($("#sales-chart-dark").length) {
+    } */
+
+    /* if ($("#sales-chart-dark").length) {
       var SalesChartCanvas = $("#sales-chart-dark").get(0).getContext("2d");
       var SalesChart = new Chart(SalesChartCanvas, {
         type: 'bar',
@@ -376,8 +442,9 @@
         },
       });
       document.getElementById('sales-legend').innerHTML = SalesChart.generateLegend();
-    }
-    if ($("#north-america-chart").length) {
+    } */
+
+    /* if ($("#north-america-chart").length) {
       var areaData = {
         labels: ["Jan", "Feb", "Mar"],
         datasets: [{
@@ -669,7 +736,7 @@
         plugins: southAmericaChartPlugins
       });
       document.getElementById('south-america-legend').innerHTML = southAmericaChart.generateLegend();
-    }
+    } */
 
     function format(d) {
       // `d` is the original data object for the row

@@ -17,18 +17,18 @@
                         </div>
                     @endif
 
-                    @if (!empty($categories) && $categories->count() > 0)
-                        <div class="table-responsive">
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th>Libellé</th>
-                                        <th>Description</th>
-                                        <th>Catégorie</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Libellé</th>
+                                    <th>Description</th>
+                                    <th>Catégorie</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (!empty($categories) && $categories->count() > 0)
                                     @foreach ($categories as $category)
                                         <tr class="item" item-id="{{ $category->id }}">
                                             <td>{{ ucfirst($category->name) }}</td>
@@ -45,14 +45,17 @@
                                             </td>
                                         </tr>
                                     @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-                    @else
-                        <tr>
-                            <td colspan="4">Aucune catégorie disponible</td>
-                        </tr>
-                    @endif
+                                @else
+                                    <tr>
+                                        <td colspan="4">Aucune catégorie disponible</td>
+                                    </tr>
+                                @endif
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="mt-3 d-flex justify-content-end">
+                        {{ $categories->links('pagination::custom') }}
+                    </div>
                 </div>
             </div>
         </div>
@@ -61,32 +64,6 @@
 
 @section('customjs')
     <script>
-        // basmalı olduğu için change kullanıldı
-        // buton olsaydı click kullanılması gerekiyordu
-        $(document).on('change', '.durum', function(e) {
-            // alert('test')
-            id = $(this).closest('.item').attr('item-id');
-            statu = $(this).prop('checked');
-            $.ajax({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                type: "POST",
-                url: "{{ route('panel.category.status') }}",
-                data: {
-                    id: id,
-                    statu: statu
-                },
-                success: function(response) {
-                    if (response.status == 'true') {
-                        alertify.success("Status activated")
-                    } else {
-                        alertify.error('Status deactivated')
-                    }
-                }
-            });
-        });
-
         $(document).on('click', '.deleteBtn', function(e) {
             e.preventDefault();
             var item = $(this).closest('.item');

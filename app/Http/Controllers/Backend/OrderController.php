@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
-use App\Models\Invoice;
 use App\Models\Order;
 use App\Models\OrderItem;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
 {
@@ -15,8 +15,7 @@ class OrderController extends Controller
      */
     public function index()
     {
-        $orders = Order::withCount('orderItems')->paginate(20);
-        //dd($orders);
+        $orders = Order::withCount('orderItems')->paginate(10);
         return view('backend.pages.order.index', compact('orders'));
     }
 
@@ -42,6 +41,9 @@ class OrderController extends Controller
     public function show(string $id)
     {
         //
+        $order = Order::where('id', $id)->with('orderItems')->firstOrFail();
+        //dd($order);
+        return view('backend.pages.order.show', compact('order'));
     }
 
     /**
@@ -50,16 +52,54 @@ class OrderController extends Controller
     public function edit(string $id)
     {
         $order = Order::where('id', $id)->with('orderItems')->firstOrFail();
-        //dd($order);
+
         return view('backend.pages.order.edit', compact('order'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request)
     {
         //
+        try {
+            //code...
+            $order = Order::where('order_no', $request->order_no)->first();
+
+            if ($order) {
+
+                foreach ($request->product_id as $index => $product_id) {
+                    $quantity = $request->quantity[$index];
+
+                    $orderItems = $order->orderItems->where('product_id', $product_id)->first();
+
+                    if ($orderItems) {
+                        $orderItems->quantity = $quantity;
+                        $orderItems->save();
+                    }
+                }
+
+                $order->update([
+                    'status' => $request->status,
+                    'motif' => $request->motif,
+                ]);
+
+                $user = Auth::user();
+                $role = $user->is_admin == 0 ? 'Administrateur' : 'Utilisateur';
+
+                // Enregistrer l'action de l'utilisateur
+                activity()
+                    ->causedBy($user)
+                    ->performedOn($order)
+                    ->withProperties(['menu' => 'Commandes', 'action' => 'Mise à jour'])
+                    ->log("{$user->name} ({$role}) a modifié la commande : {$order->name}.");
+
+                return redirect()->back()->with('success', 'Mise à jour éffectuée avec succès !');
+            }
+        } catch (\Exception $e) {
+            dd($e);
+            //throw $th;
+        }
     }
 
     /**
@@ -71,15 +111,17 @@ class OrderController extends Controller
         OrderItem::where('order_no', $order->order_no)->delete();
 
         $order->delete();
-        return response(['error' => false, 'message' => 'Commande supprimée avec succès !']);
-    }
+        $user = Auth::user();
+        $role = $user->is_admin == 0 ? 'Administrateur' : 'Utilisateur';
 
-    public function status(Request $request)
-    {
-        $update = $request->statu;
-        $updateCheck = $update == "false" ? '0' : '1';
-        Order::where('id', $request->id)->update(['status' => $updateCheck]);
-        return response(['error' => false, 'status' => $update]);
+        // Enregistrer l'action de l'utilisateur
+        activity()
+            ->causedBy($user)
+            ->performedOn($order)
+            ->withProperties(['menu' => 'Commandes', 'action' => 'Suppression'])
+            ->log("{$user->name} ({$role}) a supprimé la commande : {$order->name}.");
+
+        return response(['error' => false, 'message' => 'Commande supprimée avec succès !']);
     }
 
     public function change(Request $request)
@@ -104,30 +146,5 @@ class OrderController extends Controller
 
             return response(['error' => false, 'newTotal' => $newTotal]);
         }
-
-        //dd($product->first()['id']);
-
-        /* if (isset($cart[$productId])) {
-            //si la nouvelle qte est supérieure à 0
-            if ($newQuantity > 0) {
-                //mise à jour de la qte
-                $cart[$productId]['quantity'] = $newQuantity;
-                //calcul du nouveau total
-                $cart[$productId]['total'] = $newQuantity * $cart[$productId]['product']['price'];
-            } else {
-                //si la qte est egale à 0, on retire le produit du panier
-                unset($cart[$productId]);
-            }
-        } */
-
-        //mettre à jour le panier dans la session
-        //session()->put('cart', $cart);
-
-        //$totalCartPrice = array_sum(array_column($cart, 'total'));
-
-        /* return response()->json([
-            'productTotal' => $cart[$productId]['total'] ?? 0,
-            'totalCartPrice' => $totalCartPrice
-        ]); */
     }
 }

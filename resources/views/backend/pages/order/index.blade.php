@@ -43,14 +43,11 @@
                                             <td>{!! strLimit($order->address, 20, route('panel.order.edit', $order->id)) !!}</td>
                                             <td>{{ $order->order_items_count ?? '' }}</td>
                                             <td>
-                                                <div class="checkbox">
-                                                    <label>
-                                                        <input type="checkbox" class="durum" data-on="Livrée"
-                                                            data-off="En cours" data-onstyle="success"
-                                                            data-offstyle="danger" data-toggle="toggle"
-                                                            {{ $order->status == '1' ? 'checked' : '' }}>
-                                                    </label>
-                                                </div>
+                                                @if ($order->status == '0')
+                                                    <div class="badge badge-warning">En cours</div>
+                                                @else
+                                                    <div class="badge badge-success">Livré</div>
+                                                @endif
                                             </td>
                                             {{-- <td>{{ $order->product }}</td> --}}
                                             {{-- <td>{{ $order->Qtite }}</td> --}}
@@ -68,10 +65,10 @@
                                                     <i class="fas fa-edit"></i>
                                                 </a>
                                                 <!-- Bouton pour afficher les détails avec une icône d'œil -->
-                                                {{-- <a href="{{ route('panel.order.edit', $order->id) }}"
+                                                <a href="{{ route('panel.order.show', $order->id) }}"
                                                     class="btn btn-info mr-2">
                                                     <i class="fas fa-eye"></i>
-                                                </a> --}}
+                                                </a>
                                                 <!-- Bouton pour supprimer avec une icône de corbeille -->
                                                 <button type="button" class="deleteBtn btn btn-danger">
                                                     <i class="fas fa-trash-alt"></i>
@@ -83,58 +80,15 @@
                                     @endforeach
                                 @else
                                     <tr>
-                                        <td colspan="8">Aucune commande disponible</td>
-                                    </tr>
-                                    <tr class="item" item-id="1">
-                                        <td>23455678</td>
-                                        <td>Toto</td>
-                                        <td>23-08-2024</td>
-                                        <td>toto@email.com</td>
-                                        <td>96241841</td>
-                                        <td>Cotonou</td>
-                                        <td>Chateau Rouge, dinde</td>
-                                        <td>5</td>
-                                        <td>45.000FCFA</td>
-                                        <td>
-                                            <div class="checkbox">
-                                                <label>
-                                                    <input type="checkbox" class="durum" data-on="Livrée"
-                                                        data-off="En cours" data-onstyle="success" data-offstyle="danger"
-                                                        data-toggle="toggle" checked>
-                                                </label>
-                                            </div>
-                                        </td>
-                                        {{-- <td class="d-flex">
-                                            <a href="{{ route('panel.order.edit', 1) }}" class="btn btn-primary mr-2">Modifier
-                                            </a>
-                                            <button type="button" class="deleteBtn btn btn-danger">Supprimer</button>
-                                        </td> --}}
-                                        <td class="d-flex">
-                                            <!-- Lien pour modifier avec une icône de crayon -->
-                                            <a href="{{ route('panel.order.edit', 1) }}" class="btn btn-primary mr-2">
-                                                <i class="fas fa-edit"></i>
-                                            </a>
-                                            <!-- Lien pour afficher les détails avec une icône d'œil -->
-                                            <a href="{{ route('panel.order.edit', 1) }}" class="btn btn-info mr-2">
-                                                <i class="fas fa-eye"></i>
-                                            </a>
-                                            <!-- Bouton pour supprimer avec une icône de corbeille -->
-                                            <button type="button" class="deleteBtn btn btn-danger">
-                                                <i class="fas fa-trash-alt"></i>
-                                            </button>
-                                        </td>
-
-
+                                        <td colspan="8" class="text-center">Aucune commande disponible</td>
                                     </tr>
                                 @endif
                             </tbody>
                         </table>
                     </div>
 
-                    <div class="row mt-3">
-                        <div class="col-lg-12">
-                            {{ $orders->links('pagination::custom') }}
-                        </div>
+                    <div class="mt-3 d-flex justify-content-end">
+                        {{ $orders->links('pagination::custom') }}
                     </div>
 
                 </div>
@@ -147,32 +101,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
     <script>
-        //change a été utilisé car il s'agit d'un bouton-poussoir
-        //S'il y avait un bouton, il fallait utiliser le clic.
-        $(document).on('change', '.durum', function(e) {
-            // alert('test')
-            id = $(this).closest('.item').attr('item-id');
-            statu = $(this).prop('checked');
-            $.ajax({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                type: "POST",
-                url: "{{ route('panel.order.status') }}",
-                data: {
-                    id: id,
-                    statu: statu
-                },
-                success: function(response) {
-                    if (response.status == 'true') {
-                        alertify.success("Commande livrée")
-                    } else {
-                        alertify.error('Livraison en cours')
-                    }
-                }
-            });
-        });
-
         $(document).on('click', '.deleteBtn', function(e) {
             e.preventDefault();
             var item = $(this).closest('.item');

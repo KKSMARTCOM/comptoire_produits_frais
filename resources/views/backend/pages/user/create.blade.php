@@ -5,7 +5,7 @@
         <div class="col-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title">Créer un utilisateur</h4>
+                    <h4 class="card-title">Ajouter un utilisateur</h4>
 
                     @if ($errors->any())
                         <div class="alert alert-danger">
@@ -21,38 +21,51 @@
                         </div>
                     @endif
 
-                    <form class="forms-sample" action="{{ route('panel.user.store') }}" method="POST" enctype="multipart/form-data">
+                    <form class="forms-sample" action="{{ route('panel.user.store') }}" method="POST"
+                        enctype="multipart/form-data">
                         @csrf
 
                         <div class="form-group">
-                            <label for="name">Nom d'utilisateur</label>
-                            <input type="text" class="form-control" id="name" name="name" placeholder="Nom d'utilisateur">
+                            <label for="name">Nom d'utilisateur</label><span style="color: red"> *</span>
+                            <input type="text" class="form-control" id="name" name="name"
+                                value="{{ old('name') }}" placeholder="Nom d'utilisateur">
                         </div>
 
                         <div class="form-group">
-                            <label for="email">Email</label>
-                            <input type="email" class="form-control" id="email" name="email" placeholder="Email">
+                            <label for="email">Email</label><span style="color: red"> *</span>
+                            <input type="email" class="form-control" id="email" name="email" placeholder="Email"
+                                value="{{ old('email') }}">
                         </div>
 
                         <div class="form-group">
-                            <label for="password">Mot de passe</label>
-                            <input type="password" class="form-control" id="password" name="password" placeholder="Mot de passe">
+                            <label for="password">Mot de passe</label><span style="color: red"> *</span>
+                            <input type="password" class="form-control" id="password" name="password"
+                                placeholder="Mot de passe">
                         </div>
 
                         <div class="form-group">
-                            <label for="is_admin">Rôle</label>
-                            <select class="form-control @error('is_admin') is-invalid @enderror" required id="is_admin" name="is_admin">
-                                <option value="0" {{ old('is_admin') == 0 ? 'selected' : '' }}>Utilisateur</option>
-                                <option value="1" {{ old('is_admin') == 1 ? 'selected' : '' }}>Administrateur</option>
-                                <option value="2" {{ old('is_admin') == 2 ? 'selected' : '' }}>Super Administrateur</option>
+                            <label for="is_admin">Rôle</label><span style="color: red"> *</span>
+                            <select class="form-control @error('is_admin') is-invalid @enderror" required id="is_admin"
+                                name="is_admin">
+                                <option value="">Selectionner le rôle</option>
+                                <option value="1" {{ old('is_admin') }}>Utilisateur</option>
+                                <option value="0" {{ old('is_admin') }}>Administrateur</option>
                             </select>
-                            @error('is_admin')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
                         </div>
 
+                        <div class="form-group">
+                            <label>Photo de profil</label>
+                            <input type="file" name="avatar" class="file-upload-default" id="imageInput"
+                                style="display:none;">
+                            <div class="input-group col-xs-12">
+                                <input type="text" class="form-control file-upload-info" id="imagePlaceholder"
+                                    placeholder="Télécharger la photo de profil" readonly>
+                                <span class="input-group-append">
+                                    <button class="file-upload-browse btn btn-primary" type="button"
+                                        style="background-color: #004200 !important">Télécharger</button>
+                                </span>
+                            </div>
+                        </div>
 
                         <button type="submit" class="btn btn-primary mr-2">Enregistrer</button>
                         <a href="{{ route('panel.user.index') }}" class="btn btn-light">Fermer</a>

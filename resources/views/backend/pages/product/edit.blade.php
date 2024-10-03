@@ -58,7 +58,7 @@
                         @endif
 
                         <div class="form-group">
-                            <label for="name">Nom</label>
+                            <label for="name">Nom</label><span style="color: red"> *</span>
                             <input type="text" class="form-control text-capitalize" id="name"
                                 value="{{ $product->name ?? old('name') }}" name="name" placeholder="Nom du produit">
                             @error('name')
@@ -82,8 +82,8 @@
                         </div> --}}
 
                         <div class="form-group">
-                            <label for="category_id">Categorie</label>
-                            <select class="form-control" name="category_id" id="">
+                            <label for="category_id">Categorie</label><span style="color: red"> *</span>
+                            <select class="form-control" name="category_id" id="category_id">
                                 <option value="">Selectionner la categorie</option>
                                 @if ($categories)
                                     @foreach ($categories as $item)
@@ -98,8 +98,45 @@
                                 <p class="text-danger fs-6">{{ $message }}</p>
                             @enderror
                         </div>
+
+                        <div class="form-group type" style="display: none">
+                            <label for="type">Type</label>
+                            <select class="form-control" name="type" id="type">
+                                <option value="">Selectionner le type</option>
+                                @if ($types)
+                                    @foreach ($types as $item)
+                                        <option value="{{ $item->id }}"
+                                            {{ isset($product) && $product->type == $item->id ? 'selected' : '' }}>
+                                            {{ ucfirst($item->name) }}
+                                        </option>
+                                    @endforeach
+                                @endif
+                            </select>
+                            @error('type')
+                                <p class="text-danger fs-6">{{ $message }}</p>
+                            @enderror
+                        </div>
+
+                        <div class="form-group region" style="display: none">
+                            <label for="region">Région</label>
+                            <select class="form-control" name="region" id="region">
+                                <option value="">Selectionner la région</option>
+                                @if ($regions)
+                                    @foreach ($regions as $item)
+                                        <option value="{{ $item->id }}"
+                                            {{ isset($product) && $product->region == $item->id ? 'selected' : '' }}>
+                                            {{ ucfirst($item->name) }}
+                                        </option>
+                                    @endforeach
+                                @endif
+                            </select>
+                            @error('category_id')
+                                <p class="text-danger fs-6">{{ $message }}</p>
+                            @enderror
+                        </div>
+
                         <div class="form-group">
-                            <label for="price">Prix</label>
+                            <label for="price">Prix</label><span style="color: red"> *</span>
                             <input type="number" class="form-control" id="price" name="price"
                                 value="{{ $product->price ?? old('price') }}" placeholder="Prix du produit">
                             @error('price')
@@ -116,7 +153,7 @@
                             @enderror
                         </div>
                         <div class="form-group">
-                            <label>Image</label>
+                            <label>Image</label><span style="color: red"> *</span>
                             <input type="file" name="image" class="file-upload-default" id="imageInput"
                                 style="display:none;">
                             <div class="input-group col-xs-12">
@@ -140,10 +177,11 @@
                             <select name="status" id="status" class="form-control">
                                 <option value="0" {{ $status == '0' ? 'selected' : '' }}>Illimité</option>
                                 <option value="1" {{ $status == '1' ? 'selected' : '' }}>En stock</option>
+                                <option value="2" {{ $status == '2' ? 'selected' : '' }}>Épuisé</option>
                             </select>
                         </div>
                         <button type="submit" class="btn btn-primary mr-2"
-                            style="background-color: #004200 !important">Enregistrer</button>
+                            style="background-color: #004200 !important">{{ isset($product) ? 'Mettre à jour' : 'Enregistrer' }}</button>
                         <a href="{{ route('panel.product.index') }}" class="btn btn-light">Fermer</a>
                     </form>
                 </div>
@@ -179,17 +217,29 @@
             var fileName = this.files[0].name;
             document.getElementById('imagePlaceholder').value = fileName;
         });
+
+        $(document).ready(function() {
+            $('#category_id').on('change', function() {
+                $category = $(this).val();
+                if ($category == 4) {
+                    $('.type').css({
+                        'display': 'block'
+                    })
+                    $('.region').css({
+                        'display': 'block'
+                    })
+                } else {
+                    $('.type').css({
+                        'display': 'none'
+                    })
+                    $('.region').css({
+                        'display': 'none'
+                    })
+                }
+
+            })
+        })
     </script>
-
-    {{-- <script>
-        document.getElementById('imagePlaceholder').addEventListener('click', function() {
-            document.getElementById('imageInput').click();
-        });
-
-        document.querySelector('.file-upload-browse').addEventListener('click', function() {
-            document.getElementById('imageInput').click();
-        });
-    </script> --}}
 
     {{-- <script>
         const option = {

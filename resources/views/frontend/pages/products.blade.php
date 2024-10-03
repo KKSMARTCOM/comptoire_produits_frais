@@ -14,20 +14,29 @@
                                     {{-- Categories --}}
                                     <div class="filterOption mt-3 mt-lg-0">
                                         <select class="form-select border-0" name="category" id="category">
-                                            <option class="dropdown-item" value="">Catégories
+                                            <option class="dropdown-item" value="">Tous
                                             </option>
-                                            <option class="dropdown-item" value="volailles">Volailles
-                                            </option>
-                                            <option class="dropdown-item" value="poissons">Poissons
-                                            </option>
-                                            <option class="dropdown-item" value="autres viandes">Autres viandes
-                                            </option>
-                                            <option class="dropdown-item" value="fruits/legumes">Fruits & légumes
-                                            </option>
-                                            <option class="dropdown-item" value="la cave">La cave
-                                            </option>
-                                            <option class="dropdown-item" value="cpf store">CPF Store
-                                            </option>
+                                            @if ($categories && $categories->count() > 0)
+                                                @foreach ($categories as $item)
+                                                    <option class="dropdown-item"
+                                                        {{ isset($category) && $category->slug == $item->slug ? 'selected' : '' }}
+                                                        value="{{ $item->slug }}">{{ $item->name }}
+                                                    </option>
+                                                @endforeach
+                                            @else
+                                                <option class="dropdown-item" value="volailles">Volailles
+                                                </option>
+                                                <option class="dropdown-item" value="poissons">Poissons
+                                                </option>
+                                                <option class="dropdown-item" value="autres viandes">Autres viandes
+                                                </option>
+                                                <option class="dropdown-item" value="fruits/legumes">Fruits & légumes
+                                                </option>
+                                                <option class="dropdown-item" value="la cave">La cave
+                                                </option>
+                                                <option class="dropdown-item" value="cpf store">CPF Store
+                                                </option>
+                                            @endif
                                         </select>
                                     </div>
                                     {{-- Prix --}}
@@ -38,7 +47,8 @@
                                         <div class="d-flex gap-2 price_range mt-3">
                                             <div class="price_range_input">
                                                 <label for="min_price">Min</label>
-                                                <input type="number" id="min_price" name="min_price" value="0">
+                                                <input type="number" id="min_price" name="min_price" value="0"
+                                                    min="0" max="700000">
                                             </div>
                                             <div class="price_range_input">
                                                 <label for="max_price">Max</label>
@@ -51,24 +61,40 @@
                                     <div id="subcategories" style="visibility: hidden" class="d-flex gap-3">
                                         <!-- Filtre par type de vin -->
                                         <div class="filterOption mt-3 mt-lg-0">
-                                            <select class="form-select border-0" id="wine_type">
+                                            <select class="form-select border-0" id="wine_type" name="wine_type">
                                                 <option value="">Type de vin</option>
-                                                <option value="vin rouge">Vin Rouge</option>
-                                                <option value="vin blanc">Vin Blanc</option>
-                                                <option value="vin rosé">Vin Rosé</option>
-                                                <option value="champagne">Champagne</option>
+                                                @if ($types && $types->count() > 0)
+                                                    @foreach ($types as $item)
+                                                        <option class="dropdown-item" value="{{ $item->id }}">
+                                                            {{ $item->name }}
+                                                        </option>
+                                                    @endforeach
+                                                @else
+                                                    <option value="vin rouge">Vin Rouge</option>
+                                                    <option value="vin blanc">Vin Blanc</option>
+                                                    <option value="vin rosé">Vin Rosé</option>
+                                                    <option value="champagne">Champagne</option>
+                                                @endif
                                             </select>
                                         </div>
 
                                         <!-- Filtre par région de vin -->
                                         <div class="filterOption mt-3 mt-lg-0">
-                                            <select class="form-select border-0" id="wine_region">
+                                            <select class="form-select border-0" id="wine_region" name="wine_region">
                                                 <option value="">Région</option>
-                                                <option value="Bordeaux">Bordeaux</option>
-                                                <option value="Champagne">Champagne</option>
-                                                <option value="Provence">Provence</option>
-                                                <option value="Bourgogne">Bourgogne</option>
-                                                <option value="Côtes du Rhône">Côtes du Rhône</option>
+                                                @if ($regions && $regions->count() > 0)
+                                                    @foreach ($regions as $item)
+                                                        <option class="dropdown-item" value="{{ $item->id }}">
+                                                            {{ $item->name }}
+                                                        </option>
+                                                    @endforeach
+                                                @else
+                                                    <option value="Bordeaux">Bordeaux</option>
+                                                    <option value="Champagne">Champagne</option>
+                                                    <option value="Provence">Provence</option>
+                                                    <option value="Bourgogne">Bourgogne</option>
+                                                    <option value="Côtes du Rhône">Côtes du Rhône</option>
+                                                @endif
                                             </select>
                                         </div>
                                     </div>
@@ -107,6 +133,13 @@
                         <ul id="filtersList" class="list-unstyled">
                             <!-- Les filtres appliqués seront ajoutés ici -->
                         </ul>
+                    </div>
+
+                    <!-- Loader caché par défaut -->
+                    <div style="display:flex;justify-content:center;">
+                        <div id="loader" style="width: 150px;height:150px; display:none">
+                            <img src="{{ asset('images/svg/tube-spinner.svg') }}" alt="Chargement en cours..." />
+                        </div>
                     </div>
 
 
@@ -151,21 +184,28 @@
             let priceRangeLabel = document.getElementById('price_range_label');
             var filtersList = document.getElementById('filtersList');
 
-
+            //Chaque changement déclenche le filtre
             $(document).on('change', '#filterForm', function(event) {
-                //console.log(event.target.id)
+                //console.log(event.target.value)
                 fetchProduct()
-                updateFilters(event.target.id);
+                updateFilters(event.target.value);
             })
 
+            if (category.value == 'la-cave') {
+                subcategoriesDiv.style.visibility = 'visible'; // Afficher sous-catégories
+            } else {
+                subcategoriesDiv.style.visibility = 'hidden'; // Masquer sous-catégories
+            }
+
             category.addEventListener('change', function() {
-                if (this.value === 'la cave') {
+                if (this.value === 'la-cave') {
                     subcategoriesDiv.style.visibility = 'visible'; // Afficher sous-catégories
                 } else {
                     subcategoriesDiv.style.visibility = 'hidden'; // Masquer sous-catégories
                 }
             })
 
+            //Affichage des prix après filtre
             minPriceInput.addEventListener('input', function() {
                 fetchProduct();
                 priceRangeLabel.textContent = `${minPriceInput.value} FCFA - ${maxPriceInput.value} FCFA`
@@ -210,35 +250,39 @@
             }
 
             function fetchProduct() {
-                let category = $('#category').val();
+                let slug = $('#category').val() ? $('#category').val() : ''; // slug de la catégorie courante
                 let minPrice = $('#min_price').val();
                 let maxPrice = $('#max_price').val();
                 let wineType = $('#wine_type').val();
                 let wineRegion = $('#wine_region').val();
                 let sort = $('#sort').val();
 
-                //console.log(winType, winRegion);
+                //console.log();
 
-                let newUrl = "{{ route('product') }}?category=" + category + "&wineType=" + wineType +
-                    "&wineRegion=" +
-                    wineRegion + "&min_price=" + minPrice +
-                    "&max_price=" +
-                    maxPrice + "&sort=" + sort;
+                //let newUrl = slug !== '' ? '/categorie/' + slug : '/product';
 
                 $.ajax({
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
+                    url: slug ? `/categorie/${slug}` : '/categorie',
                     type: "GET",
-                    url: newUrl,
+                    data: $('#filterForm').serialize(),
+                    beforeSend: function() {
+                        $('#loader').show()
+                    },
                     success: function(response) {
-                        console.log(response)
+                        //console.log(response)
                         $('.productContent').html(response.products);
                         // Si besoin, mettre à jour la pagination ici
                         // $('.paginateButtons').html(response.paginate);
                     },
+                    complete: function() {
+                        $('#loader').hide()
+                    },
                     error: function(xhr) {
                         console.log(xhr.responseText);
+                        $('#loader').hide()
                     }
                 });
             }

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\CategoryRequest;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CategoryController extends Controller
 {
@@ -14,7 +15,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::with('category:id,category_id,name')->get();
+        $categories = Category::with('category:id,category_id,name')->paginate(10);
+
         return view('backend.pages.category.index', compact('categories'));
     }
 
@@ -23,10 +25,16 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        // Obtenir toutes les catégories principales (sans parent)
-        $categories = Category::where('category_id', null)->get();
+        try {
+            //code...
+            // Obtenir toutes les catégories principales (sans parent)
+            $categories = Category::where('category_id', null)->get();
 
-        return view('backend.pages.category.edit', compact('categories'));
+            return view('backend.pages.category.edit', compact('categories'));
+        } catch (\Exception $e) {
+            dd($e);
+            //throw $th;
+        }
     }
 
     /**
@@ -38,6 +46,7 @@ class CategoryController extends Controller
         Category::create([
             'name' => $request->name,
             'content' => $request->content,
+            'sub_cat' => $request->sub_cat,
             'category_id' => $request->category_id,
         ]);
 
@@ -59,6 +68,7 @@ class CategoryController extends Controller
     {
         $category = Category::where('id', $id)->first();
         $categories = Category::where('category_id', null)->get();
+
         return view('backend.pages.category.edit', compact('category', 'categories'));
     }
 
@@ -88,13 +98,5 @@ class CategoryController extends Controller
 
         $category->delete();
         return response(['error' => false, 'message' => 'Category deleted successfully']);
-    }
-
-    public function status(Request $request)
-    {
-        $update = $request->statu;
-        $updateCheck = $update == "false" ? '0' : '1';
-        Category::where('id', $request->id)->update(['status' => $updateCheck]);
-        return response(['error' => false, 'status' => $update]);
     }
 }

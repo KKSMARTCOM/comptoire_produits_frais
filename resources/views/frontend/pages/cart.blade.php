@@ -5,20 +5,20 @@
 
     <div class="site-section">
         <div class="container">
-            @if ($cart && count($cart) > 0)
-                <div class="row">
-                    <div class="col-lg-12 mb-5 d-flex justify-content-center">
-                        @if (session()->get('success'))
-                            <div class="alert alert-success">{{ session()->get('success') }}</div>
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                        @endif
+            <div class="row">
+                <div class="col-lg-12 mb-5 d-flex justify-content-center">
+                    @if (session()->get('success'))
+                        <div class="alert alert-success">{{ session()->get('success') }}</div>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    @endif
 
-                        @if (session()->get('error'))
-                            <div class="alert alert-danger">{{ session()->get('error') }}</div>
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                        @endif
-                    </div>
+                    @if (session()->get('error'))
+                        <div class="alert alert-danger">{{ session()->get('error') }}</div>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    @endif
                 </div>
+            </div>
+            @if (!empty(session('cart')) && count($cart) > 0)
                 {{-- WEB --}}
                 <div class="row mb-5 d-none d-lg-block">
                     <div class="col-lg-12 site-blocks-table">
@@ -38,12 +38,12 @@
                                     <tr class="orderItem" data-id="{{ $key }}">
                                         <td class="product-thumbnail">
                                             <div class="product-thumbnail-image">
-                                                <img src="{{ asset('images/' . $cartItem['product']['image']) }}"
+                                                <img src="{{ asset($cartItem['product']['image']) }}"
                                                     alt="{{ $cartItem['product']['name'] }}">
                                             </div>
                                         </td>
                                         <td class="product-name">
-                                            <h2 class="h5 text-black">{{ $cartItem['product']['name'] ?? '' }}</h2>
+                                            <h2 class="h5 text-black">{{ ucfirst($cartItem['product']['name']) ?? '' }}</h2>
                                         </td>
                                         <td>{{ $cartItem['product']['price'] }} FCFA</td>
                                         <td>
@@ -86,6 +86,7 @@
                         </table>
                     </div>
                 </div>
+
                 {{-- MOBILE --}}
                 <div class="row p-2 mb-5 d-block d-lg-none">
                     <ul>
@@ -93,14 +94,14 @@
                             <li class="orderItem h-24 align-items-center d-flex gap-4 border-bottom border-dark-subtle"
                                 data-id="{{ $key }}">
                                 <div class="product-mobile-thumbnail">
-                                    <div class="product-thumbnail-image">
-                                        <img src="{{ asset('images/' . $cartItem['product']['image']) }}"
+                                    <div class="product-thumbnail-image p-2">
+                                        <img src="{{ asset($cartItem['product']['image']) }}"
                                             alt="{{ $cartItem['product']['name'] }}">
                                     </div>
                                 </div>
                                 <div class="flex-grow-1">
                                     <div class="product-mobile-cart-text">
-                                        <h2>{{ $cartItem['product']['name'] ?? '' }}</h2>
+                                        <h2>{{ ucfirst($cartItem['product']['name']) ?? '' }}</h2>
                                         <p>{{ $cartItem['product']['price'] }} FCFA</p>
                                     </div>
                                     <div class="d-flex justify-content-between align-items-center">
@@ -141,14 +142,10 @@
                 </div>
 
                 <div class="mb-5">
-                    <a href="{{ route('product') }}" class="buy-now btn btn-primary border-0"> <span
+                    <a href="{{ route('categories') }}" class="buy-now btn btn-primary border-0"> <span
                             class="mdi mdi-plus"></span>Ajouter
                     </a>
-                    {{-- <p class="mb-5">Vous n'avez pas tous les produits désirés dans le panier ? <a
-                            href="{{ route('product') }}">cliquez ici</a> pour ajouter
-                        plus !</p> --}}
                 </div>
-
                 <div class="row">
                     <div class="col-md-6">
                         <form action="{{ route('coupon.check') }}" method="POST">
@@ -174,25 +171,18 @@
                         <div class="row justify-content-end">
                             <div class="col-md-7 mt-4 mt-md-0">
                                 <div class="row">
-                                    <div class="col-md-12 text-right border-bottom mb-5">
+                                    <div class="col-md-12 text-right border-bottom mb-4">
                                         <h3 class="text-black text-nowrap h4 text-uppercase">Total du panier </h3>
                                     </div>
                                 </div>
-                                {{-- <div class="row mb-3">
-                                <div class="col-md-6">
-                                    <span class="text-black">Sous-total</span>
-                                </div>
-                                <div class="col-md-6 text-right">
-                                    <strong class="text-black">{{ $totalCartPrice }}.00 FCFA</strong>
-                                </div>
-                            </div> --}}
-                                <div class="row mb-5">
+                                <div class="row mb-4">
                                     <div class="col-md-6">
                                         <span class="text-black">Total</span>
                                     </div>
                                     <div class="col-md-6 text-right">
                                         <strong class="newTotalPrice text-black text-nowrap">
-                                            {{ $totalCartPrice }}.00 FCFA</strong>
+                                            {{ $totalCartPrice }}
+                                            FCFA</strong>
                                     </div>
                                 </div>
 
@@ -209,11 +199,54 @@
                 </div>
             @else
                 <div>
-                    <h3 class="text-dark">Votre panier est actuellement vide ! Veuillez <a class="text-primary"
-                            href="{{ route('product') }}">cliquer ici</a>
-                        pour ajouter des produits.</h3>
+                    <h3 class="text-dark text-center mb-4">Votre panier est actuellement vide. Veuillez <a
+                            class="text-primary" href="{{ route('all.product') }}">cliquer
+                            ici</a>
+                        pour ajouter des produits !</h3>
                 </div>
             @endif
+            {{-- Presentation des coffrets --}}
+            {{-- @if (!empty(session('cart')['packs']) && count($cart['packs']) > 0)
+                <div class="mb-5">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Coffret</th>
+                                <th>Produits</th>
+                                <th>Prix</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (session('cart')['packs'] as $packId => $pack)
+                                <tr class="orderItem" data-id="{{ $packId }}">
+                                    <td>{{ ucfirst($pack['pack']->name) }}</td>
+                                    <td>
+                                        <ul>
+                                            @foreach ($pack['products'] as $product)
+                                                <li>{{ ucfirst($product['name']) }} (x{{ $product['quantity'] }})</li>
+                                            @endforeach
+                                        </ul>
+                                    </td>
+                                    <td>{{ $pack['total_price'] }} FCFA</td>
+                                    <td>
+                                        <form class="removeItem" method="POST">
+                                            @csrf
+                                            @php
+                                                $encrypt = encryptData($packId);
+                                            @endphp
+
+                                            <input type="hidden" name="pack_id" value="{{ $encrypt }}">
+                                            <button type="submit" class="btn btn-danger btn-sm border-0"><span
+                                                    style="font-size: 16px" class="mdi mdi-delete"></span></button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            @endif --}}
         </div>
     </div>
 @endsection
@@ -271,7 +304,11 @@
         $(document).on('click', '.removeItem', function(e) {
             e.preventDefault();
             const formData = $(this).serialize();
+
+            console.log(formData)
             var item = $(this);
+            console.log(item)
+
             $.ajax({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

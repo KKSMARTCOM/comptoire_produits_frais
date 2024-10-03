@@ -51,7 +51,7 @@
 
 
                         <div class="form-group">
-                            <label for="name">Nom</label>
+                            <label for="name">Nom</label><span style="color: red"> *</span>
                             <input type="text" class="form-control" id="name"
                                 value="{{ old('name', $pack->name ?? '') }}" name="name" placeholder="Nom du coffret">
                         </div>
@@ -64,15 +64,16 @@
                                 caractères atteint</small>
                         </div>
 
-                        @if ($products)
+                        {{-- Un truc compliqué à faire ici --}}
+
+                        @if ($categories)
                             <div class="form-group">
-                                <label for="content">Produits</label>
-                                <select class="form-control" name="products[]" multiple>
-                                    <option value="">Sélectionner les produits</option>
-                                    @foreach ($products as $item)
-                                        <option value="{{ $item['id'] }}"
-                                            {{ isset($pack) && $pack->products->contains($item->id) ? 'selected' : '' }}>
-                                            {{ $item->name }}
+                                <label for="category">Catégorie</label><span style="color: red"> *</span>
+                                <select id="category" class="form-control">
+                                    <option value="">Selectionner une catégorie</option>
+                                    @foreach ($categories as $item)
+                                        <option value="{{ $item['id'] }}">
+                                            {{ ucfirst($item->name) }}
                                         </option>
                                     @endforeach
                                 </select>
@@ -80,17 +81,57 @@
                         @endif
 
                         <div class="form-group">
-                            <label for="link">Prix</label>
-                            <input type="text" class="form-control" id="link" name="price"
+                            <label for="products">Produits</label><span style="color: red"> *</span>
+                            <select class="form-control" id="products" name="">
+                                <option value="">Sélectionner les produits</option>
+                            </select>
+                        </div>
+
+                        <div class="table-responsive mb-4">
+                            <table id="selected-products" class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Produits sélectionnés</th>
+                                        <th>Prix</th>
+                                        <th>Quantités</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="product-table-body">
+                                    @if (!empty($pack->id))
+                                        @foreach ($pack->products as $item)
+                                            <tr class="item">
+                                                <td><input type="text" class="form-control text-capitalize"
+                                                        id="product_id" value="{{ $item->name }}" readonly>
+                                                    <input type="hidden" name="product_id[]"
+                                                        value="{{ $item->pivot->product_id }}">
+                                                </td>
+                                                <td class="price">{{ $item->price }} FCFA
+                                                </td>
+                                                <td><input type="number" class="form-control text-capitalize"
+                                                        id="quantity" value="{{ $item->pivot->quantity }}"
+                                                        name="quantity[]">
+                                                </td>
+                                                <td>
+                                                    <button type="button"
+                                                        class="btn btn-danger remove-product">Supprimer</button>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    @endif
+                                </tbody>
+                            </table>
+
+                        </div>
+
+                        <div class="form-group">
+                            <label for="link">Prix</label><span style="color: red"> *</span>
+                            <input type="text" class="form-control" id="price" name="price"
                                 value="{{ old('price', $pack->price ?? '') }}" placeholder="Prix du coffret">
                         </div>
-                        {{-- <div class="form-group">
-                            <label for="qty">Qtité</label>
-                            <input type="text" class="form-control" id="qty" value="{{ $slider->qty ?? '' }}"
-                                name="qty" placeholder="Qtité en stock">
-                        </div> --}}
+
                         <div class="form-group">
-                            <label>Image</label>
+                            <label>Image</label><span style="color: red"> *</span>
                             <input type="file" name="image" class="file-upload-default" id="imageInput"
                                 style="display:none;">
                             <div class="input-group col-xs-12">
@@ -124,6 +165,114 @@
 @endsection
 @section('customjs')
     <script>
+        $(document).ready(function() {
+            $('.select2').select2({
+                placeholder: 'Selectionner les produits',
+                theme: 'classic',
+            })
+
+            $('#category').on('change', function() {
+                var categorieId = $(this).val();
+                //console.log(categorieId);
+                if (categorieId) {
+                    $.ajax({
+                        url: '/panel/get-products/' + categorieId,
+                        type: 'GET',
+                        success: function(response) {
+                            //console.log(response);
+                            $('#products').empty().append(
+                                '<option value="">Sélectionner un produit</option>');
+                            $.each(response, function(key, product) {
+                                $('#products').append('<option value="' + product.id +
+                                    '" data-price="' + product.price + '">' +
+                                    product.name + '</option>');
+                            });
+
+                        }
+                    })
+                }
+            })
+
+            function calculateTotal() {
+                let total = 0;
+
+                // Parcourir chaque ligne de produit
+                $('tr.item').each(function() {
+                    const price = parseFloat($(this).find('.price').text()); // Prix du produit
+                    const quantity = parseFloat($(this).find('input[name="quantity[]"]').val()); // Quantité
+                    console.log(price, quantity);
+
+
+                    // Ajouter au total
+                    if (!isNaN(price) && !isNaN(quantity)) {
+                        total += price * quantity;
+                    }
+                });
+
+                // Mettre à jour l'affichage du total général
+                $('#price').val(total.toFixed(2));
+            }
+
+            $('#products').on('change', function() {
+                var productId = $(this).val();
+                var productName = $('#products option:selected').text()
+                var quantity = 1
+                var price = $('#products option:selected').data('price');
+
+                // Récupérer le prix du produit
+                var productExists = false;
+
+                $('#selected-products tbody tr').each(function() {
+                    var existingProductId = $(this).find('input[name="product_id[]"]').val().trim();
+
+                    console.log(existingProductId);
+                    if (existingProductId == productId) {
+                        productExists = true;
+                    }
+                });
+
+                if (productExists) {
+                    alertify.error('Produit déjà ajouté')
+                } else if (productId) {
+                    var newRow = `
+                                        <tr class="item">
+                                            <td>
+                                                <input type="text" class="form-control" value="${productName}" readonly>
+                                                <input type="hidden" name="product_id[]" value="${productId}">
+                                            </td>
+                                            <td class="price">
+                                                ${price} FCFA
+                                            </td>
+                                            <td>
+                                                <input type="number" class="form-control" value="${quantity}" name="quantity[]">
+                                            </td>
+                                            <td>
+                                                <button type="button" class="btn btn-danger remove-product">Supprimer</button>
+                                            </td>
+                                        </tr>
+                                    `;
+
+                    $('#product-table-body').append(newRow);
+                    calculateTotal();
+
+                    // Réinitialiser les champs
+                    //$('#quantity').val('');
+                }
+
+            })
+
+            // Calculer le total quand la quantité d'un produit change
+            $(document).on('input', 'input[name="quantity[]"]', function() {
+                calculateTotal();
+            });
+
+            // Supprimer un produit du tableau
+            $(document).on('click', '.remove-product', function() {
+                $(this).closest('tr').remove(); // Supprimer la ligne du tableau
+                calculateTotal();
+            });
+        })
+
         document.addEventListener('DOMContentLoaded', function() {
             const descriptionField = document.getElementById('description');
             const charLimitMessage = document.getElementById('charLimitMessage');
