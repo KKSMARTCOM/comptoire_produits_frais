@@ -39,9 +39,7 @@ class PageController extends Controller
             'active' => 'Merci'
         ];
 
-        $categories = Category::where('category_id', null)->get();
-
-        return view('frontend.pages.finish', compact('breadcrumb', 'categories'));
+        return view('frontend.pages.finish', compact('breadcrumb'));
     }
 
     public function allProduct()
@@ -61,7 +59,6 @@ class PageController extends Controller
 
     public function product(Request $request, $slug = null)
     {
-        $categories = Category::where('category_id', null)->get();
 
         $category = $slug ? Category::where('slug', $slug)->firstOrFail() : null;
 
@@ -153,7 +150,7 @@ class PageController extends Controller
         } */
 
 
-        return view('frontend.pages.products', compact('breadcrumb', 'products', 'categories', 'category', 'types', 'regions'));
+        return view('frontend.pages.products', compact('breadcrumb', 'products', 'category', 'types', 'regions'));
     }
 
     public function saleproduct()

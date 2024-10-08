@@ -51,15 +51,13 @@ class CartController extends Controller
             'active' => 'Panier'
         ];
 
-        $categories = Category::where('category_id', null)->get();
-
         // Récupère le panier de la session
         $cart = session()->get('cart', []);
 
         // Calcul du prix total du panier
         $totalCartPrice = array_sum(array_column($cart, 'total'));
 
-        return view('frontend.pages.cart', compact('cart', 'totalCartPrice', 'breadcrumb', 'categories'));
+        return view('frontend.pages.cart', compact('cart', 'totalCartPrice', 'breadcrumb'));
     }
 
     public function add(Request $request)
@@ -175,7 +173,7 @@ class CartController extends Controller
             return response()->json(['totalCartPrice' => $totalCartPrice, 'productNumber' => $productNumber, 'message' => 'Produit supprimé du panier avec succès !']);
         }
 
-        return redirect()->back()->with('success', 'Coffret supprimé du panier avec succès !');
+        return redirect()->back()->with('success', 'Produit supprimé du panier avec succès !');
     }
 
     public function updateCart(Request $request)

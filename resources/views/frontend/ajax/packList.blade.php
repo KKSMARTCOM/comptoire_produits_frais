@@ -38,4 +38,14 @@
              </div>
          </div>
      @endforeach
+ @else
+     <p>Merci de votre intérêt pour nos coffrets et paniers de fêtes !
+         Pour l’instant, aucun coffret n’est disponible, mais ne vous inquiétez pas, nous préparons de nouvelles
+         surprises qui seront bientôt prêtes. <br>
+
+         N’hésitez pas à revenir régulièrement consulter cette section, nos nouveautés festives arrivent très vite !
+         <br>
+
+         Nous avons hâte de vous proposer des offres exclusives qui sauront ravir vos papilles et celles de vos proches.
+     </p>
  @endif

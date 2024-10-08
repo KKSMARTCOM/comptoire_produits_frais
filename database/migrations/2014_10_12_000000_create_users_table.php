@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->boolean('is_admin')->default(0);
+            $table->string('avatar')->nullable();
             $table->enum('status', ['0', '1'])->default('1');
             $table->timestamps();
         });

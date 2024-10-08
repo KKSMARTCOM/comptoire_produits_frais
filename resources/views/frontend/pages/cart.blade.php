@@ -200,7 +200,7 @@
             @else
                 <div>
                     <h3 class="text-dark text-center mb-4">Votre panier est actuellement vide. Veuillez <a
-                            class="text-primary" href="{{ route('all.product') }}">cliquer
+                            class="text-primary" href="{{ route('categories') }}">cliquer
                             ici</a>
                         pour ajouter des produits !</h3>
                 </div>

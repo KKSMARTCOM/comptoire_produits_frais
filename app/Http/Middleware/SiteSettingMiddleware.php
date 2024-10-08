@@ -19,7 +19,7 @@ class SiteSettingMiddleware
     {
         // key - value şeklinde array oluşturur
         //$settings = SiteSetting::pluck('data', 'name')->toArray();
-        $categories = Category::where('category_id', null)->get();
+        $categories = Category::where('category_id', null)->where('slug', '!=', 'coffrets-paniers')->get();
 
         $countQty = 0;
 

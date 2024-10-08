@@ -28,14 +28,14 @@
                                     <li><a href="{{ route('categories', $item->slug) }}">{{ $item->name }}</a></li>
                                 @endforeach
                             @else
-                                <li><a href="{{ route('product') }}">Volailles</a></li>
-                                <li><a href="{{ route('product') }}">Poissons & Fruits de mer</a></li>
-                                <li><a href="{{ route('product') }}">Autres viandes</a></li>
-                                <li><a href="{{ route('product') }}">Fruits & Légumes</a></li>
-                                <li><a href="{{ route('product') }}">La cave</a></li>
-                                <li><a href="{{ route('product') }}">Coffrets & Paniers</a></li>
-                                <li><a href="{{ route('product') }}">CPF Store</a></li>
+                                <li><a href="{{ route('categories', 'volailles') }}">Volailles</a></li>
+                                <li><a href="{{ route('categories', 'poissons') }}">Poissons </a></li>
+                                <li><a href="{{ route('categories', 'autres-viandes') }}">Autres viandes</a></li>
+                                <li><a href="{{ route('categories', 'la-cave') }}">La cave</a></li>
+                                <li><a href="{{ route('categories', 'fruits-legumes') }}">Fruits & Légumes</a></li>
+                                <li><a href="{{ route('categories', 'cpf-store') }}">CPF Store</a></li>
                             @endif
+                            <li><a href="/#pack-section">Coffrets & Paniers</a></li>
                         </ul>
                     </div>
                     <div class="col-lg-6 col-md-6">

@@ -76,7 +76,7 @@ class PackController extends Controller
             }
 
             $user = Auth::user();
-            $role = $user->role == '0' || '1' ? 'Administrateur' : 'Utilisateur';
+            $role = $user->is_admin == 0 ? 'Administrateur' : 'Utilisateur';
 
             // Enregistrer l'action de création d'un pack
             activity()
@@ -169,7 +169,7 @@ class PackController extends Controller
             $pack->products()->sync($products);
 
             $user = Auth::user();
-            $role = $user->role == '0' || '1' ? 'Administrateur' : 'Utilisateur';
+            $role = $user->is_admin == 0 ? 'Administrateur' : 'Utilisateur';
 
             // Enregistrer l'action de mise à jour du pack
             activity()
@@ -198,7 +198,7 @@ class PackController extends Controller
         $pack->delete();
 
         $user = Auth::user();
-        $role = $user->role == '0' || '1' ? 'Administrateur' : 'Utilisateur';
+        $role = $user->is_admin == 0 ? 'Administrateur' : 'Utilisateur';
 
         // Enregistrer l'action de suppression d'un pack
         activity()

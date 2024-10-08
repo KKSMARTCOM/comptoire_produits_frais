@@ -13,16 +13,16 @@
                     <li class="active"><a href="{{ route('index') }}">Accueil</a></li>
                     @if ($categories && $categories->count() > 0)
                         @foreach ($categories as $item)
-                            <li><a href="{{ route('categories', $item->slug) }}">{{ $item->name }}</a></li>
+                            <li><a href="{{ route('categories', $item->slug) }}">{{ $item->name }}</a>
+                            </li>
                         @endforeach
                     @else
-                        <li><a href="{{ route('product') }}">Volailles</a></li>
-                        <li><a href="{{ route('product') }}">Poissons </a></li>
-                        <li><a href="{{ route('product') }}">Autres viandes</a></li>
-                        <li><a href="{{ route('product') }}">La cave</a></li>
-                        <li><a href="{{ route('product') }}">Fruits & Légumes</a></li>
-                        <li><a href="{{ route('product') }}">Coffrets & Paniers</a></li>
-                        <li><a href="{{ route('product') }}">CPF Store</a></li>
+                        <li><a href="{{ route('categories', 'volailles') }}">Volailles</a></li>
+                        <li><a href="{{ route('categories', 'poissons') }}">Poissons </a></li>
+                        <li><a href="{{ route('categories', 'autres-viandes') }}">Autres viandes</a></li>
+                        <li><a href="{{ route('categories', 'la-cave') }}">La cave</a></li>
+                        <li><a href="{{ route('categories', 'fruits-legumes') }}">Fruits & Légumes</a></li>
+                        <li><a href="{{ route('categories', 'cpf-store') }}">CPF Store</a></li>
                     @endif
                     {{-- <li class="has-children">
                             <a href="javascript:void(0)" class="d-flex align-items-center">Produits <span
@@ -39,7 +39,7 @@
                                 </ul>
                             </div>
                         </li> --}}
-
+                    <li><a href="/#pack-section">Coffrets & Paniers</a></li>
                     <li><a href="{{ route('contact') }}">Contact</a></li>
                 </ul>
                 <div class="site-top-icons">

@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('city');
             $table->string('district');
             $table->string('phone');
+            $table->longText('motif')->nullable();
             $table->enum('status', ['0', '1'])->default('0');
             $table->longText('note')->nullable();
             $table->timestamps();
