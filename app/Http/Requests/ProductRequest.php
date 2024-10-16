@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Category;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ProductRequest extends FormRequest
@@ -27,6 +28,28 @@ class ProductRequest extends FormRequest
             'price' => 'required|integer',
             'status' => 'required|in:0,1,2',
             'category_id' => 'required',
+            'type' => [
+                'sometimes', // Permet d'accepter null sauf si c'est "La Cave"
+                function ($attribute, $value, $fail) {
+                    $category_id = $this->input('category_id');
+                    $category = Category::find($category_id);
+
+                    if ($category && $category->name === 'La Cave' && !$value) {
+                        $fail('Le type est obligatoire pour les produits de la catégorie "La Cave".');
+                    }
+                }
+            ],
+            'region' => [
+                'sometimes', // Permet d'accepter null sauf si c'est "La Cave"
+                function ($attribute, $value, $fail) {
+                    $category_id = $this->input('category_id');
+                    $category = Category::find($category_id);
+
+                    if ($category && $category->name === 'La Cave' && !$value) {
+                        $fail('La région est obligatoire pour les produits de la catégorie "La Cave".');
+                    }
+                }
+            ],
             'quantity' => [
                 'sometimes',
                 function ($attribute, $value, $fail) {
@@ -52,12 +75,11 @@ class ProductRequest extends FormRequest
     public function messages()
     {
         return [
-            'name.required' => 'Le champs est requis',
-            'image.required' => 'Le champs est requis',
+            'name.required' => 'Le champs nom est requis',
+            'image.required' => 'L\'image est requise',
             'image.max' => 'La taille de l\'image ne doit pas dépassée 5Mo',
-            'price.required' => 'Le champs est requis',
-            'category_id.required' => 'Le champs est requis',
-            'quantity.required_if' => 'Le champs est requis',
+            'price.required' => 'Le champs prix est requis',
+            'category_id.required' => 'Le champs catégorie est requis',
             'name.min' => 'Le nom du produit doit être au moins de 3 caractères',
             'price.integer' => 'Le prix du produit doit être un nombre',
             'quantity.integer' => 'La quantité du produit doit être un nombre',

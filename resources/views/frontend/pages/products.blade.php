@@ -62,7 +62,7 @@
                                         <!-- Filtre par type de vin -->
                                         <div class="filterOption mt-3 mt-lg-0">
                                             <select class="form-select border-0" id="wine_type" name="wine_type">
-                                                <option value="">Type de vin</option>
+                                                <option value="">Tous types</option>
                                                 @if ($types && $types->count() > 0)
                                                     @foreach ($types as $item)
                                                         <option class="dropdown-item" value="{{ $item->id }}">
@@ -81,7 +81,7 @@
                                         <!-- Filtre par région de vin -->
                                         <div class="filterOption mt-3 mt-lg-0">
                                             <select class="form-select border-0" id="wine_region" name="wine_region">
-                                                <option value="">Région</option>
+                                                <option value="">Toutes régions</option>
                                                 @if ($regions && $regions->count() > 0)
                                                     @foreach ($regions as $item)
                                                         <option class="dropdown-item" value="{{ $item->id }}">

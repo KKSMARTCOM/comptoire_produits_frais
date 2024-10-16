@@ -20,11 +20,8 @@
                                     <th>Numéro</th>
                                     <th>Client </th>
                                     <th>Date</th>
-                                    {{-- <th>Email du client</th> --}}
                                     <th>Numéro de téléphone du client</th>
                                     <th>Adresse de livraison</th>
-                                    {{-- <th>Produits commandés</th> --}}
-                                    {{-- <th>Qtité</th> --}}
                                     <th>Nombre de produits </th>
                                     <th>Statut</th>
                                     <th>Action</th>
@@ -38,7 +35,6 @@
                                             <td>{{ $order->Fullname }}</td>
                                             <td>{{ isset($order->created_at) ? Carbon::parse($order->created_at)->format('d.m.Y H:i') : '' }}
                                             </td>
-                                            {{-- <td>{{ $order->email ?? '' }}</td> --}}
                                             <td>{{ $order->phone ?? '' }}</td>
                                             <td>{!! strLimit($order->address, 20, route('panel.order.edit', $order->id)) !!}</td>
                                             <td>{{ $order->order_items_count ?? '' }}</td>
@@ -49,15 +45,6 @@
                                                     <div class="badge badge-success">Livré</div>
                                                 @endif
                                             </td>
-                                            {{-- <td>{{ $order->product }}</td> --}}
-                                            {{-- <td>{{ $order->Qtite }}</td> --}}
-                                            {{-- <td>{{ $order->price }}</td> --}}
-                                            {{-- <td class="d-flex">
-                                                <a href="{{ route('panel.order.edit', $order->id) }}"
-                                                    class="btn btn-primary mr-2">Modifier
-                                                </a>
-                                                <button type="button" class="deleteBtn btn btn-danger">Supprimer</button>
-                                            </td> --}}
                                             <td class="d-flex">
                                                 <!-- Lien pour modifier avec une icône de crayon -->
                                                 <a href="{{ route('panel.order.edit', $order->id) }}"

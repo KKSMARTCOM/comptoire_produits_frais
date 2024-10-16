@@ -14,7 +14,6 @@ return new class extends Migration
         //
         Schema::table('order_items', function (Blueprint $table) {
             $table->foreignId('pack_id')->nullable()->constrained('packs')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreignId('product_id')->nullable()->constrained('products')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 

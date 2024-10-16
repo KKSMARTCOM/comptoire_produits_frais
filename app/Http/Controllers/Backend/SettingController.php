@@ -43,11 +43,16 @@ class SettingController extends Controller
                 }
             }],
             'old_password' => 'required_with:password',
-            'password' => 'nullable|min:6|confirmed',
+            'password' => [
+                "nullable",
+                "regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%?&#^_;:,])[A-Za-z\d@$!%*?&#^_;:,]{6,}$/",
+                "confirmed"
+            ],
         ], [
             'name.required' => 'Le nom est obligatoire',
             'email.required' => 'L\'email est obligatoire',
             'email.email' => 'Vous devez entrer une adresse email valide',
+            'password.regex' => 'Le mot de passe doit contenir au moins 6 caractères, avec une majuscule, une minuscule, un chiffre et un caractère spécial.',
             'password.confirmed' => 'Vous devez confirmer avec le même mot de passe',
             'old_password.required_with' => 'Vous devez entrez l\'ancien mot de passe pour changer le mot de passe',
         ]);

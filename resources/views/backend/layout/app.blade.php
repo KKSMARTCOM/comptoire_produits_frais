@@ -39,6 +39,9 @@
     {{-- script select2 --}}
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
+    {{-- Favicon --}}
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
+
     @yield('customcss')
 
     <meta name="csrf-token" content="{{ csrf_token() }}">

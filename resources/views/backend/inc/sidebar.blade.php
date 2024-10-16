@@ -70,10 +70,11 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('panel.setting.index') }}">Profil</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('panel.setting.logs') }}">Historique</a>
-                        </li>
-
+                        @if (auth()->user()->hasRole('superadmin') || auth()->user()->hasRole('admin'))
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('panel.setting.logs') }}">Historique</a>
+                            </li>
+                        @endif
                     </ul>
                 </div>
         </li>

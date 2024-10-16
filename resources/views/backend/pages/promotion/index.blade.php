@@ -39,7 +39,7 @@
                                                         @endforeach
                                                     </ul>
                                                 @else
-                                                    Aucun produit
+                                                    Tous les produits de cette catégorie
                                                 @endif
                                             </td>
                                             <td>

@@ -1,3 +1,4 @@
+<h1>Vous avez reçu un nouveau message de contact !</h1>
 <p>
     Nom du client : {{ $lastname }}
 </p>

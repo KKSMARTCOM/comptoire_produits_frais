@@ -43,14 +43,10 @@ class PromotionController extends Controller
         }
     }
 
-
-
-
-
     // Afficher le formulaire de création
     public function create()
     {
-        $categories = Category::all();
+        $categories = Category::where('category_id', null)->get();
         $products = Product::all(); // Récupérer tous les produits
         return view('backend.pages.promotion.create', compact('categories', 'products'));
     }
@@ -64,6 +60,10 @@ class PromotionController extends Controller
             'category_id' => 'required|exists:categories,id',
             'products' => 'array', // Validation pour un tableau de produits
             'products.*' => 'exists:products,id', // Validation pour chaque produit
+        ], [
+            'pourcentage_reduction.required' => 'Le champs pourcentage de réduction est requis.',
+            'category_id.required' => 'La catégorie est obligatoire.',
+            'category_id.exists' => 'La catégorie sélectionée doit exister',
         ]);
 
         $promotion = new Promotion;

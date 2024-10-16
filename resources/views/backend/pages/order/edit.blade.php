@@ -93,7 +93,7 @@
                                         @foreach ($order->orderItems as $items)
                                             <tr class="item">
                                                 <td><input type="text" class="form-control text-capitalize"
-                                                        id="product_id" value="{{ $items->product_id ?? '' }}"
+                                                        id="product_id" value="{{ $items->product_id ?? $items->pack_id }}"
                                                         name="product_id[]" readonly>
                                                 <td><input type="text" class="form-control text-capitalize"
                                                         id="" value="{{ $items->name ?? '' }}" name=""

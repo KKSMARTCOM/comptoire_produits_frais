@@ -15,13 +15,13 @@
                 <div class="card-body">
                     <h4 class="card-title">Produit</h4>
 
-                    {{-- @if ($errors)
+                    @if ($errors)
                         @foreach ($errors->all() as $error)
                             <div class="alert alert-danger">
                                 {{ $error }}
                             </div>
                         @endforeach
-                    @endif --}}
+                    @endif
 
                     @if (session()->get('success'))
                         <div class="alert alert-success">
@@ -74,13 +74,6 @@
                                 caractères atteint</small>
                         </div>
 
-                        {{-- <div class="form-group">
-                            <label for="content">Description</label>
-                            <textarea class="form-control" id="editor" rows="4" name="content" placeholder="Description du produit">
-                                {!! $product->content ?? '' !!}
-                            </textarea>
-                        </div> --}}
-
                         <div class="form-group">
                             <label for="category_id">Categorie</label><span style="color: red"> *</span>
                             <select class="form-control" name="category_id" id="category_id">
@@ -130,7 +123,7 @@
                                     @endforeach
                                 @endif
                             </select>
-                            @error('category_id')
+                            @error('region')
                                 <p class="text-danger fs-6">{{ $message }}</p>
                             @enderror
                         </div>

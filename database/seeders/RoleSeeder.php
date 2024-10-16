@@ -16,9 +16,9 @@ class RoleSeeder extends Seeder
     public function run()
     {
         //créer les rôles
+        $superAdminRole = Role::create(['name' => 'superadmin']);
         $adminRole = Role::create(['name' => 'admin']);
         $userRole = Role::create(['name' => 'utilisateur']);
-        $superAdminRole = Role::create(['name' => 'superadmin']);
 
         // Créer un utilisateur d'exemple pour Super Admin
         $superAdmin = User::where('email', 'superadmin@gmail.com')->first();
@@ -26,11 +26,23 @@ class RoleSeeder extends Seeder
             $superAdmin = User::create([
                 'name' => 'Super Admin',
                 'email' => 'superadmin@gmail.com',
-                'password' => bcrypt('superadmin'), // Utilise un mot de passe sécurisé
+                'password' => bcrypt('P@sswor1'), // Utilise un mot de passe sécurisé
+            ]);
+        }
+
+        $admin = User::where('email', 'admin@gmail.com')->first();
+        if (!$admin) {
+            $admin = User::create([
+                'name' => 'Administrateur',
+                'email' => 'admin@gmail.com',
+                'password' => bcrypt('Adm1n$'), // Utilise un mot de passe sécurisé
             ]);
         }
 
         // Assigner le rôle de superadmin à cet utilisateur
         $superAdmin->assignRole($superAdminRole);
+
+        // Assigner le rôle de superadmin à cet utilisateur
+        $admin->assignRole($adminRole);
     }
 }

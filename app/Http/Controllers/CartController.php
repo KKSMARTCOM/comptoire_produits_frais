@@ -9,13 +9,14 @@ use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Pack;
 use App\Models\Product;
+use App\Models\Promotion;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Mail;
 
 class CartController extends Controller
 {
-    public function cartList()
+    /* public function cartList()
     {
         $cartItem = session()->get('cart') ?? [];
         $totalPrice = 0;
@@ -42,7 +43,7 @@ class CartController extends Controller
         }
 
         return $cartItem;
-    }
+    } */
 
     public function index()
     {
@@ -210,18 +211,42 @@ class CartController extends Controller
 
     public function couponcheck(Request $request)
     {
-        $coupon = Coupon::where('name', $request->coupon_name)->where('status', '1')->first();
+        $coupon = Promotion::where('codePromo', $request->codePromo)->first();
 
         if (empty($coupon)) {
-            return back()->withError('Coupon not found.');
+            return back()->withErrors('Code promo non valide.');
         }
 
-        $couponPrice = $coupon->price ?? 0;
-        session()->put('couponPrice', $couponPrice);
+        // Vérifier si le code promo a déjà été appliqué dans cette session
+        $usedCoupons = session('used_coupons', []);
 
-        $this->cartList();
+        if (in_array($coupon->id, $usedCoupons)) {
+            return back()->withErrors('Vous avez déjà utilisé ce code promotionnel.');
+        }
 
-        return back()->withSuccess('Coupon applied successfully.');
+        $couponPrice = $coupon->pourcentage_reduction ?? 0;
+
+        $cartItems = session('cart', []);
+
+        foreach ($cartItems as &$item) {
+            $product = Product::find($item['product']['id']);
+
+            //dd($product);
+
+            if ($coupon->category_id && $product->category_id == $coupon->category_id || $coupon->products->contains($product)) {
+                $item['product']['price'] = $item['product']['price'] - ($item['product']['price'] * $couponPrice / 100);
+                $item['total'] = $item['quantity'] * $item['product']['price'];
+                //dd($item['total']);
+            }
+        }
+
+        session()->put('cart', $cartItems);
+
+        // Marquer le code promo comme utilisé dans la session
+        $usedCoupons[] = $coupon->id;
+        session()->put('used_coupons', $usedCoupons);
+
+        return back()->withSuccess('Code promotionnel appliqué avec succès.');
     }
 
     public function cartform(Request $request)

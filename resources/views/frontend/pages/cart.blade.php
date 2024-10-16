@@ -11,11 +11,6 @@
                         <div class="alert alert-success">{{ session()->get('success') }}</div>
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     @endif
-
-                    @if (session()->get('error'))
-                        <div class="alert alert-danger">{{ session()->get('error') }}</div>
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    @endif
                 </div>
             </div>
             @if (!empty(session('cart')) && count($cart) > 0)
@@ -156,7 +151,7 @@
                                     <p>Veuillez entrez le code de votre coupon ici si vous en avez un.</p>
                                 </div>
                                 <div class="col-md-8 mb-3 mb-md-0">
-                                    <input type="text" class="form-control py-3" name="coupon_name"
+                                    <input type="text" class="form-control py-3" name="codePromo"
                                         value="{{ session()->get('couponCode') ?? '' }}" id="coupon"
                                         placeholder="Coupon Code">
                                 </div>
@@ -253,6 +248,12 @@
 
 @section('customjs')
     <script>
+        @if (count($errors))
+            @foreach ($errors->all() as $error)
+                toastr.error("{{ $error }}")
+            @endforeach
+        @endif
+
         $(document).on('click', '.paymentButton', function(e) {
             var url = "{{ route('cart.form') }}";
 

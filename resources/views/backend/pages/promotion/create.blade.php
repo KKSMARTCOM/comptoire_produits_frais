@@ -7,6 +7,14 @@
                 <div class="card-body">
                     <h4>Créer une Promotion</h4>
 
+                    @if ($errors)
+                        @foreach ($errors->all() as $error)
+                            <div class="alert alert-danger">
+                                {{ $error }}
+                            </div>
+                        @endforeach
+                    @endif
+
                     <form action="{{ route('panel.promotions.store') }}" method="POST">
                         @csrf
 
@@ -39,7 +47,7 @@
                         <!-- Champ pour sélectionner des produits -->
                         <div class="form-group mb-3">
                             <label for="products">Sélectionner des Produits</label>
-                            <select id="products" name="products[]" class="form-control" multiple required>
+                            <select id="products" name="products[]" class="form-control select2" multiple>
                                 @foreach ($products as $product)
                                     <option value="{{ $product->id }}">{{ $product->name }}</option>
                                 @endforeach

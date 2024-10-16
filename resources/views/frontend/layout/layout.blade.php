@@ -12,7 +12,6 @@
     <link rel="stylesheet" href="{{ asset('/') }}css/owl.carousel.min.css">
     <link rel="stylesheet" href="{{ asset('/') }}css/owl.theme.default.min.css">
 
-
     <link rel="stylesheet" href="{{ asset('/') }}css/aos.css">
 
     <link rel="stylesheet" href="{{ asset('/') }}css/style.css">
@@ -44,10 +43,9 @@
     <script src="{{ asset('/') }}js/owl.carousel.min.js"></script>
     <script src="{{ asset('/') }}js/jquery.magnific-popup.min.js"></script>
     <script src="{{ asset('/') }}js/aos.js"></script>
-    @yield('customjs')
     <script src="{{ asset('/') }}js/main.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/nouislider/distribute/nouislider.min.js"></script>
+    @yield('customjs')
 
     <script>
         @if (session()->get('success'))

@@ -15,7 +15,6 @@ class CategorySeeder extends Seeder
      */
     public function run(): void
     {
-        Category::truncate();
 
         $poultry = Category::create([
             'name' => 'Volailles',
@@ -38,70 +37,70 @@ class CategorySeeder extends Seeder
             'content' => null,
         ]);
 
-        Category::create([
+        $red_wine = Category::create([
             'name' => 'Vin Rouge',
             'content' => null,
             'sub_cat' => 'type',
             'category_id' => $cellar->id
         ]);
 
-        Category::create([
+        $white_wine = Category::create([
             'name' => 'Vin Blanc',
             'content' => null,
             'sub_cat' => 'type',
             'category_id' => $cellar->id
         ]);
 
-        Category::create([
+        $rosé_wine = Category::create([
             'name' => 'Vin Rosé',
             'content' => null,
             'sub_cat' => 'type',
             'category_id' => $cellar->id
         ]);
 
-        Category::create([
+        $champ_wine = Category::create([
             'name' => 'Champagne',
             'content' => null,
             'sub_cat' => 'type',
             'category_id' => $cellar->id
         ]);
 
-        Category::create([
+        $spiri_wine = Category::create([
             'name' => 'Spiritieux',
             'content' => null,
             'sub_cat' => 'type',
             'category_id' => $cellar->id
         ]);
 
-        Category::create([
+        $bord_wine = Category::create([
             'name' => 'Bordeaux',
             'content' => null,
             'sub_cat' => 'region',
             'category_id' => $cellar->id
         ]);
 
-        Category::create([
+        $bourg_wine = Category::create([
             'name' => 'Bourgogne',
             'content' => null,
             'sub_cat' => 'region',
             'category_id' => $cellar->id
         ]);
 
-        Category::create([
+        $prov_wine = Category::create([
             'name' => 'Provence',
             'content' => null,
             'sub_cat' => 'region',
             'category_id' => $cellar->id
         ]);
 
-        Category::create([
+        $pie_wine = Category::create([
             'name' => 'Piémont',
             'content' => null,
             'sub_cat' => 'region',
             'category_id' => $cellar->id
         ]);
 
-        Category::create([
+        $val_wine = Category::create([
             'name' => 'Vallée du Rhône',
             'content' => null,
             'sub_cat' => 'region',
@@ -210,40 +209,40 @@ class CategorySeeder extends Seeder
                 'slug' => 'chateau-margaux',
                 'price' => 30000.00,
                 'image' => 'img/product/1726670975-rosette-bordeau.webp',
-                'type' => 'Vin Rouge',
-                'region' => 'Bordeaux',
+                'type' => $red_wine->id,
+                'region' => $bord_wine->id,
             ],
             [
                 'name' => 'Chablis Premier Cru',
                 'slug' => 'chablis-premier-cru',
                 'price' => 45000.00,
                 'image' => 'img/product/1726073722-vin-blanc.webp',
-                'type' => 'Vin Blanc',
-                'region' => 'Bourgogne',
+                'type' => $white_wine->id,
+                'region' => $bourg_wine->id,
             ],
             [
                 'name' => 'Côte de Provence Rosé',
                 'slug' => 'cote-de-provence-rose',
                 'price' => 15000.00,
                 'image' => 'img/product/1727425508-les-grumes.webp',
-                'type' => 'Vin Rosé',
-                'region' => 'Provence',
+                'type' => $rosé_wine->id,
+                'region' => $prov_wine->id,
             ],
             [
                 'name' => 'Dom Pérignon',
                 'slug' => 'dom-perignon',
                 'price' => 18000.00,
                 'image' => 'img/product/1727425508-les-grumes.webp',
-                'type' => 'Champagne',
-                'region' => 'Vallée du Rhône',
+                'type' => $champ_wine->id,
+                'region' => $val_wine->id,
             ],
             [
                 'name' => 'Grappa Riserva',
                 'slug' => 'grappa-riserva',
                 'price' => 55000.00,
                 'image' => 'img/product/1727426652-queen-of-soto.webp',
-                'type' => 'Spiritueux',
-                'region' => 'Piémont',
+                'type' => $spiri_wine->id,
+                'region' => $pie_wine->id,
             ],
         ];
 

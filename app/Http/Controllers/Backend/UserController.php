@@ -32,7 +32,10 @@ class UserController extends Controller
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users',
-            'password' => 'required|string|min:6',
+            'password' => [
+                "required",
+                "regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%?&#^_;:,])[A-Za-z\d@$!%*?&#^_;:,]{6,}$/",
+            ],
             'is_admin' => 'required|integer', // Ajoutez une validation pour le rôle
             'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validation de l'image
         ], [
@@ -40,7 +43,7 @@ class UserController extends Controller
             'email.required' => 'Le champs email est obligatoire',
             'email.unique' => 'Cet email existe déjà',
             'password.required' => 'Le champs mot de passe est obligatoire',
-            'password.min' => 'Le mot de passe doit contenir au moins 6 caractère',
+            'password.regex' => 'Le mot de passe doit contenir au moins 6 caractères, avec une majuscule, une minuscule, un chiffre et un caractère spécial.',
             'avatar.image' => 'Le champs photo de profil doit contenir une image',
         ]);
 
@@ -104,6 +107,10 @@ class UserController extends Controller
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email,' . $id,
+            'password' => [
+                "sometimes",
+                "regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%?&#^_;:,])[A-Za-z\d@$!%*?&#^_;:,]{6,}$/"
+            ],
             'is_admin' => 'required|integer', // Validez également le rôle ici
             'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validation de l'image
         ]);
