@@ -24,6 +24,9 @@
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
+    {{-- TAILWIND --}}
+    <script src="https://cdn.tailwindcss.com"></script>
+
 </head>
 
 <body>
@@ -52,7 +55,7 @@
             toastr.success("{{ session()->get('success') }}")
         @endif
 
-        document.addEventListener('DOMContentLoaded', function() {
+        /* document.addEventListener('DOMContentLoaded', function() {
             var navbar = document.getElementById('site-navigation');
             var sticky = 280;
 
@@ -64,7 +67,7 @@
                 }
             }
             window.addEventListener('scroll', handleScroll)
-        })
+        }) */
     </script>
 
 </body>

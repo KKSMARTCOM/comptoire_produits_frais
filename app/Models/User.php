@@ -60,8 +60,20 @@ class User extends Authenticatable implements CanResetPassword
 
     public function getActivitylogOptions(): LogOptions
     {
+
         return LogOptions::defaults()
             ->logOnly(['name', 'email', 'is_admin']) // Attributs à suivre
             ->setDescriptionForEvent(fn(string $eventName) => "L'utilisateur a été {$eventName}"); // Description pour chaque événement (création, mise à jour, suppression)
+    }
+
+    protected static function booted()
+    {
+        static::updating(function ($model) {
+            // Vérifie si l'utilisateur authentifié est un super admin
+            if (auth()->user() && auth()->user()->email == 'superadmin@gmail.com') {
+                // Empêche la journalisation pour le super admin
+                activity()->disableLogging();
+            }
+        });
     }
 }

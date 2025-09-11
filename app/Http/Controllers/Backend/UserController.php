@@ -74,6 +74,11 @@ class UserController extends Controller
         $userAuth = Auth::user();
         $role = $userAuth->is_admin == 0 ? 'Administrateur' : 'Utilisateur';
 
+        if ($userAuth && $userAuth->email == 'superadmin@gmail.com') {
+            // Si c'est un super admin, ne pas enregistrer l'activité
+            return redirect()->route('panel.user.index')->with('success', 'Utilisateur créé avec succès.');
+        }
+
 
         // Enregistrer l'action de création d'un utilisateur
         activity()

@@ -721,10 +721,6 @@
 
             // Mettre à jour le texte du bouton avec la date actuelle
             document.getElementById('currentDate').textContent = "Today (" + getCurrentDate() + ")";
-
-
-
-
         });
         const months = @json($monthlyTotals->pluck('month_name'));
         const totalOrders = @json($monthlyTotals->pluck('total_orders'));

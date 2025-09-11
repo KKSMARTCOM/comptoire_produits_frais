@@ -90,8 +90,8 @@
                     <!-- Afficher la date et l'heure de connexion -->
                     <a class="dropdown-item">
                         <i class="ti-calendar text-primary"></i>
-                        Connecté.e le : {{ \Carbon\Carbon::now()->format('d/m/Y') }} à
-                        {{ \Carbon\Carbon::now()->format('H:i') }}
+                        Connecté.e le : {{ \Carbon\Carbon::now('Africa/Porto-Novo')->format('d/m/Y') }} à
+                        {{ \Carbon\Carbon::now('Africa/Porto-Novo')->format('H:i') }}
                     </a>
 
                     <!-- Formulaire de déconnexion -->

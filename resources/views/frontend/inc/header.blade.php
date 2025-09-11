@@ -1,10 +1,10 @@
 <header class="site-navbar" role="banner">
-    <div class="site-navbar-top">
-    </div>
+    {{--  <div class="site-navbar-top">
+    </div> --}}
 
-    <nav class="site-navigation text-center" id="site-navigation" role="navigation">
-        <div class="container">
-            <div class="d-flex align-items-center justify-content-between">
+    <nav class="site-navigation text-center fixed" id="site-navigation" role="navigation">
+        <div class="container px-[1rem] md:px-[3rem] mx-auto">
+            <div class="flex justify-between items-center">
                 <div class="site-logo">
                     <a href="{{ route('index') }}"><img src="{{ asset('images/svg/KKSMARTDESIGN_CPF_LOGO_prop9.svg') }}"
                             alt="LOGO"></a>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use App\Models\SiteSetting;
+use Carbon\Carbon;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -111,12 +112,34 @@ class SettingController extends Controller
 
     public function destroy(Request $request) {}
 
-    public function logs()
+    public function logs(Request $request)
     {
+        // Récupère le mois et l'année depuis la requête (par défaut, le mois actuel)
+        $month = $request->input('month', 'all');
+        $year = $request->input('year', 'all');
+
+        // Recherche par nom d'utilisateur
+        $search = $request->input('search');
+
         // Récupérer les activités avec le causer (l'utilisateur qui a causé l'action)
-        $activities = Activity::with('causer')->latest()->paginate(15);
+        $activities = Activity::with('causer')
+            // Filtrer par mois et année uniquement si les valeurs ne sont pas 'all'
+            ->when($month != 'all' && $year != 'all', function ($query) use ($month, $year) {
+                $query->whereMonth('created_at', $month)
+                    ->whereYear('created_at', $year);
+            })
+            // Recherche par nom de l'utilisateur
+            ->when($search, function ($query, $search) {
+                return $query->whereHas('causer', function ($q) use ($search) {
+                    $q->where('name', 'like', '%' . $search . '%');
+                });
+            })
+            // Trier par la plus récente
+            ->latest()
+            // Pagination
+            ->paginate(15);
 
         // Retourner la vue avec les activités
-        return view('backend.pages.setting.logs', compact('activities'));
+        return view('backend.pages.setting.logs', compact('activities', 'month', 'year', 'search'));
     }
 }
