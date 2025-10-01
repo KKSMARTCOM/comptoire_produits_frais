@@ -515,7 +515,7 @@ class CategorySeeder extends Seeder
             ],
         ];*/
 
-        foreach ($wineCategories as $wine) {
+        /*foreach ($wineCategories as $wine) {
             Product::create([
                 'name' => $wine['name'],
                 'slug' => Str::slug($wine['slug']),
@@ -528,6 +528,6 @@ class CategorySeeder extends Seeder
                 'region' => $wine['region'],
                 'category_id' => $cellar->id,
             ]);
-        }
+        }*/
     }
 }
