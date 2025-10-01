@@ -10,37 +10,21 @@
                             alt="LOGO"></a>
                 </div>
                 <ul class="site-menu js-clone-nav">
-                    <li class="active"><a href="{{ route('index') }}">Accueil</a></li>
-                    @if ($categories && $categories->count() > 0)
-                        @foreach ($categories as $item)
-                            <li><a href="{{ route('categories', $item->slug) }}">{{ $item->name }}</a>
-                            </li>
-                        @endforeach
-                    @else
-                        <li><a href="{{ route('categories', 'volailles') }}">Volailles</a></li>
-                        <li><a href="{{ route('categories', 'poissons') }}">Poissons </a></li>
-                        <li><a href="{{ route('categories', 'autres-viandes') }}">Autres viandes</a></li>
-                        <li><a href="{{ route('categories', 'la-cave') }}">La cave</a></li>
-                        <li><a href="{{ route('categories', 'fruits-legumes') }}">Fruits & Légumes</a></li>
-                        <li><a href="{{ route('categories', 'cpf-store') }}">CPF Store</a></li>
-                    @endif
-                    {{-- <li class="has-children">
-                            <a href="javascript:void(0)" class="d-flex align-items-center">Produits <span
-                                    class="mdi mdi-chevron-down"></span></a>
-                            <div class="site-category-dropdown">
-                                <ul>
-                                    <li><a href="{{ route('product') }}">Volailles</a></li>
-                                    <li><a href="{{ route('product') }}">Poissons </a></li>
-                                    <li><a href="{{ route('product') }}">Autres viandes</a></li>
-                                    <li><a href="{{ route('product') }}">La cave</a></li>
-                                    <li><a href="{{ route('product') }}">Fruits & Légumes</a></li>
-                                    <li><a href="{{ route('product') }}">Coffrets & Paniers</a></li>
-                                    <li><a href="{{ route('product') }}">CPF Store</a></li>
-                                </ul>
-                            </div>
-                        </li> --}}
+                    <li class="{{ Route::is('index') ? 'active' : '' }}">
+                        <a href="{{ route('index') }}">Accueil</a>
+                    </li>
+                    <li
+                        class="{{ Route::is('cave') || (request()->routeIs('sections') && request()->route('section') === 'la-cave') ? 'active' : '' }}">
+                        <a href="{{ route('cave') }}">La Cave</a>
+                    </li>
+                    <li
+                        class="{{ Route::is('local.products') || (request()->routeIs('sections') && request()->route('section') === 'produits-locaux') ? 'active' : '' }}">
+                        <a href="{{ route('local.products') }}">Produits locaux </a>
+                    </li>
+                    <li><a target="_blank" href="https://cpflounge.page.gd/">CPF Lounge</a></li>
                     <li><a href="/#pack-section">Coffrets & Paniers</a></li>
-                    <li><a href="{{ route('contact') }}">Contact</a></li>
+                    <li class="{{ Route::is('contact') ? 'active' : '' }}"><a href="{{ route('contact') }}">Contact</a>
+                    </li>
                 </ul>
                 <div class="site-top-icons">
                     <ul>
@@ -72,21 +56,22 @@
             </div>
             <div class='site-mobile-menu-body'>
                 <ul>
-                    <li class="active"><a href="{{ route('index') }}">Accueil</a></li>
-                    @if ($categories && $categories->count() > 0)
-                        @foreach ($categories as $item)
-                            <li><a href="{{ route('categories', $item->slug) }}">{{ $item->name }}</a></li>
-                        @endforeach
-                    @else
-                        <li><a href="{{ route('product') }}">Volailles</a></li>
-                        <li><a href="{{ route('product') }}">Poissons </a></li>
-                        <li><a href="{{ route('product') }}">Autres Viandes</a></li>
-                        <li><a href="{{ route('product') }}">La cave</a></li>
-                        <li><a href="{{ route('product') }}">Fruits & Légumes</a></li>
-                        <li><a href="{{ route('product') }}">Coffrets & Paniers</a></li>
-                        <li><a href="{{ route('product') }}">CPF Store</a></li>
-                    @endif
-                    <li><a href="{{ route('contact') }}">Contact</a></li>
+                    <li class="{{ Route::is('index') ? 'active' : '' }}">
+                        <a href="{{ route('index') }}">Accueil</a>
+                    </li>
+                    <li
+                        class="{{ Route::is('cave') || (request()->routeIs('sections') && request()->route('section') === 'la-cave') ? 'active' : '' }}">
+                        <a href="{{ route('cave') }}">La Cave</a>
+                    </li>
+                    <li
+                        class="{{ Route::is('local.products') || (request()->routeIs('sections') && request()->route('section') === 'produits-locaux') ? 'active' : '' }}">
+                        <a href="{{ route('local.products') }}">Produits locaux </a>
+                    </li>
+                    <li><a target="_blank" href="https://cpflounge.page.gd/">CPF Lounge</a></li>
+                    <li><a href="/#pack-section">Coffrets & Paniers</a></li>
+                    <li class="{{ Route::is('contact') ? 'active' : '' }}"><a
+                            href="{{ route('contact') }}">Contact</a>
+                    </li>
                 </ul>
             </div>
         </div>

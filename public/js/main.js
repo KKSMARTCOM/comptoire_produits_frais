@@ -91,14 +91,14 @@ jQuery(document).ready(function ($) {
         });
         $("#amount").val(
             "$" +
-            $("#slider-range").slider("values", 0) +
-            " - $" +
-            $("#slider-range").slider("values", 1)
+                $("#slider-range").slider("values", 0) +
+                " - $" +
+                $("#slider-range").slider("values", 1)
         );
         $("#priceBetween").val(
             $("#slider-range").slider("values", 0) +
-            " - " +
-            $("#slider-range").slider("values", 1)
+                " - " +
+                $("#slider-range").slider("values", 1)
         );
     };
     siteSliderRange();
@@ -139,41 +139,79 @@ jQuery(document).ready(function ($) {
 
 $(document).ready(function () {
     // Afficher les catégories
-    $('.has-children').click(function () {
-        var dropdownContent = $('.site-category-dropdown');
+    $(".has-children").click(function () {
+        var dropdownContent = $(".site-category-dropdown");
         // Toggle pour afficher ou cacher
-        if (dropdownContent.is(':visible')) {
-            dropdownContent.stop(true, true).slideUp(300).animate({ opacity: 0 }, { queue: false, duration: 300 });
+        if (dropdownContent.is(":visible")) {
+            dropdownContent
+                .stop(true, true)
+                .slideUp(300)
+                .animate({ opacity: 0 }, { queue: false, duration: 300 });
         } else {
-            dropdownContent.stop(true, true).slideDown(300).animate({ opacity: 1 }, { queue: false, duration: 300 });
+            dropdownContent
+                .stop(true, true)
+                .slideDown(300)
+                .animate({ opacity: 1 }, { queue: false, duration: 300 });
         }
     });
 
     //Barre de menu
     $(".js-menu-toggle").on("click", function () {
-        $('.site-mobile').css({ 'visibility': 'visible' })
-        $('.site-mobile-menu').css({ 'right': '0' })
-
+        $(".site-mobile").css({ visibility: "visible" });
+        $(".site-mobile-menu").css({ right: "0" });
     });
 
-    $('.site-mobile-menu-close').on('click', function () {
-        $('.site-mobile-menu').css({ 'right': '-300px' })
-        $('.site-mobile').css({ 'visibility': 'hidden' })
-    })
+    $(".site-mobile-menu-close").on("click", function () {
+        $(".site-mobile-menu").css({ right: "-300px" });
+        $(".site-mobile").css({ visibility: "hidden" });
+    });
 
-    $('.site-mobile-menu-bg').on('click', function () {
-        $('.site-mobile-menu').css({ 'right': '-300px' })
-        $('.site-mobile').css({ 'visibility': 'hidden' })
-    })
+    $(".site-mobile-menu-bg").on("click", function () {
+        $(".site-mobile-menu").css({ right: "-300px" });
+        $(".site-mobile").css({ visibility: "hidden" });
+    });
 
-    $('.site-section-box-more-button').on('click', function (e) {
-        e.preventDefault()
-        $('.more-coffret').css({ 'display': 'flex' })
-        $('.site-section-box-more-button').css({ 'visibility': 'hidden' })
-    })
+    $(".site-section-box-more-button").on("click", function (e) {
+        e.preventDefault();
+        $(".more-coffret").css({ display: "flex" });
+        $(".site-section-box-more-button").css({ visibility: "hidden" });
+    });
 });
 
+// Initialize the map
+if (window.location.pathname === "/contact") {
+    let address = "Gbegamey, Cotonou, Bénin"; // exemple : "Cotonou, Bénin"
 
+    fetch(
+        `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(
+            address
+        )}`
+    )
+        .then((response) => response.json())
+        .then((data) => {
+            if (data.length > 0) {
+                let lat = data[0].lat;
+                let lon = data[0].lon;
+
+                let map = L.map("map").setView([lat, lon], 13);
+
+                L.tileLayer(
+                    "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+                    {
+                        maxZoom: 19,
+                        attribution: "&copy; OpenStreetMap contributors",
+                    }
+                ).addTo(map);
+
+                L.marker([lat, lon]).addTo(map).bindPopup(address).openPopup();
+            } else {
+                alert("Adresse introuvable.");
+            }
+        })
+        .catch((error) => {
+            console.error("Erreur de géocodage :", error);
+        });
+}
 
 /* document.addEventListener('DOMContentLoaded', function () {
     // Gérer le clic sur le bouton "Passer commande"
@@ -205,6 +243,3 @@ $(document).ready(function () {
         // Optionnel: Vous pouvez ajouter du code pour afficher un message de confirmation ou rediriger l'utilisateur
     });
 }); */
-
-
-

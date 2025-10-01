@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\ProductRequest;
+use App\Models\Section;
 use Spatie\Activitylog\Models\Activity;
 
 class ProductController extends Controller
@@ -28,10 +29,11 @@ class ProductController extends Controller
     {
         try {
             //code...
+            $sections = Section::all();
             $categories = Category::where('category_id', null)->get();
             $types = Category::where('sub_cat', 'type')->get();
             $regions = Category::where('sub_cat', 'region')->get();
-            return view('backend.pages.product.edit', compact('categories', 'types', 'regions'));
+            return view('backend.pages.product.edit', compact('categories', 'types', 'regions', 'sections'));
         } catch (\Exception $e) {
             //throw $th;
         }

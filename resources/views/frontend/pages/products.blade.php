@@ -11,31 +11,23 @@
                         <div class="row">
                             <div class="col-md-12 mb-5">
                                 <div class="d-block d-md-flex flex-wrap align-items-start gap-4">
+                                    @if (isset($currentSection))
+                                        <input type="hidden" id="section" name="section"
+                                            value="{{ $currentSection->slug }}">
+                                    @endif
+
                                     {{-- Categories --}}
                                     <div class="filterOption mt-3 mt-lg-0">
                                         <select class="form-select border-0" name="category" id="category">
                                             <option class="dropdown-item" value="">Tous
                                             </option>
-                                            @if ($categories && $categories->count() > 0)
-                                                @foreach ($categories as $item)
-                                                    <option class="dropdown-item"
-                                                        {{ isset($category) && $category->slug == $item->slug ? 'selected' : '' }}
-                                                        value="{{ $item->slug }}">{{ $item->name }}
+                                            @if (isset($currentSection))
+                                                @foreach ($currentSection->categories as $item)
+                                                    <option value="{{ $item->slug }}"
+                                                        {{ isset($currentCategory) && $currentCategory->slug == $item->slug ? 'selected' : '' }}>
+                                                        {{ $item->name }}
                                                     </option>
                                                 @endforeach
-                                            @else
-                                                <option class="dropdown-item" value="volailles">Volailles
-                                                </option>
-                                                <option class="dropdown-item" value="poissons">Poissons
-                                                </option>
-                                                <option class="dropdown-item" value="autres viandes">Autres viandes
-                                                </option>
-                                                <option class="dropdown-item" value="fruits/legumes">Fruits & légumes
-                                                </option>
-                                                <option class="dropdown-item" value="la cave">La cave
-                                                </option>
-                                                <option class="dropdown-item" value="cpf store">CPF Store
-                                                </option>
                                             @endif
                                         </select>
                                     </div>
@@ -143,7 +135,8 @@
                     </div>
 
 
-                    <div class="row mb-3 productContent" id="productList">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-3 productContent"
+                        id="productList">
 
                         @include('frontend.ajax.productList', ['products' => $products])
 
@@ -250,22 +243,28 @@
             }
 
             function fetchProduct() {
-                let slug = $('#category').val() ? $('#category').val() : ''; // slug de la catégorie courante
+                let section = $('#section').val() ? $('#section').val() : '';
+                let category = $('#category').val() ? $('#category').val() : '';
                 let minPrice = $('#min_price').val();
                 let maxPrice = $('#max_price').val();
                 let wineType = $('#wine_type').val();
                 let wineRegion = $('#wine_region').val();
                 let sort = $('#sort').val();
 
-                //console.log();
-
-                //let newUrl = slug !== '' ? '/categorie/' + slug : '/product';
+                // Construire l’URL
+                let url = '/sections';
+                if (section) {
+                    url += '/' + section;
+                    if (category) {
+                        url += '/' + category;
+                    }
+                }
 
                 $.ajax({
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
-                    url: slug ? `/categorie/${slug}` : '/categorie',
+                    url: url,
                     type: "GET",
                     data: $('#filterForm').serialize(),
                     beforeSend: function() {

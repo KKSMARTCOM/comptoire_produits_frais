@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Pack;
+use App\Models\Section;
 use Illuminate\Support\Facades\File;
 
 class PageController extends Controller
@@ -57,11 +58,14 @@ class PageController extends Controller
         return view('frontend.pages.products', compact('products', 'breadcrumb', 'categories', 'types', 'regions'));
     }
 
-    public function product(Request $request, $slug = null)
+    public function product(Request $request, $section = null, $category = null)
     {
 
-        $category = $slug ? Category::where('slug', $slug)->firstOrFail() : null;
+        // Récupérer la section (si présente)
+        $currentSection = $section ? Section::where('slug', $section)->firstOrFail() : null;
 
+        // Récupérer la catégorie (si présente)
+        $currentCategory = $category ? Category::where('slug', $category)->firstOrFail() : null;
 
         $types = Category::where('sub_cat', 'type')->get();
         $regions = Category::where('sub_cat', 'region')->get();
@@ -72,11 +76,17 @@ class PageController extends Controller
 
         $products = Product::query();
 
-        // Si une catégorie est passée dans l'URL
-        if ($category) {
-            $products->where('category_id', $category->id);
+        // Si une section est sélectionnée
+        if ($currentSection) {
+            $products->whereHas('category.section', function ($q) use ($currentSection) {
+                $q->where('id', $currentSection->id);
+            });
         }
 
+        // Filtre par catégorie
+        if ($currentCategory) {
+            $products->where('category_id', $currentCategory->id);
+        }
 
         // Filtrer par type
         if ($request->filled('wine_type')) {
@@ -126,7 +136,7 @@ class PageController extends Controller
 
         $breadcrumb = [
             'pages' => [],
-            'active' => 'Produits'
+            'active' => $currentSection ? $currentSection->name : 'Produits'
         ];
 
         //dd($products);
@@ -150,7 +160,7 @@ class PageController extends Controller
         } */
 
 
-        return view('frontend.pages.products', compact('breadcrumb', 'products', 'category', 'types', 'regions'));
+        return view('frontend.pages.products', compact('breadcrumb', 'products', 'currentCategory', 'types', 'regions', 'currentSection'));
     }
 
     public function saleproduct()
@@ -188,7 +198,7 @@ class PageController extends Controller
 
                 if (!empty($category)) {
                     $breadcrumb['pages'][] = [
-                        'link' => route('categories', $category->slug),
+                        'link' => route('sections', $category->slug),
                         'name' => $category->name
                     ];
                 }
@@ -218,5 +228,21 @@ class PageController extends Controller
             //throw $th;
             dd($e);
         }
+    }
+
+    public function cave()
+    {
+        try {
+            $section = Section::where('slug', 'la-cave')->first();
+            return view('frontend.pages.cave', compact('section'));
+        } catch (\Throwable $e) {
+            dd($e);
+        }
+    }
+
+    public function localProducts()
+    {
+        $products = Product::latest()->take(4)->get();
+        return view('frontend.pages.local-products', compact('products'));
     }
 }

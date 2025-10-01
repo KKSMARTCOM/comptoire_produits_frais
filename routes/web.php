@@ -25,11 +25,13 @@ Route::group(['middleware' => 'sitesetting'], function () {
     Route::get('/about', [PageController::class, 'about'])->name('about');
     Route::get('/contact', [PageController::class, 'contact'])->name('contact');
     Route::get('/finish', [PageController::class, 'finish'])->name('finish');
+    Route::get('/la-cave', [PageController::class, 'cave'])->name('cave');
+    Route::get('/la-produits-locaux', [PageController::class, 'localProducts'])->name('local.products');
     Route::post('/contact/save', [AjaxController::class, 'contactsave'])->name('contact.save');
 
     Route::get('/product', [PageController::class, 'allProduct'])->name('all.product');
 
-    Route::get('/categorie/{slug?}', [PageController::class, 'product'])->name('categories');
+    Route::get('/sections/{section?}/{category?}', [PageController::class, 'product'])->name('sections');
 
     Route::get('/men/{slug?}', [PageController::class, 'product'])->name('menproduct');
     Route::get('/women/{slug?}', [PageController::class, 'product'])->name('womenproduct');

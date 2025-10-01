@@ -19,6 +19,11 @@ class Category extends Model
         'category_id'
     ];
 
+    public function section()
+    {
+        return $this->belongsTo(Section::class);
+    }
+
     // Relation pour obtenir les sous-catégories
     public function subCategory()
     {

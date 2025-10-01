@@ -9,6 +9,7 @@ use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Pack;
+use App\Models\Testimonial;
 
 class PageHomeController extends Controller
 {
@@ -24,6 +25,8 @@ class PageHomeController extends Controller
         // Vérifie s'il reste d'autres coffrets à charger
         $remaining = Pack::count() > ($offset + $limit);
 
+        $testimonials = Testimonial::where('status', true)->get();
+
         if ($request->ajax()) {
             return response()->json([
                 'packs' => view('frontend.ajax.packList', compact('packs'))->render(),
@@ -31,6 +34,6 @@ class PageHomeController extends Controller
             ]);
         }
 
-        return view('frontend.pages.index', compact('packs', 'remaining'));
+        return view('frontend.pages.index', compact('packs', 'remaining', 'testimonials'));
     }
 }

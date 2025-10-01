@@ -4,15 +4,15 @@
     @include('frontend.inc.breadcrumb')
 
     <div class="site-section">
-        <div class="container">
-            <div class="row">
+        <div class="container px-[1rem] md:px-[3rem] mx-auto">
+            <div class="row mb-16">
                 <div>
                     <h3>Remplissez le formulaire ci-dessous, et notre équipe vous répondra dans les plus brefs
                         délais.</h3>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-7">
+            <div class="block md:flex justify-between gap-8">
+                <div class="w-full md:w-1/2">
 
                     @if (session('success'))
                         <div class="alert alert-success">{{ session('success') }}</div>
@@ -85,7 +85,9 @@
                             </div>
                         </div>
                     </form>
-
+                </div>
+                <div class="w-full md:w-1/2 mt-16 md:mt-0 h-[400px] md:w-1/2">
+                    <div id="map" style="height:100%; width:100%; border-radius:20px"></div>
                 </div>
                 {{-- <div class="col-md-5 ml-auto">
                     <div class="p-4 border mb-3">

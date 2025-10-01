@@ -22,6 +22,9 @@
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nouislider/distribute/nouislider.min.css">
 
+    {{-- LEAFTCSS --}}
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     {{-- TAILWIND --}}
@@ -48,6 +51,8 @@
     <script src="{{ asset('/') }}js/aos.js"></script>
     <script src="{{ asset('/') }}js/main.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    {{-- LEAFTJS --}}
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     @yield('customjs')
 
     <script>

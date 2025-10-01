@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\Section;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
@@ -15,26 +16,39 @@ class CategorySeeder extends Seeder
      */
     public function run(): void
     {
+        $cave = Section::create([
+            'name' => 'La Cave',
+            'slug' => 'la-cave',
+        ]);
+
+        $produitsLocaux = Section::create([
+            'name' => 'Produits Locaux',
+            'slug' => 'produits-locaux',
+        ]);
 
         $poultry = Category::create([
             'name' => 'Volailles',
             'content' => null,
+            'section_id' => $produitsLocaux->id,
 
         ]);
 
         $fish = Category::create([
             'name' => 'Poissons',
             'content' => null,
+            'section_id' => $produitsLocaux->id,
         ]);
 
         $otherMeats = Category::create([
             'name' => 'Autres Viandes',
             'content' => null,
+            'section_id' => $produitsLocaux->id,
         ]);
 
         $cellar = Category::create([
             'name' => 'La Cave',
             'content' => null,
+            'section_id' => $cave->id,
         ]);
 
         $red_wine = Category::create([

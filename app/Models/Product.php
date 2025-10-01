@@ -24,7 +24,7 @@ class Product extends Model
     ];
 
     // Relation avec les catégories
-    public function productCategory()
+    public function category()
     {
         return $this->belongsTo(Category::class, 'category_id');
     }
@@ -48,5 +48,10 @@ class Product extends Model
                 'source' => 'name'
             ]
         ];
+    }
+
+    public function section()
+    {
+        return $this->hasOneThrough(Section::class, Category::class, 'id', 'id', 'category_id', 'section_id');
     }
 }

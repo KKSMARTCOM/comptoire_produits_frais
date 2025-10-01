@@ -19,26 +19,25 @@
                 <div class="row">
                     <div class="col-lg-6 col-md-6">
                         <ul>
-                            <li>
-                                <h2>A propos</h2>
+                            <li class="{{ Route::is('index') ? 'active' : '' }}">
+                                <a href="{{ route('index') }}">Accueil</a>
                             </li>
-                            <li><a href="{{ route('index') }}">Acceuil</a></li>
-                            @if ($categories && $categories->count() > 0)
-                                @foreach ($categories as $item)
-                                    <li><a href="{{ route('categories', $item->slug) }}">{{ $item->name }}</a></li>
-                                @endforeach
-                            @else
-                                <li><a href="{{ route('categories', 'volailles') }}">Volailles</a></li>
-                                <li><a href="{{ route('categories', 'poissons') }}">Poissons </a></li>
-                                <li><a href="{{ route('categories', 'autres-viandes') }}">Autres viandes</a></li>
-                                <li><a href="{{ route('categories', 'la-cave') }}">La cave</a></li>
-                                <li><a href="{{ route('categories', 'fruits-legumes') }}">Fruits & Légumes</a></li>
-                                <li><a href="{{ route('categories', 'cpf-store') }}">CPF Store</a></li>
-                            @endif
+                            <li
+                                class="{{ Route::is('cave') || (request()->routeIs('sections') && request()->route('section') === 'la-cave') ? 'active' : '' }}">
+                                <a href="{{ route('cave') }}">La Cave</a>
+                            </li>
+                            <li
+                                class="{{ Route::is('local.products') || (request()->routeIs('sections') && request()->route('section') === 'produits-locaux') ? 'active' : '' }}">
+                                <a href="{{ route('local.products') }}">Produits locaux </a>
+                            </li>
+                            <li><a target="_blank" href="https://cpflounge.page.gd/">CPF Lounge</a></li>
                             <li><a href="/#pack-section">Coffrets & Paniers</a></li>
+                            <li class="{{ Route::is('contact') ? 'active' : '' }}"><a
+                                    href="{{ route('contact') }}">Contact</a>
+                            </li>
                         </ul>
                     </div>
-                    <div class="col-lg-6 col-md-6">
+                    <div class="col-lg-6 col-md-6 mt-8 md:mt-0">
                         <ul>
                             <li>
                                 <h2>Contact</h2>
