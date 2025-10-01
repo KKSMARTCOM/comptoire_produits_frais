@@ -10,10 +10,26 @@ class Order extends Model
     use HasFactory;
     protected $fillable = [
         'order_no',
-        'product_id',
-        'name',
-        'price',
-        'qty',
-        'kdv'
+        'lastname',
+        'firstname',
+        'phone',
+        'company_name',
+        'address',
+        'country',
+        'city',
+        'district',
+        'note',
+        'status',
+        'motif',
     ];
+
+    public function orderItems()
+    {
+        return $this->hasMany(OrderItem::class, 'order_no', 'order_no');
+    }
+
+    public function getFullnameAttribute()
+    {
+        return $this->lastname . ' ' . $this->firstname;
+    }
 }

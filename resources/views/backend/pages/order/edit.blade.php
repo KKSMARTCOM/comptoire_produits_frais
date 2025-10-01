@@ -2,122 +2,8 @@
 
 @section('customcss')
     <style>
-        body {
-            width: 100%;
-            height: 100%;
-            margin: 0;
-            padding: 0;
-            background-color: #fafafa;
-            font-family: system-ui;
-        }
-
-        * {
-            box-sizing: border-box;
-            -moz-box-sizing: border-box;
-        }
-
-        .page {
-            width: 210mm;
-            min-height: 297mm;
-            padding: 20mm;
-            margin: 10mm auto;
-            border: 1px #d3d3d3 solid;
-            border-radius: 5px;
-            background: white;
-            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-        }
-
-        @page {
-            size: A4;
-            margin: 0;
-        }
-
-        @media print {
-
-            html,
-            body {
-                width: 210mm;
-                height: 297mm;
-            }
-
-            .page {
-                margin: 0;
-                border: initial;
-                border-radius: initial;
-                width: initial;
-                min-height: initial;
-                box-shadow: initial;
-                background: initial;
-                page-break-after: always;
-            }
-        }
-
-        .center {
-            text-align: center;
-        }
-
-        h2 {
-            font-size: 36px;
-            font-weight: 500;
-        }
-
-        .header-img {
-            width: 100px;
-            height: 100px;
-        }
-
-        .invoice {
-            display: flex;
-            justify-content: space-between;
-        }
-
-        .invoice-header {
-            font-size: 24px;
-        }
-
-        .font-size-14 {
-            font-size: 14px;
-            line-height: 4px;
-        }
-
-        .bold-text {
-            font-weight: 800;
-        }
-
-        table.unstyledTable {
-            width: 100%;
-        }
-
-        table {
-            border-collapse: collapse;
-            border-spacing: 0 5px;
-            table-layout: fixed;
-        }
-
-        thead tr th {
-            border-bottom: 2px solid #DCDCDC;
-            font-weight: 800;
-        }
-
-        tbody tr {
-            border-bottom: 1px solid #DCDCDC;
-            text-align: end;
-        }
-
-        tbody tr td {
-            padding: 8px;
-        }
-
-        .last-row {
-            border: 0;
-        }
-
-        .footer {
-            text-align: end;
-        }
-
-        .font-weight-400 {
-            font-weight: 400;
+        .ck-content {
+            height: 300px !important;
         }
     </style>
 @endsection
@@ -127,114 +13,139 @@
         <div class="col-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title">Order</h4>
+                    <h4 class="card-title">Modifier commande</h4>
 
-                    @if ($errors)
+                    {{-- @if ($errors)
                         @foreach ($errors->all() as $error)
                             <div class="alert alert-danger">
                                 {{ $error }}
                             </div>
                         @endforeach
-                    @endif
+                    @endif --}}
 
                     @if (session()->get('success'))
                         <div class="alert alert-success">
                             {{ session()->get('success') }}
                         </div>
                     @endif
-                </div>
 
-                <div class="page">
-                    <div class="subpage">
-                        <div class="header center"><img class="header-img" src="{{ asset($settings['logo']) }}" />
-                            <h2 class="font-weight-400">{{ $order->name ?? '' }}</h2>
+
+                    <form class="forms-sample" action="{{ route('panel.order.update', $order->id) }}" method="POST"
+                        enctype="multipart/form-data">
+                        @csrf
+
+                        @method('PUT')
+
+                        <div class="form-group">
+                            <label for="order_no">Numéro</label>
+                            <input type="text" class="form-control text-capitalize" id="order_no"
+                                value="{{ $order->order_no ?? '' }}" name="order_no" readonly>
+
                         </div>
 
-                        <div class="invoice">
-                            <div class="invoce-from">
-                                <p class="invoice-header">Order No</p>
-                                <div class="font-size-14">
-                                    <p>{{ isset($order->order_no) ?? '' }}</p>
-                                </div>
-                            </div>
-                            <div class="font-size-14">
-                                {{-- <p class="bold-text">Order date:
-                                    {{ isset($order->created_at) ? Carbon::parse($order->created_at)->format('d-m-Y H:i:s') : '' }}
-                                </p> --}}
-                                <p class="bold-text">Order date:
-                                    {{ isset($order->created_at) ? Carbon::parse($order->created_at)->format('d.m.Y H:i') : '' }}
-                                </p>
-                                <p>Confirmation Time:
-                                    {{ isset($order->updated_at) ? Carbon::parse($order->updated_at)->format('d.m.Y H:i') : '' }}
-                                </p>
-                            </div>
+                        <div class="form-group">
+                            <label for="name">Nom et prénom du client</label>
+                            <input type="text" class="form-control text-capitalize" id="name"
+                                value="{{ $order->Fullname ?? '' }}" name="name" disabled>
                         </div>
-                        <div class="invoice">
-                            <div class="invoce-from">
-                                <div class="font-size-14">
-                                </div>
-                            </div>
-                            <div class="font-size-14">
-                                <p>{{ $order->phone }}</p>
-                                <p>{{ $order->address }}</p>
-                                <p>{{ $order->email }}</p>
-                            </div>
+
+                        <div class="form-group">
+                            <label for="">Date de la commande</label>
+                            <input type="text" class="form-control text-capitalize" id=""
+                                value="{{ isset($order->created_at) ? Carbon::parse($order->created_at)->format('d.m.Y H:i') : '' }}"
+                                name="" disabled>
                         </div>
-                    </div>
 
-                    <div class="content">
-                        <h2 class="center font-weight-400">Invoice Information</h2>
-                        <p class="font-size-14">{{ $order->company_name ?? '' }}</p>
-                        <p class="font-size-14">{{ $order->country }}</p>
-                        <p class="font-size-14">{{ $order->city }}</p>
-                        <p class="font-size-14">{{ $order->district }}</p>
-                        <p class="font-size-14">{{ $order->note }}</p>
+                        <div class="form-group">
+                            <label for="">Nom d'entreprise</label>
+                            <input type="text" class="form-control text-capitalize" id=""
+                                value="{{ $order->company_name ?? '' }}" name="" disabled>
+                        </div>
 
-                        <table class="unstyledTable">
-                            <thead>
-                                <tr>
-                                    <th>Product Name</th>
-                                    <th>Qty</th>
-                                    <th>Unit Price</th>
-                                    <th>Rate of VAT</th>
-                                    <th>Unit Total</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @php
-                                    $allTotal = 0;
-                                @endphp
-                                @if (!empty($order->orders))
-                                    @foreach ($order->orders as $item)
-                                        @php
-                                            $kdvOrani = $item['kdv'] ?? 0;
-                                            $price = $item['price'];
-                                            $qty = $item['qty'];
+                        {{-- <div class="form-group">
+                            <label for="">Adresse complète</label>
+                            <input type="text" class="form-control text-capitalize" id=""
+                                value="{{ $order->address ?? '' }}" name="" disabled>
+                        </div>
 
-                                            $kdvTutar = $price * $qty * ($kdvOrani / 100);
-                                            $toplamTutar = $price * $qty + $kdvTutar;
-                                        @endphp
+                        <div class="form-group">
+                            <label for="">Ville</label>
+                            <input type="text" class="form-control text-capitalize" id=""
+                                value="{{ $order->city ?? '' }}" name="" disabled>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="">Quatier</label>
+                            <input type="text" class="form-control text-capitalize" id=""
+                                value="{{ $order->district ?? '' }}" name="" disabled>
+                        </div> --}}
+                        <div class="table-responsive">
+                            @if ($order->orderItems)
+                                <table class="table">
+                                    <thead>
                                         <tr>
-                                            <td>{{ $item['name'] }}</td>
-                                            <td>{{ $item['qty'] }}</td>
-                                            <td>{{ $item['price'] }}</td>
-                                            <td>{{ $item['kdv'] }}</td>
-                                            <td>${{ $toplamTutar }}</td>
-                                            @php
-                                                $allTotal += $toplamTutar;
-                                            @endphp
+                                            <th>No</th>
+                                            <th>Nom</th>
+                                            <th>Quantités</th>
                                         </tr>
-                                    @endforeach
-                                @endif
-                            </tbody>
-                            </tr>
-                        </table>
-
-                        <div class="footer">
-                            <h2 class="font-weight-400">Total : $ {{ $allTotal }}
-                                <h2 />
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($order->orderItems as $items)
+                                            <tr class="item">
+                                                <td><input type="text" class="form-control text-capitalize"
+                                                        id="product_id" value="{{ $items->product_id ?? $items->pack_id }}"
+                                                        name="product_id[]" readonly>
+                                                <td><input type="text" class="form-control text-capitalize"
+                                                        id="" value="{{ $items->name ?? '' }}" name=""
+                                                        disabled>
+                                                </td>
+                                                <td><input type="number" class="form-control text-capitalize"
+                                                        id="quantity" value="{{ $items->quantity ?? 1 }}"
+                                                        name="quantity[]">
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            @endif
                         </div>
-                    </div>
+
+                        <div class="form-group">
+                            <label for="motif">Motif (à renseigner en cas de modification de la commande)</label>
+                            <input type="text" class="form-control" id="motif"
+                                value="{{ $product->content ?? old('motif') }}" name="motif"
+                                placeholder="Veuillez entrer le motif de la modification de la commande" maxlength="100">
+                            <small id="charLimitMessage" class="form-text text-danger" style="display: none;">Nombre de
+                                caractères atteint</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="status">Statut</label>
+                            <select class="form-control" name="status" id="status">
+                                <option value="0" {{ isset($order) && $order->status == '0' ? 'selected' : '' }}>En
+                                    cours
+                                </option>
+                                <option value="1" {{ isset($order) && $order->status == '1' ? 'selected' : '' }}>
+                                    Livrée
+                                </option>
+                            </select>
+                            @error('status')
+                                <p class="text-danger fs-1">{{ $message }}</p>
+                            @enderror
+                        </div>
+
+                        {{-- <div class="form-group">
+                            <label for="content">Description</label>
+                            <textarea class="form-control" id="editor" rows="4" name="content" placeholder="Description du produit">
+                                {!! $product->content ?? '' !!}
+                            </textarea>
+                        </div> --}}
+
+
+                        <button type="submit" class="btn btn-primary mr-2"
+                            style="background-color: #004200 !important">Mettre à jour</button>
+                        <a href="{{ route('panel.order.index') }}" class="btn btn-light">Fermer</a>
+                    </form>
                 </div>
             </div>
         </div>

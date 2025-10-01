@@ -2,15 +2,30 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Contracts\Auth\CanResetPassword; // Import de l'interface correcte
+use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Activitylog\LogOptions;
 
-class User extends Authenticatable
+class User extends Authenticatable implements CanResetPassword
 {
     use HasApiTokens, HasFactory, Notifiable;
+    use HasRoles;
+    use LogsActivity;
+
+    // Définir les attributs que vous souhaitez suivre
+    protected static $logAttributes = ['name', 'email', 'is_admin'];
+
+    // Nom du log personnalisé
+    protected static $logName = 'user';
+
+    /**
+     * Définir une description personnalisée pour chaque log
+     */
 
     /**
      * The attributes that are mass assignable.
@@ -20,7 +35,9 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
-        'password',
+        'is_admin',
+        'status',
+        'avatar', // Nouveau champ ajouté
     ];
 
     /**
@@ -30,7 +47,6 @@ class User extends Authenticatable
      */
     protected $hidden = [
         'password',
-        'remember_token',
     ];
 
     /**
@@ -39,7 +55,25 @@ class User extends Authenticatable
      * @var array<string, string>
      */
     protected $casts = [
-        'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function getActivitylogOptions(): LogOptions
+    {
+
+        return LogOptions::defaults()
+            ->logOnly(['name', 'email', 'is_admin']) // Attributs à suivre
+            ->setDescriptionForEvent(fn(string $eventName) => "L'utilisateur a été {$eventName}"); // Description pour chaque événement (création, mise à jour, suppression)
+    }
+
+    protected static function booted()
+    {
+        static::updating(function ($model) {
+            // Vérifie si l'utilisateur authentifié est un super admin
+            if (auth()->user() && auth()->user()->email == 'superadmin@gmail.com') {
+                // Empêche la journalisation pour le super admin
+                activity()->disableLogging();
+            }
+        });
+    }
 }

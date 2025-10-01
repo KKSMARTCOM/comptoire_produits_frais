@@ -23,8 +23,15 @@ class CategoryRequest extends FormRequest
     {
         return [
             'name' => 'required|string|min:3',
-            'content' => 'required',
+            'content' => 'nullable',
         ];
     }
 
+    public function messages()
+    {
+        return [
+            'name.required' => 'Le champs est requis',
+            'name.min' => 'Le champs ne peur être moins de 3 caractères'
+        ];
+    }
 }

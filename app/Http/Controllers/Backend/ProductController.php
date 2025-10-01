@@ -6,7 +6,10 @@ use App\Models\Product;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\ProductRequest;
+use App\Models\Section;
+use Spatie\Activitylog\Models\Activity;
 
 class ProductController extends Controller
 {
@@ -15,8 +18,8 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::with('category:id,cat_ust,name')->orderBy('id','desc')->paginate(20);
-        return view('backend.pages.product.index',compact('products'));
+        $products = Product::with('productCategory')->orderBy('id', 'desc')->paginate(10);
+        return view('backend.pages.product.index', compact('products'));
     }
 
     /**
@@ -24,8 +27,16 @@ class ProductController extends Controller
      */
     public function create()
     {
-        $categories = Category::get();
-        return view('backend.pages.product.edit',compact('categories'));
+        try {
+            //code...
+            $sections = Section::all();
+            $categories = Category::where('category_id', null)->get();
+            $types = Category::where('sub_cat', 'type')->get();
+            $regions = Category::where('sub_cat', 'region')->get();
+            return view('backend.pages.product.edit', compact('categories', 'types', 'regions', 'sections'));
+        } catch (\Exception $e) {
+            //throw $th;
+        }
     }
 
     /**
@@ -38,27 +49,32 @@ class ProductController extends Controller
             $folderName = $request->name;
             $uploadFolder = 'img/product/';
             folderOpen($uploadFolder);
-            $imgurl = resimyukle($img, $folderName, $uploadFolder);
+            $imgurl = uploadImage($img, $folderName, $uploadFolder);
         }
 
         $product = Product::create([
-            'name'=>$request->name,
-            'category_id'=>$request->category_id,
-            'content'=>$request->content,
-            'short_text'=>$request->short_text,
-            'price'=>$request->price,
-            'size'=>$request->size,
-            'color'=>$request->color,
-            'qty'=>$request->qty,
-            'kdv'=>$request->kdv,
-            'title'=>$request->title,
-            'description'=>$request->description,
-            'keywords'=>$request->keywords,
-            'status'=>$request->status,
+            'name' => $request->name,
+            'category_id' => $request->category_id,
+            'content' => $request->content,
+            'price' => $request->price,
+            'quantity' => $request->quantity,
+            'status' => $request->status,
+            'type' => $request->type ?? NULL,
+            'region' => $request->region ?? NULL,
             'image' => $imgurl ?? NULL,
         ]);
 
-        return back()->withSuccess('Product successfully created!');
+        // Enregistrer l'action de l'utilisateur lors de la création
+        $user = Auth::user();
+        $role = $user->is_admin == 0 ? 'Administrateur' : 'Utilisateur';
+
+        activity()
+            ->causedBy($user)
+            ->performedOn($product)
+            ->withProperties(['menu' => 'Produits', 'action' => 'Création'])
+            ->log("{$user->name} ({$role}) a créé un produit : {$product->name}");
+
+        return back()->withSuccess('Ajout éffectué avec succès !');
     }
 
     /**
@@ -74,9 +90,11 @@ class ProductController extends Controller
      */
     public function edit(string $id)
     {
-        $product = Product::where('id',$id)->first();
-        $categories = Category::get();
-        return view('backend.pages.product.edit',compact('product','categories'));
+        $product = Product::where('id', $id)->first();
+        $types = Category::where('sub_cat', 'type')->get();
+        $regions = Category::where('sub_cat', 'region')->get();
+        $categories = Category::where('category_id', null)->get();
+        return view('backend.pages.product.edit', compact('product', 'categories', 'types', 'regions'));
     }
 
     /**
@@ -84,37 +102,41 @@ class ProductController extends Controller
      */
     public function update(ProductRequest $request, string $id)
     {
-        $product = Product::where('id',$id)->firstOrFail();
+        $product = Product::where('id', $id)->firstOrFail();
 
         if ($request->hasFile('image')) {
-            dosyasil($product->image);
+            deleteFile($product->image);
 
             $img = $request->file('image');
             $folderName = $request->name;
             $uploadFolder = 'img/product/';
             folderOpen($uploadFolder);
-            $imgurl = resimyukle($img, $folderName, $uploadFolder);
+            $imgurl = uploadImage($img, $folderName, $uploadFolder);
         }
 
         $product->update([
-            'name'=>$request->name,
-            'category_id'=>$request->category_id,
-            'content'=>$request->content,
-            'short_text'=>$request->short_text,
-            'price'=>$request->price,
-            'size'=>$request->size,
-            'color'=>$request->color,
-            'qty'=>$request->qty,
-            'kdv'=>$request->kdv,
-            'title'=>$request->title,
-            'description'=>$request->description,
-            'keywords'=>$request->keywords,
-            'status'=>$request->status,
-            'image'=> $imgurl ?? $product->image
+            'name' => $request->name ?? $product->name,
+            'category_id' => $request->category_id ?? $product->category_id,
+            'content' => $request->content ?? $product->content,
+            'price' => $request->price ?? $product->price,
+            'quantity' => $request->quantity,
+            'status' => $request->status ?? $product->status,
+            'type' => $request->type,
+            'region' => $request->region,
+            'image' => $imgurl ?? $product->image
         ]);
 
-        return back()->withSuccess('Product Updated successfully!');
+        // Enregistrer l'action de l'utilisateur lors de la modification
+        $user = Auth::user();
+        $role = $user->is_admin == 0 ? 'Administrateur' : 'Utilisateur';
 
+        activity()
+            ->causedBy($user)
+            ->performedOn($product)
+            ->withProperties(['menu' => 'Produits', 'action' => 'Modification'])
+            ->log("{$user->name} ({$role}) a modifié le produit : {$product->name}");
+
+        return back()->withSuccess('Mise à jour éffectuée avec succès !');
     }
 
     /**
@@ -123,20 +145,33 @@ class ProductController extends Controller
     public function destroy(Request $request)
     {
 
-        $product = Product::where('id',$request->id)->firstOrFail();
+        $product = Product::where('id', $request->id)->firstOrFail();
 
-        dosyasil($product->image);
+        deleteFile($product->image);
+
+        // Enregistrer l'action de l'utilisateur lors de la suppression
+        $user = Auth::user();
+        $role = $user->is_admin == 0 ? 'Administrateur' : 'Utilisateur';
+
+        activity()
+            ->causedBy($user)
+            ->performedOn($product)
+            ->withProperties(['menu' => 'Produits', 'action' => 'Suppression'])
+            ->log("{$user->name} ({$role}) a supprimé le produit : {$product->name}");
 
         $product->delete();
-        return response(['error'=>false,'message'=>'Product deleted successfully.']);
+        return response(['error' => false, 'message' => 'Produit supprimé avec succès.']);
     }
 
-    public function status(Request $request) {
-
-        $update = $request->statu;
-        $updateCheck = $update == "false" ? '0' : '1';
-
-        Product::where('id',$request->id)->update(['status'=> $updateCheck]);
-        return response(['error'=>false,'status'=>$update]);
+    public function productsByCategories($categoryId)
+    {
+        try {
+            //code...
+            $products = Product::where('category_id', $categoryId)->get();
+            //dd($products);
+            return response()->json($products);
+        } catch (\Exception $e) {
+            //throw $th;
+        }
     }
 }

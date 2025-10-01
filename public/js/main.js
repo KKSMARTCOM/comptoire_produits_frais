@@ -37,107 +37,6 @@ jQuery(document).ready(function ($) {
     };
     slider();
 
-    var siteMenuClone = function () {
-        $('<div class="site-mobile-menu"></div>').prependTo(".site-wrap");
-
-        $('<div class="site-mobile-menu-header"></div>').prependTo(
-            ".site-mobile-menu"
-        );
-        $('<div class="site-mobile-menu-close "></div>').prependTo(
-            ".site-mobile-menu-header"
-        );
-        $('<div class="site-mobile-menu-logo"></div>').prependTo(
-            ".site-mobile-menu-header"
-        );
-
-        $('<div class="site-mobile-menu-body"></div>').appendTo(
-            ".site-mobile-menu"
-        );
-
-        $(".js-logo-clone").clone().appendTo(".site-mobile-menu-logo");
-
-        $('<span class="ion-ios-close js-menu-toggle"></div>').prependTo(
-            ".site-mobile-menu-close"
-        );
-
-        $(".js-clone-nav").each(function () {
-            var $this = $(this);
-            $this
-                .clone()
-                .attr("class", "site-nav-wrap")
-                .appendTo(".site-mobile-menu-body");
-        });
-
-        setTimeout(function () {
-            var counter = 0;
-            $(".site-mobile-menu .has-children").each(function () {
-                var $this = $(this);
-
-                $this.prepend('<span class="arrow-collapse collapsed">');
-
-                $this.find(".arrow-collapse").attr({
-                    "data-toggle": "collapse",
-                    "data-target": "#collapseItem" + counter,
-                });
-
-                $this.find("> ul").attr({
-                    class: "collapse",
-                    id: "collapseItem" + counter,
-                });
-
-                counter++;
-            });
-        }, 1000);
-
-        $("body").on("click", ".arrow-collapse", function (e) {
-            var $this = $(this);
-            if ($this.closest("li").find(".collapse").hasClass("show")) {
-                $this.removeClass("active");
-            } else {
-                $this.addClass("active");
-            }
-            e.preventDefault();
-        });
-
-        $(window).resize(function () {
-            var $this = $(this),
-                w = $this.width();
-
-            if (w > 768) {
-                if ($("body").hasClass("offcanvas-menu")) {
-                    $("body").removeClass("offcanvas-menu");
-                }
-            }
-        });
-
-        $("body").on("click", ".js-menu-toggle", function (e) {
-            var $this = $(this);
-            e.preventDefault();
-
-            if ($("body").hasClass("offcanvas-menu")) {
-                $("body").removeClass("offcanvas-menu");
-                $this.removeClass("active");
-            } else {
-                $("body").addClass("offcanvas-menu");
-                $this.addClass("active");
-            }
-        });
-
-        // click outisde offcanvas
-        $(document).mouseup(function (e) {
-            var container = $(".site-mobile-menu");
-            if (
-                !container.is(e.target) &&
-                container.has(e.target).length === 0
-            ) {
-                if ($("body").hasClass("offcanvas-menu")) {
-                    $("body").removeClass("offcanvas-menu");
-                }
-            }
-        });
-    };
-    siteMenuClone();
-
     var sitePlusMinus = function () {
         $(".js-btn-minus").on("click", function (e) {
             e.preventDefault();
@@ -183,8 +82,8 @@ jQuery(document).ready(function ($) {
         $("#slider-range").slider({
             range: true,
             min: 0,
-            max: maxPrice,
-            values: [defaultMinPrice, defaultMaxPrice],
+            max: 1000,
+            values: [0, 1000],
             slide: function (event, ui) {
                 $("#amount").val("$" + ui.values[0] + " - $" + ui.values[1]);
                 $("#priceBetween").val(ui.values[0] + " - " + ui.values[1]);
@@ -237,3 +136,110 @@ jQuery(document).ready(function ($) {
     };
     siteMagnificPopup();
 });
+
+$(document).ready(function () {
+    // Afficher les catégories
+    $(".has-children").click(function () {
+        var dropdownContent = $(".site-category-dropdown");
+        // Toggle pour afficher ou cacher
+        if (dropdownContent.is(":visible")) {
+            dropdownContent
+                .stop(true, true)
+                .slideUp(300)
+                .animate({ opacity: 0 }, { queue: false, duration: 300 });
+        } else {
+            dropdownContent
+                .stop(true, true)
+                .slideDown(300)
+                .animate({ opacity: 1 }, { queue: false, duration: 300 });
+        }
+    });
+
+    //Barre de menu
+    $(".js-menu-toggle").on("click", function () {
+        $(".site-mobile").css({ visibility: "visible" });
+        $(".site-mobile-menu").css({ right: "0" });
+    });
+
+    $(".site-mobile-menu-close").on("click", function () {
+        $(".site-mobile-menu").css({ right: "-300px" });
+        $(".site-mobile").css({ visibility: "hidden" });
+    });
+
+    $(".site-mobile-menu-bg").on("click", function () {
+        $(".site-mobile-menu").css({ right: "-300px" });
+        $(".site-mobile").css({ visibility: "hidden" });
+    });
+
+    $(".site-section-box-more-button").on("click", function (e) {
+        e.preventDefault();
+        $(".more-coffret").css({ display: "flex" });
+        $(".site-section-box-more-button").css({ visibility: "hidden" });
+    });
+});
+
+// Initialize the map
+if (window.location.pathname === "/contact") {
+    let address = "Gbegamey, Cotonou, Bénin"; // exemple : "Cotonou, Bénin"
+
+    fetch(
+        `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(
+            address
+        )}`
+    )
+        .then((response) => response.json())
+        .then((data) => {
+            if (data.length > 0) {
+                let lat = data[0].lat;
+                let lon = data[0].lon;
+
+                let map = L.map("map").setView([lat, lon], 13);
+
+                L.tileLayer(
+                    "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+                    {
+                        maxZoom: 19,
+                        attribution: "&copy; OpenStreetMap contributors",
+                    }
+                ).addTo(map);
+
+                L.marker([lat, lon]).addTo(map).bindPopup(address).openPopup();
+            } else {
+                alert("Adresse introuvable.");
+            }
+        })
+        .catch((error) => {
+            console.error("Erreur de géocodage :", error);
+        });
+}
+
+/* document.addEventListener('DOMContentLoaded', function () {
+    // Gérer le clic sur le bouton "Passer commande"
+    /* document.querySelectorAll('.showOrderForm').forEach(function (button) {
+        button.addEventListener('click', function (e) {
+            e.preventDefault();
+
+            // Récupérer l'ID du produit à partir de l'attribut data-product-id
+            var productId = button.getAttribute('data-product-id');
+
+            // Mettre à jour le champ caché du formulaire dans le modal avec l'ID du produit
+            document.getElementById('modalProductId').value = productId;
+
+            // Afficher le modal
+            var orderModal = new bootstrap.Modal(document.getElementById('orderModal'));
+            orderModal.show();
+        });
+    });
+
+    // Gérer la fermeture du modal après la soumission du formulaire
+    document.getElementById('orderForm').addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        // Logique pour valider et soumettre le formulaire via Ajax ou autre méthode
+        // Après soumission réussie, fermer le modal
+        var orderModal = bootstrap.Modal.getInstance(document.getElementById('orderModal'));
+        orderModal.hide();
+
+        // Optionnel: Vous pouvez ajouter du code pour afficher un message de confirmation ou rediriger l'utilisateur
+    });
+}); */

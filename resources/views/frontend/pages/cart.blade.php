@@ -6,152 +6,254 @@
     <div class="site-section">
         <div class="container">
             <div class="row">
-                <div class="col-lg-12 mb-5">
+                <div class="col-lg-12 mb-5 d-flex justify-content-center">
                     @if (session()->get('success'))
                         <div class="alert alert-success">{{ session()->get('success') }}</div>
-                    @endif
-
-                    @if (session()->get('error'))
-                        <div class="alert alert-danger">{{ session()->get('error') }}</div>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     @endif
                 </div>
             </div>
-            <div class="row mb-5">
-                <div class="col-lg-12 site-blocks-table">
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th class="product-thumbnail">Image</th>
-                                <th class="product-name">Product</th>
-                                <th class="product-price">Price</th>
-                                <th class="product-quantity">Quantity</th>
-                                <th class="product-total">Total</th>
-                                <th class="product-remove">Remove</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-
-                            @if ($cartItem)
-                                @foreach ($cartItem as $key => $cart)
+            @if (!empty(session('cart')) && count($cart) > 0)
+                {{-- WEB --}}
+                <div class="row mb-5 d-none d-lg-block">
+                    <div class="col-lg-12 site-blocks-table">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th class="product-thumbnail"></th>
+                                    <th class="product-name">Produit</th>
+                                    <th class="product-price">Prix Unitaire</th>
+                                    <th class="product-quantity">Quantité</th>
+                                    <th class="product-total">Total</th>
+                                    <th class="product-remove">Retirer</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($cart as $key => $cartItem)
                                     <tr class="orderItem" data-id="{{ $key }}">
                                         <td class="product-thumbnail">
-                                            <img src="{{ asset($cart['image']) }}" alt="Image" class="img-fluid">
+                                            <div class="product-thumbnail-image">
+                                                <img src="{{ asset($cartItem['product']['image']) }}"
+                                                    alt="{{ $cartItem['product']['name'] }}">
+                                            </div>
                                         </td>
                                         <td class="product-name">
-                                            <h2 class="h5 text-black">{{ $cart['name'] ?? '' }}</h2>
+                                            <h2 class="h5 text-black">{{ ucfirst($cartItem['product']['name']) ?? '' }}</h2>
                                         </td>
-                                        <td>$ {{ $cart['price'] }}</td>
+                                        <td>{{ $cartItem['product']['price'] }} FCFA</td>
                                         <td>
-                                            <div class="input-group mb-3" style="max-width: 120px;">
-                                                <div class="input-group-prepend">
-                                                    <button class="decreaseBtn btn btn-outline-primary js-btn-minus"
-                                                        type="button">&minus;</button>
-                                                </div>
-                                                <input type="text" class="qtyItem form-control text-center"
-                                                    value="{{ $cart['qty'] }}" placeholder=""
-                                                    aria-label="Example text with button addon"
-                                                    aria-describedby="button-addon1">
-                                                <div class="input-group-append">
-                                                    <button class="increaseBtn btn btn-outline-primary js-btn-plus"
-                                                        type="button">&plus;</button>
+                                            <div class="d-flex justify-content-center align-items-center">
+                                                <div class="input-group mb-3 align-items-center gap-2"
+                                                    style="max-width: 130px;">
+                                                    <div class="input-group-prepend">
+                                                        <button class="decreaseBtn btn btn-outline-success js-btn-minus"
+                                                            type="button">&minus;</button>
+                                                    </div>
+                                                    <input type="text" class="qtyItem form-control text-center"
+                                                        value="{{ $cartItem['quantity'] }}" placeholder=""
+                                                        aria-label="Example text with button addon"
+                                                        aria-describedby="button-addon1">
+                                                    <div class="input-group-append">
+                                                        <button class="increaseBtn btn btn-outline-success js-btn-plus"
+                                                            type="button">&plus;</button>
+                                                    </div>
                                                 </div>
                                             </div>
 
                                         </td>
 
-                                        @php
-                                            $kdvOrani = $cart['kdv'] ?? 0;
-                                            $price = $cart['price'];
-                                            $qty = $cart['qty'];
-
-                                            $kdvTutar = $price * $qty * ($kdvOrani / 100);
-                                            $toplamTutar = $price * $qty + $kdvTutar;
-                                        @endphp
-
-                                        <td class="itemTotal">$ {{ $toplamTutar }}</td>
+                                        <td class="itemTotal">{{ $cartItem['total'] }} FCFA</td>
                                         <td>
                                             <form class="removeItem" method="POST">
                                                 @csrf
                                                 @php
-                                                    $sifrele = sifrele($key);
+                                                    $encrypt = encryptData($key);
                                                 @endphp
 
-                                                <input type="hidden" name="product_id" value="{{ $sifrele }}">
-                                                <button type="submit" class="btn btn-primary btn-sm">X</button>
+                                                <input type="hidden" name="product_id" value="{{ $encrypt }}">
+                                                <button type="submit" class="btn btn-danger btn-sm border-0"><span
+                                                        style="font-size: 16px" class="mdi mdi-delete"></span></button>
                                             </form>
                                         </td>
                                     </tr>
                                 @endforeach
-                            @endif
-
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-md-6">
-                    <form action="{{ route('coupon.check') }}" method="POST">
-                        @csrf
-                        <div class="row">
-                            <div class="col-md-12">
-                                <label class="text-black h4" for="coupon">Coupon</label>
-                                <p>Enter your coupon code if you have one.</p>
-                            </div>
-                            <div class="col-md-8 mb-3 mb-md-0">
-                                <input type="text" class="form-control py-3" name="coupon_name"
-                                    value="{{ session()->get('couponCode') ?? '' }}" id="coupon"
-                                    placeholder="Coupon Code">
-                            </div>
-                            <div class="col-md-4">
-                                <button type="submit" class="btn btn-primary btn-sm">Apply Coupon</button>
-                            </div>
-                        </div>
-                    </form>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
 
-                <div class="col-md-6 pl-5">
-                    <div class="row justify-content-end">
-                        <div class="col-md-7">
-                            <div class="row">
-                                <div class="col-md-12 text-right border-bottom mb-5">
-                                    <h3 class="text-black h4 text-uppercase">Cart Totals</h3>
+                {{-- MOBILE --}}
+                <div class="row p-2 mb-5 d-block d-lg-none">
+                    <ul>
+                        @foreach ($cart as $key => $cartItem)
+                            <li class="orderItem h-24 align-items-center d-flex gap-4 border-bottom border-dark-subtle"
+                                data-id="{{ $key }}">
+                                <div class="product-mobile-thumbnail">
+                                    <div class="product-thumbnail-image p-2">
+                                        <img src="{{ asset($cartItem['product']['image']) }}"
+                                            alt="{{ $cartItem['product']['name'] }}">
+                                    </div>
                                 </div>
-                            </div>
-                            {{-- <div class="row mb-3">
-                                <div class="col-md-6">
-                                    <span class="text-black">Subtotal</span>
-                                </div>
-                                <div class="col-md-6 text-right">
-                                    <strong class="text-black">$230.00</strong>
-                                </div>
-                            </div> --}}
-                            <div class="row mb-5">
-                                <div class="col-md-6">
-                                    <span class="text-black">Total</span>
-                                </div>
-                                <div class="col-md-6 text-right">
-                                    <strong class="newTotalPrice text-black">$
-                                        {{ session()->get('totalPrice') ?? '' }}</strong>
-                                </div>
-                            </div>
+                                <div class="flex-grow-1">
+                                    <div class="product-mobile-cart-text">
+                                        <h2>{{ ucfirst($cartItem['product']['name']) ?? '' }}</h2>
+                                        <p>{{ $cartItem['product']['price'] }} FCFA</p>
+                                    </div>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div class="d-flex justify-content-center align-items-center">
+                                            <div class="input-group align-items-center gap-2" style="max-width: 130px;">
+                                                <div class="input-group-prepend">
+                                                    <button class="decreaseBtn btn btn-outline-success js-btn-minus"
+                                                        type="button">&minus;</button>
+                                                </div>
+                                                <input type="text" class="qtyItem form-control text-center"
+                                                    value="{{ $cartItem['quantity'] }}" placeholder=""
+                                                    aria-label="Example text with button addon"
+                                                    aria-describedby="button-addon1">
+                                                <div class="input-group-append">
+                                                    <button class="increaseBtn btn btn-outline-success js-btn-plus"
+                                                        type="button">&plus;</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <form class="removeItem" method="POST">
+                                                @csrf
+                                                @php
+                                                    $encrypt = encryptData($key);
+                                                @endphp
 
+                                                <input type="hidden" name="product_id" value="{{ $encrypt }}">
+                                                <button type="submit" class="border-0 btn btn-light"><span
+                                                        style="font-size: 16px"
+                                                        class="text-danger fs-2 mdi mdi-delete"></span></button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        @endforeach
+                    </ul>
+                </div>
+
+                <div class="mb-5">
+                    <a href="{{ route('categories') }}" class="buy-now btn btn-primary border-0"> <span
+                            class="mdi mdi-plus"></span>Ajouter
+                    </a>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <form action="{{ route('coupon.check') }}" method="POST">
+                            @csrf
                             <div class="row">
                                 <div class="col-md-12">
-                                    <button class="paymentButton btn btn-primary btn-lg py-3 btn-block">Proceed To
-                                        Checkout</button>
+                                    <label class="text-black h4" for="coupon">Coupon</label>
+                                    <p>Veuillez entrez le code de votre coupon ici si vous en avez un.</p>
+                                </div>
+                                <div class="col-md-8 mb-3 mb-md-0">
+                                    <input type="text" class="form-control py-3" name="codePromo"
+                                        value="{{ session()->get('couponCode') ?? '' }}" id="coupon"
+                                        placeholder="Coupon Code">
+                                </div>
+                                <div class="col-md-4">
+                                    <button type="submit" class="btn btn-primary btn-sm border-0">Appliquer</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="col-md-6 pl-5">
+                        <div class="row justify-content-end">
+                            <div class="col-md-7 mt-4 mt-md-0">
+                                <div class="row">
+                                    <div class="col-md-12 text-right border-bottom mb-4">
+                                        <h3 class="text-black text-nowrap h4 text-uppercase">Total du panier </h3>
+                                    </div>
+                                </div>
+                                <div class="row mb-4">
+                                    <div class="col-md-6">
+                                        <span class="text-black">Total</span>
+                                    </div>
+                                    <div class="col-md-6 text-right">
+                                        <strong class="newTotalPrice text-black text-nowrap">
+                                            {{ $totalCartPrice }}
+                                            FCFA</strong>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <button
+                                            class="paymentButton btn btn-primary btn-lg py-3 btn-block text-nowrap border-0">Passer
+                                            commande</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            @else
+                <div>
+                    <h3 class="text-dark text-center mb-4">Votre panier est actuellement vide. Veuillez <a
+                            class="text-primary" href="{{ route('categories') }}">cliquer
+                            ici</a>
+                        pour ajouter des produits !</h3>
+                </div>
+            @endif
+            {{-- Presentation des coffrets --}}
+            {{-- @if (!empty(session('cart')['packs']) && count($cart['packs']) > 0)
+                <div class="mb-5">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Coffret</th>
+                                <th>Produits</th>
+                                <th>Prix</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (session('cart')['packs'] as $packId => $pack)
+                                <tr class="orderItem" data-id="{{ $packId }}">
+                                    <td>{{ ucfirst($pack['pack']->name) }}</td>
+                                    <td>
+                                        <ul>
+                                            @foreach ($pack['products'] as $product)
+                                                <li>{{ ucfirst($product['name']) }} (x{{ $product['quantity'] }})</li>
+                                            @endforeach
+                                        </ul>
+                                    </td>
+                                    <td>{{ $pack['total_price'] }} FCFA</td>
+                                    <td>
+                                        <form class="removeItem" method="POST">
+                                            @csrf
+                                            @php
+                                                $encrypt = encryptData($packId);
+                                            @endphp
+
+                                            <input type="hidden" name="pack_id" value="{{ $encrypt }}">
+                                            <button type="submit" class="btn btn-danger btn-sm border-0"><span
+                                                    style="font-size: 16px" class="mdi mdi-delete"></span></button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            @endif --}}
         </div>
     </div>
 @endsection
 
 @section('customjs')
     <script>
+        @if (count($errors))
+            @foreach ($errors->all() as $error)
+                toastr.error("{{ $error }}")
+            @endforeach
+        @endif
+
         $(document).on('click', '.paymentButton', function(e) {
             var url = "{{ route('cart.form') }}";
 
@@ -175,7 +277,10 @@
 
         function sepetUpdate() {
             var product_id = $('.selected').closest('.orderItem').attr('data-id');
-            var qty = $('.selected').closest('.orderItem').find('.qtyItem').val();
+            var quantity = $('.selected').closest('.orderItem').find('.qtyItem').val();
+            console.log(product_id, quantity);
+
+
             $.ajax({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -184,14 +289,15 @@
                 url: "{{ route('cartnewQty') }}",
                 data: {
                     product_id: product_id,
-                    qty: qty,
+                    quantity: quantity,
                 },
                 success: function(response) {
-                    $('.selected').find('.itemTotal').text('$' + response.itemTotal);
-                    if (qty == 0) {
+
+                    $('.selected').find('.itemTotal').text(response.productTotal + ' FCFA');
+                    if (quantity == 0) {
                         $('.selected').remove();
                     }
-                    $('.newTotalPrice').text(response.totalPrice);
+                    $('.newTotalPrice').text(response.totalCartPrice + ' FCFA');
                 }
             });
         }
@@ -199,7 +305,11 @@
         $(document).on('click', '.removeItem', function(e) {
             e.preventDefault();
             const formData = $(this).serialize();
+
+            console.log(formData)
             var item = $(this);
+            console.log(item)
+
             $.ajax({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -209,7 +319,8 @@
                 data: formData,
                 success: function(response) {
                     toastr.success(response.message);
-                    $('.count').text(response.sepetCount);
+                    $('.count').text(response.productNumber);
+                    $('.newTotalPrice').text(response.totalCartPrice + ' FCFA');
                     item.closest('.orderItem').remove();
                 }
             });

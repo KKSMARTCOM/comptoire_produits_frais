@@ -2,11 +2,9 @@
 <html lang="en">
 
 <head>
-    <title>Shoppers &mdash; E-Commerce</title>
+    <title>CPF Boutique en ligne</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <link rel="stylesheet" href="{{ asset('/') }}fonts/icomoon/style.css">
 
     <link rel="stylesheet" href="{{ asset('/') }}css/bootstrap.min.css">
     <link rel="stylesheet" href="{{ asset('/') }}css/magnific-popup.css">
@@ -14,14 +12,23 @@
     <link rel="stylesheet" href="{{ asset('/') }}css/owl.carousel.min.css">
     <link rel="stylesheet" href="{{ asset('/') }}css/owl.theme.default.min.css">
 
-
     <link rel="stylesheet" href="{{ asset('/') }}css/aos.css">
 
     <link rel="stylesheet" href="{{ asset('/') }}css/style.css">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@5.9.55/css/materialdesignicons.min.css">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nouislider/distribute/nouislider.min.css">
+
+    {{-- LEAFTCSS --}}
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+
     <meta name="csrf-token" content="{{ csrf_token() }}">
+
+    {{-- TAILWIND --}}
+    <script src="https://cdn.tailwindcss.com"></script>
 
 </head>
 
@@ -42,40 +49,30 @@
     <script src="{{ asset('/') }}js/owl.carousel.min.js"></script>
     <script src="{{ asset('/') }}js/jquery.magnific-popup.min.js"></script>
     <script src="{{ asset('/') }}js/aos.js"></script>
-    @yield('customjs')
     <script src="{{ asset('/') }}js/main.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    {{-- LEAFTJS --}}
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    @yield('customjs')
 
     <script>
         @if (session()->get('success'))
             toastr.success("{{ session()->get('success') }}")
         @endif
 
-        @if (session()->get('error'))
-            toastr.error("{{ session()->get('error') }}")
-        @endif
+        /* document.addEventListener('DOMContentLoaded', function() {
+            var navbar = document.getElementById('site-navigation');
+            var sticky = 280;
 
-        @if (count($errors))
-            @foreach ($errors->all() as $error)
-                toastr.error("{{ $error }}")
-            @endforeach
-        @endif
-    </script>
-
-    <script>
-    document.addEventListener('DOMContentLoaded', function(){
-        var navbar = document.getElementById('site-navigation');
-        var sticky = 120;
-
-        function handleScroll(){
-             if(window.pageYOffset >= sticky){
-                navbar.classList.add('fixed');
-            }else{
-                navbar.classList.remove('fixed');
+            function handleScroll() {
+                if (window.pageYOffset >= sticky) {
+                    navbar.classList.add('fixed');
+                } else {
+                    navbar.classList.remove('fixed');
+                }
             }
-        }
-        window.addEventListener('scroll', handleScroll)
-    })
+            window.addEventListener('scroll', handleScroll)
+        }) */
     </script>
 
 </body>

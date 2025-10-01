@@ -1,134 +1,60 @@
-@if (!empty($products) && $products->count() > 0)
+@if (!empty($products) && count($products) > 0)
     @foreach ($products as $product)
-        <div class="col-sm-6 col-lg-4 mb-4" data-aos="fade-up">
-            <div class="block-4 text-center border">
-                <figure class="block-4-image">
-                    <a href="{{ route('productdetail', $product->slug) }}"><img src="{{ asset($product->image) }}"
-                            alt="{{ $product->name }}" class="img-fluid"></a>
-                </figure>
-                <div class="block-4-text p-4">
-                    <h3><a href="{{ route('productdetail', $product->slug) }}">{{ $product->name }}</a>
-                    </h3>
-                    <p class="mb-0">{{ $product->short_text }}</p>
-                    <p class="text-primary font-weight-bold">
-                        ${{ number_format($product->price, 0) }}</p>
+        <div
+            class="bg-white shadow-md rounded-xl text-center overflow-hidden hover:shadow-lg transition-shadow duration-300">
+            <!-- Image -->
+            <div class="overflow-hidden">
+                <a href="{{ route('productdetail', $product->slug) }}">
+                    <img src="{{ asset('images/poultry.png') }}" alt="{{ $product->name }}"
+                        class="w-full h-60 object-cover hover:scale-105 transition-transform duration-300">
+                </a>
+            </div>
 
-                    @php
-                        $sifrele = sifrele($product->id);
-                    @endphp
+            <!-- Texte -->
+            <div class="p-[1rem]">
+                <h3 class="text-gray-700 text-sm font-semibold tracking-wide uppercase">
+                    {{ strtoupper($product->category->name) }}
+                </h3>
+                <h2 class="mt-1 text-lg font-bold text-gray-900">
+                    <a href="{{ route('productdetail', $product->slug) }}">
+                        {{ ucfirst($product->name) }}
+                    </a>
+                </h2>
+                <p class="mt-2 text-gray-900 font-semibold">
+                    {{ $product->price }} FCFA
+                </p>
 
-                    {{-- {{ sifrelecoz($sifrele) }} --}}
+                @php
+                    $encrypt = encryptData($product->id);
+                @endphp
 
-                    <form id="addForm" method="POST">
+                <!-- Boutons -->
+                <div class="mt-4 flex items-center justify-center gap-3">
+                    <form method="POST" action="{{ route('cartadd', $encrypt) }}">
                         @csrf
-                        <input type="hidden" name="product_id" value={{ $sifrele }}>
-                        <input type="hidden" name="size" value={{ $product->size }}>
-                        <p><button type="submit" class="buy-now btn btn-sm btn-primary">Add To
-                                Cart</button>
-                        </p>
+                        <input type="hidden" name="product_id" value="{{ $encrypt }}">
+                        <button type="submit"
+                            class="flex items-center justify-center w-10 h-10 rounded-full border border-gray-800 text-gray-800 hover:bg-gray-800 hover:text-white transition">
+                            <span class="mdi mdi-cart-plus text-xl"></span>
+                        </button>
+                    </form>
+
+                    <form method="POST" action="{{ route('cartadd', $encrypt) }}">
+                        @csrf
+                        <input type="hidden" name="product_id" value="{{ $encrypt }}">
+                        <button type="submit"
+                            class="px-4 py-2 text-sm font-medium text-white bg-green-600 hover:bg-green-700 rounded-lg hover:bg-blue-700 transition">
+                            Passer commande
+                        </button>
                     </form>
                 </div>
             </div>
         </div>
+        {{-- <div class="w-full sm:w-1/2 lg:w-1/4 mb-6" data-aos="fade-up">
+        </div> --}}
     @endforeach
 @else
-<div>
-        <div class="col-sm-6 col-lg-4 mb-4" data-aos="fade-up">
-            <div class="block-4 text-center border">
-                <figure class="block-4-image">
-                    <a href=""><img src="{{ asset('images/men.jpg') }}"
-                            alt="" class="img-fluid"></a>
-                </figure>
-                <div class="block-4-text p-4">
-                    <h3><a href="">Viande</a>
-                    </h3>
-                    <p class="mb-0">Bonne viande</p>
-                    <p class="text-primary font-weight-bold">
-                        $ 100</p>
-
-                    @php
-                        $sifrele = sifrele('1');
-                    @endphp
-
-                    {{-- {{ sifrelecoz($sifrele) }} --}}
-
-                    <form id="addForm" method="POST">
-                        @csrf
-                        <input type="hidden" name="product_id" value={{ $sifrele }}>
-                        <input type="hidden" name="size" value="1">
-                        <p><button type="submit" class="buy-now btn btn-sm btn-primary">Add To
-                                Cart</button>
-                        </p>
-                    </form>
-                </div>
-            </div>
-            
-        </div>
-
-        <div class="col-sm-6 col-lg-4 mb-4" data-aos="fade-up">
-            <div class="block-4 text-center border">
-                <figure class="block-4-image">
-                    <a href=""><img src="{{ asset('images/men.jpg') }}"
-                            alt="" class="img-fluid"></a>
-                </figure>
-                <div class="block-4-text p-4">
-                    <h3><a href="">Viande</a>
-                    </h3>
-                    <p class="mb-0">Bonne viande</p>
-                    <p class="text-primary font-weight-bold">
-                        $ 100</p>
-
-                    @php
-                        $sifrele = sifrele('1');
-                    @endphp
-
-                    {{-- {{ sifrelecoz($sifrele) }} --}}
-
-                    <form id="addForm" method="POST">
-                        @csrf
-                        <input type="hidden" name="product_id" value={{ $sifrele }}>
-                        <input type="hidden" name="size" value="1">
-                        <p><button type="submit" class="buy-now btn btn-sm btn-primary">Add To
-                                Cart</button>
-                        </p>
-                    </form>
-                </div>
-            </div>
-            
-        </div>
-
-        <div class="col-sm-6 col-lg-4 mb-4" data-aos="fade-up">
-            <div class="block-4 text-center border">
-                <figure class="block-4-image">
-                    <a href=""><img src="{{ asset('images/men.jpg') }}"
-                            alt="" class="img-fluid"></a>
-                </figure>
-                <div class="block-4-text p-4">
-                    <h3><a href="">Viande</a>
-                    </h3>
-                    <p class="mb-0">Bonne viande</p>
-                    <p class="text-primary font-weight-bold">
-                        $ 100</p>
-
-                    @php
-                        $sifrele = sifrele('1');
-                    @endphp
-
-                    {{-- {{ sifrelecoz($sifrele) }} --}}
-
-                    <form id="addForm" method="POST">
-                        @csrf
-                        <input type="hidden" name="product_id" value={{ $sifrele }}>
-                        <input type="hidden" name="size" value="1">
-                        <p><button type="submit" class="buy-now btn btn-sm btn-primary">Add To
-                                Cart</button>
-                        </p>
-                    </form>
-                </div>
-            </div>
-            
-        </div>
-</div>
-
+    <div class="w-full text-center py-8">
+        <h3 class="text-lg font-semibold text-gray-600">Aucun produit disponible</h3>
+    </div>
 @endif
-

@@ -71,7 +71,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => 'Africa/Porto-Novo',
     // 'timezone' => 'Europe/İstanbul',
 
     /*
@@ -85,7 +85,7 @@ return [
     |
     */
 
-    'locale' => 'en',
+    'locale' => 'fr',
     // 'locale' => 'tr',
 
     /*

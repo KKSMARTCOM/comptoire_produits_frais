@@ -7,6 +7,9 @@ use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Models\Pack;
+use App\Models\Section;
+use Illuminate\Support\Facades\File;
 
 class PageController extends Controller
 {
@@ -30,45 +33,120 @@ class PageController extends Controller
         return view('frontend.pages.about', compact('breadcrumb'));
     }
 
-    public function product(Request $request, $slug = null)
+    public function finish()
     {
-        // URL'nin ilk parçasına erişebilmeyi sağlsar.
-        $category = request()->segment(1) ?? null;
+        $breadcrumb = [
+            'pages' => [],
+            'active' => 'Merci'
+        ];
 
-        // if(!empty($request->size)){
-        //     $size = $request->size;
-        // }else{
-        //     $size = null;
-        // }
+        return view('frontend.pages.finish', compact('breadcrumb'));
+    }
 
-        // url'deki parametre sorguları
-        // /products?size=LARGE&color=Black&page=2
-
-        // explode() fonksiyonu, bir dizeyi belirli bir ayraç veya karaktere göre parçalayan ve parçalanan parçaları bir dizi olarak döndürür
-        $sizes = !empty($request->size) ? explode(',', $request->size) : null;
-        $colors = !empty($request->color) ? explode(',', $request->color) : null;
-        $start_price = $request->min ?? null;
-        $end_price = $request->max ?? null;
-
-        $order = $request->order ?? 'id';
-        $sort = $request->sort ?? 'desc';
-
-
-        $anaKategori = null;
-        $altKategori = null;
-        /* if (!empty($category) && empty($slug)) {
-            $anaKategori = Category::where('slug', $category)->first();
-        } else if (!empty($category) && !empty($slug)) {
-            $anaKategori = Category::where('slug', $category)->first();
-            $altKategori = Category::where('slug', $slug)->first();
-        } */
+    public function allProduct()
+    {
+        $products = Product::all();
+        $categories = Category::where('category_id', null)->get();
+        $types = Category::where('sub_cat', 'type')->get();
+        $regions = Category::where('sub_cat', 'region')->get();
 
         $breadcrumb = [
             'pages' => [],
-            'active' => 'Products'
+            'active' => 'Produits'
         ];
 
-        if (!empty($anaKategori) && empty($altKategori)) {
+        return view('frontend.pages.products', compact('products', 'breadcrumb', 'categories', 'types', 'regions'));
+    }
+
+    public function product(Request $request, $section = null, $category = null)
+    {
+
+        // Récupérer la section (si présente)
+        $currentSection = $section ? Section::where('slug', $section)->firstOrFail() : null;
+
+        // Récupérer la catégorie (si présente)
+        $currentCategory = $category ? Category::where('slug', $category)->firstOrFail() : null;
+
+        $types = Category::where('sub_cat', 'type')->get();
+        $regions = Category::where('sub_cat', 'region')->get();
+
+        $productCat = $request->input('productCat');
+        $wineType = $request->input('wineType');
+        $wineRegion = $request->input('wineRegion');
+
+        $products = Product::query();
+
+        // Si une section est sélectionnée
+        if ($currentSection) {
+            $products->whereHas('category.section', function ($q) use ($currentSection) {
+                $q->where('id', $currentSection->id);
+            });
+        }
+
+        // Filtre par catégorie
+        if ($currentCategory) {
+            $products->where('category_id', $currentCategory->id);
+        }
+
+        // Filtrer par type
+        if ($request->filled('wine_type')) {
+            $products->where('type', $request->wine_type);
+        }
+
+
+        // Filtrer par région
+        if ($request->filled('wine_region')) {
+            $products->where('region', $request->wine_region);
+        }
+        //dd($products);
+
+        // Filtrer par prix (min_price et max_price)
+        if ($request->filled('min_price') || $request->filled('max_price')) {
+            $minPrice = $request->input('min_price', 0);
+            $maxPrice = $request->input('max_price', PHP_INT_MAX);
+
+            // Appliquer les filtres de prix
+            $products->whereBetween('price', [$minPrice, $maxPrice]);
+        }
+
+        // Trier les résultats
+        if ($request->filled('sort')) {
+            switch ($request->sort) {
+                case 'price_asc':
+                    $products->orderBy('price', 'asc');
+                    break;
+                case 'price_desc':
+                    $products->orderBy('price', 'desc');
+                    break;
+                case 'alpha_asc':
+                    $products->orderBy('name', 'asc');
+                    break;
+                case 'alpha_desc':
+                    $products->orderBy('name', 'desc');
+                    break;
+                case 'promotion':
+                    $products->where('promotion', true);
+                    break;
+            }
+        }
+
+
+        // Obtenir les produits filtrés
+        $products = $products->get();
+
+        $breadcrumb = [
+            'pages' => [],
+            'active' => $currentSection ? $currentSection->name : 'Produits'
+        ];
+
+        //dd($products);
+        // Si la requête est une requête AJAX, renvoyer les produits filtrés au format JSON
+        if ($request->ajax()) {
+            $data['products'] = view('frontend.ajax.productList', ['products' => $products])->render();
+            return response()->json($data);
+        }
+
+        /* if (!empty($anaKategori) && empty($altKategori)) {
             $breadcrumb['active'] = $anaKategori->name;
         }
 
@@ -79,57 +157,10 @@ class PageController extends Controller
             ];
 
             $breadcrumb['active'] = $altKategori->name;
-        }
-
-        // return $breadcrumb;
+        } */
 
 
-        /* $products = Product::where("status", "1")
-            ->select(['id', 'name', 'slug', 'size', 'color', 'price', 'category_id', 'image'])
-            // filtreleme
-            ->where(function ($q) use ($sizes, $colors, $start_price, $end_price) {
-                // where koşulu, veritabanı sorgusu içinde belirli bir sütunu belirli bir değere göre filtrelemek için kullanılır.
-                // whereIn koşulu, bir sütunun birden fazla değeri ile karşılaştırmak için kullanılır. Bu, sütunun bir dizi değerle eşleştiği durumlarda kullanışlıdır.
-                if (!empty($sizes)) {
-                    $q->whereIn('size', $sizes);
-                }
-                if (!empty($colors)) {
-                    $q->whereIn('color', $colors);
-                }
-                if (!empty($start_price) && $end_price) {
-                    // $q->whereBetween('price', [$start_price, $end_price]);
-                    $q->where('price', '>=', $start_price);
-                    $q->where('price', '<=', $end_price);
-                }
-                return $q;
-            })
-            // with('category:id,name,slug') ile ilişkilendirilmiş kategorileri önceden yüklemiş oluyoruz
-            // whereHas('category', ...) ile belirli bir kritere uyan gönderileri alıyoruz
-            // whereHas ilişki tablosunda sorgu yapmada kullanılır
-            ->with('category:id,name,slug')
-            ->whereHas('category', function ($q) use ($category, $slug) {
-                if (!empty($slug)) {
-                    $q->where('slug', $slug);
-                }
-                return $q;
-            })->orderBy($order, $sort)->paginate(21);
-
-        if ($request->ajax()) {
-            $view = view('frontend.ajax.productList', compact('products'))->render();
-            return response(['data' => $view, 'paginate' => (string) $products->withQueryString()->links('vendor.pagination.custom')]);
-        }
-
-        $sizeLists = Product::where("status", "1")->groupBy('size')->pluck('size')->toArray();
-
-        $colors = Product::where("status", "1")->groupBy('color')->pluck('color')->toArray(); */
-
-        // ilişki kurulduğu için with kullanıldı
-        // sasdece sayısını istersek withCount kullanılır
-        // $categories = Category::where('status','1')->where('cat_ust', null)->withCount('items')->get();
-
-        //$maxPrice = Product::max('price');
-
-        return view('frontend.pages.products', compact('breadcrumb'));
+        return view('frontend.pages.products', compact('breadcrumb', 'products', 'currentCategory', 'types', 'regions', 'currentSection'));
     }
 
     public function saleproduct()
@@ -144,30 +175,74 @@ class PageController extends Controller
 
     public function productdetail($slug)
     {
-        // $product = Product::whereSlug($slug)->first();
-        $product = Product::where("slug", $slug)->where('status', '1')->firstOrFail();
+        try {
+            //code...
+            //$product = Product::where('slug', $slug)->firstOrFail();
+            $categories = Category::where('category_id', null)->get();
+            $product = Product::where("slug", $slug)->firstOrFail();
 
-        $products = Product::where('id', '!=', $product->id)
-            ->where('category_id', $product->category_id) // ürünün kategorisiyle aynı olan ürünleri getir
-            ->where('status', '1')
-            ->limit('6')
-            ->orderBy('id', 'desc')
-            ->get();
+            if ($product) {
 
-        $category = Category::where('id', $product->category_id)->first();
+                $category = Category::where('id', $product->category_id)->first();
 
-        $breadcrumb = [
-            'pages' => [],
-            'active' =>  $slug
-        ];
+                $productFeatures = Product::where('id', '!=', $product->id)
+                    ->where('category_id', $product->category_id)
+                    ->limit('6')
+                    ->orderBy('id', 'desc')
+                    ->get();
 
-        if (!empty($category)) {
-            $breadcrumb['pages'][] = [
-                'link' => route('men' . 'product'),
-                'name' => 'men'
-            ];
+                $breadcrumb = [
+                    'pages' => [],
+                    'active' =>  $product->name
+                ];
+
+                if (!empty($category)) {
+                    $breadcrumb['pages'][] = [
+                        'link' => route('sections', $category->slug),
+                        'name' => $category->name
+                    ];
+                }
+
+                return view('frontend.pages.product', compact('breadcrumb', 'product', 'productFeatures', 'categories'));
+            }
+        } catch (\Exception $e) {
+            dd($e);
+            //throw $th;
         }
+    }
 
-        return view('frontend.pages.product', compact('breadcrumb'));
+    public function showPackItem(Request $request)
+    {
+        try {
+            $packId = decryptData($request->pack_id);
+            //dd($packId);
+            $pack = Pack::where('id', $packId)->firstOrFail();
+            //dd($pack);
+            $breadcrumb = [
+                'pages' => [],
+                'active' => 'Coffret '
+            ];
+
+            return view('frontend.pages.pack', compact('pack', 'breadcrumb'));
+        } catch (\Exception $e) {
+            //throw $th;
+            dd($e);
+        }
+    }
+
+    public function cave()
+    {
+        try {
+            $section = Section::where('slug', 'la-cave')->first();
+            return view('frontend.pages.cave', compact('section'));
+        } catch (\Throwable $e) {
+            dd($e);
+        }
+    }
+
+    public function localProducts()
+    {
+        $products = Product::latest()->take(4)->get();
+        return view('frontend.pages.local-products', compact('products'));
     }
 }
