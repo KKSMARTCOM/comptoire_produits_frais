@@ -58,7 +58,7 @@ class CategorySeeder extends Seeder
             'section_id' => $produitsLocaux->id,
         ]);*/
 
-       /* $cellar = Category::create([
+        /* $cellar = Category::create([
             'name' => 'La Cave',
             'content' => null,
             'section_id' => $cave->id,
@@ -68,14 +68,14 @@ class CategorySeeder extends Seeder
             'name' => 'Vin Rouge',
             'content' => null,
             //'sub_cat' => 'type',
-            'category_id' => $cave->id
+            'section_id' => $cave->id
         ]);
 
         $white_wine = Category::create([
             'name' => 'Vin Blanc',
             'content' => null,
             //'sub_cat' => 'type',
-            'category_id' => $cave->id
+            'section_id' => $cave->id
         ]);
 
         /*$rosé_wine = Category::create([
@@ -113,7 +113,7 @@ class CategorySeeder extends Seeder
             'category_id' => $cellar->id
         ]);*/
 
-       /*$prov_wine = Category::create([
+        /*$prov_wine = Category::create([
             'name' => 'Provence',
             'content' => null,
             'sub_cat' => 'region',
@@ -143,17 +143,17 @@ class CategorySeeder extends Seeder
             'name' => 'Coffrets & Paniers',
             'content' => null,
         ]);*/
-        
+
         // Produits catégorie "Volaille"
-// NB: laissez les prix/quantités si OK, sinon ajustez simplement les valeurs
+        // NB: laissez les prix/quantités si OK, sinon ajustez simplement les valeurs
 
         Product::create([
             'name' => 'Ailes de Poulet',
             'slug' => Str::slug('Ailes de Poulet'),
             'image' => 'img/Ailes de poulet.png',
             'content' => 'Ailes de poulet fraîches, prêtes à assaisonner.',
-            'price' => 2200.00, 
-            'quantity' => 40,   
+            'price' => 2200.00,
+            'quantity' => 40,
             'status' => '1',
             'category_id' => $volailles->id,
         ]);
@@ -215,7 +215,7 @@ class CategorySeeder extends Seeder
 
         // Produits pour la catégorie "La Cave"
         Product::create([
-            'name' => 'Vin Rouge',
+            'name' => 'Château Bertin',
             'slug' => Str::slug('Vin Rouge'),
             'image' => 'img/Vin_Rouge.png',
             'content' => 'Vin rouge sélectionné.',
@@ -227,7 +227,7 @@ class CategorySeeder extends Seeder
 
         // Produits "Vins Blancs"
         Product::create([
-            'name' => 'Vin Blanc',
+            'name' => 'Petit Chablis',
             'slug' => Str::slug('Vin Blanc'),
             'image' => 'img/Vin_Blanc.png',
             'content' => 'Vin blanc fruité.',
@@ -238,7 +238,7 @@ class CategorySeeder extends Seeder
         ]);
 
         Product::create([
-            'name' => 'Vin Blanc 2',
+            'name' => 'Pravda',
             'slug' => Str::slug('Vin Blanc 2'),
             'image' => 'img/Vin_Blanc2.png',
             'content' => 'Vin blanc élégant.',
@@ -249,7 +249,7 @@ class CategorySeeder extends Seeder
         ]);
 
         Product::create([
-            'name' => 'Vin Blanc Alt',
+            'name' => 'Château Cornelin',
             'slug' => Str::slug('Vin Blanc Alt'),
             'image' => 'img/Vin-blanc.png',
             'content' => 'Variation de vin blanc.',
@@ -380,7 +380,7 @@ class CategorySeeder extends Seeder
             'status' => '1',
             'category_id' => $store->id,
         ]);
-/*       Product::create([
+        /*       Product::create([
             'name' => 'Poulet Fermier',
             'slug' => Str::slug('Poulet Fermier'),
             'image' => 'img/product/1725618894-poulet-frais.webp',

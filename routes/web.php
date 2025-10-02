@@ -7,6 +7,7 @@ use App\Http\Controllers\Backend\OrderController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\Frontend\PageController;
 use App\Http\Controllers\Frontend\PageHomeController;
+use Illuminate\Support\Facades\Artisan;
 
 /*
 |--------------------------------------------------------------------------
@@ -63,3 +64,11 @@ Route::post('/submit-order', [OrderController::class, 'submit'])->name('order.su
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::get('/run-setup', function () {
+    Artisan::call('migrate:fresh', ['--force' => true]);
+    Artisan::call('db:seed', ['--force' => true]);
+    Artisan::call('config:cache');
+    Artisan::call('route:cache');
+    return 'Setup executed.';
+});
