@@ -6,7 +6,7 @@
         <div class="site-section-cave-opacity"></div>
         <div class="site-section-cave-text absolute text-center p-2">
             <h1 class="font-bold mb-6 ">
-                Terroir & <span class="text-[#004200]">Saveurs</span>
+                Terroir & Saveurs</span>
             </h1>
             <p>Produits locaux • Fraîcheur garantie</p>
             <div class="mt-[2rem]">

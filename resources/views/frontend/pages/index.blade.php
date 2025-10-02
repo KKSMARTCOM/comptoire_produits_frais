@@ -120,7 +120,7 @@
                     </div>
                 </a>
 
-                <a target="_blank" href="https://cpflounge.page.gd/" class="cursor-pointer shadow-md bg-white rounded-lg">
+                <div class="cursor-pointer shadow-md bg-white rounded-lg">
                     <div class="w-full h-[18rem] overflow-hidden">
                         <img src="{{ asset('images/others/lounge.jpg') }}" class="object-cover w-full h-full rounded-t-lg"
                             alt="">
@@ -133,7 +133,7 @@
                             savourer un instant de détente entre amis ou en toute intimité. Un lieu unique et propice
                             aux échanges.</p>
                     </div>
-                </a>
+                </div>
             </div>
         </div>
 

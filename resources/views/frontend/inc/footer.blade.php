@@ -30,7 +30,7 @@
                                 class="{{ Route::is('local.products') || (request()->routeIs('sections') && request()->route('section') === 'produits-locaux') ? 'active' : '' }}">
                                 <a href="{{ route('local.products') }}">Produits locaux </a>
                             </li>
-                            <li><a target="_blank" href="https://cpflounge.page.gd/">CPF Lounge</a></li>
+                            <li><a href="javascript:void(0)">CPF Lounge</a></li>
                             <li><a href="/#pack-section">Coffrets & Paniers</a></li>
                             <li class="{{ Route::is('contact') ? 'active' : '' }}"><a
                                     href="{{ route('contact') }}">Contact</a>
