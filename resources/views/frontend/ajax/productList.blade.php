@@ -5,8 +5,8 @@
             <!-- Image -->
             <div class="overflow-hidden">
                 <a href="{{ route('productdetail', $product->slug) }}">
-                    <img src="{{ asset('images/poultry.png') }}" alt="{{ $product->name }}"
-                        class="w-full h-60 object-cover hover:scale-105 transition-transform duration-300">
+                    <img src="{{ asset($product->image) }}" alt="{{ $product->name }}"
+                        class="w-full h-60 object-contain hover:scale-105 transition-transform duration-300">
                 </a>
             </div>
 
