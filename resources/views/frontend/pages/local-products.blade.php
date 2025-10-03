@@ -98,8 +98,9 @@
     <section class="pb-20">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid lg:grid-cols-2 gap-12 items-center">
-                <div>
-                    <img src="{{ asset('images/store1.jpg') }}" alt="Boutique" class="rounded-2xl shadow-2xl" />
+                <div class="h-[400px]">
+                    <img src="{{ asset('images/others/store.jpg') }}" alt="Boutique"
+                        class="rounded-2xl shadow-2xl h-full w-full object-cover" />
                 </div>
                 <div>
                     <h2 class="text-4xl font-bold text-[#333333] mb-6">Un Supermarché au Service de la Qualité</h2>

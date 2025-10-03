@@ -144,11 +144,11 @@ ul {
 
 .site-section-cave {
     margin-top: 80px;
-    background-color: #87ceeb;
+    /* background-color: #ffffff;
     background-repeat: no-repeat;
     background-size: cover;
-    background-position: center;
-    min-height: 500px;
+    background-position: center; */
+    height: 600px;
     /* height: calc( 100vh - 120px); */
     position: relative;
     display: flex;

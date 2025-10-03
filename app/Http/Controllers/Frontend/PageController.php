@@ -245,4 +245,14 @@ class PageController extends Controller
         $products = Product::latest()->take(4)->get();
         return view('frontend.pages.local-products', compact('products'));
     }
+
+    public function promotions()
+    {
+        return view('frontend.pages.promotions');
+    }
+
+    public function promotion()
+    {
+        return view('frontend.pages.promotion');
+    }
 }

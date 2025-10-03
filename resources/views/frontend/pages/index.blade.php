@@ -86,7 +86,8 @@
         </div>
     </div> --}}
     <div>
-        <div class="site-section-cave" style="background-image: url('{{ asset('images/others/cpf.jpg') }}')">
+        <div class="site-section-cave" {{-- style="background-image: url('{{ asset('images/others/cpf1.jpg') }}')" --}}>
+            <img src="{{ asset('images/others/cpf.jpg') }}" class="w-full h-full object-cover" alt="">
         </div>
 
         <div class="container px-[1rem] md:px-[3rem] mx-auto flex justify-center py-[4rem]">
@@ -106,7 +107,7 @@
 
                 <a href="{{ route('local.products') }}" class="cursor-pointer shadow-md bg-white rounded-lg">
                     <div class="w-full h-[18rem] overflow-hidden">
-                        <img src="{{ asset('images/store1.jpg') }}" class="object-cover w-full h-full rounded-t-lg"
+                        <img src="{{ asset('images/others/store3.jpg') }}" class="object-cover w-full h-full rounded-t-lg"
                             alt="">
                     </div>
                     <div class="p-[1.5rem] space-y-4">
@@ -134,6 +135,21 @@
                             aux échanges.</p>
                     </div>
                 </div>
+
+                <a href="{{ route('bon.plans') }}" class="cursor-pointer shadow-md bg-white rounded-lg">
+                    <div class="w-full h-[18rem] overflow-hidden">
+                        <img src="{{ asset('images/others/promo.jpg') }}" class="object-cover w-full h-full rounded-t-lg"
+                            alt="">
+                    </div>
+                    <div class="p-[1.5rem] space-y-4">
+                        <h1 class="font-bold text-lg md:text-xl">Bonnes affaires du moment
+                        </h1>
+                        <p class="text-sm md:text-lg">Profitez de nos offres exclusives sur une large
+                            sélection de produits frais, viandes, poissons, vins et alimentation générale. Ne
+                            manquez pas nos bons plans et faites de chaque passage en magasin une occasion d’économiser tout
+                            en vous faisant plaisir.</p>
+                    </div>
+                </a>
             </div>
         </div>
 
@@ -157,7 +173,7 @@
                         nos produits.
                     </p>
                     <div class="mt-[1rem] md:mt-[0px]">
-                        <a href="#offres"
+                        <a href="{{ route('bon.plans') }}"
                             class="inline-block px-[20px] py-[8px] bg-[#000000] text-[#FFFFFF] font-semibold rounded-lg text-nowrap shadow-md hover:bg-white hover:text-black">
                             Découvrez nos offres
                         </a>
@@ -196,7 +212,7 @@
             </div>
         </div>
 
-        <div class="site-section-box container px-[1rem] md:px-[3rem] mx-auto" id="pack-section">
+        {{-- <div class="site-section-box container px-[1rem] md:px-[3rem] mx-auto" id="pack-section">
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-md-7 site-section-box-title text-center pt-3 pb-3">
@@ -215,7 +231,7 @@
                     <a class="site-section-box-more-button" id="loadMoreBtn" href="">Voir plus</a>
                 </div>
             @endif
-        </div>
+        </div> --}}
 
         <section class="pb-20 container px-[1rem] md:px-[3rem] mx-auto">
             <div class="text-center mb-16">
