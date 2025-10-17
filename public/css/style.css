@@ -148,7 +148,7 @@ ul {
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center; */
-    height: 600px;
+    height: 400px;
     /* height: calc( 100vh - 120px); */
     position: relative;
     display: flex;

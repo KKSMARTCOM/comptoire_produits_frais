@@ -91,7 +91,7 @@
         </div>
 
         <div class="container px-[1rem] md:px-[3rem] mx-auto flex justify-center py-[4rem]">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-[2rem]">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[2rem]">
                 <a href="{{ route('cave') }}" class="cursor-pointer shadow-md bg-white rounded-lg">
                     <div class="w-full h-[18rem] overflow-hidden">
                         <img src="{{ asset('images/others/vin2.jpg') }}" class="object-cover w-full h-full rounded-t-lg"
@@ -121,7 +121,7 @@
                     </div>
                 </a>
 
-                <div class="cursor-pointer shadow-md bg-white rounded-lg">
+                <a href="https://lounge.cpfbenin.com/" target="_blank" class="cursor-pointer shadow-md bg-white rounded-lg">
                     <div class="w-full h-[18rem] overflow-hidden">
                         <img src="{{ asset('images/others/lounge.jpg') }}" class="object-cover w-full h-full rounded-t-lg"
                             alt="">
@@ -134,9 +134,9 @@
                             savourer un instant de détente entre amis ou en toute intimité. Un lieu unique et propice
                             aux échanges.</p>
                     </div>
-                </div>
+                </a>
 
-                <a href="{{ route('bon.plans') }}" class="cursor-pointer shadow-md bg-white rounded-lg">
+                {{-- <a href="{{ route('bon.plans') }}" class="cursor-pointer shadow-md bg-white rounded-lg">
                     <div class="w-full h-[18rem] overflow-hidden">
                         <img src="{{ asset('images/others/promo.jpg') }}" class="object-cover w-full h-full rounded-t-lg"
                             alt="">
@@ -149,11 +149,11 @@
                             manquez pas nos bons plans et faites de chaque passage en magasin une occasion d’économiser tout
                             en vous faisant plaisir.</p>
                     </div>
-                </a>
+                </a> --}}
             </div>
         </div>
 
-        <div class="container px-[1rem] md:px-[3rem] mx-auto mb-[4rem] flex justify-center">
+        {{-- <div class="container px-[1rem] md:px-[3rem] mx-auto mb-[4rem] flex justify-center">
             <div class="max-w-7xl relative rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 shadow-xl">
                 <!-- Dégradé décoratif -->
                 <div class="absolute inset-0 bg-gradient-to-r from-[#004200] to-green-600 opacity-80 rounded-2xl"></div>
@@ -180,9 +180,9 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
 
-        <div class="site-section-store container px-[1rem] md:px-[3rem] mx-auto">
+        {{-- <div class="site-section-store container px-[1rem] md:px-[3rem] mx-auto">
             <div class="block md:flex justify-between items-center">
                 <div class="site-section-store-left flex items-center">
                     <div class="site-section-store-left-double-image">
@@ -210,7 +210,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
 
         {{-- <div class="site-section-box container px-[1rem] md:px-[3rem] mx-auto" id="pack-section">
             <div class="container">
@@ -233,7 +233,7 @@
             @endif
         </div> --}}
 
-        <section class="pb-20 container px-[1rem] md:px-[3rem] mx-auto">
+        {{-- <section class="pb-20 container px-[1rem] md:px-[3rem] mx-auto">
             <div class="text-center mb-16">
                 <h2 class="text-xl md:text-2xl uppercase font-bold mb-4">Ce Que Disent Nos Clients</h2>
                 <p class="max-w-3xl mx-auto leading-relaxed">
@@ -262,7 +262,7 @@
                     @endforeach
                 </div>
             @endif
-        </section>
+        </section> --}}
     </div>
 @endsection
 @section('customjs')
