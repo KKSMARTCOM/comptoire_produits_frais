@@ -96,22 +96,15 @@
         {{-- <div class="site-section-cave">
             <img src="{{ asset('images/others/cpf.jpeg') }}" class="w-full h-full object-cover" alt="">
         </div> --}}
-        <section class="mt-[80px] py-20">
+        <section class="mt-[80px] pt-16">
             <div class="container mx-auto px-6 text-center">
                 <h1 class="text-4xl md:text-6xl font-extrabold text-gray-900 tracking-tight">
-                    Bienvenue au Comptoir des Produits Frais
+                    Bienvenue dans l'univers CPF
                 </h1>
 
-                <p class="mt-5 text-lg md:text-xl text-gray-600 max-w-2xl mx-auto">
+                {{-- <p class="mt-5 text-lg md:text-xl text-gray-600 max-w-2xl mx-auto">
                     Découvrez chaque jour nos sélections de produits locaux, naturels et soigneusement choisis pour vous.
-                </p>
-
-                {{-- <div class="mt-10">
-                    <a href="#produits"
-                        class="inline-block px-8 py-3 rounded-full border border-gray-300 text-gray-800 font-medium shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-300">
-                        Explorer les produits
-                    </a>
-                </div> --}}
+                </p> --}}
             </div>
         </section>
 

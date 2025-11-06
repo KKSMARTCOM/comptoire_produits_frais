@@ -1,7 +1,8 @@
 @extends('frontend.layout.layout')
 
 @section('title', 'Nos produits - Comptoir des Produits Frais')
-@section('meta_description', 'Explorez tous nos produits frais : épicerie fine, cave à vin, et spécialités locales
+@section('meta_description',
+    'Explorez tous nos produits frais : épicerie fine, cave à vin, et spécialités locales
     disponibles à la commande.')
 @section('meta_keywords', 'produits frais, vins, épicerie fine, spécialités locales, comptoir des produits frais')
 
@@ -145,9 +146,7 @@
 
                     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-3 productContent"
                         id="productList">
-
                         @include('frontend.ajax.productList', ['products' => $products])
-
                     </div>
 
                     {{-- "withQueryString()" tüm sayfalarda mevcut filtrelemeyi kullanmak için  --}}
@@ -277,9 +276,11 @@
                     data: $('#filterForm').serialize(),
                     beforeSend: function() {
                         $('#loader').show()
+                        $('.productContent').hide()
                     },
                     success: function(response) {
                         //console.log(response)
+                        $('.productContent').show()
                         $('.productContent').html(response.products);
                         // Si besoin, mettre à jour la pagination ici
                         // $('.paginateButtons').html(response.paginate);
