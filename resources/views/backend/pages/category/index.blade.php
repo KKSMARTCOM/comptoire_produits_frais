@@ -23,6 +23,7 @@
                                 <tr>
                                     <th>Libellé</th>
                                     <th>Description</th>
+                                    <th>Section</th>
                                     <th>Catégorie</th>
                                     <th>Action</th>
                                 </tr>
@@ -33,7 +34,9 @@
                                         <tr class="item" item-id="{{ $category->id }}">
                                             <td>{{ ucfirst($category->name) }}</td>
                                             <td>{{ Str::limit($category->content ?? '/', 50) }}</td>
-                                            <td>{{ $category->category->name ?? '/' }}
+                                            <td>{{ $category->section->name ?? 'N/A' }}
+                                            </td>
+                                            <td>{{ $category->category->name ?? 'N/A' }}
                                             </td>
 
                                             <td class="d-flex">

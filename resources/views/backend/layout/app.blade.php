@@ -65,7 +65,7 @@
                 </div>
                 <!-- content-wrapper ends -->
                 <!-- partial:partials/_footer.html -->
-                @include('backend.inc.footer')
+                {{-- @include('backend.inc.footer') --}}
                 <!-- partial -->
             </div>
             <!-- main-panel ends -->

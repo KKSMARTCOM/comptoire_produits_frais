@@ -1,4 +1,4 @@
-<div class="bg-light site-breadcrumb" style="background-image: url('{{ asset('images/banner.jpg') }}')">
+<div class="bg-light site-breadcrumb" style="background-image: url('{{ asset('images/hero.jpg') }}')">
     <div class="site-breadcrumb-bg"></div>
     <div class="container">
         <div class="row text-center">

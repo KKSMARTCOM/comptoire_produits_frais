@@ -1,5 +1,12 @@
 @extends('frontend.layout.layout')
 
+@section('title', 'Accueil - Comptoir des Produits Frais')
+@section('meta_description',
+    'Bienvenue au Comptoir des Produits Frais ! Découvrez notre sélection d’épicerie fine, cave
+    à vin et produits artisanaux locaux.')
+@section('og_title', 'Comptoir des Produits Frais - Produits locaux et gourmands')
+@section('og_description', 'Explorez nos produits frais et raffinés, directement de nos producteurs locaux.')
+
 @section('content')
     {{-- <div class="site-blocks-cover" data-aos="fade-down">
         <div class="container">
@@ -86,9 +93,28 @@
         </div>
     </div> --}}
     <div>
-        <div class="site-section-cave" {{-- style="background-image: url('{{ asset('images/others/cpf1.jpg') }}')" --}}>
-            <img src="{{ asset('images/others/cpf.jpg') }}" class="w-full h-full object-cover" alt="">
-        </div>
+        {{-- <div class="site-section-cave">
+            <img src="{{ asset('images/others/cpf.jpeg') }}" class="w-full h-full object-cover" alt="">
+        </div> --}}
+        <section class="mt-[80px] py-20">
+            <div class="container mx-auto px-6 text-center">
+                <h1 class="text-4xl md:text-6xl font-extrabold text-gray-900 tracking-tight">
+                    Bienvenue au Comptoir des Produits Frais
+                </h1>
+
+                <p class="mt-5 text-lg md:text-xl text-gray-600 max-w-2xl mx-auto">
+                    Découvrez chaque jour nos sélections de produits locaux, naturels et soigneusement choisis pour vous.
+                </p>
+
+                {{-- <div class="mt-10">
+                    <a href="#produits"
+                        class="inline-block px-8 py-3 rounded-full border border-gray-300 text-gray-800 font-medium shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-300">
+                        Explorer les produits
+                    </a>
+                </div> --}}
+            </div>
+        </section>
+
 
         <div class="container px-[1rem] md:px-[3rem] mx-auto flex justify-center py-[4rem]">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[2rem]">
@@ -98,7 +124,7 @@
                             alt="">
                     </div>
                     <div class="p-[1.5rem] space-y-4">
-                        <h1 class="font-bold text-lg md:text-xl">La Cave à Vin : Un espace dédié aux plaisirs du vin.</h1>
+                        <h1 class="font-bold text-lg md:text-xl">Cave à Vin : Un espace dédié aux plaisirs du vin.</h1>
                         <p class="text-sm md:text-lg">Notre cave à vin rassemble une sélection soigneusement choisie de crus
                             prestigieux et de découvertes uniques. Laissez-vous séduire par l’élégance,
                             le caractère et l’authenticité de nos vins d’exception.</p>
@@ -111,9 +137,9 @@
                             alt="">
                     </div>
                     <div class="p-[1.5rem] space-y-4">
-                        <h1 class="font-bold text-lg md:text-xl">Nos Produits Locaux : Le goût authentique de notre terroir.
+                        <h1 class="font-bold text-lg md:text-xl">Épicerie Fine : Le goût authentique de notre terroir.
                         </h1>
-                        <p class="text-sm md:text-lg">Dans notre espace Produits locaux, retrouvez la fraîcheur et la
+                        <p class="text-sm md:text-lg">Dans notre espace Épicerie Fine, retrouvez la fraîcheur et la
                             richesse
                             de notre région. Fruits et légumes de saison, spécialités artisanales et produits du quotidien
                             vous
@@ -127,7 +153,7 @@
                             alt="">
                     </div>
                     <div class="p-[1.5rem] space-y-4">
-                        <h1 class="font-bold text-lg md:text-xl">Le Lounge : Un espace où élégance et détente se
+                        <h1 class="font-bold text-lg md:text-xl">Lounge : Un espace où élégance et détente se
                             rencontrent.
                         </h1>
                         <p class="text-sm md:text-lg">Le lounge offre une atmosphère raffinée et chaleureuse, idéale pour

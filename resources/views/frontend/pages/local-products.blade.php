@@ -1,5 +1,16 @@
 @extends('frontend.layout.layout')
 
+@section('title', 'Épicerie fine - Comptoir des Produits Frais')
+@section('meta_description',
+    'Découvrez notre gamme d\'épicerie fine : huiles, condiments, confitures artisanales et
+    douceurs du terroir.')
+@section('meta_keywords', 'épicerie fine, produits artisanaux, condiments, confitures, huiles, produits locaux')
+
+@section('og_title', 'Épicerie fine - Produits gourmets du Comptoir des Produits Frais')
+@section('og_description',
+    'Une sélection d\'épicerie fine aux saveurs authentiques : produits artisanaux, condiments et
+    douceurs.')
+
 @section('content')
     <section class="site-section-cave"
         style="background-image: url('https://images.pexels.com/photos/1300972/pexels-photo-1300972.jpeg?auto=compress&cs=tinysrgb&w=1920&h=1280&fit=crop')">
@@ -8,16 +19,16 @@
             <h1 class="font-bold mb-6 ">
                 Terroir & Saveurs</span>
             </h1>
-            <p>Produits locaux • Fraîcheur garantie</p>
+            <p>Épicerie fine • Fraîcheur garantie</p>
             <div class="mt-[2rem]">
-                <a href="{{ route('sections', ['section' => 'produits-locaux']) }}">Découvrir nos produits</a>
+                <a href="{{ route('sections', ['section' => 'epicerie-fine']) }}">Découvrir nos produits</a>
             </div>
         </div>
     </section>
 
     <section id="produits" class="py-20 container px-[1rem] md:px-[3rem] mx-auto">
         <div class="text-center mb-16">
-            <h2 class="text-xl md:text-2xl uppercase font-bold mb-4">Nos Produits Locaux</h2>
+            <h2 class="text-xl md:text-2xl uppercase font-bold mb-4">Notre espace épicerie fine</h2>
             <p class="max-w-3xl mx-auto">
                 Une sélection rigoureuse de produits frais et d'épicerie fine provenant directement de nos producteurs
                 partenaires
@@ -39,7 +50,7 @@
                     </p>
                     <div class="flex items-center justify-between">
                         <span class="text-green-700 font-semibold">À partir de 1000 f/kg</span>
-                        <a href="{{ route('sections', ['section' => 'produits-locaux']) }}"
+                        <a href="{{ route('sections', ['section' => 'epicerie-fine']) }}"
                             class="text-green-700 font-semibold hover:text-green-600 flex items-center group-hover:translate-x-2 transition-transform">
                             Voir plus
                             <ChevronRight class="h-4 w-4 ml-1" />
@@ -59,7 +70,7 @@
                     </p>
                     <div class="flex items-center justify-between">
                         <span class="text-green-700 font-semibold">À partir de 1000 f</span>
-                        <a href="{{ route('sections', ['section' => 'produits-locaux']) }}"
+                        <a href="{{ route('sections', ['section' => 'epicerie-fine']) }}"
                             class="text-green-700 font-semibold hover:text-green-600 flex items-center group-hover:translate-x-2 transition-transform">
                             Voir plus
                             <ChevronRight class="h-4 w-4 ml-1" />
@@ -80,7 +91,7 @@
                     </p>
                     <div class="flex items-center justify-between">
                         <span class="text-green-700 font-semibold">À partir de 1000 f</span>
-                        <a href="{{ route('sections', ['section' => 'produits-locaux']) }}"
+                        <a href="{{ route('sections', ['section' => 'epicerie-fine']) }}"
                             class="text-green-700 font-semibold hover:text-green-600 flex items-center group-hover:translate-x-2 transition-transform">
                             Voir plus
                             <ChevronRight class="h-4 w-4 ml-1" />
@@ -103,9 +114,9 @@
                         class="rounded-2xl shadow-2xl h-full w-full object-cover" />
                 </div>
                 <div>
-                    <h2 class="text-4xl font-bold text-[#333333] mb-6">Un Supermarché au Service de la Qualité</h2>
+                    <h2 class="text-4xl font-bold text-[#333333] mb-6">Une superette au service de la qualité</h2>
                     <p class="text-lg text-gray-700 mb-6 leading-relaxed">
-                        Notre supermarché vous propose bien plus qu’un simple lieu d’achat : un véritable espace dédié à la
+                        Notre superette vous propose bien plus qu’un simple lieu d’achat : un véritable espace dédié à la
                         fraîcheur, à la qualité et au plaisir de bien manger. Des fruits et légumes soigneusement
                         sélectionnés aux viandes et volailles issues de producteurs de confiance, en passant par un arrivage
                         quotidien de poissons et fruits de mer, chaque rayon reflète notre exigence.

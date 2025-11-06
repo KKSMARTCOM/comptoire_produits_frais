@@ -179,11 +179,14 @@ class PageController extends Controller
             //code...
             //$product = Product::where('slug', $slug)->firstOrFail();
             $categories = Category::where('category_id', null)->get();
+            //$sections = Section::all();
             $product = Product::where("slug", $slug)->firstOrFail();
 
             if ($product) {
 
                 $category = Category::where('id', $product->category_id)->first();
+
+                $section = Section::where('id', $category->section_id)->first();
 
                 $productFeatures = Product::where('id', '!=', $product->id)
                     ->where('category_id', $product->category_id)
@@ -198,7 +201,7 @@ class PageController extends Controller
 
                 if (!empty($category)) {
                     $breadcrumb['pages'][] = [
-                        'link' => route('sections', $category->slug),
+                        'link' => route('sections', ['section' => $section->slug, "category" => $category->slug]),
                         'name' => $category->name
                     ];
                 }

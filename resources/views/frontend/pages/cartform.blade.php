@@ -1,5 +1,8 @@
 @extends('frontend.layout.layout')
 
+@section('title', 'Finaliser votre commande - Comptoir des Produits Frais')
+@section('meta_description', 'Entrez vos informations pour finaliser votre commande et recevoir vos produits frais.')
+
 @section('content')
     @include('frontend.inc.breadcrumb')
 

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CategoryRequest;
 use App\Models\Category;
+use App\Models\Section;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -29,8 +30,9 @@ class CategoryController extends Controller
             //code...
             // Obtenir toutes les catégories principales (sans parent)
             $categories = Category::where('category_id', null)->get();
+            $sections = Section::all();
 
-            return view('backend.pages.category.edit', compact('categories'));
+            return view('backend.pages.category.edit', compact('categories', 'sections'));
         } catch (\Exception $e) {
             dd($e);
             //throw $th;
@@ -47,6 +49,7 @@ class CategoryController extends Controller
             'name' => $request->name,
             'content' => $request->content,
             'sub_cat' => $request->sub_cat,
+            'section_id' => $request->section_id,
             'category_id' => $request->category_id,
         ]);
 

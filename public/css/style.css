@@ -568,6 +568,7 @@ ul {
 /* Breadcrumb */
 
 .site-breadcrumb {
+    margin-top: 80px;
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;

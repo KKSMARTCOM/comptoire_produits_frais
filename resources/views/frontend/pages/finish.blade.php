@@ -1,5 +1,8 @@
 @extends('frontend.layout.layout')
 
+@section('title', 'Merci pour votre commande - Comptoir des Produits Frais')
+@section('meta_description', 'Votre commande a bien été enregistrée. Merci pour votre confiance !')
+
 @section('content')
     @include('frontend.inc.breadcrumb')
 
@@ -18,7 +21,7 @@
                             <p>Votre commande vous sera livrée dans les plus brefs délais. En attendant, si vous avez besoin
                                 de produits supplémentaires, vous pouvez consulter la liste des produits.</p>
                             <div class="text-center">
-                                <a href="{{ route('categories') }}">ICI</a>
+                                <a href="{{ route('sections', ['section' => 'produits-locaux']) }}">ICI</a>
                             </div>
                         </div>
                     </div>

@@ -12,6 +12,7 @@ use App\Http\Controllers\Backend\PromotionController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\ResetPasswordController;
+use App\Http\Controllers\Backend\SectionController;
 
 Route::group(['middleware' => ['auth'], 'prefix' => 'panel', 'as' => 'panel.'], function () {
     Route::get('/', [DashboardController::class, 'index'])->name('index');
@@ -28,7 +29,12 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'panel', 'as' => 'panel.'], 
     Route::post('/pack-status/update', [PackController::class, 'status'])->name('pack.status');
 
     // category route
-    Route::resource('/category', CategoryController::class)->except('destroy'); // destroy çıkartılır.
+    Route::resource('/section', SectionController::class)->except('destroy');
+    Route::delete('/section/destroy', [SectionController::class, 'destroy'])->name('section.destroy');
+    //Route::delete('/category/destroy', [SectionController::class, 'status'])->name('category.destroy');
+
+    // category route
+    Route::resource('/category', CategoryController::class)->except('destroy');
     Route::delete('/category/destroy', [CategoryController::class, 'destroy'])->name('category.destroy');
     Route::post('/category-status/update', [CategoryController::class, 'status'])->name('category.status');
 
@@ -55,7 +61,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'panel', 'as' => 'panel.'], 
     Route::delete('/product/destroy', [ProductController::class, 'destroy'])->name('product.destroy');
     Route::post('/product-status/update', [ProductController::class, 'status'])->name('product.status');
     Route::get('/get-products/{categoryId}', [ProductController::class, 'productsByCategories'])->name('product.categories');
-    
+
 
     // promotions route
     Route::get('/promotions', [PromotionController::class, 'index'])->name('promotions.index');

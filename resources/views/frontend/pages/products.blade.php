@@ -1,5 +1,13 @@
 @extends('frontend.layout.layout')
 
+@section('title', 'Nos produits - Comptoir des Produits Frais')
+@section('meta_description', 'Explorez tous nos produits frais : épicerie fine, cave à vin, et spécialités locales
+    disponibles à la commande.')
+@section('meta_keywords', 'produits frais, vins, épicerie fine, spécialités locales, comptoir des produits frais')
+
+@section('og_title', 'Nos produits - Comptoir des Produits Frais')
+@section('og_description', 'Découvrez l’ensemble de nos produits frais et artisanaux, sélectionnés pour leur qualité.')
+
 @section('content')
     @include('frontend.inc.breadcrumb')
 

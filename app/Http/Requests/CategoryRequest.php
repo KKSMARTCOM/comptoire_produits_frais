@@ -23,6 +23,7 @@ class CategoryRequest extends FormRequest
     {
         return [
             'name' => 'required|string|min:3',
+            'section_id' => 'required',
             'content' => 'nullable',
         ];
     }
@@ -31,6 +32,7 @@ class CategoryRequest extends FormRequest
     {
         return [
             'name.required' => 'Le champs est requis',
+            'section_id.required' => 'Vous devez choisir la section de la catégorie.',
             'name.min' => 'Le champs ne peur être moins de 3 caractères'
         ];
     }

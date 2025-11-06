@@ -1,5 +1,15 @@
 @extends('frontend.layout.layout')
 
+@section('title', 'À propos - Comptoir des Produits Frais')
+@section('meta_description', 'Découvrez l\'histoire du Comptoir des Produits Frais, une entreprise passionnée par les
+    produits artisanaux et de qualité.')
+@section('meta_keywords', 'à propos, comptoir des produits frais, produits artisanaux, histoire, qualité, producteurs
+    locaux')
+
+@section('og_title', 'À propos de nous - Comptoir des Produits Frais')
+@section('og_description', 'Nous sélectionnons avec soin les meilleurs produits frais et artisanaux pour ravir vos
+    papilles.')
+
 @section('content')
     @include('frontend.inc.breadcrumb')
 
@@ -113,7 +123,8 @@
                     </div>
                     <div class="text">
                         <h2 class="text-uppercase">FREE SHIPPING</h2>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus at iaculis quam. Integer accumsan tincidunt fringilla.</p>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus at iaculis quam. Integer
+                            accumsan tincidunt fringilla.</p>
                     </div>
                 </div>
                 <div class="col-md-6 col-lg-4 d-lg-flex mb-4 mb-lg-0 pl-4" data-aos="fade-up" data-aos-delay="100">
@@ -122,7 +133,8 @@
                     </div>
                     <div class="text">
                         <h2 class="text-uppercase">FREE RETURNS</h2>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus at iaculis quam. Integer accumsan tincidunt fringilla.</p>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus at iaculis quam. Integer
+                            accumsan tincidunt fringilla.</p>
                     </div>
                 </div>
                 <div class="col-md-6 col-lg-4 d-lg-flex mb-4 mb-lg-0 pl-4" data-aos="fade-up" data-aos-delay="200">
@@ -131,7 +143,8 @@
                     </div>
                     <div class="text">
                         <h2 class="text-uppercase">CUSTOMER SUPPORT</h2>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus at iaculis quam. Integer accumsan tincidunt fringilla.</p>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus at iaculis quam. Integer
+                            accumsan tincidunt fringilla.</p>
                     </div>
                 </div>
             </div>

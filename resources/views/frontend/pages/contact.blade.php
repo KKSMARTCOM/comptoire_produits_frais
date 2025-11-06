@@ -1,5 +1,13 @@
 @extends('frontend.layout.layout')
 
+@section('title', 'Contact - Comptoir des Produits Frais')
+@section('meta_description', 'Besoin d\'informations ? Contactez le Comptoir des Produits Frais pour toute question ou
+    commande.')
+@section('meta_keywords', 'contact, comptoir des produits frais, service client, informations, commande')
+
+@section('og_title', 'Contactez-nous - Comptoir des Produits Frais')
+@section('og_description', 'Nous sommes à votre écoute pour toute question concernant nos produits ou votre commande.')
+
 @section('content')
     @include('frontend.inc.breadcrumb')
 

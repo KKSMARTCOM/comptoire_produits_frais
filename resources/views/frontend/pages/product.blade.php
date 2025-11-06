@@ -1,5 +1,10 @@
 @extends('frontend.layout.layout')
 
+@section('title', $product->name . ' - Comptoir des Produits Frais')
+@section('meta_description', Str::limit($product->description, 150))
+@section('og_title', $product->name)
+@section('og_description', Str::limit($product->description, 150))
+
 @section('content')
     @include('frontend.inc.breadcrumb')
 
@@ -15,11 +20,11 @@
             <div class="row">
                 <div class="col-md-6 d-flex justify-content-center p-1">
                     <div class="product-detail-image">
-                        <img src="{{ asset($product->image) }}" alt="Image">
+                        <img src="{{ asset($product->image) }}" class="w-full h-full" alt="Image">
                     </div>
                 </div>
-                <div class="col-md-6">
-                    <h2 class="text-black">{{ ucfirst($product->name) }}</h2>
+                <div class="col-md-6 space-y-4">
+                    <h2 class="text-black text-lg md:text-2xl">{{ ucfirst($product->name) }}</h2>
                     <p class="text-black">{!! $product->content ?? '' !!}</p>
                     <p><strong class="h4">{{ $product->price }} FCFA</strong></p>
                     @php
@@ -67,7 +72,7 @@
                                     <div class="block-4 text-center">
                                         <div class="block-4-image d-flex justify-content-center">
                                             <img src="{{ asset($product->image) }}" alt="{{ $product->name }}"
-                                                class="object-fit-contain">
+                                                class="w-full h-full object-fit-contain">
                                         </div>
                                         <div class="block-4-text p-4">
                                             <h3><a href="{{ route('productdetail', $product->id) }}">{{ ucfirst($product->name) }}

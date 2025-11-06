@@ -1,5 +1,8 @@
 @extends('frontend.layout.layout')
 
+@section('title', 'Votre panier - Comptoir des Produits Frais')
+@section('meta_description', 'Consultez les produits que vous avez ajoutés à votre panier avant de passer commande.')
+
 @section('content')
     @include('frontend.inc.breadcrumb')
 
@@ -137,8 +140,8 @@
                 </div>
 
                 <div class="mb-5">
-                    <a href="{{ route('categories') }}" class="buy-now btn btn-primary border-0"> <span
-                            class="mdi mdi-plus"></span>Ajouter
+                    <a href="{{ route('sections', ['section' => 'produits-locaux']) }}"
+                        class="buy-now btn btn-primary border-0"> <span class="mdi mdi-plus"></span>Ajouter
                     </a>
                 </div>
                 <div class="row">
@@ -195,7 +198,7 @@
             @else
                 <div>
                     <h3 class="text-dark text-center mb-4">Votre panier est actuellement vide. Veuillez <a
-                            class="text-primary" href="{{ route('categories') }}">cliquer
+                            class="text-primary" href="{{ route('sections', ['section' => 'produits-locaux']) }}">cliquer
                             ici</a>
                         pour ajouter des produits !</h3>
                 </div>
