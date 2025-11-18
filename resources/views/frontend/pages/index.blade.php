@@ -1,5 +1,12 @@
 @extends('frontend.layout.layout')
 
+@section('title', 'Accueil - Comptoir des Produits Frais')
+@section('meta_description',
+    'Bienvenue au Comptoir des Produits Frais ! Découvrez notre sélection d’épicerie fine, cave
+    à vin et produits artisanaux locaux.')
+@section('og_title', 'Comptoir des Produits Frais - Produits locaux et gourmands')
+@section('og_description', 'Explorez nos produits frais et raffinés, directement de nos producteurs locaux.')
+
 @section('content')
     {{-- <div class="site-blocks-cover" data-aos="fade-down">
         <div class="container">
@@ -86,18 +93,31 @@
         </div>
     </div> --}}
     <div>
-        <div class="site-section-cave" style="background-image: url('{{ asset('images/others/cpf.jpg') }}')">
-        </div>
+        {{-- <div class="site-section-cave">
+            <img src="{{ asset('images/others/cpf.jpeg') }}" class="w-full h-full object-cover" alt="">
+        </div> --}}
+        <section class="mt-[80px] pt-16">
+            <div class="container mx-auto px-6 text-center">
+                <h1 class="text-4xl md:text-6xl font-extrabold text-gray-900 tracking-tight">
+                    Bienvenue dans l'univers CPF
+                </h1>
+
+                {{-- <p class="mt-5 text-lg md:text-xl text-gray-600 max-w-2xl mx-auto">
+                    Découvrez chaque jour nos sélections de produits locaux, naturels et soigneusement choisis pour vous.
+                </p> --}}
+            </div>
+        </section>
+
 
         <div class="container px-[1rem] md:px-[3rem] mx-auto flex justify-center py-[4rem]">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-[2rem]">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[2rem]">
                 <a href="{{ route('cave') }}" class="cursor-pointer shadow-md bg-white rounded-lg">
                     <div class="w-full h-[18rem] overflow-hidden">
                         <img src="{{ asset('images/others/vin2.jpg') }}" class="object-cover w-full h-full rounded-t-lg"
                             alt="">
                     </div>
                     <div class="p-[1.5rem] space-y-4">
-                        <h1 class="font-bold text-lg md:text-xl">La Cave à Vin : Un espace dédié aux plaisirs du vin.</h1>
+                        <h1 class="font-bold text-lg md:text-xl">Cave à Vin : Un espace dédié aux plaisirs du vin.</h1>
                         <p class="text-sm md:text-lg">Notre cave à vin rassemble une sélection soigneusement choisie de crus
                             prestigieux et de découvertes uniques. Laissez-vous séduire par l’élégance,
                             le caractère et l’authenticité de nos vins d’exception.</p>
@@ -106,13 +126,13 @@
 
                 <a href="{{ route('local.products') }}" class="cursor-pointer shadow-md bg-white rounded-lg">
                     <div class="w-full h-[18rem] overflow-hidden">
-                        <img src="{{ asset('images/store1.jpg') }}" class="object-cover w-full h-full rounded-t-lg"
+                        <img src="{{ asset('images/others/store3.jpg') }}" class="object-cover w-full h-full rounded-t-lg"
                             alt="">
                     </div>
                     <div class="p-[1.5rem] space-y-4">
-                        <h1 class="font-bold text-lg md:text-xl">Nos Produits Locaux : Le goût authentique de notre terroir.
+                        <h1 class="font-bold text-lg md:text-xl">Épicerie Fine : Le goût authentique de notre terroir.
                         </h1>
-                        <p class="text-sm md:text-lg">Dans notre espace Produits locaux, retrouvez la fraîcheur et la
+                        <p class="text-sm md:text-lg">Dans notre espace Épicerie Fine, retrouvez la fraîcheur et la
                             richesse
                             de notre région. Fruits et légumes de saison, spécialités artisanales et produits du quotidien
                             vous
@@ -120,13 +140,13 @@
                     </div>
                 </a>
 
-                <a target="_blank" href="https://cpflounge.page.gd/" class="cursor-pointer shadow-md bg-white rounded-lg">
+                <a href="https://lounge.cpfbenin.com/" target="_blank" class="cursor-pointer shadow-md bg-white rounded-lg">
                     <div class="w-full h-[18rem] overflow-hidden">
                         <img src="{{ asset('images/others/lounge.jpg') }}" class="object-cover w-full h-full rounded-t-lg"
                             alt="">
                     </div>
                     <div class="p-[1.5rem] space-y-4">
-                        <h1 class="font-bold text-lg md:text-xl">Le Lounge : Un espace où élégance et détente se
+                        <h1 class="font-bold text-lg md:text-xl">Lounge : Un espace où élégance et détente se
                             rencontrent.
                         </h1>
                         <p class="text-sm md:text-lg">Le lounge offre une atmosphère raffinée et chaleureuse, idéale pour
@@ -134,10 +154,25 @@
                             aux échanges.</p>
                     </div>
                 </a>
+
+                {{-- <a href="{{ route('bon.plans') }}" class="cursor-pointer shadow-md bg-white rounded-lg">
+                    <div class="w-full h-[18rem] overflow-hidden">
+                        <img src="{{ asset('images/others/promo.jpg') }}" class="object-cover w-full h-full rounded-t-lg"
+                            alt="">
+                    </div>
+                    <div class="p-[1.5rem] space-y-4">
+                        <h1 class="font-bold text-lg md:text-xl">Bonnes affaires du moment
+                        </h1>
+                        <p class="text-sm md:text-lg">Profitez de nos offres exclusives sur une large
+                            sélection de produits frais, viandes, poissons, vins et alimentation générale. Ne
+                            manquez pas nos bons plans et faites de chaque passage en magasin une occasion d’économiser tout
+                            en vous faisant plaisir.</p>
+                    </div>
+                </a> --}}
             </div>
         </div>
 
-        <div class="container px-[1rem] md:px-[3rem] mx-auto mb-[4rem] flex justify-center">
+        {{-- <div class="container px-[1rem] md:px-[3rem] mx-auto mb-[4rem] flex justify-center">
             <div class="max-w-7xl relative rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 shadow-xl">
                 <!-- Dégradé décoratif -->
                 <div class="absolute inset-0 bg-gradient-to-r from-[#004200] to-green-600 opacity-80 rounded-2xl"></div>
@@ -157,16 +192,16 @@
                         nos produits.
                     </p>
                     <div class="mt-[1rem] md:mt-[0px]">
-                        <a href="#offres"
+                        <a href="{{ route('bon.plans') }}"
                             class="inline-block px-[20px] py-[8px] bg-[#000000] text-[#FFFFFF] font-semibold rounded-lg text-nowrap shadow-md hover:bg-white hover:text-black">
                             Découvrez nos offres
                         </a>
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
 
-        <div class="site-section-store container px-[1rem] md:px-[3rem] mx-auto">
+        {{-- <div class="site-section-store container px-[1rem] md:px-[3rem] mx-auto">
             <div class="block md:flex justify-between items-center">
                 <div class="site-section-store-left flex items-center">
                     <div class="site-section-store-left-double-image">
@@ -194,9 +229,9 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
 
-        <div class="site-section-box container px-[1rem] md:px-[3rem] mx-auto" id="pack-section">
+        {{-- <div class="site-section-box container px-[1rem] md:px-[3rem] mx-auto" id="pack-section">
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-md-7 site-section-box-title text-center pt-3 pb-3">
@@ -215,9 +250,9 @@
                     <a class="site-section-box-more-button" id="loadMoreBtn" href="">Voir plus</a>
                 </div>
             @endif
-        </div>
+        </div> --}}
 
-        <section class="pb-20 container px-[1rem] md:px-[3rem] mx-auto">
+        {{-- <section class="pb-20 container px-[1rem] md:px-[3rem] mx-auto">
             <div class="text-center mb-16">
                 <h2 class="text-xl md:text-2xl uppercase font-bold mb-4">Ce Que Disent Nos Clients</h2>
                 <p class="max-w-3xl mx-auto leading-relaxed">
@@ -246,7 +281,7 @@
                     @endforeach
                 </div>
             @endif
-        </section>
+        </section> --}}
     </div>
 @endsection
 @section('customjs')

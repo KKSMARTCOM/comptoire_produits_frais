@@ -22,8 +22,8 @@ class CategorySeeder extends Seeder
         ]);
 
         $produitsLocaux = Section::create([
-            'name' => 'Produits Locaux',
-            'slug' => 'produits-locaux',
+            'name' => 'Epicerie fine',
+            'slug' => 'epicerie-fine',
         ]);
 
         $volailles = Category::create([

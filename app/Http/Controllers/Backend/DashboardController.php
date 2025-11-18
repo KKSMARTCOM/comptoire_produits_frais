@@ -27,7 +27,7 @@ class DashboardController extends Controller
             $totalUsers = User::where('email', '!=', 'superadmin@gmail.com')->count();
 
             //Produits les plus commandés
-            $mostOrderedProducts = OrderItem::select('product_id', DB::raw('SUM(quantity) as total_quantity'))
+            $mostOrderedProducts = OrderItem::select('product_id', DB::raw('SUM((quantity::numeric)) as total_quantity'))
                 ->where('product_id', '!=', null)
                 ->groupBy('product_id')
                 ->orderBy('total_quantity', 'desc')
@@ -36,13 +36,25 @@ class DashboardController extends Controller
                 ->get();
 
             // Récupérer les commandes groupées par mois
-            $monthlyTotals = OrderItem::select(
+            /* $monthlyTotals = OrderItem::select(
                 DB::raw('YEAR(created_at) as year'),
                 DB::raw('MONTH(created_at) as month'),
-                DB::raw('SUM(price * quantity) as total_price'),
+                DB::raw('SUM((price::numeric) * (quantity::numeric)) as total_price'),
                 DB::raw('COUNT(DISTINCT order_no) as total_orders')
             )
                 ->groupBy(DB::raw('YEAR(created_at)'), DB::raw('MONTH(created_at)'))
+                ->get()
+                ->map(function ($item) {
+                    $item->month_name = getMonthName($item->month);
+                    return $item;
+                }); */
+            $monthlyTotals = OrderItem::select(
+                DB::raw('EXTRACT(YEAR FROM created_at) as year'),
+                DB::raw('EXTRACT(MONTH FROM created_at) as month'),
+                DB::raw('SUM((price::numeric) * (quantity::numeric)) as total_price'),
+                DB::raw('COUNT(DISTINCT order_no) as total_orders')
+            )
+                ->groupBy(DB::raw('EXTRACT(YEAR FROM created_at)'), DB::raw('EXTRACT(MONTH FROM created_at)'))
                 ->get()
                 ->map(function ($item) {
                     $item->month_name = getMonthName($item->month);
@@ -74,9 +86,9 @@ class DashboardController extends Controller
     {
         $year = $request->input('year');
         //dd($year);
-        $monthlyStatistics = OrderItem::select(
+        /* $monthlyStatistics = OrderItem::select(
             DB::raw('MONTH(created_at) as month'),
-            DB::raw('SUM(price * quantity) as total_price'),
+            DB::raw('SUM((price::numeric) * (quantity::numeric)) as total_price'),
             DB::raw('COUNT(DISTINCT order_no) as total_orders')
         )
             ->whereYear('created_at', $year)
@@ -84,6 +96,18 @@ class DashboardController extends Controller
             ->get()
             ->map(function ($item) {
                 $item->month_name = getMonthName($item->month); // Nom du mois
+                return $item;
+            }); */
+        $monthlyStatistics = OrderItem::select(
+            DB::raw('EXTRACT(MONTH FROM created_at) as month'),
+            DB::raw('SUM((price::numeric) * (quantity::numeric)) as total_price'),
+            DB::raw('COUNT(DISTINCT order_no) as total_orders')
+        )
+            ->whereRaw('EXTRACT(YEAR FROM created_at) = ?', [$year])
+            ->groupBy(DB::raw('EXTRACT(MONTH FROM created_at)'))
+            ->get()
+            ->map(function ($item) {
+                $item->month_name = getMonthName($item->month);
                 return $item;
             });
 

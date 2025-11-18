@@ -58,6 +58,24 @@
                         </div>
 
                         <div class="form-group">
+                            <label for="content">Section</label>
+                            <select class="form-control" name="section_id" id="">
+                                <option value="">Selectionner la section de la catégorie</option>
+                                @if ($sections)
+                                    @foreach ($sections as $item)
+                                        <option value="{{ $item->id }}"
+                                            {{ isset($category) && $category->section_id == $item->id ? 'selected' : '' }}>
+                                            {{ $item->name }}
+                                        </option>
+                                    @endforeach
+                                @endif
+                            </select>
+                            @error('section_id')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="form-group">
                             <label for="content">Catégorie (A selectionner si vous ajoutez une sous-catégorie)</label>
                             <select class="form-control" name="category_id" id="">
                                 <option value="">Selectionner la catégorie</option>

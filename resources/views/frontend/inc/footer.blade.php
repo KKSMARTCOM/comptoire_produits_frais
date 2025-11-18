@@ -24,14 +24,14 @@
                             </li>
                             <li
                                 class="{{ Route::is('cave') || (request()->routeIs('sections') && request()->route('section') === 'la-cave') ? 'active' : '' }}">
-                                <a href="{{ route('cave') }}">La Cave</a>
+                                <a href="{{ route('cave') }}">Cave à vin</a>
                             </li>
                             <li
                                 class="{{ Route::is('local.products') || (request()->routeIs('sections') && request()->route('section') === 'produits-locaux') ? 'active' : '' }}">
-                                <a href="{{ route('local.products') }}">Produits locaux </a>
+                                <a href="{{ route('local.products') }}">Epicerie Fine </a>
                             </li>
-                            <li><a target="_blank" href="https://cpflounge.page.gd/">CPF Lounge</a></li>
-                            <li><a href="/#pack-section">Coffrets & Paniers</a></li>
+                            <li><a href="https://lounge.cpfbenin.com/" target="_blank">Lounge</a></li>
+                            {{-- <li><a href="/#pack-section">Coffrets & Paniers</a></li> --}}
                             <li class="{{ Route::is('contact') ? 'active' : '' }}"><a
                                     href="{{ route('contact') }}">Contact</a>
                             </li>
@@ -43,8 +43,15 @@
                                 <h2>Contact</h2>
                             </li>
                             <li class="d-flex align-items-center gap-2"><span class="mdi mdi-facebook"></span>
-                                <a href="https://www.facebook.com/share/8ExoYVHiVx74rwPt/?mibextid=LQQJ4d"
-                                    target="_blank">Facebook</a>
+                                <a href="https://www.facebook.com/comptoirdesproduitsfrais" target="_blank">Facebook
+                                    (cave à vin & épicerie fine)</a>
+                            </li>
+                            <li class="d-flex align-items-center gap-2"><span class="mdi mdi-instagram"></span>
+                                <a href="https://www.instagram.com/comptoir_cpf" target="_blank">Instagram (cave à vin
+                                    épicerie fine)</a>
+                            </li>
+                            <li class="d-flex align-items-center gap-2"><span class="mdi mdi-instagram"></span>
+                                <a href="https://www.instagram.com/cpflounge/" target="_blank">Instagram lounge</a>
                             </li>
                             <li class="d-flex align-items-center gap-2"><span class="mdi mdi-whatsapp"></span>
                                 <p>+229 44430051</p>

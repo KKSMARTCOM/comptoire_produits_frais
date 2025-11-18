@@ -8,6 +8,13 @@
         </li>
         @if (auth()->user()->hasRole('superadmin'))
             <li
+                class="nav-item {{ request()->routeIs('panel.section.index') || request()->routeIs('panel.section.create') || request()->routeIs('panel.section.edit') ? 'active' : '' }}">
+                <a class="nav-link" href="{{ route('panel.section.index') }}">
+                    <i class="icon-paper menu-icon"></i>
+                    <span class="menu-title">Sections</span>
+                </a>
+            </li>
+            <li
                 class="nav-item {{ request()->routeIs('panel.category.index') || request()->routeIs('panel.category.create') || request()->routeIs('panel.category.edit') ? 'active' : '' }}">
                 <a class="nav-link" href="{{ route('panel.category.index') }}">
                     <i class="icon-layers menu-icon"></i>

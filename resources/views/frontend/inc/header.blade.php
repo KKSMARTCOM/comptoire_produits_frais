@@ -2,7 +2,7 @@
     {{--  <div class="site-navbar-top">
     </div> --}}
 
-    <nav class="site-navigation text-center fixed" id="site-navigation" role="navigation">
+    <nav class="site-navigation flex items-center h-[80px] fixed" id="site-navigation" role="navigation">
         <div class="container px-[1rem] md:px-[3rem] mx-auto">
             <div class="flex justify-between items-center">
                 <div class="site-logo">
@@ -15,14 +15,14 @@
                     </li>
                     <li
                         class="{{ Route::is('cave') || (request()->routeIs('sections') && request()->route('section') === 'la-cave') ? 'active' : '' }}">
-                        <a href="{{ route('cave') }}">La Cave</a>
+                        <a href="{{ route('cave') }}">Cave à vin</a>
                     </li>
                     <li
-                        class="{{ Route::is('local.products') || (request()->routeIs('sections') && request()->route('section') === 'produits-locaux') ? 'active' : '' }}">
-                        <a href="{{ route('local.products') }}">Produits locaux </a>
+                        class="{{ Route::is('local.products*') || Route::is('productdetail') || (request()->routeIs('sections') && request()->route('section') === 'epicerie-fine') ? 'active' : '' }}">
+                        <a href="{{ route('local.products') }}">Epicerie Fine </a>
                     </li>
-                    <li><a target="_blank" href="https://cpflounge.page.gd/">CPF Lounge</a></li>
-                    <li><a href="/#pack-section">Coffrets & Paniers</a></li>
+                    <li><a href="https://lounge.cpfbenin.com/" target="_blank">Lounge</a></li>
+                    {{--  <li><a href="/#pack-section">Coffrets & Paniers</a></li> --}}
                     <li class="{{ Route::is('contact') ? 'active' : '' }}"><a href="{{ route('contact') }}">Contact</a>
                     </li>
                 </ul>
@@ -67,7 +67,7 @@
                         class="{{ Route::is('local.products') || (request()->routeIs('sections') && request()->route('section') === 'produits-locaux') ? 'active' : '' }}">
                         <a href="{{ route('local.products') }}">Produits locaux </a>
                     </li>
-                    <li><a target="_blank" href="https://cpflounge.page.gd/">CPF Lounge</a></li>
+                    <li><a href="javascript:void(0)">CPF Lounge</a></li>
                     <li><a href="/#pack-section">Coffrets & Paniers</a></li>
                     <li class="{{ Route::is('contact') ? 'active' : '' }}"><a
                             href="{{ route('contact') }}">Contact</a>

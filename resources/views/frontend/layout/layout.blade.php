@@ -2,9 +2,30 @@
 <html lang="en">
 
 <head>
-    <title>CPF Boutique en ligne</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    {{-- ✅ Titre dynamique avec valeur par défaut --}}
+    <title>@yield('title', 'Comptoir des Produits Frais')</title>
+
+    {{-- ✅ Meta description dynamique --}}
+    <meta name="description" content="@yield('meta_description', 'Découvrez nos produits frais, vins et épicerie fine de qualité au Comptoir des Produits Frais.')">
+
+    {{-- ✅ Mots-clés (optionnel) --}}
+    <meta name="keywords" content="@yield('meta_keywords', 'produits frais, épicerie fine, cave à vin, produits locaux')">
+
+    {{-- ✅ Open Graph pour les partages sur les réseaux sociaux --}}
+    <meta property="og:title" content="@yield('og_title', 'Comptoir des Produits Frais')">
+    <meta property="og:description" content="@yield('og_description', 'Découvrez nos produits frais, vins et épicerie fine de qualité au Comptoir des Produits Frais.')">
+    <meta property="og:image" content="@yield('og_image', asset('images/og-default.png'))">
+    <meta property="og:url" content="{{ url()->current() }}">
+    <meta property="og:type" content="@yield('og_type', 'website')">
+
+    {{-- ✅ Twitter Card --}}
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="@yield('twitter_title', 'Comptoir des Produits Frais')">
+    <meta name="twitter:description" content="@yield('twitter_description', 'Découvrez nos produits frais, vins et épicerie fine de qualité au Comptoir des Produits Frais.')">
+    <meta name="twitter:image" content="@yield('twitter_image', asset('images/og-default.png'))">
 
     <link rel="stylesheet" href="{{ asset('/') }}css/bootstrap.min.css">
     <link rel="stylesheet" href="{{ asset('/') }}css/magnific-popup.css">
@@ -42,14 +63,14 @@
         @include('frontend.inc.footer')
     </div>
 
-    <script src="{{ asset('/') }}js/jquery-3.3.1.min.js"></script>
-    <script src="{{ asset('/') }}js/jquery-ui.js"></script>
-    <script src="{{ asset('/') }}js/popper.min.js"></script>
-    <script src="{{ asset('/') }}js/bootstrap.min.js"></script>
-    <script src="{{ asset('/') }}js/owl.carousel.min.js"></script>
-    <script src="{{ asset('/') }}js/jquery.magnific-popup.min.js"></script>
-    <script src="{{ asset('/') }}js/aos.js"></script>
-    <script src="{{ asset('/') }}js/main.js"></script>
+    <script src="{{ asset('js/jquery-3.3.1.min.js') }}"></script>
+    <script src="{{ asset('js/jquery-ui.js') }}"></script>
+    <script src="{{ asset('js/popper.min.js') }}"></script>
+    <script src="{{ asset('js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('js/owl.carousel.min.js') }}"></script>
+    <script src="{{ asset('js/jquery.magnific-popup.min.js') }}"></script>
+    <script src="{{ asset('js/aos.js') }}"></script>
+    <script src="{{ asset('js/main.js') }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     {{-- LEAFTJS --}}
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>

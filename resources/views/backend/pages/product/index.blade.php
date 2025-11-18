@@ -40,7 +40,7 @@
                                         <tr class="item" item-id="{{ $product->id }}">
                                             <td>{{ ucfirst($product->name) }}</td>
                                             <td>{{ Str::Limit(ucfirst($product->content), 50) ?? '/' }}</td>
-                                            <td>{{ ucfirst($product->productCategory->name) }}</td>
+                                            <td>{{ ucfirst($product->category->name) }}</td>
                                             <td>{{ $product->price }}</td>
                                             <td>{{ $product->quantity }}</td>
                                             <td class="">

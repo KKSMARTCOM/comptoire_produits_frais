@@ -1,5 +1,10 @@
 @extends('frontend.layout.layout')
 
+@section('title', 'Cave à vin - Comptoir des Produits Frais')
+@section('meta_description', 'Découvrez notre sélection de vins rouges, blancs et rosés soigneusement choisis.')
+@section('og_title', 'Cave à vin - Produits d’exception')
+@section('og_description', 'Découvrez nos vins d’exception issus des meilleurs terroirs.')
+
 @section('content')
     <section class="site-section-cave" style="background-image: url('{{ asset('images/cave.jpg') }}')">
         <div class="site-section-cave-opacity"></div>
@@ -143,7 +148,7 @@
                         alt="Cave à vin traditionnelle" class="rounded-2xl shadow-2xl" />
                 </div>
                 <div>
-                    <h2 class="text-4xl font-bold text-[#333333] mb-6">Un Cadre d’Exception</h2>
+                    <h2 class="text-4xl font-bold text-[#333333] mb-6">Un cadre d’exception</h2>
                     <p class="text-lg text-gray-700 mb-6 leading-relaxed">
                         Située au cœur de la ville de Cotonou, la <span class="font-bold">Cave à vin du CPF</span> est bien
                         plus qu’une simple cave : c’est un espace dédié aux passionnés de grands vins. Dans un cadre
@@ -199,8 +204,8 @@
                     <span class="mdi mdi-clock text-3xl text-red-900 mx-auto mb-4"></span>
                     <h3 class="text-xl font-bold text-[#333333] mb-2">Horaires</h3>
                     <p class="text-gray-600">
-                        Lun-Sam: 9h00-19h00<br />
-                        Dimanche: 10h00-18h00
+                        Mar-Jeu: 9h00-22h00<br />
+                        Ven-Sam: 9h00-XXh00
                     </p>
                 </div>
             </div>

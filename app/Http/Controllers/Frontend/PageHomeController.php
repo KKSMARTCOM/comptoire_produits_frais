@@ -15,6 +15,7 @@ class PageHomeController extends Controller
 {
     public function index(Request $request)
     {
+
         //$categories = Category::where('category_id', null)->get();
         $limit = 3;
         $offset = $request->input('offset', 0);
