@@ -28,6 +28,7 @@ class ProductRequest extends FormRequest
             'price' => 'required|integer',
             'status' => 'required|in:0,1,2',
             'category_id' => 'required',
+            'additionals_images.*' => 'nullable|image|mimes:jpg,jpeg,png,webp',
             'type' => [
                 'sometimes', // Permet d'accepter null sauf si c'est "La Cave"
                 function ($attribute, $value, $fail) {

@@ -44,12 +44,27 @@ class ProductController extends Controller
      */
     public function store(ProductRequest $request)
     {
+
         if ($request->hasFile('image')) {
             $img = $request->file('image');
             $folderName = $request->name;
             $uploadFolder = 'img/product/';
             folderOpen($uploadFolder);
             $imgurl = uploadImage($img, $folderName, $uploadFolder);
+        }
+
+        $additionals = null;
+
+        if ($request->hasFile('additionals_images')) {
+            $additionals = [];
+
+            foreach ($request->file('additionals_images') as $index => $file) {
+                $folderName = $request->name . '-' . $index;
+                $uploadFolder = 'img/products/';
+                folderOpen($uploadFolder);
+                $additionalImgurl = uploadImage($file, $folderName, $uploadFolder);
+                $additionals[] = $additionalImgurl;
+            }
         }
 
         $product = Product::create([
@@ -61,6 +76,7 @@ class ProductController extends Controller
             'status' => $request->status,
             'type' => $request->type ?? NULL,
             'region' => $request->region ?? NULL,
+            'additionals_images' => $additionals ? json_encode($additionals) : null,
             'image' => $imgurl ?? NULL,
         ]);
 
@@ -114,6 +130,29 @@ class ProductController extends Controller
             $imgurl = uploadImage($img, $folderName, $uploadFolder);
         }
 
+        $additionals = null;
+
+        if ($request->hasFile('additionals_images')) {
+
+            $oldImages = json_decode($product->additionals_images ?? '[]', true);
+
+            if (is_array($oldImages) && count($oldImages) > 0) {
+                foreach ($oldImages as $oldImage) {
+                    deleteFile($oldImage);
+                }
+            }
+
+            $additionals = [];
+
+            foreach ($request->file('additionals_images') as $index => $file) {
+                $folderName = $request->name . '-' . $index;
+                $uploadFolder = 'img/products/';
+                folderOpen($uploadFolder);
+                $additionalImgurl = uploadImage($file, $folderName, $uploadFolder);
+                $additionals[] = $additionalImgurl;
+            }
+        }
+
         $product->update([
             'name' => $request->name ?? $product->name,
             'category_id' => $request->category_id ?? $product->category_id,
@@ -123,7 +162,8 @@ class ProductController extends Controller
             'status' => $request->status ?? $product->status,
             'type' => $request->type,
             'region' => $request->region,
-            'image' => $imgurl ?? $product->image
+            'image' => $imgurl ?? $product->image,
+            'additionals_images' => $additionals ? json_encode($additionals) : $product->additionals_images,
         ]);
 
         // Enregistrer l'action de l'utilisateur lors de la modification
@@ -148,6 +188,12 @@ class ProductController extends Controller
         $product = Product::where('id', $request->id)->firstOrFail();
 
         deleteFile($product->image);
+
+        if ($product->additionals_images) {
+            foreach (json_decode($product->additionals_images) as $file) {
+                deleteFile($file);
+            }
+        }
 
         // Enregistrer l'action de l'utilisateur lors de la suppression
         $user = Auth::user();

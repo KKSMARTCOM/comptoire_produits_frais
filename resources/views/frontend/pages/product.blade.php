@@ -18,11 +18,32 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-6 d-flex justify-content-center p-1">
-                    <div class="product-detail-image">
-                        <img src="{{ asset($product->image) }}" class="w-full h-full" alt="Image">
+                <div class="col-md-6 d-flex flex-column align-items-center p-1">
+
+                    {{-- IMAGE PRINCIPALE --}}
+                    <div class="product-detail-image mb-3">
+                        <img id="mainImage" src="{{ asset($product->image) }}" class="w-full h-full"
+                            style="width: 100%; max-height: 400px; object-fit: contain;" alt="Image principale">
                     </div>
+
+                    {{-- IMAGES ADDITIONNELLES --}}
+                    @php
+                        $additionals = $product->additionals_images
+                            ? json_decode($product->additionals_images, true)
+                            : [];
+                    @endphp
+
+                    @if (!empty($additionals))
+                        <div class="d-flex gap-2 flex-wrap justify-content-center">
+                            @foreach ($additionals as $img)
+                                <img src="{{ asset($img) }}" class="thumb-image"
+                                    style="width: 80px; height: 80px; cursor: pointer; object-fit: cover; border-radius: 6px; border: 2px solid #eee;"
+                                    onclick="changeMainImage('{{ asset($img) }}')">
+                            @endforeach
+                        </div>
+                    @endif
                 </div>
+
                 <div class="col-md-6 space-y-4">
                     <h2 class="text-black text-lg md:text-2xl">{{ ucfirst($product->name) }}</h2>
                     <p class="text-black">{!! $product->content ?? '' !!}</p>
@@ -75,7 +96,7 @@
                                                 class="w-full h-full object-fit-contain">
                                         </div>
                                         <div class="block-4-text p-4">
-                                            <h3><a href="{{ route('productdetail', $product->id) }}">{{ ucfirst($product->name) }}
+                                            <h3><a href="{{ route('productdetail', $product->slug) }}">{{ ucfirst($product->name) }}
                                                 </a>
                                             </h3>
                                             <p class="font-weight-bold">{{ $product->price }} FCFA</p>
@@ -90,6 +111,15 @@
         </div>
     </div>
 @endsection
+@push('styles')
+    <style>
+        .thumb-image:hover {
+            border-color: #0d6efd;
+            transform: scale(1.05);
+            transition: 0.2s;
+        }
+    </style>
+@endpush
 @section('customjs')
     <script>
         $('.owl-carousel').owlCarousel({
@@ -108,5 +138,9 @@
                 }
             }
         })
+
+        function changeMainImage(url) {
+            document.getElementById('mainImage').src = url;
+        }
     </script>
 @endsection

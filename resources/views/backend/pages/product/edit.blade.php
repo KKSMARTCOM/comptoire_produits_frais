@@ -57,6 +57,27 @@
                             </div>
                         @endif
 
+                        @if (!empty($product->additionals_images))
+                            <div class="form-group">
+                                <label>Images additionnelles actuelles</label>
+                                <div class="d-flex flex-wrap gap-2">
+                                    @php
+                                        $additionals = json_decode($product->additionals_images, true) ?? [];
+                                    @endphp
+
+                                    @if (count($additionals) > 0)
+                                        @foreach ($additionals as $img)
+                                            <div
+                                                style="width:120px;height:120px;overflow:hidden;border-radius:5px;margin:5px;">
+                                                <img src="{{ asset($img) }}"
+                                                    style="width:100%;height:100%;object-fit:cover;">
+                                            </div>
+                                        @endforeach
+                                    @endif
+                                </div>
+                            </div>
+                        @endif
+
                         <div class="form-group">
                             <label for="name">Nom</label><span style="color: red"> *</span>
                             <input type="text" class="form-control text-capitalize" id="name"
@@ -147,19 +168,33 @@
                         </div>
                         <div class="form-group">
                             <label>Image</label><span style="color: red"> *</span>
-                            <input type="file" name="image" class="file-upload-default" id="imageInput"
+                            <input type="file" name="image" class="file-upload-default" data-key="image-main"
                                 style="display:none;">
                             <div class="input-group col-xs-12">
-                                <input type="text" class="form-control file-upload-info" id="imagePlaceholder"
-                                    placeholder="Télécharger l'image du produit" readonly>
+                                <input type="text" class="form-control file-upload-info"
+                                    placeholder="Télécharger l'image du produit" data-key="image-main" readonly>
                                 <span class="input-group-append">
                                     <button class="file-upload-browse btn btn-primary" type="button"
+                                        data-key="image-main"
                                         style="background-color: #004200 !important">Télécharger</button>
                                 </span>
                             </div>
-                            @error('image')
-                                <p class="text-danger fs-6">{{ $message }}</p>
-                            @enderror
+                        </div>
+
+                        <div class="form-group">
+                            <label>Images additionnelles</label>
+                            <input type="file" name="additionals_images[]" class="file-upload-default"
+                                data-key="image-additional" multiple style="display:none;">
+                            <div class="input-group col-xs-12">
+                                <input type="text" class="form-control file-upload-info"
+                                    placeholder="Télécharger des images additionnelles (optionnel)"
+                                    data-key="image-additional" readonly>
+                                <span class="input-group-append">
+                                    <button class="file-upload-browse btn btn-primary" type="button"
+                                        data-key="image-additional"
+                                        style="background-color: #004200 !important">Télécharger</button>
+                                </span>
+                            </div>
                         </div>
 
                         <div class="form-group">
@@ -206,9 +241,31 @@
         });
 
 
-        document.getElementById('imageInput').addEventListener('change', function() {
-            var fileName = this.files[0].name;
-            document.getElementById('imagePlaceholder').value = fileName;
+        document.addEventListener('DOMContentLoaded', function() {
+
+            document.querySelectorAll('.file-upload-browse').forEach(function(btn) {
+                btn.addEventListener('click', function(e) {
+                    e.stopImmediatePropagation(); // IMPORTANT !
+                    let key = btn.dataset.key;
+                    document.querySelector('input.file-upload-default[data-key="' + key + '"]')
+                        .click();
+                });
+            });
+
+            document.querySelectorAll('.file-upload-default').forEach(function(input) {
+                input.addEventListener('change', function(e) {
+                    e.stopImmediatePropagation(); // IMPORTANT !
+                    let key = input.dataset.key;
+                    let placeholder = document.querySelector('.file-upload-info[data-key="' + key +
+                        '"]');
+                    if (input.files.length > 0) {
+                        placeholder.value = Array.from(input.files).map(f => f.name).join(', ');
+                    } else {
+                        placeholder.value = '';
+                    }
+                });
+            });
+
         });
 
         $(document).ready(function() {

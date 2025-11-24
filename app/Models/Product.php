@@ -20,8 +20,11 @@ class Product extends Model
         'status',
         'content',
         'type',
-        'region'
+        'region',
+        'additionals_images'
     ];
+
+    protected $casts = ['additionals_images' => 'array'];
 
     // Relation avec les catégories
     public function category()

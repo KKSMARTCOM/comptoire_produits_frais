@@ -115,7 +115,6 @@
 
             #connecter {
                 background-color: #004200;
-                border-radius: 10%;
                 color: white;
                 font-family: asen pro;
             }
