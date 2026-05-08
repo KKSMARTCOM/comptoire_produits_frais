@@ -140,7 +140,7 @@
                 </div>
 
                 <div class="mb-5">
-                    <a href="{{ route('sections', ['section' => 'produits-locaux']) }}"
+                    <a href="{{ route('sections', ['section' => 'epicerie-fine']) }}"
                         class="buy-now btn btn-primary border-0"> <span class="mdi mdi-plus"></span>Ajouter
                     </a>
                 </div>

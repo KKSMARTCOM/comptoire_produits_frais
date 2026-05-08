@@ -38,6 +38,19 @@ if (!function_exists('uploadImage')) {
     }
 }
 
+if (!function_exists('uploadVideo')) {
+    function uploadVideo($video, $name, $path)
+    {
+        $extension = $video->getClientOriginalExtension();
+        $folderName = time() . '-' . Str::slug($name);
+
+        $video->move(public_path($path), $folderName . '.' . $extension);
+
+        $videoUrl = $path . $folderName . '.' . $extension;
+        return $videoUrl;
+    }
+}
+
 if (!function_exists('strLimit')) {
     function strLimit($text, $limit, $url = null)
     {

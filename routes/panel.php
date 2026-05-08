@@ -66,9 +66,10 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'panel', 'as' => 'panel.'], 
     // promotions route
     Route::get('/promotions', [PromotionController::class, 'index'])->name('promotions.index');
     Route::get('/promotions/create', [PromotionController::class, 'create'])->name('promotions.create');
-    Route::post('/promotions', [PromotionController::class, 'store'])->name('promotions.store'); // Changer `create` en `store`
+    Route::post('/promotions', [PromotionController::class, 'store'])->name('promotions.store');
+    Route::get('/promotions/{promotion}', [PromotionController::class, 'show'])->name('promotions.show');
     Route::get('/promotions/{promotion}/edit', [PromotionController::class, 'edit'])->name('promotions.edit');
-    Route::put('/promotions/{promotion}', [PromotionController::class, 'update'])->name('promotions.update'); // Changer `delete` en `put`
+    Route::put('/promotions/{promotion}', [PromotionController::class, 'update'])->name('promotions.update');
     Route::delete('/promotions/{promotion}', [PromotionController::class, 'destroy'])->name('promotions.destroy');
 
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Coupon;
+use App\Models\CouponUsage;
 use App\Models\Invoice;
 use App\Models\Order;
 use App\Models\OrderItem;
@@ -217,11 +218,25 @@ class CartController extends Controller
             return back()->withErrors('Code promo non valide.');
         }
 
-        // Vérifier si le code promo a déjà été appliqué dans cette session
-        $usedCoupons = session('used_coupons', []);
+        // Vérifier si le code promo a déjà été appliqué dans le panier courant (session)
+        $usedCouponsInCart = session('applied_coupons', []);
 
-        if (in_array($coupon->id, $usedCoupons)) {
-            return back()->withErrors('Vous avez déjà utilisé ce code promotionnel.');
+        if (in_array($coupon->id, $usedCouponsInCart)) {
+            return back()->withErrors('Vous avez déjà utilisé ce code promotionnel dans ce panier.');
+        }
+
+        // Générer une empreinte digitale unique du client
+        $clientFingerprint = $this->generateClientFingerprint();
+
+        // Si le coupon n'est pas réutilisable, vérifier si le client l'a déjà utilisé
+        if (!$coupon->is_reusable) {
+            $hasUsedCoupon = CouponUsage::where('promotion_id', $coupon->id)
+                ->where('client_fingerprint', $clientFingerprint)
+                ->exists();
+
+            if ($hasUsedCoupon) {
+                return back()->withErrors('Vous avez déjà utilisé ce code promotionnel. Il ne peut être utilisé qu\'une seule fois.');
+            }
         }
 
         $couponPrice = $coupon->pourcentage_reduction ?? 0;
@@ -231,22 +246,34 @@ class CartController extends Controller
         foreach ($cartItems as &$item) {
             $product = Product::find($item['product']['id']);
 
-            //dd($product);
-
             if ($coupon->category_id && $product->category_id == $coupon->category_id || $coupon->products->contains($product)) {
                 $item['product']['price'] = $item['product']['price'] - ($item['product']['price'] * $couponPrice / 100);
                 $item['total'] = $item['quantity'] * $item['product']['price'];
-                //dd($item['total']);
             }
         }
 
         session()->put('cart', $cartItems);
 
-        // Marquer le code promo comme utilisé dans la session
-        $usedCoupons[] = $coupon->id;
-        session()->put('used_coupons', $usedCoupons);
+        // Marquer le code promo comme appliqué dans le panier courant
+        $usedCouponsInCart[] = $coupon->id;
+        session()->put('applied_coupons', $usedCouponsInCart);
+
+        // Enregistrer l'utilisation du coupon en session (sera complété à la finalisation)
+        session()->put('current_coupon_id', $coupon->id);
+        session()->put('client_fingerprint', $clientFingerprint);
 
         return back()->withSuccess('Code promotionnel appliqué avec succès.');
+    }
+
+    /**
+     * Génère une empreinte digitale unique du client (IP + User Agent)
+     */
+    private function generateClientFingerprint()
+    {
+        $ip = request()->ip();
+        $userAgent = request()->header('User-Agent');
+
+        return hash('sha256', $ip . $userAgent);
     }
 
     public function cartform(Request $request)
@@ -325,20 +352,36 @@ class CartController extends Controller
                 'order_no' => $invoice['order_no'],
                 'pack_id' => $request->pack_id,
             ]);
-            return redirect()->route('finish')->with('success', 'Commande effectué !');
+        } else {
+            $cart = session()->get('cart') ?? [];
+
+            foreach ($cart as $key => $item) {
+                OrderItem::create([
+                    'order_no' => $invoice['order_no'],
+                    'product_id' => $key,
+                    'name' => $item['product']['name'],
+                    'price' => $item['product']['price'],
+                    'quantity' => $item['quantity'],
+                    //'kdvd' => $item['kdv'],
+                ]);
+            }
         }
 
-        $cart = session()->get('cart') ?? [];
+        // Enregistrer l'utilisation du coupon si appliqué
+        $couponId = session('current_coupon_id');
+        $clientFingerprint = session('client_fingerprint');
 
-        foreach ($cart as $key => $item) {
-            OrderItem::create([
-                'order_no' => $invoice['order_no'],
-                'product_id' => $key,
-                'name' => $item['product']['name'],
-                'price' => $item['product']['price'],
-                'quantity' => $item['quantity'],
-                //'kdvd' => $item['kdv'],
+        if ($couponId && $clientFingerprint) {
+            CouponUsage::create([
+                'promotion_id' => $couponId,
+                'session_id' => session()->getId(),
+                'client_ip' => request()->ip(),
+                'client_fingerprint' => $clientFingerprint,
+                'order_id' => $invoice->id,
             ]);
+
+            // Nettoyer les sessions liées aux coupons
+            session()->forget(['current_coupon_id', 'client_fingerprint', 'applied_coupons']);
         }
 
         session()->forget('cart');

@@ -76,7 +76,7 @@
                                     @endforeach
                                 @else
                                     <tr>
-                                        <td colspan="8" class="text-center">Aucun produit disponible</td>
+                                        <td colspan="9" class="text-center">Aucun produit disponible</td>
                                     </tr>
                                 @endif
                             </tbody>

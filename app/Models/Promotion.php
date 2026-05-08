@@ -9,7 +9,7 @@ use Illuminate\Support\Str;
 class Promotion extends Model
 {
     use HasFactory;
-    protected $fillable = ['codePromo', 'pourcentage_reduction', 'category_id'];
+    protected $fillable = ['codePromo', 'pourcentage_reduction', 'category_id', 'is_reusable'];
 
     // Relation avec une seule catégorie
     public function category()
@@ -21,6 +21,12 @@ class Promotion extends Model
     public function products()
     {
         return $this->belongsToMany(Product::class, 'product_promotion');
+    }
+
+    // Relation avec les utilisations du coupon
+    public function usages()
+    {
+        return $this->hasMany(CouponUsage::class, 'promotion_id');
     }
 
 

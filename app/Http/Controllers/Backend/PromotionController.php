@@ -5,10 +5,13 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Promotion;
+use App\Models\CouponUsage;
 use Illuminate\Support\Str;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\Order;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class PromotionController extends Controller
 {
@@ -60,6 +63,7 @@ class PromotionController extends Controller
             'category_id' => 'required|exists:categories,id',
             'products' => 'array', // Validation pour un tableau de produits
             'products.*' => 'exists:products,id', // Validation pour chaque produit
+            'is_reusable' => 'nullable|boolean',
         ], [
             'pourcentage_reduction.required' => 'Le champs pourcentage de réduction est requis.',
             'category_id.required' => 'La catégorie est obligatoire.',
@@ -70,6 +74,7 @@ class PromotionController extends Controller
         $promotion->pourcentage_reduction = $request->pourcentage_reduction;
         $promotion->codePromo = $request->codePromo ?: 'CPFPROMO-' . strtoupper(Str::random(8));
         $promotion->category_id = $request->category_id; // Assigner la catégorie
+        $promotion->is_reusable = $request->has('is_reusable') ? 1 : 0; // Définir si réutilisable
         $promotion->save();
 
         // Attacher les produits à la promotion
@@ -109,12 +114,14 @@ class PromotionController extends Controller
             'category_id' => 'required|exists:categories,id',
             'products' => 'array', // Validation pour un tableau de produits
             'products.*' => 'exists:products,id', // Validation pour chaque produit
+            'is_reusable' => 'nullable|boolean',
         ]);
 
         $promotion->update([
             'pourcentage_reduction' => $request->pourcentage_reduction,
             'codePromo' => $request->codePromo ?: $promotion->codePromo,
             'category_id' => $request->category_id,
+            'is_reusable' => $request->has('is_reusable') ? 1 : 0, // Mettre à jour si réutilisable
         ]);
 
         // Synchroniser les produits sélectionnés
@@ -132,6 +139,37 @@ class PromotionController extends Controller
             ->log("{$user->name} ({$role}) a mis à jour la promotion : {$promotion->name}.");
 
         return redirect()->route('panel.promotions.index')->with('success', 'Promotion mise à jour avec succès.');
+    }
+
+    // Afficher les détails et statistiques d'une promotion
+    public function show(Promotion $promotion)
+    {
+        // Charger les usages du coupon avec les commandes
+        $usages = CouponUsage::where('promotion_id', $promotion->id)
+            ->with('order')
+            ->orderBy('created_at', 'desc')
+            ->paginate(20);
+
+        // Statistiques
+        $totalUsages = CouponUsage::where('promotion_id', $promotion->id)->count();
+        $uniqueClients = CouponUsage::where('promotion_id', $promotion->id)
+            ->distinct('client_fingerprint')
+            ->count('client_fingerprint');
+
+        // Montant total économisé
+        $totalSavings = 0;
+        foreach ($usages as $usage) {
+            if ($usage->order) {
+                $cartItems = DB::table('order_items')
+                    ->where('order_no', $usage->order->order_no)
+                    ->get();
+
+                $cartTotal = $cartItems->sum('price') * $cartItems->sum('quantity');
+                $totalSavings += ($cartTotal * $promotion->pourcentage_reduction / 100);
+            }
+        }
+
+        return view('backend.pages.promotion.show', compact('promotion', 'usages', 'totalUsages', 'uniqueClients', 'totalSavings'));
     }
 
     // Supprimer une promotion

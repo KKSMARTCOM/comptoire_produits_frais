@@ -18,7 +18,8 @@
                                     <th>Code Promo</th>
                                     <th>Pourcentage de Réduction</th>
                                     <th>Catégories</th>
-                                    <th>Produits</th> <!-- Ajouter une colonne pour les produits -->
+                                    <th>Réutilisable</th>
+                                    <th>Produits</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
@@ -31,11 +32,17 @@
                                             <td>{{ $promotion->category ? $promotion->category->name : 'Aucune catégorie' }}
                                             </td>
                                             <td>
+                                                @if ($promotion->is_reusable)
+                                                    <span class="badge badge-success">Oui</span>
+                                                @else
+                                                    <span class="badge badge-danger">Non (une seule fois)</span>
+                                                @endif
+                                            </td>
+                                            <td>
                                                 @if ($promotion->products->isNotEmpty())
                                                     <ul>
                                                         @foreach ($promotion->products as $product)
                                                             <li>{{ $product->name }}</li>
-                                                            <!-- Lister les produits associés -->
                                                         @endforeach
                                                     </ul>
                                                 @else
@@ -43,9 +50,15 @@
                                                 @endif
                                             </td>
                                             <td>
+                                                <!-- Bouton Voir les détails avec une icône -->
+                                                <a href="{{ route('panel.promotions.show', $promotion->id) }}"
+                                                    class="btn btn-info" title="Voir les détails">
+                                                    <i class="fas fa-eye"></i>
+                                                </a>
+
                                                 <!-- Bouton Modifier avec une icône -->
                                                 <a href="{{ route('panel.promotions.edit', $promotion->id) }}"
-                                                    class="btn btn-warning">
+                                                    class="btn btn-warning" title="Modifier">
                                                     <i class="fas fa-edit"></i>
                                                 </a>
 
@@ -54,7 +67,7 @@
                                                     method="POST" class="d-inline">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button type="submit" class="btn btn-danger">
+                                                    <button type="submit" class="btn btn-danger" title="Supprimer">
                                                         <i class="fas fa-trash-alt"></i>
                                                     </button>
                                                 </form>
@@ -63,7 +76,7 @@
                                     @endforeach
                                 @else
                                     <tr>
-                                        <td colspan="5" class="text-center">Aucune promotion disponible</td>
+                                        <td colspan="6" class="text-center">Aucune promotion disponible</td>
                                     </tr>
                                 @endif
                             </tbody>

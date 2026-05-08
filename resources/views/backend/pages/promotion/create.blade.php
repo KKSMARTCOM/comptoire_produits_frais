@@ -33,6 +33,19 @@
                                 max="100" required>
                         </div>
 
+                        <!-- Champ pour la réutilisabilité du code -->
+                        <div class="form-group mb-3">
+                            <label for="is_reusable" class="d-flex align-items-center">
+                                <input type="checkbox" name="is_reusable" id="is_reusable" value="1"
+                                    class="form-check-input" checked style="width: 20px; height: 20px; margin-right: 10px;">
+                                <span>Code réutilisable par plusieurs clients</span>
+                            </label>
+                            <small class="form-text text-muted d-block mt-2">
+                                <strong>Coché:</strong> Le code peut être utilisé par plusieurs clients différents<br>
+                                <strong>Décoché:</strong> Le code ne peut être utilisé qu'une seule fois au total
+                            </small>
+                        </div>
+
                         <!-- Champ pour sélectionner une catégorie -->
                         <div class="form-group mb-3">
                             <label for="category_id">Sélectionner une Catégorie</label>

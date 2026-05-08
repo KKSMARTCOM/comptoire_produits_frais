@@ -198,6 +198,32 @@
                         </div>
 
                         <div class="form-group">
+                            <label>Vidéo du produit</label>
+                            <input type="file" name="video" class="file-upload-default" data-key="video"
+                                style="display:none;" accept="video/*">
+                            <div class="input-group col-xs-12">
+                                <input type="text" class="form-control file-upload-info"
+                                    placeholder="Télécharger une vidéo du produit (optionnel)" data-key="video" readonly>
+                                <span class="input-group-append">
+                                    <button class="file-upload-browse btn btn-primary" type="button" data-key="video"
+                                        style="background-color: #004200 !important">Télécharger</button>
+                                </span>
+                            </div>
+                        </div>
+
+                        @if (!empty($product->video))
+                            <div class="form-group">
+                                <label>Vidéo actuelle</label>
+                                <div class="mb-3">
+                                    <video width="200" height="150" controls style="border-radius: 5px;">
+                                        <source src="{{ asset($product->video) }}" type="video/mp4">
+                                        Votre navigateur ne supporte pas la balise vidéo.
+                                    </video>
+                                </div>
+                            </div>
+                        @endif
+
+                        <div class="form-group">
                             <label for="status">Status</label>
                             @php
                                 $status = $product->status ?? '0';

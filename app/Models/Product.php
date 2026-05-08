@@ -21,7 +21,8 @@ class Product extends Model
         'content',
         'type',
         'region',
-        'additionals_images'
+        'additionals_images',
+        'video'
     ];
 
     protected $casts = ['additionals_images' => 'array'];

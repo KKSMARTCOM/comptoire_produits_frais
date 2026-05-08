@@ -67,6 +67,16 @@ class ProductController extends Controller
             }
         }
 
+        $video = null;
+
+        if ($request->hasFile('video')) {
+            $videoFile = $request->file('video');
+            $folderName = $request->name . '-video';
+            $uploadFolder = 'videos/products/';
+            folderOpen($uploadFolder);
+            $video = uploadVideo($videoFile, $folderName, $uploadFolder);
+        }
+
         $product = Product::create([
             'name' => $request->name,
             'category_id' => $request->category_id,
@@ -78,6 +88,7 @@ class ProductController extends Controller
             'region' => $request->region ?? NULL,
             'additionals_images' => $additionals ? json_encode($additionals) : null,
             'image' => $imgurl ?? NULL,
+            'video' => $video ?? NULL,
         ]);
 
         // Enregistrer l'action de l'utilisateur lors de la création
@@ -153,6 +164,20 @@ class ProductController extends Controller
             }
         }
 
+        $video = $product->video;
+
+        if ($request->hasFile('video')) {
+            if ($product->video) {
+                deleteFile($product->video);
+            }
+
+            $videoFile = $request->file('video');
+            $folderName = $request->name . '-video';
+            $uploadFolder = 'videos/products/';
+            folderOpen($uploadFolder);
+            $video = uploadVideo($videoFile, $folderName, $uploadFolder);
+        }
+
         $product->update([
             'name' => $request->name ?? $product->name,
             'category_id' => $request->category_id ?? $product->category_id,
@@ -164,6 +189,7 @@ class ProductController extends Controller
             'region' => $request->region,
             'image' => $imgurl ?? $product->image,
             'additionals_images' => $additionals ? json_encode($additionals) : $product->additionals_images,
+            'video' => $video,
         ]);
 
         // Enregistrer l'action de l'utilisateur lors de la modification
@@ -193,6 +219,10 @@ class ProductController extends Controller
             foreach (json_decode($product->additionals_images) as $file) {
                 deleteFile($file);
             }
+        }
+
+        if ($product->video) {
+            deleteFile($product->video);
         }
 
         // Enregistrer l'action de l'utilisateur lors de la suppression

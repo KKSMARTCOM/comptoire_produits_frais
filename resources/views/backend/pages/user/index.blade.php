@@ -51,7 +51,7 @@
                                                 @if ($user->avatar)
                                                     <img src="{{ asset($user->avatar) }}" alt="Avatar" width="50">
                                                 @else
-                                                    <img src="{{ asset('images/profiles/default.png') }}"
+                                                    <img src="{{ asset('images/profiles/default-image.jpg') }}"
                                                         alt="Default Avatar" width="50">
                                                 @endif
                                             </td>

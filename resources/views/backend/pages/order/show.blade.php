@@ -40,6 +40,27 @@
                 height: 297mm;
             }
 
+            .navbar,
+            .sidebar,
+            .card-body,
+            .alert {
+                display: none !important;
+            }
+
+            .container-scroller,
+            .page-body-wrapper,
+            .main-panel,
+            .content-wrapper,
+            .card {
+                margin: 0 !important;
+                padding: 0 !important;
+                width: 100% !important;
+                height: auto !important;
+                background: transparent !important;
+                border: none !important;
+                box-shadow: none !important;
+            }
+
             .page {
                 margin: 0;
                 border: initial;
@@ -129,7 +150,8 @@
             <div class="card">
                 <div class="card-body d-flex justify-content-between">
                     <h4 class="card-title">Commande</h4>
-                    <button class="btn btn-success" style="background-color: #004200;">Exporter</button>
+                    <button class="btn btn-success" style="background-color: #004200;"
+                        onclick="exportOrderPDF();">Exporter</button>
                     @if ($errors)
                         @foreach ($errors->all() as $error)
                             <div class="alert alert-danger">
@@ -246,4 +268,12 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section('customjs')
+    <script>
+        function exportOrderPDF() {
+            window.print();
+        }
+    </script>
 @endsection
